@@ -16,6 +16,7 @@ from vdsm.network.netinfo.cache import get
 
 from vdsm.network import nmstate
 from vdsm.network.nmstate import api
+from vdsm.network.nmstate.options import OptStringParser
 
 
 @pytest.fixture
@@ -336,6 +337,4 @@ class TestNetinfo(object):
 
     def test_parse_bond_options(self):
         expected = {'mode': '4', 'miimon': '100'}
-        assert expected == netinfo.bonding.parse_bond_options(
-            'mode=4 miimon=100'
-        )
+        assert expected == OptStringParser().parse('mode=4 miimon=100')

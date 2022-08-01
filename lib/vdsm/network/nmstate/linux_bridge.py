@@ -9,6 +9,7 @@ from .bridge_util import is_default_mtu
 from .bridge_util import NetworkConfig
 from .dns import Dns
 from .ip import IpAddress
+from .options import BridgeOptsBuilder
 from .route import Routes
 from .route import SourceRoutes
 from .schema import Interface
@@ -136,7 +137,9 @@ class LinuxBridgeNetwork(object):
             bridge_port = vlan_iface_state or sb_iface_state
             bridge_iface_state = self._create_bridge_iface(
                 bridge_port[Interface.NAME] if bridge_port else None,
-                options=self._create_bridge_options(),
+                options=BridgeOptsBuilder().parse(
+                    self._netconf.bridge_opts, self._netconf.stp
+                ),
             )
         else:
             bridge_iface_state = self._remove_bridge_iface()
@@ -193,13 +196,6 @@ class LinuxBridgeNetwork(object):
             bridge_state[Interface.MAC] = mac
 
         return bridge_state
-
-    def _create_bridge_options(self):
-        return {
-            LinuxBridge.STP_SUBTREE: {
-                LinuxBridge.STP.ENABLED: self._netconf.stp
-            }
-        }
 
     def _add_ip(self, sb_iface, vlan_iface, bridge_iface):
         ip_addr = IpAddress(self._netconf, self._auto_dns)

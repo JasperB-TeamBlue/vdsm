@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 from vdsm.network.link.bond.sysfs_options import BONDING_MODES_NUMBER_TO_NAME
-from vdsm.network.link.setup import parse_bond_options
 
+from .options import OptStringParser
 from .schema import BondSchema
 from .schema import Interface
 from .schema import InterfaceIP
@@ -62,7 +62,7 @@ class Bond(object):
         bond_state = iface_state[BondSchema.CONFIG_SUBTREE] = {}
         bond_state[BondSchema.PORT] = sorted(self._attrs['nics'])
 
-        options = parse_bond_options(self._attrs.get('options'))
+        options = OptStringParser().parse(self._attrs.get('options'))
         if options:
             bond_state[BondSchema.OPTIONS_SUBTREE] = options
         mode = self._translate_mode(mode=options.pop('mode', 'balance-rr'))
