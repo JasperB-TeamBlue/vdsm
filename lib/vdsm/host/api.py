@@ -10,6 +10,7 @@ from vdsm import metrics
 from vdsm.common import hooks
 from vdsm.common.units import KiB, MiB
 from vdsm.virt import vmstatus
+from vdsm.storage import iscsi
 
 haClient = None
 try:
@@ -39,6 +40,16 @@ def get_stats(cif, sample, multipath=False):
 
     for var in decStats:
         ret[var] = utils.convertToStr(decStats[var])
+
+    sessions = [
+        {
+            'iqn': session.target.iqn,
+            'portal': session.target.portal.hostname,
+            'port': session.target.portal.port,
+        }
+        for session in iscsi.iterateIscsiSessions()
+    ]
+    ret['iscsiSessions'] = sessions
 
     ret['memFree'] = _memFree() // MiB
     ret['swapTotal'], ret['swapFree'] = _readSwapTotalFree()
