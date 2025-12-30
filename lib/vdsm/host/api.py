@@ -13,6 +13,7 @@ from vdsm import metrics
 from vdsm.common import hooks
 from vdsm.common.units import KiB, MiB
 from vdsm.virt import vmstatus
+from vdsm.storage import iscsi
 
 haClient = None
 try:
@@ -39,6 +40,7 @@ def get_stats(cif, sample, multipath=False):
             del decStats['multipathHealth']['status']
     else:
         decStats['storageDomains'] = {}
+    ret['iscsiCount'] = len(list(iscsi.iterateIscsiSessions()))
 
     for var in decStats:
         ret[var] = utils.convertToStr(decStats[var])
