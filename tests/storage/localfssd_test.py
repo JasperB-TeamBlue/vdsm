@@ -28,12 +28,17 @@ BACKENDS = userstorage.load_config("storage/storage.py").BACKENDS
 PREALLOCATED_VOL_SIZE = 10 * MiB
 SPARSE_VOL_SIZE = GiB
 INITIAL_VOL_SIZE = MiB
+vol_ctime = 1550522547
 
 
 DETECT_BLOCK_SIZE = [
     pytest.param(True, id="auto block size"),
     pytest.param(False, id="explicit block size"),
 ]
+
+
+def _vol_ctime():
+    return vol_ctime
 
 
 @pytest.fixture(
@@ -277,8 +282,11 @@ def test_volume_life_cycle(monkeypatch, user_domain):
     vol_capacity = 10 * GiB
     vol_desc = "Test volume"
 
+    def mock_time():
+        return 1550522547
+
     with monkeypatch.context() as mc:
-        mc.setattr(time, "time", lambda: 1550522547)
+        mc.setattr(time, "time", mock_time)
         user_domain.createVolume(
             imgUUID=img_uuid,
             capacity=vol_capacity,
@@ -900,10 +908,9 @@ def test_dump_sd_volumes(monkeypatch, tmp_repo, user_mount, user_domain):
     img_uuid = str(uuid.uuid4())
     vol_uuid = str(uuid.uuid4())
     vol_capacity = 2 * SPARSE_VOL_SIZE
-    vol_ctime = 1550522547
 
     with monkeypatch.context() as mc:
-        mc.setattr(time, "time", lambda: vol_ctime)
+        mc.setattr(time, "time", _vol_ctime)
         user_domain.createVolume(
             imgUUID=img_uuid,
             capacity=vol_capacity,
@@ -940,7 +947,7 @@ def test_dump_sd_volumes(monkeypatch, tmp_repo, user_mount, user_domain):
         vol_uuid: {
             "apparentsize": vol_size.apparentsize,
             "capacity": vol_capacity,
-            "ctime": vol_ctime,
+            "ctime": _vol_ctime(),
             "description": "test",
             "disktype": sc.DATA_DISKTYPE,
             "format": "RAW",
@@ -971,10 +978,9 @@ def test_dump_sd_volumes_invalid_md(
     img_uuid = str(uuid.uuid4())
     vol_uuid = str(uuid.uuid4())
     vol_capacity = 2 * SPARSE_VOL_SIZE
-    vol_ctime = 1550522547
 
     with monkeypatch.context() as mc:
-        mc.setattr(time, "time", lambda: vol_ctime)
+        mc.setattr(time, "time", _vol_ctime)
         user_domain.createVolume(
             imgUUID=img_uuid,
             capacity=vol_capacity,
@@ -1036,10 +1042,9 @@ def test_dump_sd_volumes_no_md_access(
     img_uuid = str(uuid.uuid4())
     vol_uuid = str(uuid.uuid4())
     vol_capacity = 2 * SPARSE_VOL_SIZE
-    vol_ctime = 1550522547
 
     with monkeypatch.context() as mc:
-        mc.setattr(time, "time", lambda: vol_ctime)
+        mc.setattr(time, "time", _vol_ctime)
         user_domain.createVolume(
             imgUUID=img_uuid,
             capacity=vol_capacity,
@@ -1096,10 +1101,9 @@ def test_dump_sd_volumes_failed_size_query(
     img_uuid = str(uuid.uuid4())
     vol_uuid = str(uuid.uuid4())
     vol_capacity = 2 * SPARSE_VOL_SIZE
-    vol_ctime = 1550522547
 
     with monkeypatch.context() as mc:
-        mc.setattr(time, "time", lambda: vol_ctime)
+        mc.setattr(time, "time", _vol_ctime)
         user_domain.createVolume(
             imgUUID=img_uuid,
             capacity=vol_capacity,
@@ -1135,7 +1139,7 @@ def test_dump_sd_volumes_failed_size_query(
     expected_volumes_metadata = {
         vol_uuid: {
             "capacity": vol_capacity,
-            "ctime": vol_ctime,
+            "ctime": _vol_ctime(),
             "description": "test",
             "disktype": sc.DATA_DISKTYPE,
             "format": "RAW",
@@ -1165,10 +1169,9 @@ def test_dump_sd_volumes_removed_image(
     img_uuid = str(uuid.uuid4())
     vol_uuid = str(uuid.uuid4())
     vol_capacity = 2 * SPARSE_VOL_SIZE
-    vol_ctime = 1550522547
 
     with monkeypatch.context() as mc:
-        mc.setattr(time, "time", lambda: vol_ctime)
+        mc.setattr(time, "time", _vol_ctime)
         user_domain.createVolume(
             imgUUID=img_uuid,
             capacity=vol_capacity,
@@ -1207,7 +1210,7 @@ def test_dump_sd_volumes_removed_image(
         vol_uuid: {
             "apparentsize": vol_size.apparentsize,
             "capacity": vol_capacity,
-            "ctime": vol_ctime,
+            "ctime": _vol_ctime(),
             "description": "test",
             "disktype": sc.DATA_DISKTYPE,
             "format": "RAW",

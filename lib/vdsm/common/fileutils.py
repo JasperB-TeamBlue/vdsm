@@ -87,7 +87,7 @@ def parse_key_val_file(file_name, delim='='):
             kv = line.split(delim, 1)
             if len(kv) != 2:
                 continue
-            k, v = map(lambda x: x.strip(), kv)
+            k, v = map(str.strip, kv)
             d[k] = v
     return d
 

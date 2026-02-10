@@ -71,6 +71,10 @@ EXTEND_TIMEOUT = config.getfloat("thinp", "extend_timeout")
 log = logging.getLogger("test")
 
 
+def immediate_dispatch(func, **kw):
+    return func()
+
+
 # TODO: factor out this function and its counterpart in vmstorage_test.py
 def drive_config(**kw):
     ''' Return drive configuration updated from **kw '''
@@ -660,7 +664,7 @@ class FakeVM(Vm):
         # Simplify testing by dispatching on the calling thread.
         self.volume_monitor = thinp.VolumeMonitor(
             self, self.log,
-            dispatch=lambda func, **kw: func())
+            dispatch=immediate_dispatch)
 
         self.block_stats = {}
 

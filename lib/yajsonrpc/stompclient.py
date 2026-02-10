@@ -30,6 +30,17 @@ from yajsonrpc import CALL_TIMEOUT
 from .betterAsyncore import Reactor
 
 
+def _discard_message(msg):
+    """Intentionally ignore received messages."""
+    pass
+
+
+def _make_body_handler(callback):
+    def _handle_message(sub, frame):
+        callback(frame.body)
+    return _handle_message
+
+
 class AsyncClient(object):
     log = logging.getLogger("yajsonrpc.protocols.stomp.AsyncClient")
 
@@ -171,7 +182,8 @@ class AsyncClient(object):
             ack = AckMode.AUTO
 
         if message_handler is None:
-            message_handler = lambda sub, frame: None
+            def message_handler(sub, frame):
+                return None
 
         if sub_id is None:
             sub_id = str(uuid4())
@@ -298,7 +310,7 @@ class StompClient(object):
 class ClientRpcTransportAdapter(object):
     def __init__(self, request_queue, response_queue, client):
         self._client = client
-        self._message_handler = lambda arg: None
+        self._message_handler = _discard_message
         self._request_queue = request_queue
         self._response_queue = response_queue
         self._subs = {}
@@ -306,8 +318,11 @@ class ClientRpcTransportAdapter(object):
         # Subscribe to main RPC queue
         self.subscribe(
             response_queue,
-            lambda msg: self._message_handler(msg)
+            self.handle_message
         )
+
+    def handle_message(self, message):
+        self._message_handler(message)
 
     """
     In order to process message we need to set message
@@ -358,7 +373,7 @@ class ClientRpcTransportAdapter(object):
         self._subs[sub_id] = self._client.subscribe(
             queue_name,
             sub_id=str(sub_id),
-            message_handler=lambda sub, frame: callback(frame.body)
+            message_handler=_make_body_handler(callback)
         )
 
         return sub_id

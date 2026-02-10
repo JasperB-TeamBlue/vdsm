@@ -40,6 +40,21 @@ VLAN16_TAG = 16
 VLAN17_TAG = 17
 
 
+def _has_handle(handle):
+    def check(entity):
+        return entity['handle'] == handle
+
+    return check
+
+
+def _get_root(entity):
+    return entity.get('root')
+
+
+def check_if_ingress(entity):
+    return entity['kind'] == 'ingress'
+
+
 @pytest.fixture
 def bridge_dev():
     with bridge_device() as dev:
@@ -179,13 +194,14 @@ class TestPortMirror(object):
             if failed:
                 raise RuntimeError(f'Error removing devices: {failed}')
 
+    def _is_listener_finished(self):
+        return not self._tap1.is_listener_alive()
+
     def _send_ping(self):
         self._tap1.start_listener(self._ICMP)
         self._tap0.write_to_device(self._ICMP)
 
-        if _wait_for_func(
-            lambda: not self._tap1.is_listener_alive(), timeout=2
-        ):
+        if _wait_for_func(self._is_listener_finished, timeout=2):
             return True
         else:
             self._tap1.stop_listener()
@@ -243,6 +259,10 @@ def vlan17(dummy):
         yield vlan
 
 
+def mock_empty_dict():
+    return {}
+
+
 class TestConfigureOutbound(object):
     # TODO:
     # test remove_outbound
@@ -265,7 +285,9 @@ class TestConfigureOutbound(object):
         strict=False,
     )
     @pytest.mark.parametrize('repeating_calls', [1, 2])
-    @mock.patch('vdsm.network.netinfo.bonding.permanent_address', lambda: {})
+    @mock.patch(
+        'vdsm.network.netinfo.bonding.permanent_address', mock_empty_dict
+    )
     def test_single_vlan(self, dummy, vlan16, repeating_calls):
         for _ in range(repeating_calls):
             qos.configure_outbound(HOST_QOS_OUTBOUND, dummy, VLAN16_TAG)
@@ -287,7 +309,9 @@ class TestConfigureOutbound(object):
         reason='does not work on CI with nmstate',
         strict=False,
     )
-    @mock.patch('vdsm.network.netinfo.bonding.permanent_address', lambda: {})
+    @mock.patch(
+        'vdsm.network.netinfo.bonding.permanent_address', mock_empty_dict
+    )
     def test_multiple_vlans(self, dummy, vlan16, vlan17):
         for vlan_tag in (VLAN16_TAG, VLAN17_TAG):
             qos.configure_outbound(HOST_QOS_OUTBOUND, dummy, vlan_tag)
@@ -463,19 +487,17 @@ class TestConfigureOutbound(object):
         assert all(e['parent'] == parent_handle for e in entities)
 
     def _root_class(self, classes):
-        return _find_entity(lambda c: c.get('root'), classes)
+        return _find_entity(_get_root, classes)
 
     def _default_class(self, classes):
         default_cls_handle = qos._ROOT_QDISC_HANDLE + DEFAULT_CLASSID
-        return _find_entity(
-            lambda c: c['handle'] == default_cls_handle, classes
-        )
+        return _find_entity(_has_handle(default_cls_handle), classes)
 
     def _ingress_qdisc(self, qdiscs):
-        return _find_entity(lambda q: q['kind'] == 'ingress', qdiscs)
+        return _find_entity(check_if_ingress, qdiscs)
 
     def _root_qdisc(self, qdiscs):
-        return _find_entity(lambda q: q.get('root'), qdiscs)
+        return _find_entity(_get_root, qdiscs)
 
     def _leaf_qdiscs(self, qdiscs):
         return [
@@ -483,11 +505,10 @@ class TestConfigureOutbound(object):
         ]
 
     def _untagged_filters(self, filters):
-        predicate = lambda f: f.get('u32', {}).get('match', {}) == {
-            'mask': 0,
-            'value': 0,
-            'offset': 0,
-        }
+        def predicate(f):
+            match_u32 = f.get('u32', {}).get('match', {})
+            return match_u32 == {'mask': 0, 'value': 0, 'offset': 0}
+
         return list(f for f in filters if predicate(f))
 
     def _tagged_filters(self, filters):
@@ -498,15 +519,15 @@ class TestConfigureOutbound(object):
 
     def _vlan_qdisc(self, qdiscs, vlan_tag):
         handle = '%x:' % vlan_tag
-        return _find_entity(lambda q: q['handle'] == handle, qdiscs)
+        return _find_entity(_has_handle(handle), qdiscs)
 
     def _vlan_class(self, classes, vlan_tag):
         handle = qos._ROOT_QDISC_HANDLE + '%x' % vlan_tag
-        return _find_entity(lambda c: c['handle'] == handle, classes)
+        return _find_entity(_has_handle(handle), classes)
 
     def _non_vlan_qdisc(self, qdiscs):
         handle = DEFAULT_CLASSID + ':'
-        return _find_entity(lambda q: q['handle'] == handle, qdiscs)
+        return _find_entity(_has_handle(handle), qdiscs)
 
 
 def _find_entity(predicate, entities):

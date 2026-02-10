@@ -16,6 +16,12 @@ from yajsonrpc import \
     JsonRpcResponse
 
 
+def _make_message_handler(client, event_queue):
+    def _handle_message(msg):
+        client._handleMessage(msg, event_queue)
+    return _handle_message
+
+
 class _JsonRpcClientRequestContext(object):
     def __init__(self, requests, callback):
         self.callback = callback
@@ -119,7 +125,7 @@ class JsonRpcClient(object):
 
         sub_id = self._transport.subscribe(
             queue_name,
-            lambda msg: self._handleMessage(msg, event_queue)
+            _make_message_handler(self, event_queue)
         )
 
         self._event_queues[sub_id] = event_queue

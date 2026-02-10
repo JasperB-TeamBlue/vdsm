@@ -10,10 +10,14 @@ from yajsonrpc.exception import JsonRpcInvalidRequestError
 from testlib import VdsmTestCase
 
 
+def return_none():
+    return None
+
+
 # Mocks yajsonrpc.ClientRpcTransportAdapter
 class _TransportMock(object):
     def __init__(self):
-        self._message_handler = lambda msg: None
+        self._message_handler = return_none
         self._subs = {}
         self._sub_id_to_name = {}
 

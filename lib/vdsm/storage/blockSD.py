@@ -173,11 +173,11 @@ LVM_ENC_ESCAPE = re.compile(r"&(\d+)&")
 
 # Move to lvm
 def lvmTagEncode(s):
-    return INVALID_CHARS.sub(lambda c: "&%s&" % ord(c.group()), s)
+    return INVALID_CHARS.sub(_encode_chars, s)
 
 
 def lvmTagDecode(s):
-    return LVM_ENC_ESCAPE.sub(lambda c: chr(int(c.groups()[0])), s)
+    return LVM_ENC_ESCAPE.sub(_decode_chars, s)
 
 
 def _getVolsTree(sdUUID):
@@ -207,6 +207,14 @@ def _iter_volumes(sdUUID):
         yield lv
 
 
+def _encode_chars(match):
+    return "&%s&" % ord(match.group())
+
+
+def _decode_chars(match):
+    return chr(int(match.groups()[0]))
+
+
 def _occupied_metadata_slots(sdUUID):
     occupiedSlots = []
 
@@ -232,6 +240,7 @@ def _occupied_metadata_slots(sdUUID):
 
     occupiedSlots.sort()
     return occupiedSlots
+
 
 def stripPrefix(s, pfx):
     return s[len(pfx):]

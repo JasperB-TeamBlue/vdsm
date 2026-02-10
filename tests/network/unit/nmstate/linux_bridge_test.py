@@ -610,7 +610,11 @@ def test_update_gateway_with_default_route(rconfig_mock, bridged):
             state=nmstate.Route.STATE_ABSENT,
         )
     )
-    routes.sort(key=lambda route: len(route[nmstate.Route.NEXT_HOP_ADDRESS]))
+
+    def _next_hop_address_length(route):
+        return len(route[nmstate.Route.NEXT_HOP_ADDRESS])
+
+    routes.sort(key=_next_hop_address_length)
     routes.extend(source_routes)
     expected_state[nmstate.Route.KEY] = {nmstate.Route.CONFIG: routes}
     expected_state[nmstate.RouteRule.KEY] = {

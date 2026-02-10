@@ -43,6 +43,10 @@ IPV6_ADDR_CIDR = f'{IPV6_ADDR}/{IPV6_PREFIX_LENGTH}'
 ETHTOOL_SPEEDS = set([10, 100, 1000, 2500, 10000])
 
 
+def return_ip_address(ip):
+    return ip['address']
+
+
 @pytest.fixture
 def nic0():
     with dummy_device() as nic:
@@ -221,7 +225,7 @@ class TestIPv6Addresses(object):
         # The addresses are given randomly, so we sort them
         ip_addrs = sorted(
             netinfo.addresses.getIpAddrs()[dynamic_ipv6_iface],
-            key=lambda ip: ip['address'],
+            key=return_ip_address,
         )
         assert len(ip_addrs) == 2
 

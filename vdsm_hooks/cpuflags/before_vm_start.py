@@ -106,7 +106,7 @@ _EXTRACT_FLAGS_TEST_DATA = {
 
 
 def _find_invalid_flags(flags):
-    return list(filter(lambda flag: flag[0] not in ('+', '-'), flags))
+    return [flag for flag in flags if flag[0] not in ('+', '-')]
 
 
 _FIND_INVALID_FLAGS_TEST_DATA = {

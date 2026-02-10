@@ -11,6 +11,10 @@ from .link import get_link, is_link_up
 NEWLINK_STATE_UP = {'event': 'new_link', 'state': 'up'}
 
 
+def return_true(_):
+    return True
+
+
 @contextmanager
 def waitfor_linkup(iface, oper_blocking=True, timeout=10):
     iface_up_check = _is_oper_up if oper_blocking else _is_admin_up
@@ -64,7 +68,7 @@ def waitfor_ipv6_addr(iface, address=None, timeout=10):
 
 @contextmanager
 def wait_for_link_event(
-    iface, expected_event, timeout, check_event=lambda event: True
+    iface, expected_event, timeout, check_event=return_true
 ):
     groups = ('link',)
     with wait_for_event(iface, expected_event, groups, timeout, check_event):
@@ -73,7 +77,7 @@ def wait_for_link_event(
 
 @contextmanager
 def wait_for_event(
-    iface, expected_event, groups, timeout, check_event=lambda event: True
+    iface, expected_event, groups, timeout, check_event=return_true
 ):
     with monitor.object_monitor(groups=groups, timeout=timeout) as mon:
         try:

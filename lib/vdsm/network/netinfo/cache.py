@@ -129,10 +129,14 @@ def _add_qos_info_to_southbound(qos_list, devices_info):
     _sort_devices_qos_by_vlan(devices_info, 'bondings')
 
 
+def _get_vlan_key(qos_entry):
+    return qos_entry['vlan']
+
+
 def _sort_devices_qos_by_vlan(devices_info, iface_type):
     for iface_attrs in devices_info[iface_type].values():
         if 'qos' in iface_attrs:
-            iface_attrs['qos'].sort(key=lambda k: (k['vlan']))
+            iface_attrs['qos'].sort(key=_get_vlan_key)
 
 
 def _get_devices_info_from_nmstate(interfaces_state):

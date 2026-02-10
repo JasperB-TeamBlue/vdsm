@@ -44,6 +44,10 @@ _PARAMS = tuple(product((_DOWNTIME_MIN, _DOWNTIME, _DOWNTIME_HUGE),
                         (_STEPS_MIN, _STEPS, _STEPS_HUGE)))
 
 
+def _return_none(*args, **kwargs):
+    return None
+
+
 @expandPermutations
 class TestVmMigrationDowntimeSequence(TestCaseBase):
 
@@ -416,8 +420,8 @@ def make_env(mode=migration.MODE_REMOTE):
     src = migration.SourceThread(FakeVM(dom), mode=mode)
     src.remoteHost = '127.0.0.1'
     src._monitorThread = FakeMonitorThread(FakeProgress())
-    src._setupVdsConnection = lambda: None
-    src._setupRemoteMachineParams = lambda: None
+    src._setupVdsConnection = _return_none
+    src._setupRemoteMachineParams = _return_none
     return dom, src
 
 
@@ -488,7 +492,7 @@ class SourceThreadTests(TestCaseBase):
 
         dom, src = make_env()
         src._destServer = serv
-        src._finishSuccessfully = lambda *args: None
+        src._finishSuccessfully = _return_none
         src._progress = progress
 
         src.run()
@@ -499,7 +503,7 @@ class SourceThreadTests(TestCaseBase):
 
     def test_do_not_retry_hibernation(self):
         dom, src = make_env(mode=migration.MODE_FILE)
-        src._finishSuccessfully = lambda *args: None
+        src._finishSuccessfully = _return_none
         src.run()
         assert src._vm.hibernation_attempts == 1
 

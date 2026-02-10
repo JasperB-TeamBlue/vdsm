@@ -152,6 +152,9 @@ class HostStatsThreadTests(TestCaseBase):
             self.assertEqual(len(result), 1)
             self.assertEqual(result['0'], self._core_zero_stats)
 
+    def _return_zero(self):
+        return 0
+
     def testOutputWithNoSamples(self):
         expected = {
             'cpuIdle': 100.0,
@@ -164,7 +167,7 @@ class HostStatsThreadTests(TestCaseBase):
             'anonHugePages': 0.0,
             'cpuLoad': 0.0,
         }
-        hoststats.start(lambda: 0)
+        hoststats.start(self._return_zero)
         self.assertEqual(hoststats.produce(None, None), expected)
 
     def testSampleIntervalTooSmall(self):
@@ -183,7 +186,7 @@ class HostStatsThreadTests(TestCaseBase):
         first_sample = fake.HostSample(1.0, {})
         last_sample = fake.HostSample(1.0, {})
 
-        hoststats.start(lambda: 0)
+        hoststats.start(self._return_zero)
         self.assertEqual(
             hoststats.produce(first_sample, last_sample),
             expected

@@ -145,6 +145,10 @@ LOADING_METADATA = dict(change=LOADING_CHANGE, **CD_PDIV)
 TIMEOUT = 2
 
 
+def return_none(*args, ** kwargs):
+    return None
+
+
 @contextmanager
 def recovering_vm(device_xml, device_metadata):
     """
@@ -160,9 +164,9 @@ def recovering_vm(device_xml, device_metadata):
     ) as fakevm:
         fakevm._dom = fake.Domain()
         # Real start of fake VM would fail.
-        fakevm._run = lambda: None
+        fakevm._run = return_none
         # Also skip migration recovery.
-        fakevm._recovering_migration = lambda x, y=None: None
+        fakevm._recovering_migration = return_none
 
         yield fakevm
 

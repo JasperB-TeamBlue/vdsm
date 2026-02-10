@@ -26,6 +26,20 @@ def _getLibvirtConnStubFromFile(file):
     return ConnStub()
 
 
+def mock_libvirt_connection1():
+    return _getLibvirtConnStubFromFile(
+        'caps_libvirt_intel_E5649.out')
+
+
+def mock_libvirt_connection2():
+    return _getLibvirtConnStubFromFile(
+        'caps_libvirt_intel_E31220.out')
+
+
+def mock_cell_memory(_):
+    return {'total': '1', 'free': '1'}
+
+
 class FakeClientIF(object):
     def __init__(self, vmContainer):
         self.vmContainer = vmContainer
@@ -54,9 +68,8 @@ def test_libvirt_cpuset_spec():
 
 
 @MonkeyPatch(libvirtconnection, 'get',
-             lambda: _getLibvirtConnStubFromFile(
-                 'caps_libvirt_intel_E5649.out'))
-@MonkeyPatch(numa, 'memory_by_cell', lambda x: {'total': '1', 'free': '1'})
+             mock_libvirt_connection1)
+@MonkeyPatch(numa, 'memory_by_cell', mock_cell_memory)
 def test_shared_pool():
     # 2 sockets, 6 cores per socket, 2 threads per core
     numa.update()
@@ -92,9 +105,8 @@ def test_shared_pool():
 
 
 @MonkeyPatch(libvirtconnection, 'get',
-             lambda: _getLibvirtConnStubFromFile(
-                 'caps_libvirt_intel_E5649.out'))
-@MonkeyPatch(numa, 'memory_by_cell', lambda x: {'total': '1', 'free': '1'})
+             mock_libvirt_connection1)
+@MonkeyPatch(numa, 'memory_by_cell', mock_cell_memory)
 def test_siblings():
     # 2 sockets, 6 cores per socket, 2 threads per core
     numa.update()
@@ -104,9 +116,8 @@ def test_siblings():
 
 
 @MonkeyPatch(libvirtconnection, 'get',
-             lambda: _getLibvirtConnStubFromFile(
-                 'caps_libvirt_intel_E31220.out'))
-@MonkeyPatch(numa, 'memory_by_cell', lambda x: {'total': '1', 'free': '1'})
+             mock_libvirt_connection2)
+@MonkeyPatch(numa, 'memory_by_cell', mock_cell_memory)
 def test_siblings_no_smt():
     # 1 socket, 4 cores per socket, 1 threads per core
     numa.update()

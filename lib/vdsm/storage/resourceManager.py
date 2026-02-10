@@ -143,11 +143,25 @@ class Request(object):
     """
     Internal request object, don't use directly
     """
-    namespace = property(lambda self: self._namespace)
-    name = property(lambda self: self._name)
-    full_name = property(lambda self: "%s.%s" % (self._namespace, self._name))
-    lockType = property(lambda self: self._lockType)
-    syncRoot = property(lambda self: self._syncRoot)
+    @property
+    def namespace(self):
+        return self._namespace
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def full_name(self):
+        return "%s.%s" % (self._namespace, self._name)
+
+    @property
+    def lockType(self):
+        return self._lockType
+
+    @property
+    def syncRoot(self):
+        return self._syncRoot
 
     def __init__(self, namespace, name, lockType, callback):
         self._syncRoot = threading.RLock()
@@ -231,12 +245,22 @@ class ResourceRef(object):
     This object will auto release the referenced resource unless autorelease
     is set to `False`
     """
-    namespace = property(lambda self: self._namespace)
-    name = property(lambda self: self._name)
-    full_name = property(lambda self: "%s.%s" % (self._namespace, self._name))
 
-    # States whether this reference is pointing to an owned reference
-    isValid = property(lambda self: self._isValid)
+    @property
+    def namespace(self):
+        return self._namespace
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def full_name(self):
+        return "%s.%s" % (self._namespace, self._name)
+
+    @property
+    def isValid(self):
+        return self._isValid
 
     def __init__(self, namespace, name, wrappedObject=None,
                  resRefID=str(uuid4())):

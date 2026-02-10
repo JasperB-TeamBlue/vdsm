@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import errno
+from functools import partial
 import os
 import time
 from unittest import mock
@@ -204,7 +205,7 @@ class TestLinkBond(object):
             bond_monitor.initialize_monitor(notifier)
             try:
                 bond.set_options({'active_slave': nics[1]})
-                _wait_until(lambda: notifier.calls)
+                _wait_until(partial(getattr, notifier, 'calls'))
             finally:
                 bond_monitor.stop()
         assert notifier.calls == [('|net|host_conn|no_id', None)]

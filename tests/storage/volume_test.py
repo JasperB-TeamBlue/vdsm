@@ -24,6 +24,10 @@ from vdsm.storage import volume
 HOST_ID = 1
 
 
+def return_empty_dict():
+    return {}
+
+
 class FakeSDManifest(object):
     @recorded
     def acquireVolumeLease(self, hostId, imgUUID, volUUID):
@@ -114,7 +118,7 @@ class TestVolumeManifest:
 
     @pytest.mark.parametrize("orig_gen, info_gen", [(None, 0), (100, 100)])
     def test_get_info_generation_id(self, vol, orig_gen, info_gen):
-        vol.getLeaseStatus = lambda: {}
+        vol.getLeaseStatus = return_empty_dict
         if orig_gen is not None:
             vol.setMetaParam(sc.GENERATION, orig_gen)
         assert info_gen == vol.getInfo()['generation']

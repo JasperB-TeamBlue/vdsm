@@ -19,6 +19,10 @@ from vdsm.common.units import KiB
 from vdsm.storage import asyncevent
 
 
+def return_none(*args, **kwargs):
+    return None
+
+
 class TestEventLoop:
 
     def setup_method(self, m):
@@ -155,17 +159,17 @@ class TestEventLoop:
     def test_fail_when_closed_call_soon(self):
         self.loop.close()
         with pytest.raises(RuntimeError):
-            self.loop.call_soon(lambda: None)
+            self.loop.call_soon(return_none)
 
     def test_fail_when_closed_call_later(self):
         self.loop.close()
         with pytest.raises(RuntimeError):
-            self.loop.call_later(0, lambda: None)
+            self.loop.call_later(0, return_none)
 
     def test_fail_when_closed_call_at(self):
         self.loop.close()
         with pytest.raises(RuntimeError):
-            self.loop.call_at(self.loop.time(), lambda: None)
+            self.loop.call_at(self.loop.time(), return_none)
 
     def test_is_closed_before(self):
         self.loop.stop()

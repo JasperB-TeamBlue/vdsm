@@ -74,8 +74,12 @@ def _parseFstabLine(line):
                        fs_freq, fs_passno)
 
 
+def _decode_octal_escape(match):
+    return chr(int(match.group(0)[1:], 8))
+
+
 def _unescape_spaces(path):
-    return _ESCAPED_SPACES.sub(lambda s: chr(int(s.group()[1:], 8)), path)
+    return _ESCAPED_SPACES.sub(_decode_octal_escape, path)
 
 
 class MountError(cmdutils.Error):

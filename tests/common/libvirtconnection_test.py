@@ -76,6 +76,10 @@ def _kill(*args):
     raise TerminationException()
 
 
+def return_dev_null():
+    return '/dev/null'
+
+
 @contextlib.contextmanager
 def run_libvirt_event_loop():
     libvirtconnection.start_event_loop()
@@ -91,7 +95,7 @@ class testLibvirtconnection(TestCaseBase):
         libvirtconnection._clear()
 
     @MonkeyPatch(libvirtconnection, 'libvirt', LibvirtMock())
-    @MonkeyPatch(libvirtconnection, 'libvirt_password', lambda: '/dev/null')
+    @MonkeyPatch(libvirtconnection, 'libvirt_password', return_dev_null)
     def testCallSucceeded(self):
         """Positive test - libvirtMock does not raise any errors"""
         with run_libvirt_event_loop():
@@ -102,7 +106,7 @@ class testLibvirtconnection(TestCaseBase):
 
     @MonkeyPatch(libvirtconnection, 'libvirt', LibvirtMock())
     @MonkeyPatch(os, 'kill', _kill)
-    @MonkeyPatch(libvirtconnection, 'libvirt_password', lambda: '/dev/null')
+    @MonkeyPatch(libvirtconnection, 'libvirt_password', return_dev_null)
     def testCallFailedConnectionUp(self):
         """
         libvirtMock will raise an error when nodeDeviceLookupByName is called.
@@ -120,7 +124,7 @@ class testLibvirtconnection(TestCaseBase):
 
     @MonkeyPatch(libvirtconnection, 'libvirt', LibvirtMock())
     @MonkeyPatch(os, 'kill', _kill)
-    @MonkeyPatch(libvirtconnection, 'libvirt_password', lambda: '/dev/null')
+    @MonkeyPatch(libvirtconnection, 'libvirt_password', return_dev_null)
     def testCallFailedConnectionDown(self):
         """
         libvirtMock will raise an error when nodeDeviceLookupByName is called.

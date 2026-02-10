@@ -53,9 +53,13 @@ VHOSTMD_CONF = """
 """.format(vhostmd_before.DEFAULT_VBD_PATH)
 
 
+def return_none(*args, **kwargs):
+    return None
+
+
 @pytest.fixture(autouse=True)
 def fake_subprocess_call(monkeypatch):
-    monkeypatch.setattr(vhostmd_before.subprocess, "call", lambda args: None)
+    monkeypatch.setattr(vhostmd_before.subprocess, "call", return_none)
 
 
 @pytest.fixture

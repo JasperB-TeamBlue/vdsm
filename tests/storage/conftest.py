@@ -48,6 +48,16 @@ BACKENDS = userstorage.load_config("storage/storage.py").BACKENDS
 log = logging.getLogger("test")
 
 
+def _none():
+    return None
+
+
+def _make_access_validator(fake_access):
+    def validate(path):
+        return fake_access.allowed
+    return validate
+
+
 @pytest.fixture
 def tmp_repo(tmpdir, monkeypatch, tmp_fs):
     """
@@ -61,8 +71,8 @@ def tmp_repo(tmpdir, monkeypatch, tmp_fs):
     monkeypatch.setattr(sc, "REPO_MOUNT_DIR", repo.mnt_dir)
 
     # Patch multipath discovery and resize
-    monkeypatch.setattr(multipath, "rescan", lambda: None)
-    monkeypatch.setattr(multipath, "resize_devices", lambda: None)
+    monkeypatch.setattr(multipath, "rescan", _none)
+    monkeypatch.setattr(multipath, "resize_devices", _none)
 
     # Patch the resource manager.
     manager = rm._ResourceManager()
@@ -154,7 +164,11 @@ def fake_access(monkeypatch):
         allowed = True
 
     fa = fake_access()
-    monkeypatch.setattr(fileSD, "validateDirAccess", lambda path: fa.allowed)
+    monkeypatch.setattr(
+        fileSD,
+        "validateDirAccess",
+        _make_access_validator(fa)
+    )
     return fa
 
 

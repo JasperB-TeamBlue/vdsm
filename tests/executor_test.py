@@ -18,6 +18,10 @@ from testValidation import slowtest
 from testlib import VdsmTestCase as TestCaseBase
 
 
+def return_none():
+    return None
+
+
 class ExecutorTests(TestCaseBase):
 
     def setUp(self):
@@ -289,13 +293,13 @@ class TestWorkerSystemNames(TestCaseBase):
 class ExecutorTaskTests(TestCaseBase):
 
     def test_duration_none_if_not_called(self):
-        task = executor.Task(lambda: None, None)
+        task = executor.Task(return_none, None)
         self.assertIs(task.duration, 0)
 
     def test_duration_increases(self):
         STEP = 0.1
         TIMES = 3
-        task = executor.Task(lambda: None, None)
+        task = executor.Task(return_none, None)
         task()
         for i in range(TIMES):
             time.sleep(STEP)
@@ -305,7 +309,7 @@ class ExecutorTaskTests(TestCaseBase):
         # temporaries only for readability
         timeout = None
         discard = True
-        task = executor.Task(lambda: None, timeout, discard)
+        task = executor.Task(return_none, timeout, discard)
         msg = repr(task)
         self.assertTrue(msg.startswith('<Task discardable'))
 

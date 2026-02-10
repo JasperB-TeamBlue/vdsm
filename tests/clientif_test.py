@@ -35,6 +35,24 @@ ISOFS_PATH = '/rhev/data-center/mnt/A.B.C.D:_ovirt_iso/XXX' \
              'Fedora-Live-Desktop-x86_64-19.iso'
 
 
+def return_mock(*args, **kwargs):
+    return mock.Mock()
+
+
+def return_fake_connection(*args, **kwargs):
+    return FakeConnection(['2', '3'])
+
+
+def return_fake_connection_with_error():
+    return FakeConnection(['2', '3'], error=libvirt.VIR_ERR_ERROR)
+
+
+def make_uuid_string(uuid):
+    def _uuid_string():
+        return uuid
+    return _uuid_string
+
+
 class FakeClientIF(clientIF.clientIF):
     def __init__(self):
         # the bare minimum initialization for our test needs.
@@ -336,15 +354,14 @@ class NotSoFakeClientIF(clientIF.clientIF):
         irs = None
         log = logging.getLogger('test.ClientIF')
         scheduler = None
-        fake_start = mock.Mock()
         with MonkeyPatchScope([
                 (clientIF, '_glusterEnabled', False),
                 (clientIF, 'secret', {}),
-                (clientIF, 'MomClient', lambda *args: mock.Mock()),
-                (clientIF, 'QemuGuestAgentPoller', lambda *args: fake_start),
-                (clientIF, 'Listener', lambda *args: mock.Mock()),
+                (clientIF, 'MomClient', return_mock),
+                (clientIF, 'QemuGuestAgentPoller', return_mock),
+                (clientIF, 'Listener', return_mock),
                 (clientIF.concurrent, 'thread',
-                 lambda *args, **kwargs: fake_start),
+                 return_mock),
         ]):
             super(NotSoFakeClientIF, self).__init__(irs, log, scheduler)
 
@@ -386,12 +403,12 @@ class TestExternalVMTracking(TestCaseBase):
 
     def _dispatch_events(self, vm_events):
         for vm_id, event in vm_events:
-            dom = self.dom_class(UUIDString=lambda: vm_id)
+            dom = self.dom_class(UUIDString=make_uuid_string(vm_id))
             self.cif.dispatchLibvirtEvents(None, dom, event, 0, 0)
 
     def test_lookup_unknown_vm(self):
         vmid = '0000'
-        dom = self.dom_class(UUIDString=lambda: vmid)
+        dom = self.dom_class(UUIDString=make_uuid_string(vmid))
         self.assertEqual(self.cif.getVMs(), {})
         eventid, v = self.cif.lookup_vm_from_event(
             dom, libvirt.VIR_DOMAIN_EVENT_ID_REBOOT, 0, 0)
@@ -402,7 +419,7 @@ class TestExternalVMTracking(TestCaseBase):
         cif = NotSoFakeClientIF()
         cif.log = fakelib.FakeLogger()
 
-        dom = self.dom_class(UUIDString=lambda: '0000')
+        dom = self.dom_class(UUIDString=make_uuid_string('0000'))
         self.assertEqual(cif.getVMs(), {})
 
         cif.dispatchLibvirtEvents(
@@ -416,7 +433,7 @@ class TestExternalVMTracking(TestCaseBase):
                          ['1', '2'])
         self.assertEqual(self.cif.pop_unknown_vm_ids(), [])
 
-    @MonkeyPatch(libvirtconnection, 'get', lambda: FakeConnection(['2', '3']))
+    @MonkeyPatch(libvirtconnection, 'get', return_fake_connection)
     def test_external_vm_ids_removal(self):
         with MonkeyPatchScope([
                 (clientIF, 'Vm', FakeVm)
@@ -427,7 +444,7 @@ class TestExternalVMTracking(TestCaseBase):
 
     @MonkeyPatch(
         libvirtconnection, 'get',
-        lambda: FakeConnection(['2', '3'], error=libvirt.VIR_ERR_ERROR)
+        return_fake_connection_with_error
     )
     def test_external_vm_ids_errors(self):
         with MonkeyPatchScope([
@@ -437,7 +454,7 @@ class TestExternalVMTracking(TestCaseBase):
         self.assertEqual(sorted(self.cif.pop_unknown_vm_ids()), ['1'])
         self.assertEqual(sorted(self.cif.vmContainer.keys()), [])
 
-    @MonkeyPatch(libvirtconnection, 'get', lambda: FakeConnection(['2', '3']))
+    @MonkeyPatch(libvirtconnection, 'get', return_fake_connection)
     def test_external_vm_recovery_errors(self):
         with MonkeyPatchScope([
                 (clientIF, 'Vm', FakeVm)

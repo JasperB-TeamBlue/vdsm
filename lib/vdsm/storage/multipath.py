@@ -497,8 +497,12 @@ def pathListIter(filterGuids=()):
         yield devInfo
 
 
+def _escape_special_char(m):
+    return "\\" + m.group()
+
+
 TOXIC_REGEX = re.compile(r"[%s]" % re.sub(r"[\-\\\]]",
-                         lambda m: "\\" + m.group(),
+                         _escape_special_char,
                          TOXIC_CHARS))
 
 

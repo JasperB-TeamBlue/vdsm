@@ -61,6 +61,13 @@ End of LLDPDU TLV
 """
 
 
+def mock_exec_sync(tlv_content):
+    def exec_sync(_):
+        return (0, tlv_content, '')
+
+    return exec_sync
+
+
 class TestLldpadReport(object):
     TLVS_REPORT = [
         {
@@ -162,7 +169,7 @@ class TestLldpadReport(object):
     ]
 
     @mock.patch.object(
-        lldptool.cmd, 'exec_sync', lambda x: (0, LLDP_CHASSIS_ID_TLV, '')
+        lldptool.cmd, 'exec_sync', mock_exec_sync(LLDP_CHASSIS_ID_TLV)
     )
     def test_get_single_lldp_tlv(self):
         expected = [self.TLVS_REPORT[0]]
@@ -171,7 +178,7 @@ class TestLldpadReport(object):
     @mock.patch.object(
         lldptool.cmd,
         'exec_sync',
-        lambda x: (0, LLDP_MANAGEMENT_ADDRESS_TLV, ''),
+        mock_exec_sync(LLDP_MANAGEMENT_ADDRESS_TLV),
     )
     def test_get_management_address_tlv_without_oid(self):
         expected = [
@@ -189,7 +196,7 @@ class TestLldpadReport(object):
         assert expected == lldptool.get_tlvs('iface0')
 
     @mock.patch.object(
-        lldptool.cmd, 'exec_sync', lambda x: (0, LLDP_MULTIPLE_TLVS, '')
+        lldptool.cmd, 'exec_sync', mock_exec_sync(LLDP_MULTIPLE_TLVS)
     )
     def test_get_multiple_lldp_tlvs(self):
         assert self.TLVS_REPORT == lldptool.get_tlvs('iface0')

@@ -122,8 +122,12 @@ class TestMonitor(object):
     @contextmanager
     def _wait_for_events(self, families):
         counter = AtomicAddressCounter(families)
+
+        def remove_handler(event):
+            counter.remove_addr(event)
+
         monitor = dhcp_monitor.Monitor.instance()
-        monitor.add_handler(lambda event: counter.remove_addr(event))
+        monitor.add_handler(remove_handler)
 
         yield
 

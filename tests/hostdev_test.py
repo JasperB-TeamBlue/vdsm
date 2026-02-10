@@ -17,13 +17,25 @@ from vdsm.common import libvirtconnection
 import hostdevlib
 
 
+def return_zero(_):
+    return 0
+
+
+def return_identity(x):
+    return x
+
+
+def return_block_mapping():
+    return hostdevlib.UDEV_BLOCK_MAP
+
+
 @expandPermutations
 @MonkeyClass(libvirtconnection, 'get', hostdevlib.Connection)
 @MonkeyClass(hostdev, '_sriov_totalvfs', hostdevlib.fake_totalvfs)
-@MonkeyClass(hostdev, '_pci_header_type', lambda _: 0)
-@MonkeyClass(hooks, 'after_hostdev_list_by_caps', lambda json: json)
+@MonkeyClass(hostdev, '_pci_header_type', return_zero)
+@MonkeyClass(hooks, 'after_hostdev_list_by_caps', return_identity)
 @MonkeyClass(hostdev, '_get_udev_block_mapping',
-             lambda: hostdevlib.UDEV_BLOCK_MAP)
+             return_block_mapping)
 class HostdevTests(TestCaseBase):
 
     def testProcessDeviceParams(self):
@@ -110,8 +122,8 @@ class HostdevTests(TestCaseBase):
 
 @MonkeyClass(libvirtconnection, 'get', hostdevlib.Connection.get)
 @MonkeyClass(hostdev, '_sriov_totalvfs', hostdevlib.fake_totalvfs)
-@MonkeyClass(hostdev, '_pci_header_type', lambda _: 0)
-@MonkeyClass(hooks, 'after_hostdev_list_by_caps', lambda json: json)
+@MonkeyClass(hostdev, '_pci_header_type', return_zero)
+@MonkeyClass(hooks, 'after_hostdev_list_by_caps', return_identity)
 class HostdevPerformanceTests(TestCaseBase):
 
     def test_3k_storage_devices(self):
@@ -125,7 +137,7 @@ class HostdevPerformanceTests(TestCaseBase):
 @expandPermutations
 @MonkeyClass(libvirtconnection, 'get', hostdevlib.Connection)
 @MonkeyClass(hostdev, '_sriov_totalvfs', hostdevlib.fake_totalvfs)
-@MonkeyClass(hostdev, '_pci_header_type', lambda _: 0)
+@MonkeyClass(hostdev, '_pci_header_type', return_zero)
 class HostdevCreationTests(XMLTestCase):
 
     _PCI_ADDRESS = {'slot': '0x02', 'bus': '0x01', 'domain': '0x0000',
@@ -213,7 +225,7 @@ class TestMdev(TestCaseBase):
     ])
     def test_vgpu_placement(self, mdev_specs, mdev_placement, instances):
         with MonkeyPatchScope([
-                (hostdev, '_each_mdev_device', lambda: self.devices)
+                (hostdev, '_each_mdev_device', self.return_devices)
         ]):
             for mdev_type, mdev_uuid in mdev_specs:
                 mdev_properties = hostdev.MdevProperties(
@@ -226,13 +238,16 @@ class TestMdev(TestCaseBase):
                 dev_inst.extend(mdev_type.instances)
             self.assertEqual(inst, dev_inst)
 
+    def return_devices(self):
+        return self.devices
+
     @permutations([
         [hostdev.MdevPlacement.COMPACT],
         [hostdev.MdevPlacement.SEPARATE],
     ])
     def test_unsupported_vgpu_placement(self, placement):
         with MonkeyPatchScope([
-                (hostdev, '_each_mdev_device', lambda: self.devices)
+                (hostdev, '_each_mdev_device', self.return_devices)
         ]):
             mdev_properties = hostdev.MdevProperties(
                 'unsupported', placement, None

@@ -21,6 +21,10 @@ from storage.storagefakelib import FakeResourceManager
 log = logging.getLogger("test")
 
 
+def _return_one(_req, _res):
+    return 1
+
+
 class NullResourceFactory(rm.SimpleResourceFactory):
     """
     A resource factory that has no resources. Used for testing.
@@ -134,7 +138,7 @@ class TestResourceManager:
 
     def testErrorInFactory(self, tmp_manager):
         req = rm._registerResource(
-            "error", "resource", rm.EXCLUSIVE, lambda req, res: 1)
+            "error", "resource", rm.EXCLUSIVE, _return_one)
         assert req.canceled()
 
     def testRegisterInvalidNamespace(self, tmp_manager):

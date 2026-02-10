@@ -231,7 +231,10 @@ def test_extend_volume(monkeypatch, fake_task, size, expected_size_mb):
     h = FakeHSM()
     pool = FakePool()
 
-    monkeypatch.setattr(hsm.HSM, "getPool", lambda self, spUUID: pool)
+    def mock_get_pool(self, spUUID):
+        return pool
+
+    monkeypatch.setattr(hsm.HSM, "getPool", mock_get_pool)
     h.extendVolume(
         sdUUID=None, spUUID=None, imgUUID=None, volumeUUID=None, size=size)
 

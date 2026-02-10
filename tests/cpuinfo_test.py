@@ -18,13 +18,19 @@ def _outfile(name):
     return os.path.join(dir_name, 'cpuinfo', name)
 
 
+def _mock_machine(arch):
+    def machine():
+        return arch
+    return machine
+
+
 class TestCpuInfo(TestCaseBase):
 
     def setUp(self):
         cpuinfo._cpuinfo.invalidate()
 
     @MonkeyPatch(cpuinfo, '_PATH', _outfile('cpuinfo_E5649_x86_64.out'))
-    @MonkeyPatch(platform, 'machine', lambda: cpuarch.X86_64)
+    @MonkeyPatch(platform, 'machine', _mock_machine(cpuarch.X86_64))
     def test_cpuinfo_E5649_x86_64(self):
         self.assertEqual(
             set(cpuinfo.flags()),
@@ -44,7 +50,7 @@ class TestCpuInfo(TestCaseBase):
                          'Intel(R) Xeon(R) CPU           E5649  @ 2.53GHz')
 
     @MonkeyPatch(cpuinfo, '_PATH', _outfile('cpuinfo_POWER8E_ppc64le.out'))
-    @MonkeyPatch(platform, 'machine', lambda: cpuarch.PPC64LE)
+    @MonkeyPatch(platform, 'machine', _mock_machine(cpuarch.PPC64LE))
     def test_cpuinfo_POWER8E_ppc64le(self):
         self.assertEqual(cpuinfo.flags(), ['powernv'])
         self.assertEqual(cpuinfo.frequency(), '3690.000000')
@@ -54,7 +60,7 @@ class TestCpuInfo(TestCaseBase):
         self.assertEqual(cpuinfo.machine(), 'PowerNV 8247-22L')
 
     @MonkeyPatch(cpuinfo, '_PATH', _outfile('cpuinfo_aarch64.out'))
-    @MonkeyPatch(platform, 'machine', lambda: cpuarch.AARCH64)
+    @MonkeyPatch(platform, 'machine', _mock_machine(cpuarch.AARCH64))
     def test_cpuinfo_aarch64(self):
         self.assertEqual(cpuinfo.flags(), ['fp', 'asimd', 'evtstrm'])
         self.assertEqual(cpuinfo.frequency(), '100.00')
@@ -62,7 +68,7 @@ class TestCpuInfo(TestCaseBase):
                          '0x000')
 
     @MonkeyPatch(cpuinfo, '_PATH', _outfile('cpuinfo_z14_s390x.out'))
-    @MonkeyPatch(platform, 'machine', lambda: cpuarch.S390X)
+    @MonkeyPatch(platform, 'machine', _mock_machine(cpuarch.S390X))
     def test_cpuinfo_s390x_z14(self):
         self.assertEqual(cpuinfo.flags(),
                          ['esan3', 'zarch', 'stfle', 'msa', 'ldisp', 'eimm',
@@ -73,7 +79,7 @@ class TestCpuInfo(TestCaseBase):
                          '3906')
 
     @MonkeyPatch(cpuinfo, '_PATH', _outfile('cpuinfo_z196_s390x.out'))
-    @MonkeyPatch(platform, 'machine', lambda: cpuarch.S390X)
+    @MonkeyPatch(platform, 'machine', _mock_machine(cpuarch.S390X))
     def test_cpuinfo_s390x_z196(self):
         self.assertEqual(cpuinfo.flags(),
                          ['esan3', 'zarch', 'stfle', 'msa', 'ldisp', 'eimm',
@@ -83,7 +89,7 @@ class TestCpuInfo(TestCaseBase):
                          '2817')
 
     @MonkeyPatch(cpuinfo, '_PATH', _outfile('cpuinfo_E5649_x86_64.out'))
-    @MonkeyPatch(platform, 'machine', lambda: 'noarch')
+    @MonkeyPatch(platform, 'machine', _mock_machine('noarch'))
     def test_cpuinfo_unsupported_arch(self):
         self.assertRaises(cpuarch.UnsupportedArchitecture,
                           cpuinfo._cpuinfo)

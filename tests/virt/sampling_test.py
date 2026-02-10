@@ -24,7 +24,10 @@ class SampleWindowTests(TestCaseBase):
     def setUp(self):
         self._counter = itertools.count(0)
         self.win = sampling.SampleWindow(
-            size=2, timefn=lambda: next(self._counter))
+            size=2, timefn=self.return_next)
+
+    def return_next(self):
+        return next(self._counter)
 
     @permutations([[-1], [0]])
     def test_window_size_bad_values(self, size):
@@ -219,13 +222,16 @@ class NumaNodeMemorySampleTests(TestCaseBase):
             '2048': '10'
         }
 
+        def return_fake_connection():
+            return fakeConnection
+
         return MonkeyPatchScope([(numa, 'topology',
                                   fakeNumaTopology),
                                  (numa, 'memory_by_cell',
                                   fakeMemoryStats),
                                  (numa.libvirtconnection,
                                   'get',
-                                  lambda: fakeConnection)])
+                                  return_fake_connection)])
 
     def testMemoryStatsWithZeroMemoryAsString(self):
         expected = {0: {

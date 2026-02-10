@@ -75,6 +75,18 @@ _TICKET_PARAMS = {
 }
 
 
+def mock_time():
+    return 1234567890.125
+
+
+def mock_true(*args):
+    return True
+
+
+def mock_none(*args, **kwargs):
+    return None
+
+
 @expandPermutations
 class TestVm(XMLTestCase):
 
@@ -627,7 +639,7 @@ class TestVm(XMLTestCase):
         self.assertXMLEqual(out_dom_xml,
                             _load_xml('vm_restore_spice_after.xml'))
 
-    @MonkeyPatch(os, 'unlink', lambda _: None)
+    @MonkeyPatch(os, 'unlink', mock_none)
     def test_release_vm_succeeds(self):
         with fake.VM(self.conf) as testvm:
             testvm.guestAgent = fake.GuestAgent()
@@ -657,7 +669,7 @@ class TestVm(XMLTestCase):
                 'forceful': 0,
             }
 
-    @MonkeyPatch(os, 'unlink', lambda _: None)
+    @MonkeyPatch(os, 'unlink', mock_none)
     @permutations([[1], [2], [3], [9]])
     def test_releasevm_fails(self, attempts):
         with fake.VM(self.conf) as testvm:
@@ -1155,7 +1167,7 @@ class TestLibVirtCallbacks(TestCaseBase):
 '''
         with fake.VM(_VM_PARAMS, xmldevices=devices,
                      create_device_objects=True) as testvm:
-            testvm._updateDomainDescriptor = lambda *args: None
+            testvm._updateDomainDescriptor = mock_none
             testvm.onDeviceRemoved(alias)
             assert set([d.alias for group in testvm._devices.values()
                         for d in group]) == kept_aliases
@@ -1503,7 +1515,7 @@ class BlockIoTuneTests(TestCaseBase):
         self.dom = FakeBlockIoTuneDomain()
         self.dom.iotunes = {self.drive.name: self.iotune_low.copy()}
 
-    @MonkeyPatch(vm, 'isVdsmImage', lambda *args: True)
+    @MonkeyPatch(vm, 'isVdsmImage', mock_true)
     def test_get_fills_cache(self):
         with fake.VM() as testvm:
             testvm._dom = self.dom
@@ -1523,7 +1535,7 @@ class BlockIoTuneTests(TestCaseBase):
                     (self.drive.name, libvirt.VIR_DOMAIN_AFFECT_LIVE),
                     {})]
 
-    @MonkeyPatch(vm, 'isVdsmImage', lambda *args: True)
+    @MonkeyPatch(vm, 'isVdsmImage', mock_true)
     def test_set_updates_cache(self):
         with fake.VM() as testvm:
             testvm._dom = self.dom
@@ -1545,7 +1557,7 @@ class BlockIoTuneTests(TestCaseBase):
             self.assert_nth_call_to_dom_is(0, 'blockIoTune')
             self.assert_nth_call_to_dom_is(1, 'setBlockIoTune')
 
-    @MonkeyPatch(vm, 'isVdsmImage', lambda *args: True)
+    @MonkeyPatch(vm, 'isVdsmImage', mock_true)
     def test_set_fills_cache(self):
         with fake.VM() as testvm:
             testvm._dom = self.dom
@@ -1563,7 +1575,7 @@ class BlockIoTuneTests(TestCaseBase):
             assert len(self.dom.__calls__) == 1
             self.assert_nth_call_to_dom_is(0, 'setBlockIoTune')
 
-    @MonkeyPatch(vm, 'isVdsmImage', lambda *args: True)
+    @MonkeyPatch(vm, 'isVdsmImage', mock_true)
     def test_cold_cache_set_preempts_get(self):
         with fake.VM() as testvm:
             testvm._dom = self.dom
@@ -1585,7 +1597,7 @@ class BlockIoTuneTests(TestCaseBase):
             assert self.dom.iotunes == \
                 {self.drive.name: self.iotune_high}
 
-    @MonkeyPatch(vm, 'isVdsmImage', lambda *args: True)
+    @MonkeyPatch(vm, 'isVdsmImage', mock_true)
     def test_set_iotune_invalid(self):
         with fake.VM() as testvm:
             testvm._dom = self.dom
@@ -1687,7 +1699,7 @@ class BlockIoTuneTests(TestCaseBase):
                 ("Wrong status of `%s': actual=%s, expected=%s" %
                  (vm_.id, vm_.lastStatus, expected_status,))
 
-    @MonkeyPatch(vm, 'isVdsmImage', lambda *args: True)
+    @MonkeyPatch(vm, 'isVdsmImage', mock_true)
     def test_io_tune_policy_values(self):
         with fake.VM() as testvm:
             testvm._dom = self.dom
@@ -1701,7 +1713,7 @@ class BlockIoTuneTests(TestCaseBase):
                 'policy': []
             }
 
-    @MonkeyPatch(vm, 'isVdsmImage', lambda *args: True)
+    @MonkeyPatch(vm, 'isVdsmImage', mock_true)
     def test_io_tune_policy_values_handle_exceptions(self):
         with fake.VM() as testvm:
             testvm._dom = virdomain.Disconnected(testvm.id)
@@ -1752,7 +1764,7 @@ class SyncGuestTimeTests(TestCaseBase):
         dom = fake.Domain(virtError=virt_error)
         return FakeVm(dom)
 
-    @MonkeyPatch(time, 'time', lambda: 1234567890.125)
+    @MonkeyPatch(time, 'time', mock_time)
     def test_success(self):
         vm = self._make_vm()
         vm.syncGuestTime()

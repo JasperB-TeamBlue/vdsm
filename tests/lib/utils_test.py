@@ -260,8 +260,8 @@ class TestGetCmdArgs(TestCaseBase):
         sproc = commands.start(args)
         sproc.kill()
         try:
-            test = lambda: self.assertEqual(utils.getCmdArgs(sproc.pid),
-                                            tuple())
+            def test():
+                self.assertEqual(utils.getCmdArgs(sproc.pid), tuple())
             function.retry(AssertionError, test, tries=10, sleep=0.1)
         finally:
             sproc.wait()
@@ -317,7 +317,8 @@ class TestGeneralUtils(TestCaseBase):
 
 class TestCallbackChain(TestCaseBase):
     def testCanPassIterableOfCallbacks(self):
-        f = lambda: False
+        def f():
+            return False
         callbacks = [f] * 10
         chain = utils.CallbackChain(callbacks)
         self.assertEqual(list(chain.callbacks), callbacks)

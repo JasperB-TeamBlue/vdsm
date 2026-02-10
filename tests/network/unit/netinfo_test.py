@@ -17,6 +17,34 @@ from vdsm.network.netinfo.cache import get
 from vdsm.network import nmstate
 from vdsm.network.nmstate import api
 
+NL_ADDRESS4 = {
+    'label': 'iface0',
+    'address': '127.0.0.1/32',
+    'family': 'inet',
+}
+NL_ADDRESS6 = {
+    'label': 'iface1',
+    'address': '2001::1:1:1/48',
+    'family': 'inet6',
+}
+NL_ADDRESSES = [NL_ADDRESS4, NL_ADDRESS6]
+
+
+def return_none():
+    return None
+
+
+def return_empty_dict():
+    return {}
+
+
+def is_bond_jbond(bond_name):
+    return bond_name == 'jbond'
+
+
+def return_addresses():
+    return NL_ADDRESSES
+
 
 @pytest.fixture
 def current_state_mock():
@@ -100,7 +128,7 @@ class TestNetinfo(object):
 
             assert nic.speed('fake_nic') == expected
 
-    @mock.patch.object(netinfo.bonding, 'permanent_address', lambda: {})
+    @mock.patch.object(netinfo.bonding, 'permanent_address', return_empty_dict)
     @mock.patch('vdsm.network.netinfo.cache.RunningConfig')
     def test_get_non_existing_bridge_info(
         self, mock_runningconfig, current_state_mock
@@ -111,7 +139,7 @@ class TestNetinfo(object):
         mock_runningconfig.return_value.networks = {'fake': {'bridged': True}}
         get()
 
-    @mock.patch.object(netinfo.bonding, 'permanent_address', lambda: {})
+    @mock.patch.object(netinfo.bonding, 'permanent_address', return_empty_dict)
     @mock.patch('vdsm.network.ipwrapper.getLinks')
     @mock.patch('vdsm.network.netinfo.cache.RunningConfig')
     def test_get_empty(self, mock_networks, mock_getLinks, current_state_mock):
@@ -129,20 +157,8 @@ class TestNetinfo(object):
         )
 
     def test_get_device_by_ip(self):
-        NL_ADDRESS4 = {
-            'label': 'iface0',
-            'address': '127.0.0.1/32',
-            'family': 'inet',
-        }
-        NL_ADDRESS6 = {
-            'label': 'iface1',
-            'address': '2001::1:1:1/48',
-            'family': 'inet6',
-        }
-        NL_ADDRESSES = [NL_ADDRESS4, NL_ADDRESS6]
-
         with mock.patch.object(
-            netinfo.addresses.nl_addr, 'iter_addrs', lambda: NL_ADDRESSES
+            netinfo.addresses.nl_addr, 'iter_addrs', return_addresses
         ):
             for nl_addr in NL_ADDRESSES:
                 nl_address = nl_addr['address'].split('/')[0]
@@ -152,8 +168,8 @@ class TestNetinfo(object):
     @mock.patch.object(ipwrapper.Link, '_hiddenNics', ['hid*'])
     @mock.patch.object(ipwrapper.Link, '_hiddenBonds', ['jb*'])
     @mock.patch.object(ipwrapper.Link, '_fakeNics', ['fake*'])
-    @mock.patch.object(ipwrapper.Link, '_detectType', lambda x: None)
-    @mock.patch.object(ipwrapper, '_bondExists', lambda x: x == 'jbond')
+    @mock.patch.object(ipwrapper.Link, '_detectType', return_none)
+    @mock.patch.object(ipwrapper, '_bondExists', is_bond_jbond)
     @mock.patch.object(ipwrapper, 'getLinks')
     def test_nics(self, mock_getLinks):
         """

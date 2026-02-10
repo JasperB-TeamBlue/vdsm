@@ -10,7 +10,9 @@ from vdsm.network.ipwrapper import Rule
 
 class TestIpwrapper(object):
     def testRouteFromText(self):
-        _getRouteAttrs = lambda x: (x.network, x.via, x.device, x.table)
+        def _getRouteAttrs(x):
+            return x.network, x.via, x.device, x.table
+
         good_routes = {
             'default via 192.168.99.254 dev eth0': (
                 '0.0.0.0/0',
@@ -72,14 +74,16 @@ class TestIpwrapper(object):
             pytest.raises(ValueError, Route.fromText, text)
 
     def testRuleFromText(self):
-        _getRuleAttrs = lambda x: (
-            x.table,
-            x.source,
-            x.destination,
-            x.srcDevice,
-            x.detached,
-            x.prio,
-        )
+        def _getRuleAttrs(x):
+            return (
+                x.table,
+                x.source,
+                x.destination,
+                x.srcDevice,
+                x.detached,
+                x.prio,
+            )
+
         good_rules = {
             '1:    from all lookup main': ('main', None, None, None, False, 1),
             '2:    from 10.0.0.0/8 to 20.0.0.0/8 lookup table_100': (

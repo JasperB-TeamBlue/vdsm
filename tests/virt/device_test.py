@@ -25,6 +25,18 @@ from testlib import XMLTestCase
 from . import vmfakelib as fake
 
 
+def _false():
+    return False
+
+
+def _true():
+    return True
+
+
+def _none(*args):
+    return None
+
+
 @expandPermutations
 class TestVmDevices(XMLTestCase):
 
@@ -886,7 +898,7 @@ class TestRestorePaths(TestCaseBase):
                   'restoreFromSnapshot': True,
                   }
         with fake.VM(params) as vm:
-            vm._normalizeVdsmImg = lambda *args: None
+            vm._normalizeVdsmImg = _none
             devices = vm._make_devices()
             vm_xml = vm.conf['xml']
         tested_drives = (('1234', engine_params['path'],),
@@ -946,7 +958,7 @@ class VncSecureTest(TestCaseBase):
         assert graphics.is_vnc_secure({'xml': self.XML_NO_VNC},
                                       self.log)
 
-    @MonkeyPatch(utils, 'sasl_enabled', lambda: False)
+    @MonkeyPatch(utils, 'sasl_enabled', _false)
     def test_sasl_disabled_no_password(self):
         xml = self.XML_VNC.format(passwd_tag=self.NO_PASSWD,
                                   passwd_valid_tag=self.NO_PASSWD_VALID)
@@ -967,19 +979,19 @@ class VncSecureTest(TestCaseBase):
                                   passwd_valid_tag=self.PASSWD_VALID_PRESENT)
         assert graphics.is_vnc_secure({'xml': xml}, self.log)
 
-    @MonkeyPatch(utils, 'sasl_enabled', lambda: False)
+    @MonkeyPatch(utils, 'sasl_enabled', _false)
     def test_sasl_disabled_password(self):
         xml = self.XML_VNC.format(passwd_tag=self.PASSWD_PRESENT,
                                   passwd_valid_tag=self.PASSWD_VALID_PRESENT)
         assert graphics.is_vnc_secure({'xml': xml}, self.log)
 
-    @MonkeyPatch(utils, 'sasl_enabled', lambda: True)
+    @MonkeyPatch(utils, 'sasl_enabled', _true)
     def test_sasl_enabled_password(self):
         xml = self.XML_VNC.format(passwd_tag=self.PASSWD_PRESENT,
                                   passwd_valid_tag=self.PASSWD_VALID_PRESENT)
         assert graphics.is_vnc_secure({'xml': xml}, self.log)
 
-    @MonkeyPatch(utils, 'sasl_enabled', lambda: True)
+    @MonkeyPatch(utils, 'sasl_enabled', _true)
     def test_sasl_enabled_no_password(self):
         xml = self.XML_VNC.format(passwd_tag=self.NO_PASSWD,
                                   passwd_valid_tag=self.NO_PASSWD_VALID)

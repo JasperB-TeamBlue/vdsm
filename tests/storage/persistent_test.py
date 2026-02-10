@@ -20,6 +20,14 @@ class UserError(Exception):
     """ Raised by user code inside a transaction """
 
 
+def _to_lowercase(input):
+    return input.lower()
+
+
+def _to_uppercase(input):
+    return input.upper()
+
+
 class MemoryBackend(object):
 
     def __init__(self, lines=(), fail_read=False, fail_write=False):
@@ -45,7 +53,7 @@ class TestDictValidator:
     VALID_FIELDS = {
         "int_str": (int, str),
         "str_str": (str, str),
-        "func_func": (lambda s: s.lower(), lambda s: s.upper()),
+        "func_func": (_to_lowercase, _to_uppercase),
     }
 
     def test_length(self):

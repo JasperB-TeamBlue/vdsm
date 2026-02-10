@@ -27,8 +27,58 @@ def _getTestData(testFileName):
         return src.read()
 
 
+def _mock_machine(arch):
+    def machine():
+        return arch
+    return machine
+
+
+def _mock_libvirt_conn(filename):
+    def get_conn():
+        return _getLibvirtConnStubFromFile(filename)
+    return get_conn
+
+
+def _return_empty_array():
+    return []
+
+
+def _mock_total_free_cell_mem(total, free):
+    def get_mem(cell_id=None):
+        return {'total': total, 'free': free}
+    return get_mem
+
+
 def _getCapsNumaDistanceTestData(testFileName):
     return (0, _getTestData(testFileName).splitlines(False), [])
+
+
+def mock_flags():
+    return ['flag_1', 'flag_2', 'flag_3']
+
+
+def mock_run(_):
+    return ('0', ['0'], [])
+
+
+def mock_cpu_features():
+    return ['flag_3', 'feature_1', 'feature_2']
+
+
+def get_libvirt_con_stub(scaling):
+    def get_conn():
+        return _getLibvirtConnStubForTscScaling(scaling)
+    return get_conn
+
+
+def mock_crypto_fips(enabled):
+    def run(cmd):
+        return b'crypto.fips_enabled = %d\n' % (1 if enabled else 0,)
+    return run
+
+
+def mock_run_raise_exception(cmd):
+    raise Exception("A problem")
 
 
 def _getLibvirtConnStub():
@@ -82,11 +132,9 @@ class TestCaps(TestCaseBase):
             return f.read()
 
     @MonkeyPatch(libvirtconnection, 'get',
-                 lambda: _getLibvirtConnStubFromFile(
-                     'caps_libvirt_ibm_S822L.out'))
-    @MonkeyPatch(numa, 'memory_by_cell', lambda x: {
-        'total': '1', 'free': '1'})
-    @MonkeyPatch(platform, 'machine', lambda: cpuarch.PPC64)
+                 _mock_libvirt_conn('caps_libvirt_ibm_S822L.out'))
+    @MonkeyPatch(numa, 'memory_by_cell', _mock_total_free_cell_mem('1', '1'))
+    @MonkeyPatch(platform, 'machine', _mock_machine(cpuarch.PPC64))
     def testCpuTopologyPPC64(self):
         # PPC64 4 sockets, 5 cores, 1 threads per core
         numa.update()
@@ -96,11 +144,10 @@ class TestCaps(TestCaseBase):
         self.assertEqual(t.sockets, 4)
 
     @MonkeyPatch(libvirtconnection, 'get',
-                 lambda: _getLibvirtConnStubFromFile(
-                     'caps_libvirt_s390x.out'))
-    @MonkeyPatch(numa, 'memory_by_cell', lambda x: {
-        'total': '1', 'free': '1'})
-    @MonkeyPatch(platform, 'machine', lambda: cpuarch.S390X)
+                 _mock_libvirt_conn('caps_libvirt_s390x.out'))
+    @MonkeyPatch(numa, 'memory_by_cell', _mock_total_free_cell_mem(
+        '1', '1'))
+    @MonkeyPatch(platform, 'machine', _mock_machine(cpuarch.S390X))
     def testCpuTopologyS390X(self):
         # S390 1 socket, 4 cores, 1 threads per core
         numa.update()
@@ -110,11 +157,10 @@ class TestCaps(TestCaseBase):
         self.assertEqual(t.sockets, 1)
 
     @MonkeyPatch(libvirtconnection, 'get',
-                 lambda: _getLibvirtConnStubFromFile(
-                     'caps_libvirt_intel_E5649.out'))
-    @MonkeyPatch(numa, 'memory_by_cell', lambda x: {
-        'total': '1', 'free': '1'})
-    @MonkeyPatch(platform, 'machine', lambda: cpuarch.X86_64)
+                 _mock_libvirt_conn('caps_libvirt_intel_E5649.out'))
+    @MonkeyPatch(numa, 'memory_by_cell', _mock_total_free_cell_mem(
+        '1', '1'))
+    @MonkeyPatch(platform, 'machine', _mock_machine(cpuarch.X86_64))
     def testCpuTopologyX86_64_intel_e5649(self):
         # 2 x Intel E5649 (with Hyperthreading)
         numa.update()
@@ -124,11 +170,10 @@ class TestCaps(TestCaseBase):
         self.assertEqual(t.sockets, 2)
 
     @MonkeyPatch(libvirtconnection, 'get',
-                 lambda: _getLibvirtConnStubFromFile(
-                     'caps_libvirt_amd_6274.out'))
-    @MonkeyPatch(numa, 'memory_by_cell', lambda x: {
-        'total': '1', 'free': '1'})
-    @MonkeyPatch(platform, 'machine', lambda: cpuarch.X86_64)
+                 _mock_libvirt_conn('caps_libvirt_amd_6274.out'))
+    @MonkeyPatch(numa, 'memory_by_cell', _mock_total_free_cell_mem(
+        '1', '1'))
+    @MonkeyPatch(platform, 'machine', _mock_machine(cpuarch.X86_64))
     def testCpuTopologyX86_64_amd_6272(self):
         # 2 x AMD 6272 (with Modules)
         numa.update()
@@ -138,11 +183,10 @@ class TestCaps(TestCaseBase):
         self.assertEqual(t.sockets, 2)
 
     @MonkeyPatch(libvirtconnection, 'get',
-                 lambda: _getLibvirtConnStubFromFile(
-                     'caps_libvirt_intel_E31220.out'))
-    @MonkeyPatch(numa, 'memory_by_cell', lambda x: {
-        'total': '1', 'free': '1'})
-    @MonkeyPatch(platform, 'machine', lambda: cpuarch.X86_64)
+                 _mock_libvirt_conn('caps_libvirt_intel_E31220.out'))
+    @MonkeyPatch(numa, 'memory_by_cell', _mock_total_free_cell_mem(
+        '1', '1'))
+    @MonkeyPatch(platform, 'machine', _mock_machine(cpuarch.X86_64))
     def testCpuTopologyX86_64_intel_e31220(self):
         # 1 x Intel E31220 (normal Multi-core)
         numa.update()
@@ -187,11 +231,10 @@ class TestCaps(TestCaseBase):
                 self.assertEqual(osinfo._parse_node_version(f.name),
                                  expected_result)
 
-    @MonkeyPatch(numa, 'memory_by_cell', lambda x: {
-        'total': '49141', 'free': '46783'})
+    @MonkeyPatch(numa, 'memory_by_cell', _mock_total_free_cell_mem(
+        '49141', '46783'))
     @MonkeyPatch(libvirtconnection, 'get',
-                 lambda: _getLibvirtConnStubFromFile(
-                     "caps_libvirt_amd_6274.out"))
+                 _mock_libvirt_conn("caps_libvirt_amd_6274.out"))
     def testNumaTopology(self):
         # 2 x AMD 6272 (with Modules)
         numa.update()
@@ -219,10 +262,9 @@ class TestCaps(TestCaseBase):
         self.assertEqual(t, expectedNumaInfo)
 
     @MonkeyPatch(libvirtconnection, 'get',
-                 lambda: _getLibvirtConnStubFromFile(
-                     'caps_libvirt_ibm_S822L_le.out'))
-    @MonkeyPatch(numa, 'memory_by_cell', lambda x: {
-        'total': '1', 'free': '1'})
+                 _mock_libvirt_conn('caps_libvirt_ibm_S822L_le.out'))
+    @MonkeyPatch(numa, 'memory_by_cell', _mock_total_free_cell_mem(
+        '1', '1'))
     def testNumaNodeDistance(self):
         numa.update()
         t = numa.distances()
@@ -232,7 +274,7 @@ class TestCaps(TestCaseBase):
                                 '17': [40, 40, 20, 10]}
         self.assertEqual(t, expectedDistanceInfo)
 
-    @MonkeyPatch(commands, 'run', lambda x: ('0', ['0'], []))
+    @MonkeyPatch(commands, 'run', mock_run)
     def testAutoNumaBalancingInfo(self):
         t = numa.autonuma_status()
         self.assertEqual(t, 0)
@@ -282,10 +324,8 @@ class TestCaps(TestCaseBase):
         self.assertEqual(expected, result)
 
     @MonkeyPatch(libvirtconnection, 'get',
-                 lambda: _getLibvirtConnStubFromFile(
-                     'caps_libvirt_intel_i73770_nosnap.out'))
-    @MonkeyPatch(numa, 'memory_by_cell', lambda x: {
-        'total': '1', 'free': '1'})
+                 _mock_libvirt_conn('caps_libvirt_intel_i73770_nosnap.out'))
+    @MonkeyPatch(numa, 'memory_by_cell', _mock_total_free_cell_mem('1', '1'))
     def test_topology(self):
         numa.update()
         result = numa.topology()
@@ -294,10 +334,8 @@ class TestCaps(TestCaseBase):
         self.assertEqual(expected, result['0']['cpus'])
 
     @MonkeyPatch(libvirtconnection, 'get',
-                 lambda: _getLibvirtConnStubFromFile(
-                     'caps_libvirt_intel_i73770_nosnap.out'))
-    @MonkeyPatch(numa, 'memory_by_cell', lambda x: {
-        'total': '1', 'free': '1'})
+                 _mock_libvirt_conn('caps_libvirt_intel_i73770_nosnap.out'))
+    @MonkeyPatch(numa, 'memory_by_cell', _mock_total_free_cell_mem('1', '1'))
     def test_getCpuTopology(self):
         numa.update()
         t = numa.cpu_topology()
@@ -316,45 +354,44 @@ class TestCaps(TestCaseBase):
         freq = caps._getTscFrequency()
         self.assertEqual(freq, "")
 
-    @MonkeyPatch(commands, 'run', lambda x: b'crypto.fips_enabled = 1\n')
+    @MonkeyPatch(commands, 'run', mock_crypto_fips(True))
     def test_getFipsEnabledOn(self):
         self.assertTrue(caps._getFipsEnabled())
 
-    @MonkeyPatch(commands, 'run', lambda x: b'crypto.fips_enabled = 0\n')
+    @MonkeyPatch(commands, 'run', mock_crypto_fips(False))
     def test_getFipsEnabledOff(self):
         self.assertFalse(caps._getFipsEnabled())
 
-    # A hacky way to throw an exception from a lambda
+    # A hacky way to throw an exception from a monkeypatched function
     @MonkeyPatch(commands, 'run',
-                 lambda x: (_ for _ in ()).throw(Exception("A problem")))
+                 mock_run_raise_exception)
     def test_getFipsEnabledOffWhenError(self):
         self.assertFalse(caps._getFipsEnabled())
 
     @MonkeyPatch(libvirtconnection, 'get',
-                 lambda: _getLibvirtConnStubForTscScaling('yes'))
+                 get_libvirt_con_stub('yes'))
     def test_getTscScalingYes(self):
         scaling = caps._getTscScaling()
         self.assertTrue(scaling)
 
     @MonkeyPatch(libvirtconnection, 'get',
-                 lambda: _getLibvirtConnStubForTscScaling('no'))
+                 get_libvirt_con_stub('no'))
     def test_getTscScalingNo(self):
         scaling = caps._getTscScaling()
         self.assertFalse(scaling)
 
-    @MonkeyPatch(cpuinfo, 'flags', lambda: ['flag_1', 'flag_2', 'flag_3'])
-    @MonkeyPatch(machinetype, 'cpu_features',
-                 lambda: ['flag_3', 'feature_1', 'feature_2'])
-    @MonkeyPatch(machinetype, 'compatible_cpu_models', lambda: [])
+    @MonkeyPatch(cpuinfo, 'flags', mock_flags)
+    @MonkeyPatch(machinetype, 'cpu_features', mock_cpu_features)
+    @MonkeyPatch(machinetype, 'compatible_cpu_models', _return_empty_array)
     def test_getFlagsAndFeatures(self):
         flags = caps._getFlagsAndFeatures()
         expected = ['flag_1', 'flag_2', 'flag_3', 'feature_1', 'feature_2']
         self.assertEqual(5, len(flags))
         self.assertTrue(all([x in flags for x in expected]))
 
-    @MonkeyPatch(cpuinfo, 'flags', lambda: ['flag_1', 'flag_2', 'flag_3'])
-    @MonkeyPatch(machinetype, 'cpu_features', lambda: [])
-    @MonkeyPatch(machinetype, 'compatible_cpu_models', lambda: [])
+    @MonkeyPatch(cpuinfo, 'flags', mock_flags)
+    @MonkeyPatch(machinetype, 'cpu_features', _return_empty_array)
+    @MonkeyPatch(machinetype, 'compatible_cpu_models', _return_empty_array)
     def test_getFlagsAndFeaturesEmptyFeatures(self):
         flags = caps._getFlagsAndFeatures()
         expected = ['flag_1', 'flag_2', 'flag_3']
@@ -362,10 +399,9 @@ class TestCaps(TestCaseBase):
         self.assertTrue(all([x in flags for x in expected]))
 
     @MonkeyPatch(libvirtconnection, 'get',
-                 lambda: _getLibvirtConnStubFromFile(
-                     'caps_libvirt_intel_E5649.out'))
-    @MonkeyPatch(numa, 'memory_by_cell', lambda x: {
-        'total': '1', 'free': '1'})
+                 _mock_libvirt_conn('caps_libvirt_intel_E5649.out'))
+    @MonkeyPatch(numa, 'memory_by_cell', _mock_total_free_cell_mem(
+        '1', '1'))
     def test_core_cpus(self):
         # 2 sockets, 6 cores per socket, 2 threads per core
         numa.update()

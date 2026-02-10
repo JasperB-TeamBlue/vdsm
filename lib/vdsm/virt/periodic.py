@@ -21,6 +21,8 @@ from vdsm.virt import vmstatus
 from vdsm.virt.externaldata import ExternalDataKind
 from vdsm.virt.utils import vm_kill_paused_timeout
 
+from functools import partial
+
 """
 Code to perform periodic maintenance and bookkeeping of the VMs.
 """
@@ -456,14 +458,14 @@ def _create(cif, scheduler):
             config.getint('sampling', 'tpm_data_update_interval')),
 
         Operation(
-            lambda: recovery.lookup_external_vms(cif),
+            partial(recovery.lookup_external_vms, cif),
             config.getint('sampling', 'external_vm_lookup_interval'),
             scheduler,
             exclusive=True,
             discard=False),
 
         Operation(
-            lambda: _kill_long_paused_vms(cif),
+            partial(_kill_long_paused_vms, cif),
             vm_kill_paused_timeout() // 2,
             scheduler,
             exclusive=True,

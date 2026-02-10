@@ -35,6 +35,10 @@ VolumeChainEnv = namedtuple(
 )
 
 
+def mock_monotonic_time():
+    return 123.0
+
+
 @expandPermutations
 class DriveXMLTests(XMLTestCase):
 
@@ -671,7 +675,7 @@ def test_drive_exceeded_time(monkeypatch):
     assert drive.exceeded_time is None
 
     # Getting threshold event sets exceeded time.
-    monkeypatch.setattr(time, "monotonic_time", lambda: 123.0)
+    monkeypatch.setattr(time, "monotonic_time", mock_monotonic_time)
     drive.on_block_threshold("/path")
     assert drive.exceeded_time == 123.0
 

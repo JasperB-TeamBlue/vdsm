@@ -22,6 +22,10 @@ import hostdevlib
 import pytest
 
 
+def return_none(*args, **kwargs):
+    return None
+
+
 @expandPermutations
 class DeviceToXMLTests(XMLTestCase):
 
@@ -40,6 +44,9 @@ class DeviceToXMLTests(XMLTestCase):
             'memSize': '1024',
             'memGuaranteedSize': '512',
         }
+
+    def return_none(self, *args, **kwargs):
+        return None
 
     def test_memory_device(self):
         memoryXML = """<memory model='dimm'>
@@ -792,9 +799,9 @@ class DeviceXMLRoundTripTests(XMLTestCase):
         with MonkeyPatchScope([
             (hostdev.libvirtconnection, 'get', hostdevlib.Connection),
             (vmdevices.hostdevice, 'detach_detachable',
-                lambda *args, **kwargs: None),
+                return_none),
             (vmdevices.hostdevice, 'reattach_detachable',
-                lambda *args, **kwargs: None),
+                return_none),
         ]):
             self._check_roundtrip(
                 vmdevices.network.Interface, interface_xml, meta=meta)

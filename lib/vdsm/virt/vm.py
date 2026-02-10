@@ -441,7 +441,7 @@ class Vm(object):
         self.guestAgent = guestagent.GuestAgent(
             self._guestSocketFile, self.cif.channelListener, self.log,
             self._onGuestStatusChange,
-            lambda: self.cif.qga_poller.get_guest_info(self.id),
+            self._get_guest_info,
             self._guest_agent_api_version,
             **migrated_guest_info)
         self._qga_lock = threading.Lock()
@@ -473,7 +473,7 @@ class Vm(object):
         self._init_external_data(
             ExternalDataKind.NVRAM,
             params.get('_X_nvramdata'),
-            lambda: self._domain.nvram is not None,
+            self.check_nvram_device,
             self._read_nvram_data,
             self._write_nvram_data)
         self._last_disk_hotplug = None
@@ -662,6 +662,12 @@ class Vm(object):
                 return True
         else:
             return False
+
+    def check_nvram_device(self):
+        return self._domain.nvram is not None
+
+    def _get_guest_info(self):
+        return self.cif.qga_poller.get_guest_info(self.id)
 
     def _read_tpm_data(self, last_modified):
         proxy = supervdsm.getProxy()

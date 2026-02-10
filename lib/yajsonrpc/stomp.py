@@ -45,6 +45,18 @@ _EC_ENCODE_MAP = {
 }
 
 
+def return_zero():
+    return 0
+
+
+def _decode_escape_sequence(s):
+    return _EC_DECODE_MAP[s.group(0)]
+
+
+def _encode_escape_char(s):
+    return _EC_ENCODE_MAP[s.group(0)]
+
+
 class Command(object):
     MESSAGE = "MESSAGE"
     SEND = "SEND"
@@ -153,7 +165,7 @@ def decode_value(s):
 
     try:
         s = _RE_ESCAPE_SEQUENCE.sub(
-            lambda m: _EC_DECODE_MAP[m.group(0)],
+            _decode_escape_sequence,
             s,
         )
     except KeyError as e:
@@ -175,7 +187,7 @@ def encode_value(s):
         raise ValueError(
             "Unable to encode non-string value: {!r}".format(repr(s)))
 
-    return _RE_ENCODE_CHARS.sub(lambda m: _EC_ENCODE_MAP[m.group(0)], s)
+    return _RE_ENCODE_CHARS.sub(_encode_escape_char, s)
 
 
 class Parser(object):
@@ -389,7 +401,7 @@ class AsyncDispatcher(object):
 
     def handle_read(self, dispatcher):
         parser = self._parser
-        pending = getattr(dispatcher.socket, 'pending', lambda: 0)
+        pending = getattr(dispatcher.socket, 'pending', return_zero)
         todo = self._bufferSize
 
         while todo:

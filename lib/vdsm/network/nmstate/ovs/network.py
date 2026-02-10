@@ -355,10 +355,14 @@ def _remove_iface_state(name):
     return {Interface.NAME: name, Interface.STATE: InterfaceState.ABSENT}
 
 
+def _get_port_name(port):
+    return port[OvsBridgeSchema.Port.NAME]
+
+
 def _sort_ports_by_name(bridge_state):
     bridge_state[OvsBridgeSchema.CONFIG_SUBTREE][
         OvsBridgeSchema.PORT_SUBTREE
-    ].sort(key=lambda d: d[OvsBridgeSchema.Port.NAME])
+    ].sort(key=_get_port_name)
 
 
 def _add_missing_sb_mtu(net_ifstates, bridges, current_ifaces_state):

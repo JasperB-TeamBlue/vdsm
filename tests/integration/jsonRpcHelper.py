@@ -29,6 +29,22 @@ from testlib import ipv6_enabled
 TIMEOUT = 3
 
 
+def _make_message_sender(server, destination):
+    def send(message):
+        server.send(message, destination)
+    return send
+
+
+def _return_none(*args, **kwargs):
+    return None
+
+
+def _make_cif_getter(cif):
+    def get_instance(_):
+        return cif
+    return get_instance
+
+
 class FakeClientIf(object):
     log = logging.getLogger("FakeClientIf")
 
@@ -60,7 +76,7 @@ class FakeClientIf(object):
 
         notification = Notification(
             event_id,
-            lambda message: server.send(message, destination),
+            _make_message_sender(server, destination),
             self.json_binding.bridge.event_schema
         )
         notification.emit(params)
@@ -90,8 +106,8 @@ def constructAcceptor(log, ssl_ctx, jsonBridge,
     cif.json_binding = json_binding
 
     with MonkeyPatchScope([
-        (API.clientIF, 'getInstance', lambda _: cif),
-        (API, 'confirm_connectivity', lambda: None)
+        (API.clientIF, 'getInstance', _make_cif_getter(cif)),
+        (API, 'confirm_connectivity', _return_none)
     ]):
         jsonBridge.cif = cif
 

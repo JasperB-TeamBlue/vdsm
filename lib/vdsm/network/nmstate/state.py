@@ -44,12 +44,15 @@ class NetworkingState(object):
             self._set_vlans_base_mtu(current_ifaces_state)
         self._set_bond_slaves_mtu(current_ifaces_state)
 
+    def _get_interface_name(self, interface):
+        return interface[Interface.NAME]
+
     def state(self):
         state = {}
         if self._ifaces_state:
             interfaces = [ifstate for ifstate in self._ifaces_state.values()]
             state[Interface.KEY] = sorted(
-                interfaces, key=lambda d: d[Interface.NAME]
+                interfaces, key=self._get_interface_name
             )
         if self._routes_state:
             state[Route.KEY] = {Route.CONFIG: self._routes_state}

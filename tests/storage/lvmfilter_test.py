@@ -19,6 +19,13 @@ TEST_DIR = os.path.dirname(__file__)
 FAKE_LSBLK = os.path.join(TEST_DIR, "fake-lsblk")
 FAKE_DEVICES = ("/dev/sda2",)
 
+
+def _make_vg_devices(devices):
+    def _vg_devices(vg_name):
+        return devices
+    return _vg_devices
+
+
 log = logging.getLogger("test")
 
 
@@ -104,7 +111,11 @@ def test_find_lvm_mounts(monkeypatch, plat, expected):
             return "vg0", ["no,ovirt,tag"]
 
     monkeypatch.setattr(lvmfilter, "vg_info", fake_vg_info)
-    monkeypatch.setattr(lvmfilter, "vg_devices", lambda x: FAKE_DEVICES)
+    monkeypatch.setattr(
+        lvmfilter,
+        "vg_devices",
+        _make_vg_devices(FAKE_DEVICES)
+    )
 
     mounts = lvmfilter.find_lvm_mounts()
     log.info("found mounts %s", mounts)
@@ -570,7 +581,10 @@ def test_find_wwids(monkeypatch, fake_sys_block_info):
             'type': 'disk'
         }
     }
-    monkeypatch.setattr(lvmfilter, "find_disks", lambda x: disks)
+
+    def return_disks(x):
+        return disks
+    monkeypatch.setattr(lvmfilter, "find_disks", return_disks)
 
     mounts = [
         MountInfo("/dev/mapper/vg0-lv_root",
@@ -593,5 +607,8 @@ ID_TYPE=disk
 ID_VENDOR=ATA
 ID_VENDOR_ENC=ATA\x20\x20\x20\x20\x20
 """
-    monkeypatch.setattr(udevadm, "info", lambda x: udevadm_info)
+
+    def return_info(x):
+        return udevadm_info
+    monkeypatch.setattr(udevadm, "info", return_info)
     assert lvmfilter.find_wwids(mounts) == {'QEMU_HARDDISK_QM00003'}

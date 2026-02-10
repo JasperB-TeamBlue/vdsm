@@ -112,8 +112,14 @@ class TestKvm2Ovirt(TestCaseBase):
                                  vmInfo, uuid.uuid4(), None)
             if passwd:
                 kvm._passwd_file = env.password
-            kvm._source_images = lambda: (['/fake/source'], ['file'])
-            kvm._dest_images = lambda: [env.destination]
+
+            def mock_source_images():
+                return (['/fake/source'], ['file'])
+
+            def mock_dest_images():
+                return [env.destination]
+            kvm._source_images = mock_source_images
+            kvm._dest_images = mock_dest_images
 
             kvm2ovirt.main(kvm._command())
 

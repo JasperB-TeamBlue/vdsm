@@ -25,6 +25,10 @@ from . fakesanlock import FakeSanlock
 BACKENDS = userstorage.load_config("storage/storage.py").BACKENDS
 
 
+def fake_time():
+    return 123456789
+
+
 class ReadError(Exception):
     """ Raised to simulate read errors """
 
@@ -178,7 +182,7 @@ def check_lease(lease, lease_id, resource, volume):
 class TestIndex:
 
     def test_metadata(self, tmp_vol, monkeypatch):
-        monkeypatch.setattr("time.time", lambda: 123456789)
+        monkeypatch.setattr("time.time", fake_time)
         tmp_vol.format_index()
         vol = xlease.LeasesVolume(
             tmp_vol.backend,

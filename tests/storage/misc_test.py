@@ -48,6 +48,12 @@ TIMEOUT = 0.25
 EXECCMD_TIMEOUT = 1.0
 
 
+def _make_event_setter(event):
+    def setter():
+        event.set()
+    return setter
+
+
 class TestEvent(VdsmTestCase):
 
     def testEmit(self):
@@ -65,7 +71,7 @@ class TestEvent(VdsmTestCase):
 
     def testEmitStale(self):
         ev = threading.Event()
-        callback = lambda: ev.set()
+        callback = _make_event_setter(ev)
         event = misc.Event("EndOfTheWorld")
         event.register(callback)
         del callback
@@ -75,7 +81,7 @@ class TestEvent(VdsmTestCase):
 
     def testUnregister(self):
         ev = threading.Event()
-        callback = lambda: ev.set()
+        callback = _make_event_setter(ev)
         event = misc.Event("EndOfTheWorld")
         event.register(callback)
         event.unregister(callback)

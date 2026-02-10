@@ -32,33 +32,42 @@ _OVIRT_MDEV_NAMESPACE = uuid.UUID('8524b17c-f0ca-44a5-9ce4-66fe261e5986')
 _MdevDetail = collections.namedtuple('_MdevDetail', _MDEV_FIELDS)
 
 
-CAPABILITY_TO_XML_ATTR = collections.defaultdict(
-    lambda: 'unknown',
+_CAPABILITY_TO_XML_ATTR = {
+    'pci': 'pci',
+    'scsi': 'scsi',
+    'scsi_generic': 'scsi_generic',
+    'usb_device': 'usb',
+}
 
-    pci='pci',
-    scsi='scsi',
-    scsi_generic='scsi_generic',
-    usb_device='usb',
-)
 
-_LIBVIRT_DEVICE_FLAGS = collections.defaultdict(
+def get_capability_xml_attr(capability):
+    return _CAPABILITY_TO_XML_ATTR.get(capability, 'unknown')
+
+
+_LIBVIRT_DEVICE_FLAGS = {
+    'system': libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_SYSTEM,
+    'pci': libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_PCI_DEV,
+    'usb_device': libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_USB_DEV,
+    'usb': libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_USB_INTERFACE,
+    'net': libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_NET,
+    'scsi_host': libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_SCSI_HOST,
+    'scsi_target': libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_SCSI_TARGET,
+    'scsi': libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_SCSI,
+    'storage': libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_STORAGE,
+    'fc_host': libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_FC_HOST,
+    'vports': libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_VPORTS,
+    'scsi_generic': libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_SCSI_GENERIC,
+}
+
+
+def return_device_flag_or_default(flag):
     # If the device is not found, let's just treat it like system device. Since
     # those are barely touched, we should be safe.
-    lambda: libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_SYSTEM,
+    return _LIBVIRT_DEVICE_FLAGS.get(
+        flag,
+        libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_SYSTEM
+    )
 
-    system=libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_SYSTEM,
-    pci=libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_PCI_DEV,
-    usb_device=libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_USB_DEV,
-    usb=libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_USB_INTERFACE,
-    net=libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_NET,
-    scsi_host=libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_SCSI_HOST,
-    scsi_target=libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_SCSI_TARGET,
-    scsi=libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_SCSI,
-    storage=libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_STORAGE,
-    fc_host=libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_FC_HOST,
-    vports=libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_VPORTS,
-    scsi_generic=libvirt.VIR_CONNECT_LIST_NODE_DEVICES_CAP_SCSI_GENERIC,
-)
 
 _DATA_PROCESSORS = collections.defaultdict(list)
 _last_alldevices_hash = None
@@ -137,11 +146,15 @@ class _DeviceTreeCache(object):
         self._parent_to_device_params = {}
 
 
+def _get_default_processors():
+    return _DATA_PROCESSORS['_ANY']
+
+
 @memoized
 def _data_processors_map():
     # Unknown devices will only be processed in generic way.
     data_processors_map = collections.defaultdict(
-        lambda: _DATA_PROCESSORS['_ANY']
+        _get_default_processors
     )
 
     for capability in _LIBVIRT_DEVICE_FLAGS:
@@ -586,7 +599,7 @@ def _get_devices_from_libvirt(flags=0):
 
 
 def _update_address_to_name_map(address_to_name, device_name, device_params):
-    address_type = CAPABILITY_TO_XML_ATTR[device_params['capability']]
+    address_type = get_capability_xml_attr(device_params['capability'])
     if 'address' in device_params:
         device_address = _format_address(
             address_type, device_params['address']
@@ -694,7 +707,7 @@ def list_by_caps(caps=None):
             will be returned (e.g. ['pci', 'usb'] -> pci and usb devices)
     """
     devices = {}
-    flags = sum([_LIBVIRT_DEVICE_FLAGS[cap] for cap in caps or []])
+    flags = sum([return_device_flag_or_default(cap) for cap in caps or []])
     libvirt_devices, _ = _get_devices_from_libvirt(flags)
 
     for devName, params in libvirt_devices.items():
@@ -777,7 +790,7 @@ def get_device_params(device_name):
 
 def detach_detachable(device_name):
     libvirt_device, device_params = _get_device_ref_and_params(device_name)
-    capability = CAPABILITY_TO_XML_ATTR[device_params['capability']]
+    capability = get_capability_xml_attr(device_params['capability'])
 
     if capability == 'pci' and conv.tobool(
             device_params['is_assignable']):
@@ -791,7 +804,7 @@ def detach_detachable(device_name):
 
 def reattach_detachable(device_name, pci_reattach=True):
     libvirt_device, device_params = _get_device_ref_and_params(device_name)
-    capability = CAPABILITY_TO_XML_ATTR[device_params['capability']]
+    capability = get_capability_xml_attr(device_params['capability'])
 
     if capability == 'pci' and conv.tobool(
             device_params['is_assignable']):

@@ -16,13 +16,17 @@ log = logging.getLogger("storage.spwd")
 Lease = namedtuple("Lease", "lockspace,resource,disk")
 
 
+def _none():
+    return None
+
+
 class Watchdog:
     """
     Watchdog for master storage domain cluster lock.
     """
 
     def __init__(self, sd, check_interval, max_errors=3,
-                 callback=lambda: None):
+                 callback=_none):
         """
         Arguments:
             sd (StorageDomain): storage domain to check. We watch the

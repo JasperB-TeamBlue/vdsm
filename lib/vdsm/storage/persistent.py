@@ -107,8 +107,7 @@ class DictValidator(object):
         del self._dict[key]
 
     def __iter__(self):
-        return filter(lambda k: k in self._validatorDict,
-                      self._dict.__iter__())
+        return (k for k in self._dict if k in self._validatorDict)
 
     def keys(self):
         return list(self.__iter__())

@@ -28,6 +28,10 @@ from . import vmfakelib as fake
 import pytest
 
 
+def return_none():
+    return None
+
+
 @expandPermutations
 class TimeoutTests(TestCaseBase):
 
@@ -82,7 +86,7 @@ class PeriodicFunctionsTests(_PeriodicBase):
                                executor=self.exc),
 
             # will raise periodic.InvalidValue
-            periodic.Operation(lambda: None, period=0,
+            periodic.Operation(return_none, period=0,
                                scheduler=self.sched,
                                executor=self.exc),
 
@@ -92,10 +96,13 @@ class PeriodicFunctionsTests(_PeriodicBase):
                                executor=self.exc),
         ]
 
+        def fake_create(*args, **kwargs):
+            return ops
+
         with MonkeyPatchScope([
             (periodic, 'config',
                 make_config([('sampling', 'enable', 'false')])),
-            (periodic, '_create', lambda cif, sched: ops),
+            (periodic, '_create', fake_create),
         ]):
             # Don't assume operations are started in order,
             # we just know all of them will be start()ed.
@@ -123,7 +130,7 @@ class PeriodicOperationTests(_PeriodicBase):
         assert invoked.is_set()
 
     def test_invalid_period(self):
-        op = periodic.Operation(lambda: None, period=0,
+        op = periodic.Operation(return_none, period=0,
                                 scheduler=self.sched,
                                 executor=self.exc)
         with pytest.raises(periodic.InvalidValue):
@@ -341,7 +348,7 @@ class PeriodicOperationTests(_PeriodicBase):
                                 log=log)
         exc.start()
 
-        op = periodic.Operation(lambda: None,
+        op = periodic.Operation(return_none,
                                 period=PERIOD,
                                 scheduler=self.sched,
                                 executor=exc,

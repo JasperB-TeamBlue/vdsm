@@ -17,10 +17,10 @@ REFID = '123'
 class TestDisplayNetwork(VdsmTestCase):
 
     @mock.patch.object(displaynetwork.net_api, 'network_northbound',
-                       lambda net: net)
+                       return_value=NETNAME)
     @mock.patch.object(displaynetwork.libvirtnetwork, 'delete_network')
     def test_display_net_on_a_vm_net(
-            self, libvirt_del_net, libvirt_create_net):
+            self, libvirt_del_net, network_northbound, libvirt_create_net):
         displaynetwork.create_network(NETNAME, REFID)
         libvirt_create_net.assert_called_with(NETNAME, NETNAME, REFID)
 
@@ -28,13 +28,15 @@ class TestDisplayNetwork(VdsmTestCase):
         libvirt_del_net.assert_called_with(NETNAME, REFID)
 
     @mock.patch.object(displaynetwork.net_api, 'network_northbound',
-                       lambda net: 'eth0')
-    def test_display_net_on_a_non_vm_net(self, libvirt_create_net):
+                       return_value='eth0')
+    def test_display_net_on_a_non_vm_net(
+            self, network_northbound, libvirt_create_net):
         displaynetwork.create_network(NETNAME, REFID)
         libvirt_create_net.assert_called_with(NETNAME, 'eth0', REFID)
 
     @mock.patch.object(displaynetwork.net_api, 'network_northbound',
-                       lambda net: None)
-    def test_display_net_on_a_missing_net(self, libvirt_create_net):
+                       return_value=None)
+    def test_display_net_on_a_missing_net(
+            self, network_northbound, libvirt_create_net):
         displaynetwork.create_network(NETNAME, REFID)
         libvirt_create_net.assert_called_with(NETNAME, None, REFID)

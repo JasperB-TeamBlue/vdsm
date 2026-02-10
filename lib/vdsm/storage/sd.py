@@ -279,6 +279,31 @@ def intEncode(num):
     num = int(num)
     return str(num)
 
+
+def decodePoolUUIDs(input):
+    """"
+    Decode pool UUIDs from comma separated string.
+    """
+    return input.split(",") if input else []
+
+
+def encodePoolUUIDs(poolUUIDs):
+    """
+    Encode pool UUIDs to comma separated string.
+    """
+    return ",".join(poolUUIDs)
+
+
+def intWithDefault(key):
+    """
+    Return a decoder function that converts value to int,
+    falling back to DEFAULT_LEASE_PARAMS[key] on failure.
+    """
+    def decoder(val):
+        return intOrDefault(DEFAULT_LEASE_PARAMS[key], val)
+    return decoder
+
+
 SD_MD_FIELDS = {
     # Key          dec,  enc
     DMDK_VERSION: (int, str),
@@ -288,24 +313,20 @@ SD_MD_FIELDS = {
     DMDK_DESCRIPTION: (unicodeDecoder, unicodeEncoder),
     DMDK_CLASS: (name2class, class2name),
     # one day maybe uuid
-    DMDK_POOLS: (lambda s: s.split(",") if s else [],
-                 lambda poolUUIDs: ",".join(poolUUIDs)),
+    DMDK_POOLS: (decodePoolUUIDs,
+                 encodePoolUUIDs),
     DMDK_LOCK_POLICY: (str, str),
     DMDK_LOCK_RENEWAL_INTERVAL_SEC: (
-        lambda val: intOrDefault(
-            DEFAULT_LEASE_PARAMS[DMDK_LOCK_RENEWAL_INTERVAL_SEC], val),
+        intWithDefault(DMDK_LOCK_RENEWAL_INTERVAL_SEC),
         intEncode),
     DMDK_LEASE_TIME_SEC: (
-        lambda val: intOrDefault(
-            DEFAULT_LEASE_PARAMS[DMDK_LEASE_TIME_SEC], val),
+        intWithDefault(DMDK_LEASE_TIME_SEC),
         intEncode),
     DMDK_IO_OP_TIMEOUT_SEC: (
-        lambda val: intOrDefault(
-            DEFAULT_LEASE_PARAMS[DMDK_IO_OP_TIMEOUT_SEC], val),
+        intWithDefault(DMDK_IO_OP_TIMEOUT_SEC),
         intEncode),
     DMDK_LEASE_RETRIES: (
-        lambda val: intOrDefault(
-            DEFAULT_LEASE_PARAMS[DMDK_LEASE_RETRIES], val),
+        intWithDefault(DMDK_LEASE_RETRIES),
         intEncode),
     DMDK_BLOCK_SIZE: (int, str),
     DMDK_ALIGNMENT: (int, str),

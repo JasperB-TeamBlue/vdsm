@@ -46,9 +46,13 @@ _VM_PARAMS = {
     'pauseCode': 'NOERR'}
 
 
+def return_none():
+    return None
+
+
 class TestVmStats(TestSchemaCompliancyBase):
 
-    @MonkeyPatch(vm.Vm, 'send_status_event', lambda x: None)
+    @MonkeyPatch(vm.Vm, 'send_status_event', return_none)
     def testDownStats(self):
         with fake.VM() as testvm:
             testvm.setDownStatus(define.ERROR, vmexitreason.GENERIC_ERROR)
@@ -67,8 +71,9 @@ class TestApiAllVm(TestSchemaCompliancyBase):
     @brokentest('Racy test, see http://gerrit.ovirt.org/36894')
     def testAllVmStats(self):
         with fake.VM(_VM_PARAMS) as testvm:
-            with MonkeyPatchScope([(clientIF, 'getInstance',
-                                    lambda _: testvm.cif)]):
+            def return_cif(_):
+                return testvm.cif
+            with MonkeyPatchScope([(clientIF, 'getInstance', return_cif)]):
                 api = API.Global()
 
                 # here is where clientIF will be used.

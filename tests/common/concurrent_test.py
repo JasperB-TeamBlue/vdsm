@@ -15,6 +15,14 @@ from vdsm.common.time import monotonic_time
 from fakelib import FakeLogger
 
 
+def _none():
+    return None
+
+
+def _identity(x):
+    return x
+
+
 class TestFormatTraceback:
 
     def test_get_running_trace(self):
@@ -179,13 +187,13 @@ class TestTmap:
 
     def test_results(self):
         values = tuple(range(10))
-        results = set(concurrent.tmap(lambda x: x, values))
+        results = set(concurrent.tmap(_identity, values))
         expected = set(concurrent.Result(True, x) for x in values)
 
         assert results == expected
 
     def test_results_iter(self):
-        for res in concurrent.tmap(lambda x: x, [1, 2, 3, 4]):
+        for res in concurrent.tmap(_identity, [1, 2, 3, 4]):
             assert res.succeeded
 
     def test_concurrency(self):
@@ -207,7 +215,7 @@ class TestTmap:
         assert results == expected
 
     def test_no_values(self):
-        results = list(concurrent.tmap(lambda x: x, []))
+        results = list(concurrent.tmap(_identity, []))
         assert results == []
 
     @pytest.mark.parametrize("values,max_workers,actual_workers", [
@@ -251,14 +259,14 @@ class TestTmap:
     @pytest.mark.parametrize("max_workers", [1, 10, 50])
     def test_many_values(self, max_workers):
         results = concurrent.tmap(
-            lambda x: x,
+            _identity,
             itertools.repeat(True, 1000),
             max_workers=max_workers)
         assert all(r.value for r in results)
 
     def test_invalid_max_workers(self):
         with pytest.raises(ValueError):
-            list(concurrent.tmap(lambda x: x, [1], max_workers=0))
+            list(concurrent.tmap(_identity, [1], max_workers=0))
 
 
 class TestThread:
@@ -275,7 +283,7 @@ class TestThread:
         assert t == self.thread
 
     def test_default_daemon_thread(self):
-        t = concurrent.thread(lambda: None)
+        t = concurrent.thread(_none)
         t.start()
         try:
             assert t.daemon
@@ -283,7 +291,7 @@ class TestThread:
             t.join()
 
     def test_non_daemon_thread(self):
-        t = concurrent.thread(lambda: None, daemon=False)
+        t = concurrent.thread(_none, daemon=False)
         t.start()
         try:
             assert not t.daemon
@@ -291,7 +299,7 @@ class TestThread:
             t.join()
 
     def test_name(self):
-        t = concurrent.thread(lambda: None, name="foobar")
+        t = concurrent.thread(_none, name="foobar")
         assert t.name == "foobar"
 
     def test_pass_args(self):

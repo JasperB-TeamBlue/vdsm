@@ -19,6 +19,10 @@ from . constants import CLEARED_VOLUME_METADATA
 FAKE_TIME = 1461095629
 
 
+def _fake_time():
+    return FAKE_TIME
+
+
 def make_init_params(**kwargs):
     res = dict(
         domain=make_uuid(),
@@ -87,7 +91,7 @@ class TestVolumeMetadata:
             GEN=params['generation'],
             SEQ=params['sequence'])
 
-        monkeypatch.setattr(time, 'time', lambda: FAKE_TIME)
+        monkeypatch.setattr(time, 'time', _fake_time)
         info = volume.VolumeMetadata(**params)
         for key, value in expected.items():
             assert info[key] == value
@@ -175,7 +179,7 @@ class TestVolumeMetadata:
     @pytest.mark.parametrize("version", [4, 5])
     def test_from_lines_common(self, monkeypatch, version):
         data = make_init_params()
-        monkeypatch.setattr(time, 'time', lambda: FAKE_TIME)
+        monkeypatch.setattr(time, 'time', _fake_time)
         md = volume.VolumeMetadata(**data)
         lines = md.storage_format(version).splitlines()
 
@@ -473,7 +477,7 @@ class TestDictInterface:
 
     def test_dump(self, monkeypatch):
         params = make_init_params()
-        monkeypatch.setattr(time, 'time', lambda: FAKE_TIME)
+        monkeypatch.setattr(time, 'time', _fake_time)
         md = volume.VolumeMetadata(**params)
 
         expected = {

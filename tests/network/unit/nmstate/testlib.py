@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 import pytest
+import operator
 
 from vdsm.network import nmstate
 from vdsm.network.nmstate import route
@@ -51,7 +52,7 @@ parametrize_vlanned = pytest.mark.parametrize(
 
 
 def sort_by_name(ifaces_states):
-    ifaces_states.sort(key=lambda d: d[nmstate.Interface.NAME])
+    ifaces_states.sort(key=operator.itemgetter(nmstate.Interface.NAME))
 
 
 def create_ethernet_iface_state(name, include_type=False, mtu=DEFAULT_MTU):

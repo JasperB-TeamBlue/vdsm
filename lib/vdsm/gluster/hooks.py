@@ -49,8 +49,8 @@ def _getMimeType(fileName):
 def _computeSha256Sum(fileName):
     csum = hashlib.sha256()
     with open(fileName, 'rb') as f:
-        for pack in iter(lambda: f.read(128 * csum.block_size), b''):
-            csum.update(pack)
+        while chunk := f.read(128 * csum.block_size):
+            csum.update(chunk)
     return csum.hexdigest()
 
 

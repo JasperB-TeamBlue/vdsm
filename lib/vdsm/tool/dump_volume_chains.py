@@ -263,8 +263,12 @@ def _print_volume_chains(image_chains, volumes_info):
                 print()
 
 
+def _missing_value():
+    return '(missing)'
+
+
 def _print_vol_info(volume_info):
-    robust_volume_info = defaultdict(lambda: '(missing)', volume_info)
+    robust_volume_info = defaultdict(_missing_value, volume_info)
     info_fmt = "status: {d[status]}, voltype: {d[voltype]}, " \
                "format: {d[format]}, legality: {d[legality]}, " \
                "type: {d[type]}, capacity: {d[capacity]}, " \

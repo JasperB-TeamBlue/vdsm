@@ -29,15 +29,24 @@ CHUNK = 128 * MiB
 
 parser = argparse.ArgumentParser()
 
+
+def _mib(s):
+    return int(s) * MiB
+
+
+def _gib(s):
+    return int(s) * GiB
+
+
 parser.add_argument(
     "-r", "--rate",
-    type=lambda s: int(s) * MiB,
+    type=_mib,
     default=500 * MiB,
     help="Write rate in MiB per second (default 500)")
 
 parser.add_argument(
     "-s", "--size",
-    type=lambda s: int(s) * GiB,
+    type=_gib,
     default=50 * GiB,
     help="Size in GiB (default 50)")
 

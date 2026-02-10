@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 
-
 from collections import deque
 import argparse
 import sys
@@ -66,12 +65,12 @@ def _validate(module):
 
     Note: Returning False will cause vdsm to abort during initialization.
     """
-    return getattr(module, 'validate', lambda: True)()
+    return getattr(module, 'validate', True)()
 
 
 def _configure(module):
     """Prepare this module to run vdsm."""
-    getattr(module, 'configure', lambda: None)()
+    getattr(module, 'configure', None)()
 
 
 def _isconfigured(module):
@@ -81,12 +80,12 @@ def _isconfigured(module):
 
     Note: after configure isconfigured should return MAYBE or YES.
     """
-    return getattr(module, 'isconfigured', lambda: configurators.NO)()
+    return getattr(module, 'isconfigured', configurators.NO)()
 
 
 def _removeConf(module):
     """Cleanup vdsm's configuration."""
-    getattr(module, 'removeConf', lambda: None)()
+    getattr(module, 'removeConf', None)()
 
 #
 # Configurators Interface End.

@@ -45,6 +45,22 @@ EXPECTED_CFG_DEVICES = (
 )
 
 
+def _make_getter(return_value):
+    def getter(_):
+        return return_value
+    return getter
+
+
+def mock_get_lv(fake_lv):
+    def _get_lv(vgName, lvName):
+        return fake_lv
+    return _get_lv
+
+
+def return_none(*args, **kwargs):
+    return None
+
+
 @pytest.fixture
 def use_filter(monkeypatch):
     monkeypatch.setattr(lvm, "USE_DEVICES", False)
@@ -122,6 +138,12 @@ def test_build_config_with_devices(fake_devices, use_devices):
     assert cmd[5] == EXPECTED_CFG_DEVICES
 
 
+def _make_device_iter(devices):
+    def _get_devices():
+        return tuple(devices)
+    return _get_devices
+
+
 @pytest.fixture
 def fake_devices(monkeypatch):
     devices = ["/dev/mapper/a", "/dev/mapper/b"]
@@ -130,7 +152,7 @@ def fake_devices(monkeypatch):
     monkeypatch.setattr(
         lvm.multipath,
         "getMPDevNamesIter",
-        lambda: tuple(devices))
+        _make_device_iter(devices)),
 
     return devices
 
@@ -414,8 +436,8 @@ def test_extendlv_failure_cache(monkeypatch, fake_devices):
     lc._lvs = {(fake_vg.name, fake_lv.name): fake_lv}
 
     # Do not attempt to use real devices.
-    monkeypatch.setattr(lvm, "getLV", lambda x, y: fake_lv)
-    monkeypatch.setattr(lvm, "getVG", lambda x: fake_vg)
+    monkeypatch.setattr(lvm, "getLV", mock_get_lv(fake_lv))
+    monkeypatch.setattr(lvm, "getVG", _make_getter(fake_vg))
 
     with pytest.raises(se.LogicalVolumeExtendError):
         lvm.extendLV(fake_vg.name, fake_lv.name, 100)
@@ -449,8 +471,8 @@ def test_reducelv_failure_cache(monkeypatch, fake_devices):
     lc._lvs = {(fake_vg.name, fake_lv.name): fake_lv}
 
     # Do not attempt to use real devices.
-    monkeypatch.setattr(lvm, "getLV", lambda x, y: fake_lv_unreduced)
-    monkeypatch.setattr(lvm, "getVG", lambda x: fake_vg)
+    monkeypatch.setattr(lvm, "getLV", mock_get_lv(fake_lv_unreduced))
+    monkeypatch.setattr(lvm, "getVG", _make_getter(fake_vg))
 
     with pytest.raises(se.LogicalVolumeExtendError):
         # Attempt to reduce by 8 MiB
@@ -810,7 +832,7 @@ def test_pv_move_cmd(fake_devices, monkeypatch, use_filter):
     lc = lvm.LVMCache(fake_runner)
 
     # Don't invalidate PVs in cache because we use cache only without real PVs.
-    lc._invalidatepvs = lambda pvNames: None
+    lc._invalidatepvs = return_none
 
     monkeypatch.setattr(lvm, "_lvminfo", lc)
 

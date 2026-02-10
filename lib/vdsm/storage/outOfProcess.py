@@ -31,8 +31,10 @@ _procPoolLock = threading.Lock()
 _procPool = {}
 _refProcPool = {}
 
+
 def elapsed_time():
     return os.times()[4]
+
 
 log = logging.getLogger('storage.oop')
 
@@ -66,8 +68,10 @@ def cleanIdleIOProcesses(clientName):
 def getProcessPool(clientName):
     with _procPoolLock:
         cleanIdleIOProcesses(clientName)
-
-        proc = _refProcPool.get(clientName, lambda: None)()
+        proc = None
+        get_pool = _refProcPool.get(clientName)
+        if get_pool is not None:
+            proc = get_pool()
         if proc is None:
             log.debug("Creating ioprocess %s", clientName)
             proc = ioprocess.IOProcess(max_threads=HELPERS_PER_DOMAIN,

@@ -1764,22 +1764,23 @@ class HSM(object):
                        refresh=True):
         if refresh:
             sdCache.refreshStorage()
-        typeFilter = lambda dev: True
+
         if storageType:
-            if sd.storageType(storageType) == sd.type2name(sd.ISCSI_DOMAIN):
-                typeFilter = \
-                    lambda dev: multipath.devIsiSCSI(dev.get("devtype"))
-            elif sd.storageType(storageType) == sd.type2name(sd.FCP_DOMAIN):
-                typeFilter = \
-                    lambda dev: multipath.devIsFCP(dev.get("devtype"))
+            storageTypeName = sd.storageType(storageType)
+        else:
+            storageTypeName = None
 
         devices = []
         pvs = {os.path.basename(pv.name): pv for pv in lvm.getAllPVs()}
 
         # FIXME: pathListIter() should not return empty records
         for dev in multipath.pathListIter(guids):
-            if not typeFilter(dev):
-                continue
+            if storageTypeName == sd.type2name(sd.ISCSI_DOMAIN):
+                if not multipath.devIsiSCSI(dev.get("devtype")):
+                    continue
+            elif storageTypeName == sd.type2name(sd.FCP_DOMAIN):
+                if not multipath.devIsFCP(dev.get("devtype")):
+                    continue
 
             pv = pvs.get(dev.get('guid', ""))
             if pv is not None:
@@ -2563,8 +2564,11 @@ class HSM(object):
 
         return dict(vglist=vglist)
 
+    def _get_guid(self, pvName):
+        return os.path.split(pvName)[-1]
+
     def __getVGsInfo(self, vgUUIDs=None):
-        getGuid = lambda pvName: os.path.split(pvName)[-1]
+        getGuid = self._get_guid
         devNames = []
         vgInfos = []
         vgGuids = {}

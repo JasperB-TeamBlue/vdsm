@@ -59,7 +59,7 @@ class TestAllDomains(TestCaseBase):
         self.conn = FakeConnection()
 
         self.patch = Patch([
-            (libvirtconnection, 'get', lambda *args, **kwargs: self.conn),
+            (libvirtconnection, 'get', self._get_connection),
         ])
         self.patch.apply()
 
@@ -67,6 +67,9 @@ class TestAllDomains(TestCaseBase):
         self.conn.domains = _make_domains_collection(
             list(zip(self.vm_uuids, self.vm_is_ext))
         )
+
+    def _get_connection(self):
+        return self.conn
 
     def tearDown(self):
         self.patch.revert()

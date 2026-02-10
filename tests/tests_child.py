@@ -11,6 +11,16 @@ import threading
 from vdsm.common import sigutils
 
 
+def _make_signal_handler(message):
+    def handler(*_):
+        sys.stdout.write(message)
+    return handler
+
+
+def _exit_on_signal(*_):
+    sys.exit(1)
+
+
 def child_test(register=True):
     def decorator(func):
         @functools.wraps(func)
@@ -84,12 +94,12 @@ def check_uninitialized():
 if __name__ == '__main__':
     # Set up signal handlers
     signal.signal(signal.SIGUSR1,
-                  lambda *_: sys.stdout.write('signal sigusr1\n'))
+                  _make_signal_handler('signal sigusr1\n'))
     signal.signal(signal.SIGCHLD,
-                  lambda *_: sys.stdout.write('signal sigchld\n'))
+                  _make_signal_handler('signal sigchld\n'))
 
     # Set timer to kill the process in case we're stuck.
-    signal.signal(signal.SIGALRM, lambda *_: sys.exit(1))
+    signal.signal(signal.SIGALRM, _exit_on_signal)
     signal.setitimer(signal.ITIMER_REAL, 10)
 
     globals()[sys.argv[1]](*sys.argv[2:])

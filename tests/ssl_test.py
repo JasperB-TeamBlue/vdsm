@@ -70,10 +70,14 @@ def test_local_addresses(lhs, rhs):
     assert SSLHandshakeDispatcher.compare_names(lhs, rhs)
 
 
+def _close_dispatcher(dispatcher):
+    dispatcher.close()
+
+
 @pytest.fixture
 def dummy_register_protocol_detector(monkeypatch):
     monkeypatch.setattr(MultiProtocolAcceptor, '_register_protocol_detector',
-                        lambda d: d.close())
+                        _close_dispatcher)
 
 
 @pytest.fixture  # noqa: F811 # TODO: remove after upgrading flake to 3.9.2

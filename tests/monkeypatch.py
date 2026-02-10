@@ -18,8 +18,8 @@ import inspect
 #
 #     def __init__(self):
 #         self.patch = monkeypatch.Patch([
-#             (subprocess, 'Popen', lambda x: None),
-#             (os, 'chown', lambda *x: 0)
+#             (subprocess, 'Popen', function with desired behavior),
+#             (os, 'chown', function with desired behavior)
 #         ])
 #
 #     def setUp(self):
@@ -93,8 +93,8 @@ class Patch(object):
 #
 # def test():
 #     with MonkeyPatchScope([
-#         (subprocess, 'Popen', lambda x: None),
-#         (os, 'chown', lambda *x: 0)
+#         (subprocess, 'Popen', function with desired behaviour),
+#         (os, 'chown', function with desired behaviour)
 #     ])
 #     logic
 # ---
@@ -116,8 +116,8 @@ def MonkeyPatchScope(what):
 # ---
 # from monkeypatch import MonkeyPatch
 #
-# @MonkeyPatch(subprocess, 'Popen', lambda x: None)
-# @MonkeyPatch(os, 'chown', lambda *x: 0)
+# @MonkeyPatch(subprocess, 'Popen', function with desired behaviour)
+# @MonkeyPatch(os, 'chown', function with desired behaviour)
 # def test():
 #     logic
 # ---
@@ -139,8 +139,8 @@ def MonkeyPatch(module, name, that):
 # ---
 # from monkeypatch import MonkeyClass
 #
-# @MonkeyClass(subprocess, 'Popen', lambda x: None)
-# @MonkeyClass(os, 'chown', lambda *x: 0)
+# @MonkeyClass(subprocess, 'Popen', mock return function)
+# @MonkeyClass(os, 'chown', mock return function)
 # class TestSomething():
 #
 #     def testThis(self):

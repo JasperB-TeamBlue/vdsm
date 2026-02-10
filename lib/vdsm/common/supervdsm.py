@@ -29,11 +29,11 @@ class ProxyCaller(object):
         self._supervdsmProxy = supervdsmProxy
 
     def __call__(self, *args, **kwargs):
-        callMethod = lambda: \
-            getattr(self._supervdsmProxy._svdsm, self._funcName)(*args,
-                                                                 **kwargs)
         try:
-            return callMethod()
+            return getattr(
+                self._supervdsmProxy._svdsm,
+                self._funcName
+            )(*args, **kwargs)
         except RemoteError:
             self._supervdsmProxy._connect()
             raise RuntimeError(

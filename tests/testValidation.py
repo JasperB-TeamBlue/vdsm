@@ -14,6 +14,13 @@ import pytest
 from vdsm import utils
 
 
+def return_digit_or_default(value):
+    if value[0].isdigit():
+        return int(value[0])
+    else:
+        return 999
+
+
 class SlowTestsPlugin:
     """
     Tests that might be too slow to run on every build are marked with the
@@ -230,7 +237,7 @@ class FileLeakPlugin:
             # Show current fd state for debugging
             current_fds = self._detailed_fd_info()
             print("Current file descriptors:")
-            for fd, desc in sorted(current_fds.items(), key=lambda x: int(x[0]) if x[0].isdigit() else 999):
+            for fd, desc in sorted(current_fds.items(), key=return_digit_or_default):
                 print(f"  fd {fd}: {desc}")
 
             raise Exception('This test leaked files: %s' % leaked_files)

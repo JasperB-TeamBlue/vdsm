@@ -14,16 +14,27 @@ from vdsm.common.logutils import Suppressed
 from yajsonrpc.exception import JsonRpcInvalidParamsError
 
 
-PRIMITIVE_TYPES = {'boolean': lambda value: isinstance(value, bool),
-                   'float': lambda value: isinstance(value, float),
-                   'int': lambda value: isinstance(value, int),
-                   'long': lambda value: isinstance(value, (int,
-                                                            float)),
-                   'ulong': lambda value: isinstance(value,
-                                                     (int,
-                                                      float)) and value >= 0,
-                   'string': lambda value: isinstance(value, str),
-                   'uint': lambda value: isinstance(value, int) and value >= 0}
+def _is_type(expected_type):
+    def checker(value):
+        return isinstance(value, expected_type)
+    return checker
+
+
+def _is_ulong(value):
+    return isinstance(value, (int, float)) and value >= 0
+
+
+def _is_uint(value):
+    return isinstance(value, int) and value >= 0
+
+
+PRIMITIVE_TYPES = {'boolean': _is_type(bool),
+                   'float': _is_type(float),
+                   'int': _is_type(int),
+                   'long': _is_type((int, float)),
+                   'ulong': _is_ulong,
+                   'string': _is_type(str),
+                   'uint': _is_uint}
 TYPE_KEYS = list(PRIMITIVE_TYPES.keys())
 
 

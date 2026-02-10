@@ -120,6 +120,10 @@ CHANNEL_DISCONNECTED = \
 CHANNEL_UNKNOWN = -1
 
 
+def _default_channel_state():
+    return CHANNEL_UNKNOWN
+
+
 def channel_state_to_str(state):
     """
     Turn state constant defined above (and in libvirt) to string
@@ -173,12 +177,12 @@ class QemuGuestAgentPoller(object):
         self._guest_info_lock = threading.Lock()
         self._guest_info = defaultdict(dict)
         self._last_failure_lock = threading.Lock()
-        self._last_failure = defaultdict(lambda: 0)
+        self._last_failure = defaultdict(int)
         self._last_check_lock = threading.Lock()
         # Key is tuple (vm_id, command)
-        self._last_check = defaultdict(lambda: 0)
-        self._channel_state = defaultdict(lambda: CHANNEL_UNKNOWN)
-        self._channel_state_hint = defaultdict(lambda: CHANNEL_UNKNOWN)
+        self._last_check = defaultdict(int)
+        self._channel_state = defaultdict(_default_channel_state)
+        self._channel_state_hint = defaultdict(_default_channel_state)
         self._channel_state_lock = threading.Lock()
         self._initial_interval = config.getint(
             'guest_agent', 'qga_initial_info_interval')

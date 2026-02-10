@@ -73,6 +73,14 @@ _OUTPUTS = [
             'used': '153149440'}]}]
 
 
+def _none():
+    return None
+
+
+def _true():
+    return True
+
+
 # do not use permutations here: otherwise pytest with python3 will
 # fail to set up the test environment, because we need to use the C locale,
 # thus the test name will contain bad utf-8 data.
@@ -177,7 +185,7 @@ class TestGuestIF(TestCaseBase):
 
     def test_handleMessage(self):
         fakeGuestAgent = guestagent.GuestAgent(None, None, self.log,
-                                               lambda: None, lambda: None)
+                                               _none, _none)
         testCase = namedtuple('testCase', 'msgType, message, assertDict')
 
         for t in zip(_MSG_TYPES, _INPUTS, _OUTPUTS):
@@ -188,10 +196,10 @@ class TestGuestIF(TestCaseBase):
 
     def test_guestinfo_encapsulation(self):
         fake_guest_agent = guestagent.GuestAgent(None, None, self.log,
-                                                 lambda: None, lambda: None)
+                                                 _none, _none)
         fake_guest_agent._handleMessage(_MSG_TYPES[0], _INPUTS[0])
         with MonkeyPatchScope([
-                (fake_guest_agent, 'isResponsive', lambda: True)
+                (fake_guest_agent, 'isResponsive', _true)
         ]):
             guest_info = fake_guest_agent.getGuestInfo()
             for k in _OUTPUTS[0]:
@@ -217,8 +225,8 @@ class TestGuestIFHandleData(TestCaseBase):
     # perform general setup tasks
     def setUp(self):
         self.fakeGuestAgent = guestagent.GuestAgent(None, None, self.log,
-                                                    lambda: None,
-                                                    lambda: None)
+                                                    _none,
+                                                    _none)
         self.fakeGuestAgent.MAX_MESSAGE_SIZE = 100
         self.maxMessageSize = self.fakeGuestAgent.MAX_MESSAGE_SIZE
         self.fakeGuestAgent._clearReadBuffer()
@@ -288,8 +296,8 @@ class TestGuestIFHandleData(TestCaseBase):
 class DiskMappingTests(TestCaseBase):
 
     def setUp(self):
-        self.agent = guestagent.GuestAgent(None, None, None, lambda: None,
-                                           lambda: None)
+        self.agent = guestagent.GuestAgent(None, None, None, _none,
+                                           _none)
 
     def test_init(self):
         assert self.agent.guestDiskMapping == {}

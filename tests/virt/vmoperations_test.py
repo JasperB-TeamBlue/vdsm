@@ -54,8 +54,17 @@ _GRAPHICS_DEVICE_PARAMS = {
     'params': _TICKET_PARAMS
 }
 
+
+def _none(*args, **kwargs):
+    return None
+
+
 def fake_libvirt_connection(_):
     return fake.Connection()
+
+
+def fake_cpu_topology():
+    return numa.CpuTopology(1, 6, 6, [0, 1, 2, 3, 4, 5])
 
 
 @expandPermutations
@@ -72,7 +81,7 @@ class TestVmOperations(XMLTestCase):
         VNC_DEVICE,
     ]
 
-    @MonkeyPatch(libvirtconnection, 'get',fake_libvirt_connection)
+    @MonkeyPatch(libvirtconnection, 'get', fake_libvirt_connection)
     @permutations([[define.NORMAL], [define.ERROR]])
     def testTimeOffsetNotPresentByDefault(self, exitCode):
         with fake.VM() as testvm:
@@ -361,7 +370,7 @@ class TestVmOperations(XMLTestCase):
             raise_libvirt_error(virt_error, error_message)
 
         with MonkeyPatchScope([(hooks, 'before_set_num_of_cpus',
-                                lambda: None)]):
+                                _none)]):
             with fake.VM() as testvm:
                 dom = fake.Domain()
                 dom.setVcpusFlags = _fail
@@ -371,9 +380,8 @@ class TestVmOperations(XMLTestCase):
 
                 assert res == response.error(vdsm_error)
 
-    @MonkeyPatch(numa, 'update', lambda: None)
-    @MonkeyPatch(numa, 'cpu_topology', lambda:
-                 numa.CpuTopology(1, 6, 6, [0, 1, 2, 3, 4, 5]))
+    @MonkeyPatch(numa, 'update', _none)
+    @MonkeyPatch(numa, 'cpu_topology', fake_cpu_topology)
     def testAssignCpusets(self):
         with fake.VM() as testvm:
             dom = fake.Domain()
@@ -383,9 +391,9 @@ class TestVmOperations(XMLTestCase):
                 dom.vcpu_pinning[vcpu] = cpuset
 
             dom.pinVcpu = pinVcpu
-            dom.setVcpusFlags = lambda vcpus, flags: None
+            dom.setVcpusFlags = _none
             testvm._dom = dom
-            testvm._updateDomainDescriptor = lambda: None
+            testvm._updateDomainDescriptor = _none
 
             testvm._assignCpusets(['0', '2-3', '1,4-5'])
             pinning = dom.vcpu_pinning
@@ -394,7 +402,7 @@ class TestVmOperations(XMLTestCase):
             assert pinning[1] == (False, False, True, True, False, False)
             assert pinning[2] == (False, True, False, False, True, True)
 
-    @MonkeyPatch(hooks, 'before_set_num_of_cpus', lambda: None)
+    @MonkeyPatch(hooks, 'before_set_num_of_cpus', _none)
     def testSetNumberOfVcpusWrongCpusets(self):
         with fake.VM() as testvm:
             testvm._cpu_policy = cpumanagement.CPU_POLICY_DEDICATED

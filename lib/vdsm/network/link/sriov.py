@@ -16,13 +16,20 @@ def persist_numvfs(device_name, numvfs):
     running_config.save()
 
 
+def _make_pci_path_checker(pci_path):
+    def check_event(event):
+        return _is_event_from_pci_path(event, pci_path)
+
+    return check_event
+
+
 @contextmanager
 def wait_for_pci_link_up(pci_path, timeout=60):
     with waitfor.wait_for_link_event(
         '*',
         waitfor.NEWLINK_STATE_UP,
         timeout=timeout,
-        check_event=lambda event: _is_event_from_pci_path(event, pci_path),
+        check_event=_make_pci_path_checker(pci_path),
     ):
         yield
 

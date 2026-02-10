@@ -102,9 +102,13 @@ def test_dm_status_no_device(fake_dmsetup_status):
     assert devicemapper.multipath_status() == {}
 
 
+def return_self(x):
+    return x
+
+
 def test_get_paths_status(monkeypatch, fake_dmsetup_status):
     monkeypatch.setattr(
-        devicemapper, "device_name", lambda major_minor: major_minor)
+        devicemapper, "device_name", return_self)
     dmsetup.status.lines = FAKE_DMSETUP_STATUS
 
     res = devicemapper.getPathsStatus()

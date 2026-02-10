@@ -671,6 +671,10 @@ def test_active_merge_pivot_failure(monkeypatch):
     assert persisted_job["pivot"]
 
 
+def simulate_unavailable_storage(*args, **kwargs):
+    response.error("unavail")
+
+
 def test_active_merge_storage_unavailable(monkeypatch):
     monkeypatch.setattr(CleanupThread, "WAIT_INTERVAL", 0.01)
 
@@ -688,7 +692,7 @@ def test_active_merge_storage_unavailable(monkeypatch):
 
     with monkeypatch.context() as ctx:
         # Simulate unavailable storage.
-        fail = lambda *args, **kwargs: response.error("unavail")
+        fail = simulate_unavailable_storage
         ctx.setattr(vm.cif.irs, "imageSyncVolumeChain", fail)
 
         vm.merge(**merge_params)

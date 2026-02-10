@@ -142,9 +142,12 @@ class APITests(VdsmTestCase):
     def setUp(self):
         self.connection = vmfakecon.Connection()
         self.patch = Patch([
-            (libvirtconnection, 'get', lambda: self.connection)
+            (libvirtconnection, 'get', self._get_connection)
         ])
         self.patch.apply()
+
+    def _get_connection(self):
+        return self.connection
 
     def tearDown(self):
         self.patch.revert()

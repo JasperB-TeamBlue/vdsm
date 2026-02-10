@@ -63,10 +63,10 @@ def _serviceAction(serviceName, action):
     if action == ServiceActions.STATUS:
         return _serviceStatus(serviceName)
 
-    # lambda to safegaurd if the attr/method is not available
+    # default function to safegaurd if the attr/method is not available
     # which will not happen since supported actions are validated
     # before sending here.
-    func = getattr(service, 'service_%s' % action, lambda x: 1)
+    func = getattr(service, 'service_%s' % action, 1)
     try:
         func(serviceName)
         # If Action is successful then return the status without

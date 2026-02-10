@@ -434,7 +434,9 @@ class Connection(fake.Connection):
             return node_devs
         else:
             return [device for device in node_devs if
-                    flags & hostdev._LIBVIRT_DEVICE_FLAGS[device.capability]]
+                    device.capability is not None and
+                    flags &
+                    hostdev.return_device_flag_or_default(device.capability)]
 
     @classmethod
     @contextmanager

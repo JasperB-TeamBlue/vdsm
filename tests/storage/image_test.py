@@ -29,6 +29,10 @@ def fake_estimate_qcow2_size(self, src_vol_params, dst_sd_id):
     return 1.25 * GiB
 
 
+def fake_required_size(**args):
+    return {"required": 393216}
+
+
 @expandPermutations
 class TestCalculateVolAlloc(VdsmTestCase):
 
@@ -108,7 +112,7 @@ class TestEstimateQcow2Size:
             # output:
             #   required size: 393216
             #   fully allocated size: 1074135040
-            lambda **args: {"required": 393216})
+            fake_required_size)
         monkeypatch.setattr(image, 'sdCache', FakeStorageDomainCache())
 
         image.sdCache.domains['sdUUID'] = sd_class("fake manifest")
@@ -137,7 +141,7 @@ class TestEstimateQcow2Size:
             # output:
             #   required size: 393216
             #   fully allocated size: 1074135040
-            lambda **args: {"required": 393216})
+            fake_required_size)
         monkeypatch.setattr(image, 'sdCache', FakeStorageDomainCache())
 
         image.sdCache.domains['sdUUID'] = sd_class("fake manifest")

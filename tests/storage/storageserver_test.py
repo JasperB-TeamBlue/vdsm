@@ -13,6 +13,14 @@ from vdsm.gluster import cli as gluster_cli
 from vdsm.gluster import exception as ge
 
 
+def _true():
+    return True
+
+
+def _false():
+    return False
+
+
 class FakeSupervdsm(object):
 
     def getProxy(self):
@@ -128,7 +136,7 @@ class TestGlusterFSConnection:
 
     def test_gluster_replica3_mount_options(self, monkeypatch):
         monkeypatch.setattr(storageServer, 'supervdsm', FakeSupervdsm())
-        monkeypatch.setattr(gluster_cli, 'exists', lambda: True)
+        monkeypatch.setattr(gluster_cli, 'exists', _true)
 
         def glusterVolumeInfo(volname=None, volfileServer=None):
             assert volname == "music"
@@ -150,7 +158,7 @@ class TestGlusterFSConnection:
         path doesn't appear in the volume info.
         """
         monkeypatch.setattr(storageServer, 'supervdsm', FakeSupervdsm())
-        monkeypatch.setattr(gluster_cli, 'exists', lambda: True)
+        monkeypatch.setattr(gluster_cli, 'exists', _true)
 
         def glusterVolumeInfo(volname=None, volfileServer=None):
             return {'music': {'brickCount': '3',
@@ -170,7 +178,7 @@ class TestGlusterFSConnection:
         This test verifies that servers list contains no duplicates.
         """
         monkeypatch.setattr(storageServer, 'supervdsm', FakeSupervdsm())
-        monkeypatch.setattr(gluster_cli, 'exists', lambda: True)
+        monkeypatch.setattr(gluster_cli, 'exists', _true)
 
         def glusterVolumeInfo(volname=None, volfileServer=None):
             return {'music': {'brickCount': '3',
@@ -189,7 +197,7 @@ class TestGlusterFSConnection:
 
     def test_gluster_and_user_provided_mount_options(self, monkeypatch):
         monkeypatch.setattr(storageServer, 'supervdsm', FakeSupervdsm())
-        monkeypatch.setattr(gluster_cli, 'exists', lambda: True)
+        monkeypatch.setattr(gluster_cli, 'exists', _true)
 
         def glusterVolumeInfo(volname=None, volfileServer=None):
             return {'music': {'brickCount': '3',
@@ -245,7 +253,7 @@ class TestGlusterFSConnection:
         gluster.validate()
 
     def test_glusterfs_cli_missing(self, monkeypatch):
-        monkeypatch.setattr(gluster_cli, 'exists', lambda: False)
+        monkeypatch.setattr(gluster_cli, 'exists', _false)
 
         gluster = GlusterFSConnection(id="id", spec="192.168.122.1:/music")
         assert gluster.options == ""
@@ -264,7 +272,7 @@ class TestGlusterFSConnection:
         use one of the connected servers.
         """
         monkeypatch.setattr(storageServer, 'supervdsm', FakeSupervdsm())
-        monkeypatch.setattr(gluster_cli, 'exists', lambda: True)
+        monkeypatch.setattr(gluster_cli, 'exists', _true)
 
         def glusterVolumeInfo(volname=None, volfileServer=None):
             assert volname == "music"
@@ -292,7 +300,7 @@ class TestGlusterFSNotAccessibleConnection:
 
     def test_validate(self, monkeypatch):
         monkeypatch.setattr(storageServer, 'supervdsm', FakeSupervdsm())
-        monkeypatch.setattr(gluster_cli, 'exists', lambda: True)
+        monkeypatch.setattr(gluster_cli, 'exists', _true)
 
         storageServer.supervdsm.glusterVolumeInfo = self.glusterVolumeInfo
 
@@ -305,7 +313,7 @@ class TestGlusterFSNotAccessibleConnection:
     ])
     def test_mount_options(self, monkeypatch, userMountOptions):
         monkeypatch.setattr(storageServer, 'supervdsm', FakeSupervdsm())
-        monkeypatch.setattr(gluster_cli, 'exists', lambda: True)
+        monkeypatch.setattr(gluster_cli, 'exists', _true)
 
         storageServer.supervdsm.glusterVolumeInfo = self.glusterVolumeInfo
 

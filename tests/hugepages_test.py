@@ -41,6 +41,57 @@ _VM_HUGEPAGES_METADATA = '''
 '''
 
 
+def mock_real(arch):
+    def real():
+        return arch
+    return real
+
+
+def mock_support():
+    return [2048, 1048576]
+
+
+def mock_support_with_state():
+    return {2048: _STATE}
+
+
+def mock_state(size, nr, free):
+    def _state(path=None):
+        return {
+            size: {
+                'nr_hugepages': nr,
+                'free_hugepages': free
+            }
+        }
+    return _state
+
+
+def _identity(x):
+    return x
+
+
+def mock_kernel_args_dict(hugepagesz, hugepages):
+    def _kernel_args_dict():
+        if hugepagesz is None and hugepages is None:
+            return {}
+        else:
+            return {
+                'hugepagesz': hugepagesz,
+                'hugepages': hugepages
+            }
+    return _kernel_args_dict
+
+
+def return_virt():
+    return virt
+
+
+def mock_mem_size_mb(memory):
+    def _mem_size_mb(self):
+        return memory
+    return _mem_size_mb
+
+
 @expandPermutations
 class TestHugepages(TestCaseBase):
 
@@ -50,9 +101,9 @@ class TestHugepages(TestCaseBase):
         [b'1024', -512, -512],
         [b'1024', 0, 0],
     ])
-    @MonkeyPatch(hugepages, '_size_from_dir', lambda x: x)
-    @MonkeyPatch(hugepages, 'state', lambda: {2048: _STATE})
-    @MonkeyPatch(supervdsm, 'getProxy', lambda: virt)
+    @MonkeyPatch(hugepages, '_size_from_dir', _identity)
+    @MonkeyPatch(hugepages, 'state', mock_support_with_state)
+    @MonkeyPatch(supervdsm, 'getProxy', return_virt)
     def test_alloc(self, default, count, expected):
         with tempfile.NamedTemporaryFile() as f:
             f.write(default)
@@ -61,7 +112,7 @@ class TestHugepages(TestCaseBase):
             f.seek(0)
             self.assertEqual(ret, expected)
 
-    @MonkeyPatch(hugepages, '_size_from_dir', lambda x: x)
+    @MonkeyPatch(hugepages, '_size_from_dir', _identity)
     def test_supported(self):
         with namedTemporaryDir() as src:
             # A list of 3 file names, where the files are temporary.
@@ -76,7 +127,7 @@ class TestHugepages(TestCaseBase):
 
                 self.assertEqual(set(hugepages.supported(src)), set(sizes))
 
-    @MonkeyPatch(hugepages, '_size_from_dir', lambda x: x)
+    @MonkeyPatch(hugepages, '_size_from_dir', _identity)
     def test_state(self):
         with namedTemporaryDir() as src:
             # A list of 3 file names, where the files are temporary.
@@ -110,11 +161,8 @@ class TestIntelligentAllocation(TestCaseBase):
                      ("performance", "reserved_hugepage_count", "9"),
                      ("performance", "reserved_hugepage_size", "2048"),
                  ]))
-    @MonkeyPatch(hugepages, 'state', lambda:
-                 {2048: {'nr_hugepages': 12,
-                         'free_hugepages': 12}
-                  })
-    @MonkeyPatch(cpuarch, 'real', lambda: cpuarch.X86_64)
+    @MonkeyPatch(hugepages, 'state', mock_state(2048, 12, 12))
+    @MonkeyPatch(cpuarch, 'real', mock_real(cpuarch.X86_64))
     def test_allocation_1_page(self):
         vm_hugepagesz = 2048
         vm_hugepages = 4
@@ -136,11 +184,8 @@ class TestIntelligentAllocation(TestCaseBase):
                      ("performance", "reserved_hugepage_count", "4"),
                      ("performance", "reserved_hugepage_size", "2048"),
                  ]))
-    @MonkeyPatch(hugepages, 'state', lambda:
-                 {2048: {'nr_hugepages': 8,
-                         'free_hugepages': 4}
-                  })
-    @MonkeyPatch(cpuarch, 'real', lambda: cpuarch.X86_64)
+    @MonkeyPatch(hugepages, 'state', mock_state(2048, 8, 4))
+    @MonkeyPatch(cpuarch, 'real', mock_real(cpuarch.X86_64))
     def test_allocation_4_pages(self):
         vm_hugepagesz = 2048
         vm_hugepages = 4
@@ -163,11 +208,8 @@ class TestIntelligentAllocation(TestCaseBase):
                      ("performance", "reserved_hugepage_count", "12"),
                      ("performance", "reserved_hugepage_size", "2048"),
                  ]))
-    @MonkeyPatch(hugepages, 'state', lambda:
-                 {2048: {'nr_hugepages': 16,
-                         'free_hugepages': 4}
-                  })
-    @MonkeyPatch(cpuarch, 'real', lambda: cpuarch.X86_64)
+    @MonkeyPatch(hugepages, 'state', mock_state(2048, 16, 4))
+    @MonkeyPatch(cpuarch, 'real', mock_real(cpuarch.X86_64))
     def test_allocation_0_pages(self):
         vm_hugepagesz = 2048
         vm_hugepages = 4
@@ -189,11 +231,8 @@ class TestIntelligentAllocation(TestCaseBase):
                      ("performance", "reserved_hugepage_count", "12"),
                      ("performance", "reserved_hugepage_size", "2048"),
                  ]))
-    @MonkeyPatch(hugepages, 'state', lambda:
-                 {2048: {'nr_hugepages': 16,
-                         'free_hugepages': 4}
-                  })
-    @MonkeyPatch(cpuarch, 'real', lambda: cpuarch.X86_64)
+    @MonkeyPatch(hugepages, 'state', mock_state(2048, 16, 4))
+    @MonkeyPatch(cpuarch, 'real', mock_real(cpuarch.X86_64))
     def test_allocation_0_pages_mixedenv(self):
         # Simulate the code, 0 means that the VM doesn't have hugepages...
         vm_hugepagesz = 0
@@ -217,11 +256,8 @@ class TestIntelligentAllocation(TestCaseBase):
                      ("performance", "reserved_hugepage_count", "4"),
                      ("performance", "reserved_hugepage_size", "1048576"),
                  ]))
-    @MonkeyPatch(hugepages, 'state', lambda:
-                 {2048: {'nr_hugepages': 4,
-                         'free_hugepages': 4}
-                  })
-    @MonkeyPatch(cpuarch, 'real', lambda: cpuarch.X86_64)
+    @MonkeyPatch(hugepages, 'state', mock_state(2048, 4, 4))
+    @MonkeyPatch(cpuarch, 'real', mock_real(cpuarch.X86_64))
     def test_allocation_different_size_reserved(self):
         vm_hugepagesz = 2048
         vm_hugepages = 4
@@ -240,11 +276,8 @@ class TestIntelligentAllocation(TestCaseBase):
                  make_config([
                      ("performance", "use_preallocated_hugepages", "false"),
                  ]))
-    @MonkeyPatch(hugepages, 'state', lambda:
-                 {2048: {'nr_hugepages': 4,
-                         'free_hugepages': 4}
-                  })
-    @MonkeyPatch(cpuarch, 'real', lambda: cpuarch.X86_64)
+    @MonkeyPatch(hugepages, 'state', mock_state(2048, 4, 4))
+    @MonkeyPatch(cpuarch, 'real', mock_real(cpuarch.X86_64))
     def test_pure_dynamic_hugepages(self):
         vm_hugepagesz = 2048
         vm_hugepages = 4
@@ -265,13 +298,9 @@ class TestIntelligentDeallocation(TestCaseBase):
                      ("performance", "reserved_hugepage_count", "13"),
                      ("performance", "reserved_hugepage_size", "1048576"),
                  ]))
-    @MonkeyPatch(hugepages, 'state', lambda:
-                 {1048576: {'nr_hugepages': 17,
-                            'free_hugepages': 0}
-                  })
-    @MonkeyPatch(cpuarch, 'real', lambda: cpuarch.X86_64)
-    @MonkeyPatch(osinfo, 'kernel_args_dict', lambda:
-                 {'hugepagesz': '1G', 'hugepages': '16'})
+    @MonkeyPatch(hugepages, 'state', mock_state(1048576, 17, 0))
+    @MonkeyPatch(cpuarch, 'real', mock_real(cpuarch.X86_64))
+    @MonkeyPatch(osinfo, 'kernel_args_dict', mock_kernel_args_dict('1G', '16'))
     def test_deallocation_1_page(self):
         vm_hugepagesz = 1048576
         vm_hugepages = 4
@@ -290,13 +319,9 @@ class TestIntelligentDeallocation(TestCaseBase):
                      ("performance", "reserved_hugepage_count", "12"),
                      ("performance", "reserved_hugepage_size", "1048576"),
                  ]))
-    @MonkeyPatch(hugepages, 'state', lambda:
-                 {1048576: {'nr_hugepages': 17,
-                            'free_hugepages': 0}
-                  })
-    @MonkeyPatch(cpuarch, 'real', lambda: cpuarch.X86_64)
-    @MonkeyPatch(osinfo, 'kernel_args_dict', lambda:
-                 {})
+    @MonkeyPatch(hugepages, 'state', mock_state(1048576, 17, 0))
+    @MonkeyPatch(cpuarch, 'real', mock_real(cpuarch.X86_64))
+    @MonkeyPatch(osinfo, 'kernel_args_dict', mock_kernel_args_dict(None, None))
     def test_deallocation_4_pages_no_cmdline(self):
         vm_hugepagesz = 1048576
         vm_hugepages = 4
@@ -317,13 +342,9 @@ class TestIntelligentDeallocation(TestCaseBase):
                      ("performance", "reserved_hugepage_count", "12"),
                      ("performance", "reserved_hugepage_size", "1048576"),
                  ]))
-    @MonkeyPatch(hugepages, 'state', lambda:
-                 {1048576: {'nr_hugepages': 20,
-                            'free_hugepages': 0}
-                  })
-    @MonkeyPatch(cpuarch, 'real', lambda: cpuarch.X86_64)
-    @MonkeyPatch(osinfo, 'kernel_args_dict', lambda:
-                 {'hugepagesz': '1G', 'hugepages': '16'})
+    @MonkeyPatch(hugepages, 'state', mock_state(1048576, 20, 0))
+    @MonkeyPatch(cpuarch, 'real', mock_real(cpuarch.X86_64))
+    @MonkeyPatch(osinfo, 'kernel_args_dict', mock_kernel_args_dict('1G', '16'))
     def test_deallocation_4_pages(self):
         vm_hugepagesz = 1048576
         vm_hugepages = 4
@@ -338,13 +359,9 @@ class TestIntelligentDeallocation(TestCaseBase):
                  make_config([
                      ("performance", "use_preallocated_hugepages", "false"),
                  ]))
-    @MonkeyPatch(hugepages, 'state', lambda:
-                 {1048576: {'nr_hugepages': 16,
-                            'free_hugepages': 16}
-                  })
-    @MonkeyPatch(cpuarch, 'real', lambda: cpuarch.X86_64)
-    @MonkeyPatch(osinfo, 'kernel_args_dict', lambda:
-                 {'hugepagesz': '1G', 'hugepages': '16'})
+    @MonkeyPatch(hugepages, 'state', mock_state(1048576, 16, 16))
+    @MonkeyPatch(cpuarch, 'real', mock_real(cpuarch.X86_64))
+    @MonkeyPatch(osinfo, 'kernel_args_dict', mock_kernel_args_dict('16', '16'))
     def test_pure_dynamic_hugepages(self):
         vm_hugepagesz = 1048576
         vm_hugepages = 4
@@ -375,8 +392,8 @@ class TestVmHugepages(TestCaseBase):
         [1048576, 1048576],
         [10485760, 2048],
     ])
-    @MonkeyPatch(cpuarch, 'real', lambda: cpuarch.X86_64)
-    @MonkeyPatch(hugepages, 'supported', lambda: [2048, 1048576])
+    @MonkeyPatch(cpuarch, 'real', mock_real(cpuarch.X86_64))
+    @MonkeyPatch(hugepages, 'supported', mock_support)
     def test_hugepagesz(self, hugepages, expected):
         metadata = _VM_HUGEPAGES_METADATA.format(hugepages=hugepages)
         with fake.VM(metadata=metadata) as vm:
@@ -388,10 +405,10 @@ class TestVmHugepages(TestCaseBase):
         [1048576, 1023, 1],
         [1048576, 1025, 2],
     ])
-    @MonkeyPatch(cpuarch, 'real', lambda: cpuarch.X86_64)
-    @MonkeyPatch(hugepages, 'supported', lambda: [2048, 1048576])
+    @MonkeyPatch(cpuarch, 'real', mock_real(cpuarch.X86_64))
+    @MonkeyPatch(hugepages, 'supported', mock_support)
     def test_nr_hugepages(self, hugepages, memory, expected):
-        with mock.patch.object(vm.Vm, 'mem_size_mb', lambda _: memory):
+        with mock.patch.object(vm.Vm, 'mem_size_mb', mock_mem_size_mb(memory)):
             metadata = _VM_HUGEPAGES_METADATA.format(hugepages=hugepages)
             with fake.VM(metadata=metadata) as fakevm:
                 self.assertEqual(fakevm.nr_hugepages, expected)

@@ -27,6 +27,10 @@ CYCLE_TIMEOUT = 5.0
 log = logging.getLogger("test")
 
 
+def mock_time():
+    return 1234567
+
+
 class FakeEvent(object):
     """
     Fake vdsm.storage.misc.Event, keeping emitting events into a list. The
@@ -900,7 +904,7 @@ class TestStatus(VdsmTestCase):
         ("isoPrefix", None),
         ("version", -1),
     ])
-    @MonkeyPatch(time, 'time', lambda: 1234567)
+    @MonkeyPatch(time, 'time', mock_time)
     def test_readonly_attributes(self, attr, value):
         status = monitor.Status(monitor.PathStatus(), monitor.DomainStatus())
         self.assertEqual(value, getattr(status, attr))

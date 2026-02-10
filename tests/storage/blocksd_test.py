@@ -49,6 +49,16 @@ CHUNK_SIZE_MB = config.getint("irs", "volume_utilization_chunk_mb")
 Chain = namedtuple("Chain", ["base", "internal", "top"])
 
 
+def mock_get_lvs(lvs):
+    def _get_lvs(vg_name):
+        return lvs
+    return _get_lvs
+
+
+def mock_time():
+    return 1550522547
+
+
 class TestMetadataValidity:
 
     MIN_MD_SIZE = blockSD.VG_METADATASIZE * MiB // 2
@@ -302,7 +312,7 @@ class TestIterVolumes:
             make_lv(name="lv2", tags=(sc.TAG_VOL_UNINIT,)),
             make_lv(name="lv3")
         ]
-        monkeypatch.setattr(lvm, 'getAllLVs', lambda sd_uuid: lvs)
+        monkeypatch.setattr(lvm, 'getAllLVs', mock_get_lvs(lvs))
 
         # Expecting to have only user initialized volumes.
         expected_lvs = [
@@ -342,7 +352,7 @@ class TestOccupiedSlots:
             id="missing-md-tag"),
     ])
     def test_occupied_slots(self, lvs, expected, monkeypatch):
-        monkeypatch.setattr(lvm, 'getAllLVs', lambda sd_uuid: lvs)
+        monkeypatch.setattr(lvm, 'getAllLVs', mock_get_lvs(lvs))
         occupied = blockSD._occupied_metadata_slots("sd-id")
         assert occupied == expected
 
@@ -377,8 +387,14 @@ def test_metadata_offset(monkeypatch):
         sd.DMDK_PHYBLKSIZE: 512,
     }
 
-    monkeypatch.setattr(sd.StorageDomainManifest, "_makeDomainLock",
-                        lambda _: None)
+    def return_none(self, domVersion=None):
+        return None
+
+    monkeypatch.setattr(
+        sd.StorageDomainManifest,
+        "_makeDomainLock",
+        return_none
+    )
     sd_manifest = blockSD.BlockStorageDomainManifest(sd_uuid, fake_metadata)
 
     assert 0 == sd_manifest.metadata_offset(0)
@@ -673,7 +689,7 @@ def test_volume_life_cycle(monkeypatch, tmp_storage, tmp_repo, fake_access,
     dom.attach(tmp_repo.pool_id)
 
     with monkeypatch.context() as mc:
-        mc.setattr(time, "time", lambda: 1550522547)
+        mc.setattr(time, "time", mock_time)
         dom.createVolume(
             imgUUID=img_uuid,
             capacity=vol_capacity,
@@ -1566,8 +1582,11 @@ def test_dump_sd_metadata(
     vol_capacity = 10 * GiB
     vol_ctime = 1582196150
 
+    def return_time():
+        return vol_ctime
+
     with monkeypatch.context() as mc:
-        mc.setattr(time, "time", lambda: vol_ctime)
+        mc.setattr(time, "time", return_time)
         dom.createVolume(
             diskType=sc.DATA_DISKTYPE,
             imgUUID=img_uuid,

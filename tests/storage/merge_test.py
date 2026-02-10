@@ -59,6 +59,8 @@ def make_env(env_type, base, top):
         prealloc = sc.SPARSE_VOL
 
     with fake_env(env_type) as env:
+        def fake_get_chain(self, sdUUID, imgUUID):
+            return [env.subchain.base_vol, env.subchain.top_vol]
         with MonkeyPatch().context() as mp:
             mp.setattr(guarded, 'context', fake_guarded_context())
             mp.setattr(merge, 'sdCache', env.sdcache)
@@ -67,8 +69,7 @@ def make_env(env_type, base, top):
             mp.setattr(blockVolume, 'sdCache', env.sdcache)
             mp.setattr(
                 image.Image, 'getChain',
-                lambda self, sdUUID, imgUUID:
-                    [env.subchain.base_vol, env.subchain.top_vol])
+                fake_get_chain)
 
             env.make_volume(
                 base.virtual * GiB, img_id, base_id,

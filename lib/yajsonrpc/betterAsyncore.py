@@ -87,8 +87,10 @@ class Dispatcher(asyncore.dispatcher):
 
         Note that this value is a recommendation only.
         """
-        func = getattr(asyncore.dispatcher, "next_check_interval", None)
-        return func() if func else None
+        impl = self.__impl
+        if impl is not None and hasattr(impl, 'next_check_interval'):
+            return impl.next_check_interval()
+        return None
 
     def set_heartbeat(self, outgoing, incoming):
         if self.__impl and hasattr(self.__impl, 'setHeartBeat'):

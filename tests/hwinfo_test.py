@@ -21,6 +21,14 @@ def _outfile(name):
     return os.path.join(dir_name, 'cpuinfo', name)
 
 
+def mock_device_tree(_):
+    return 'exists'
+
+
+def mock_machine():
+    return cpuarch.PPC64LE
+
+
 @expandPermutations
 class TestHwinfo(VdsmTestCase):
 
@@ -47,9 +55,9 @@ class TestHwinfo(VdsmTestCase):
             'nonexistent', tree_path='/tmp')
         self.assertEqual('unavailable', result)
 
-    @MonkeyPatch(ppc64HardwareInfo, '_from_device_tree', lambda _: 'exists')
+    @MonkeyPatch(ppc64HardwareInfo, '_from_device_tree', mock_device_tree)
     @MonkeyPatch(cpuinfo, '_PATH', _outfile('cpuinfo_POWER8E_ppc64le.out'))
-    @MonkeyPatch(platform, 'machine', lambda: cpuarch.PPC64LE)
+    @MonkeyPatch(platform, 'machine', mock_machine)
     def test_ppc_hardware_info_structure(self):
         expected_result = {
             'systemProductName': 'exists',

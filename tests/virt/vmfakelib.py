@@ -461,6 +461,10 @@ def fake_domain_descriptor_init(self, xmlStr, xml_source=XmlSource.LIBVIRT):
     domain_descriptor_init(self, xmlStr)
 
 
+def return_none(*args, **kwargs):
+    return None
+
+
 @contextmanager
 def VM(params=None, devices=None, runCpu=False,
        arch=cpuarch.X86_64, status=None,
@@ -490,8 +494,8 @@ def VM(params=None, devices=None, runCpu=False,
             cif = ClientIF() if cif is None else cif
             fake = vm.Vm(cif, params, recover=recover)
             cif.vmContainer[fake.id] = fake
-            fake._update_metadata = lambda: None
-            fake.send_status_event = lambda **kwargs: None
+            fake._update_metadata = return_none
+            fake.send_status_event = return_none
             fake.arch = arch
             fake.guestAgent = GuestAgent()
             fake.conf['devices'] = [] if devices is None else devices

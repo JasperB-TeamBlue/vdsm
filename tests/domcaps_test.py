@@ -78,6 +78,18 @@ _EXPECTED_CPU_FEATURES_S390X = [
 ]
 
 
+def _make_real_arch(arch):
+    def _real():
+        return arch
+    return _real
+
+
+def _make_fake_conn(arch):
+    def _get():
+        return FakeConnection(arch)
+    return _get
+
+
 @expandPermutations
 class TestDomCaps(TestCaseBase):
 
@@ -98,9 +110,9 @@ class TestDomCaps(TestCaseBase):
     def test_cpu_models(self, arch, expected_models):
         machinetype.compatible_cpu_models.invalidate()
         with MonkeyPatchScope([
-                (machinetype.cpuarch, 'real', lambda: arch),
+                (machinetype.cpuarch, 'real', _make_real_arch(arch)),
                 (machinetype.libvirtconnection, 'get',
-                 lambda: FakeConnection(arch)),
+                 _make_fake_conn(arch)),
         ]):
             result = machinetype.compatible_cpu_models()
         result = set(result)
@@ -111,7 +123,7 @@ class TestDomCaps(TestCaseBase):
         machinetype.compatible_cpu_models.invalidate()
         with MonkeyPatchScope([
                 (machinetype.libvirtconnection, 'get',
-                 lambda: FailingConnection()),
+                 FailingConnection),
         ]):
             result = machinetype.compatible_cpu_models()
             self.assertEqual(result, [])
@@ -124,10 +136,14 @@ class TestDomCaps(TestCaseBase):
     ])
     def test_cpu_features(self, arch, expected_features):
         machinetype.cpu_features.invalidate()
-        conn = FakeConnection(arch)
         with MonkeyPatchScope([
-                (machinetype.cpuarch, 'real', lambda: arch),
-                (machinetype.libvirtconnection, 'get', lambda: conn), ]):
+                (machinetype.cpuarch, 'real', _make_real_arch(arch)),
+                (
+                    machinetype.libvirtconnection,
+                    'get',
+                    _make_fake_conn(arch)
+                ),
+        ]):
             result = machinetype.cpu_features()
             self.assertEqual(result, expected_features)
 
@@ -135,7 +151,7 @@ class TestDomCaps(TestCaseBase):
         machinetype.cpu_features.invalidate()
         with MonkeyPatchScope([
                 (machinetype.libvirtconnection, 'get',
-                 lambda: FailingConnection()),
+                 FailingConnection),
         ]):
             result = machinetype.cpu_features()
             self.assertEqual(result, [])

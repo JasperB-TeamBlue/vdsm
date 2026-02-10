@@ -115,13 +115,18 @@ class EventField(object):
     IFACE = 'label'
 
 
+def make_dhcp_handler(cif, net_api):
+    def handler(event):
+        _dhcp_event_handler(cif, net_api, event)
+
+    return handler
+
+
 def initialize_monitor(cif, net_api):
     global _monitor_instance
     try:
         monitor = Monitor.instance()
-        monitor.add_handler(
-            lambda event: _dhcp_event_handler(cif, net_api, event)
-        )
+        monitor.add_handler(make_dhcp_handler(cif, net_api))
         monitor.start()
     except Exception as e:
         _monitor_instance = None

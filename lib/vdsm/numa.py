@@ -174,7 +174,7 @@ def update():
     distances = defaultdict(dict)
     sockets = set()
     siblings = set()
-    core_cpus = defaultdict(lambda: set())  # Sets of CPU IDs
+    core_cpus = defaultdict(set)  # Sets of CPU IDs
     online_cpus = []
     cpu_info = []
 
