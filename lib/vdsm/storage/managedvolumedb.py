@@ -1,10 +1,8 @@
 # SPDX-FileCopyrightText: Red Hat, Inc.
 # SPDX-License-Identifier: GPL-2.0-or-later
-
 """
 managevolumedb - stores connection details about managed volumes
 """
-
 
 
 import json
