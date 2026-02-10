@@ -2,8 +2,6 @@
 # SPDX-FileCopyrightText: Red Hat, Inc.
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-from __future__ import absolute_import
-from __future__ import division
 
 import libvirt
 
@@ -56,6 +54,9 @@ _GRAPHICS_DEVICE_PARAMS = {
     'params': _TICKET_PARAMS
 }
 
+def fake_libvirt_connection(_):
+    return fake.Connection()
+
 
 @expandPermutations
 class TestVmOperations(XMLTestCase):
@@ -71,21 +72,21 @@ class TestVmOperations(XMLTestCase):
         VNC_DEVICE,
     ]
 
-    @MonkeyPatch(libvirtconnection, 'get', lambda x: fake.Connection())
+    @MonkeyPatch(libvirtconnection, 'get',fake_libvirt_connection)
     @permutations([[define.NORMAL], [define.ERROR]])
     def testTimeOffsetNotPresentByDefault(self, exitCode):
         with fake.VM() as testvm:
             testvm.setDownStatus(exitCode, vmexitreason.GENERIC_ERROR)
             assert 'timeOffset' not in testvm.getStats()
 
-    @MonkeyPatch(libvirtconnection, 'get', lambda x: fake.Connection())
+    @MonkeyPatch(libvirtconnection, 'get', fake_libvirt_connection)
     @permutations([[define.NORMAL], [define.ERROR]])
     def testTimeOffsetRoundtrip(self, exitCode):
         with fake.VM({'timeOffset': self.BASE_OFFSET}) as testvm:
             testvm.setDownStatus(exitCode, vmexitreason.GENERIC_ERROR)
             assert testvm.getStats()['timeOffset'] == self.BASE_OFFSET
 
-    @MonkeyPatch(libvirtconnection, 'get', lambda x: fake.Connection())
+    @MonkeyPatch(libvirtconnection, 'get', fake_libvirt_connection)
     @permutations([[define.NORMAL], [define.ERROR]])
     def testTimeOffsetRoundtriupAcrossInstances(self, exitCode):
         # bz956741
@@ -99,7 +100,7 @@ class TestVmOperations(XMLTestCase):
                 # the field in getStats is str, not int
                 lastOffset = int(vmOffset)
 
-    @MonkeyPatch(libvirtconnection, 'get', lambda x: fake.Connection())
+    @MonkeyPatch(libvirtconnection, 'get', fake_libvirt_connection)
     @permutations([[define.NORMAL], [define.ERROR]])
     def testTimeOffsetUpdateIfAbsent(self, exitCode):
         # bz956741 (-like, simpler case)
@@ -111,7 +112,7 @@ class TestVmOperations(XMLTestCase):
             assert testvm.getStats()['timeOffset'] == \
                 str(self.UPDATE_OFFSETS[-1])
 
-    @MonkeyPatch(libvirtconnection, 'get', lambda x: fake.Connection())
+    @MonkeyPatch(libvirtconnection, 'get', fake_libvirt_connection)
     @permutations([[define.NORMAL], [define.ERROR]])
     def testTimeOffsetUpdateIfPresent(self, exitCode):
         with fake.VM({'timeOffset': self.BASE_OFFSET}) as testvm:

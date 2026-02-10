@@ -14,7 +14,6 @@
 #
 #######################################################
 
-from __future__ import absolute_import
 
 import errno
 import re
@@ -23,11 +22,12 @@ from vdsm.common.exception import GeneralException
 from vdsm.storage.securable import SecureError
 SPM_STATUS_ERROR = (654, "Not SPM")
 
-GENERAL_EXCEPTION = lambda e: (100, str(e))
 ERROR_MAP = {
     SecureError: SPM_STATUS_ERROR
 }
 
+def GENERAL_EXCEPTION(e):
+    return (100, str(e))
 
 def generateResponse(error, default=GENERAL_EXCEPTION):
     resp = ERROR_MAP.get(type(error), default)

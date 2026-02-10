@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: Red Hat, Inc.
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-from __future__ import absolute_import
 
 import errno
 import functools
@@ -209,7 +208,6 @@ def _iter_volumes(sdUUID):
 
 
 def _occupied_metadata_slots(sdUUID):
-    stripPrefix = lambda s, pfx: s[len(pfx):]
     occupiedSlots = []
 
     for lv in _iter_volumes(sdUUID):
@@ -234,6 +232,9 @@ def _occupied_metadata_slots(sdUUID):
 
     occupiedSlots.sort()
     return occupiedSlots
+
+def stripPrefix(s, pfx):
+    return s[len(pfx):]
 
 
 def parse_lv_tags(lv):

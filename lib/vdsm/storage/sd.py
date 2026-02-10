@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: Red Hat, Inc.
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-from __future__ import absolute_import
 
 import os
 import logging
@@ -279,7 +278,6 @@ def intEncode(num):
 
     num = int(num)
     return str(num)
-
 
 SD_MD_FIELDS = {
     # Key          dec,  enc

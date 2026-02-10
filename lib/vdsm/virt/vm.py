@@ -1,8 +1,6 @@
 # SPDX-FileCopyrightText: Red Hat, Inc.
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-from __future__ import absolute_import
-from __future__ import division
 
 # stdlib imports
 from collections import defaultdict
@@ -4346,6 +4344,15 @@ class Vm(object):
         jobs.add(job)
         vdsm.virt.jobs.schedule(job)
         return {'status': doneCode}
+
+    def revert_snap_live(self, snapId):
+        try:
+            snap = self._dom.snapshotLookupByName(snapId)
+            flags = libvirt.VIR_DOMAIN_SNAPSHOT_REVERT_RUNNING
+            self._dom.revertToSnapshot(snap, flags)
+            return response.success()
+        except libvirt.libvirtError as e:
+            return response.error('snapshotNotFound', str(e))
 
     def diskReplicateStart(self, srcDisk, dstDisk, need_extend=True):
         try:

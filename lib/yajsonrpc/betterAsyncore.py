@@ -5,8 +5,6 @@
 # Asyncore uses inheritance all around which makes it not flexible enough for
 # us to use. This does tries to reuse enough code from the original asyncore
 # while enabling compositing instead of inheritance.
-from __future__ import absolute_import
-from __future__ import division
 
 import asyncore
 import errno
@@ -89,8 +87,8 @@ class Dispatcher(asyncore.dispatcher):
 
         Note that this value is a recommendation only.
         """
-        default_func = lambda: None
-        return getattr(self.__impl, "next_check_interval", default_func)()
+        func = getattr(asyncore.dispatcher, "next_check_interval", None)
+        return func() if func else None
 
     def set_heartbeat(self, outgoing, incoming):
         if self.__impl and hasattr(self.__impl, 'setHeartBeat'):

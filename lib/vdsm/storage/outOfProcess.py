@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: Red Hat, Inc.
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-from __future__ import absolute_import
 
 import errno
 import grp
@@ -32,7 +31,8 @@ _procPoolLock = threading.Lock()
 _procPool = {}
 _refProcPool = {}
 
-elapsed_time = lambda: os.times()[4]
+def elapsed_time():
+    return os.times()[4]
 
 log = logging.getLogger('storage.oop')
 
