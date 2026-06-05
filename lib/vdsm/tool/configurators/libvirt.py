@@ -23,7 +23,6 @@ from vdsm.tool import service
 from vdsm.tool.configfile import ParserWrapper
 from vdsm import constants
 
-
 _LIBIVRT_DAEMON_CONFIG = os.path.join(
     constants.SYSCONF_PATH, 'sysconfig/libvirtd'
 )
@@ -40,8 +39,8 @@ services = ("vdsmd", "supervdsmd", "libvirtd")
 
 
 _LibvirtConnectionConfig = namedtuple(
-    "_LibvirtConnectionConfig",
-    "auth_tcp, spice_tls")
+    "_LibvirtConnectionConfig", "auth_tcp, spice_tls"
+)
 
 
 def configure():
@@ -50,7 +49,7 @@ def configure():
     vdsmConfiguration = {
         'ssl_enabled': _ssl(),
         'sanlock_enabled': constants.SANLOCK_ENABLED,
-        'libvirt_selinux': constants.LIBVIRT_SELINUX
+        'libvirt_selinux': constants.LIBVIRT_SELINUX,
     }
 
     # write configuration
@@ -73,8 +72,11 @@ def validate():
     socket_unit = _socket_unit()
 
     if socket_unit not in _unit_requirements(_LIBVIRT_SERVICE_UNIT):
-        sys.stdout.write("{} doesn't have requirement on {} unit\n".format(
-            _LIBVIRT_SERVICE_UNIT, socket_unit))
+        sys.stdout.write(
+            "{} doesn't have requirement on {} unit\n".format(
+                _LIBVIRT_SERVICE_UNIT, socket_unit
+            )
+        )
         return False
 
     return _validate_config()
@@ -88,7 +90,7 @@ def isconfigured():
     open(_LIBIVRT_DAEMON_CONFIG, 'a').close()
 
     ret = MAYBE
-    for path in (confutils.get_persisted_files(FILES)):
+    for path in confutils.get_persisted_files(FILES):
         if not confutils.open_config(path, CONF_VERSION).hasConf():
             ret = NO
 
@@ -107,9 +109,10 @@ def isconfigured():
 
 def removeConf():
     confutils.remove_conf(FILES, CONF_VERSION)
-    _remove_unit_requirements(_LIBVIRT_SERVICE_UNIT, [
-        _LIBVIRT_TLS_SOCKET_UNIT, _LIBVIRT_TCP_SOCKET_UNIT
-    ])
+    _remove_unit_requirements(
+        _LIBVIRT_SERVICE_UNIT,
+        [_LIBVIRT_TLS_SOCKET_UNIT, _LIBVIRT_TCP_SOCKET_UNIT],
+    )
 
 
 @cache.memoized
@@ -128,7 +131,7 @@ def _inject_unit_requirement(unit, required_unit):
     try:
         os.symlink(
             os.path.join(_SYSTEMD_UNITS_PATH, required_unit),
-            os.path.join(requirements_dir_name, required_unit)
+            os.path.join(requirements_dir_name, required_unit),
         )
     except FileExistsError:
         pass
@@ -152,16 +155,17 @@ def _unit_requirements(unit_name):
 
 
 def _read_libvirt_connection_config():
-    lconf_p = ParserWrapper({
-        'auth_tcp': 'sasl',
-    })
+    lconf_p = ParserWrapper(
+        {
+            'auth_tcp': 'sasl',
+        }
+    )
     lconf_p.read(confutils.get_file_path('LCONF', FILES))
     auth_tcp = lconf_p.get('auth_tcp')
     qconf_p = ParserWrapper({'spice_tls': '0'})
     qconf_p.read(confutils.get_file_path('QCONF', FILES))
     spice_tls = qconf_p.getboolean('spice_tls')
-    return _LibvirtConnectionConfig(
-        auth_tcp, spice_tls)
+    return _LibvirtConnectionConfig(auth_tcp, spice_tls)
 
 
 def _validate_config():
@@ -173,9 +177,8 @@ def _validate_config():
     ret = True
 
     if _ssl():
-        if (cfg.auth_tcp != '"none"' and cfg.spice_tls != 0):
-            sys.stdout.write(
-                "SUCCESS: ssl configured to true. No conflicts\n")
+        if cfg.auth_tcp != '"none"' and cfg.spice_tls != 0:
+            sys.stdout.write("SUCCESS: ssl configured to true. No conflicts\n")
         else:
             sys.stdout.write(
                 "FAILED: "
@@ -187,9 +190,10 @@ def _validate_config():
             )
             ret = False
     else:
-        if (cfg.auth_tcp == '"none"' and cfg.spice_tls == 0):
+        if cfg.auth_tcp == '"none"' and cfg.spice_tls == 0:
             sys.stdout.write(
-                "SUCCESS: ssl configured to false. No conflicts.\n")
+                "SUCCESS: ssl configured to false. No conflicts.\n"
+            )
         else:
             sys.stdout.write(
                 "FAILED: "
@@ -225,12 +229,8 @@ LS_CERT_DIR = os.path.join(pki.PKI_DIR, 'libvirt-spice')
 
 # be sure to update CONF_VERSION accordingly when updating FILES.
 FILES = {
-
     'LCONF': {
-        'path': os.path.join(
-            constants.SYSCONF_PATH,
-            'libvirt/libvirtd.conf'
-        ),
+        'path': os.path.join(constants.SYSCONF_PATH, 'libvirt/libvirtd.conf'),
         'configure': confutils.add_section,
         'removeConf': confutils.remove_section,
         'persisted': True,
@@ -244,13 +244,10 @@ FILES = {
                 },
             },
             {
-                'conditions': {
-                    "ssl_enabled": False
-                },
+                'conditions': {"ssl_enabled": False},
                 'content': {
                     'auth_tcp': '"none"',
                 },
-
             },
             {
                 'conditions': {
@@ -261,11 +258,9 @@ FILES = {
                     'cert_file': '\"' + pki.CERT_FILE + '\"',
                     'key_file': '\"' + pki.KEY_FILE + '\"',
                 },
-
             },
-        ]
+        ],
     },
-
     'QCONF': {
         'path': os.path.join(
             constants.SYSCONF_PATH,
@@ -290,7 +285,6 @@ FILES = {
                     'remote_display_port_max': 6923,
                     'max_core': '"unlimited"',
                 },
-
             },
             {
                 'conditions': {
@@ -299,7 +293,6 @@ FILES = {
                 'content': {
                     'spice_tls': 0,
                 },
-
             },
             {
                 'conditions': {
@@ -308,7 +301,6 @@ FILES = {
                 'content': {
                     'migrate_tls_x509_cert_dir': '\"' + LM_CERT_DIR + '\"',
                 },
-
             },
             {
                 'conditions': {
@@ -318,7 +310,6 @@ FILES = {
                     'spice_tls': 1,
                     'spice_tls_x509_cert_dir': '\"' + LS_CERT_DIR + '\"',
                 },
-
             },
             {
                 'conditions': {
@@ -327,9 +318,7 @@ FILES = {
                 'content': {
                     'security_driver': '"none"',
                 },
-
             },
-
             {
                 'conditions': {
                     "sanlock_enabled": True,
@@ -337,11 +326,9 @@ FILES = {
                 'content': {
                     'lock_manager': '"sanlock"',
                 },
-
-            }
-        ]
+            },
+        ],
     },
-
     'LDCONF': {
         'path': _LIBIVRT_DAEMON_CONFIG,
         'configure': confutils.add_section,
@@ -352,13 +339,11 @@ FILES = {
                 'conditions': {},
                 'content': {
                     'DAEMON_COREFILE_LIMIT': 'unlimited',
-                    'LIBVIRTD_ARGS': ''
-                }
-
+                    'LIBVIRTD_ARGS': '',
+                },
             },
-        ]
+        ],
     },
-
     'QLCONF': {
         'path': os.path.join(
             constants.SYSCONF_PATH,
@@ -376,7 +361,6 @@ FILES = {
                     'auto_disk_leases': 0,
                     'require_lease_for_disks': 0,
                 },
-
             },
             {
                 'conditions': {},
@@ -384,11 +368,9 @@ FILES = {
                     'auto_disk_leases': 0,
                     'require_lease_for_disks': 0,
                 },
-
-            }
-        ]
+            },
+        ],
     },
-
     'QNETWORK': {
         'path': os.path.join(
             constants.SYSCONF_PATH,
@@ -397,5 +379,5 @@ FILES = {
         'configure': confutils.remove_file,
         'removeConf': lambda x, y: True,
         'persisted': False,
-    }
+    },
 }

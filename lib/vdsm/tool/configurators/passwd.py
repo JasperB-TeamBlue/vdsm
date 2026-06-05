@@ -9,15 +9,16 @@ from vdsm.common.libvirtconnection import libvirt_password, SASL_USERNAME
 
 from . import YES, NO, MAYBE
 
-
-_SASLDBLISTUSERS2 = cmdutils.CommandPath("sasldblistusers2",
-                                         "/usr/sbin/sasldblistusers2",
-                                         )
+_SASLDBLISTUSERS2 = cmdutils.CommandPath(
+    "sasldblistusers2",
+    "/usr/sbin/sasldblistusers2",
+)
 _LIBVIRT_SASLDB = "/etc/libvirt/passwd.db"
 _SASL2_CONF = "/etc/sasl2/libvirt.conf"
-_SASLPASSWD2 = cmdutils.CommandPath("saslpasswd2",
-                                    "/usr/sbin/saslpasswd2",
-                                    )
+_SASLPASSWD2 = cmdutils.CommandPath(
+    "saslpasswd2",
+    "/usr/sbin/saslpasswd2",
+)
 
 
 def isconfigured():
@@ -40,11 +41,7 @@ def libvirt_sasl_isconfigured():
 
 def passwd_isconfigured():
     try:
-        out = commands.run([
-            _SASLDBLISTUSERS2.cmd,
-            '-f',
-            _LIBVIRT_SASLDB
-        ])
+        out = commands.run([_SASLDBLISTUSERS2.cmd, '-f', _LIBVIRT_SASLDB])
         username = SASL_USERNAME.encode("utf-8")
         for user in out.splitlines():
             if username in user:
@@ -63,35 +60,27 @@ def configure():
 def removeConf():
     if passwd_isconfigured() == YES:
         try:
-            commands.run([
-                _SASLPASSWD2.cmd,
-                '-p',
-                '-a',
-                'libvirt',
-                '-d',
-                SASL_USERNAME
-            ])
+            commands.run(
+                [_SASLPASSWD2.cmd, '-p', '-a', 'libvirt', '-d', SASL_USERNAME]
+            )
         except cmdutils.Error as e:
             raise RuntimeError("Remove password failed: {}".format(e))
 
 
 def configure_libvirt_sasl():
     with io.open(_SASL2_CONF, 'w', encoding='utf8') as f:
-        f.writelines([u'## start vdsm-4.50.0 configuration\n',
-                      u'mech_list: scram-sha-256\n',
-                      u'sasldb_path: %s\n' % (_LIBVIRT_SASLDB),
-                      u'## end vdsm configuration']
-                     )
+        f.writelines(
+            [
+                u'## start vdsm-4.50.0 configuration\n',
+                u'mech_list: scram-sha-256\n',
+                u'sasldb_path: %s\n' % (_LIBVIRT_SASLDB),
+                u'## end vdsm configuration',
+            ]
+        )
 
 
 def configure_passwd():
-    args = [
-        _SASLPASSWD2.cmd,
-        '-p',
-        '-a',
-        'libvirt',
-        SASL_USERNAME
-    ]
+    args = [_SASLPASSWD2.cmd, '-p', '-a', 'libvirt', SASL_USERNAME]
 
     password = libvirt_password().encode("utf-8")
     try:

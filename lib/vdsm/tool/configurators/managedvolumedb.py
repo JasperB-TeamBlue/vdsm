@@ -15,7 +15,6 @@ from . import YES, NO
 
 
 class IncorrectDBVersion(errors.Base):
-
     msg = "Version of managed volumes database is not correct"
 
 
@@ -24,8 +23,9 @@ def configure():
     Create database for managed volumes
     """
     if not _db_exists():
-        sys.stdout.write("Creating managed volumes database at %s\n" %
-                         mvdb.DB_FILE)
+        sys.stdout.write(
+            "Creating managed volumes database at %s\n" % mvdb.DB_FILE
+        )
         mvdb.create_db()
         _set_db_ownership()
     else:
@@ -57,8 +57,10 @@ def removeConf():
 
 
 def _set_db_ownership():
-    sys.stdout.write("Setting up ownership of database file to %s:%s\n" %
-                     (constants.VDSM_USER, constants.VDSM_GROUP))
+    sys.stdout.write(
+        "Setting up ownership of database file to %s:%s\n"
+        % (constants.VDSM_USER, constants.VDSM_GROUP)
+    )
     fileUtils.chown(mvdb.DB_FILE, constants.VDSM_USER, constants.VDSM_GROUP)
 
 
@@ -80,10 +82,17 @@ def _db_owned_by_vdsm():
     if expected_uid == actual_uid and expected_gid == actual_gid:
         return True
     else:
-        sys.stdout.write("DB file %s doesn't have proper ownership %s:%s\n"
-                         "Actual ownership is %s:%s\n" %
-                         (mvdb.DB_FILE, expected_uid, expected_gid,
-                          actual_uid, actual_gid))
+        sys.stdout.write(
+            "DB file %s doesn't have proper ownership %s:%s\n"
+            "Actual ownership is %s:%s\n"
+            % (
+                mvdb.DB_FILE,
+                expected_uid,
+                expected_gid,
+                actual_uid,
+                actual_gid,
+            )
+        )
         return False
 
 
@@ -95,6 +104,8 @@ def _db_version_correct():
     if mvdb.VERSION == version["version"]:
         return True
     else:
-        sys.stdout.write("Database version (%s) is not the same as expected "
-                         "one (%s)\n" % (version["version"], mvdb.VERSION))
+        sys.stdout.write(
+            "Database version (%s) is not the same as expected "
+            "one (%s)\n" % (version["version"], mvdb.VERSION)
+        )
         return False

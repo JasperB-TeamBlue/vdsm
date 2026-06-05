@@ -10,7 +10,6 @@ from vdsm.tool import service
 
 from . import YES, NO
 
-
 # If multipathd is up, it will be reloaded after configuration,
 # or started before vdsm starts, so service should not be stopped
 # during configuration.
@@ -62,23 +61,29 @@ def _check_mpath_metadata():
     if os.path.exists(mpathconf.CONF_FILE):
         revision, private = mpathconf.read_metadata()
         if private:
-            sys.stdout.write("Manual override for multipath.conf detected"
-                             " - preserving current configuration\n")
+            sys.stdout.write(
+                "Manual override for multipath.conf detected"
+                " - preserving current configuration\n"
+            )
             if revision != mpathconf.REVISION_OK:
-                sys.stdout.write("This manual override for multipath.conf "
-                                 "was based on downrevved template. "
-                                 "You are strongly advised to "
-                                 "contact your support representatives\n")
+                sys.stdout.write(
+                    "This manual override for multipath.conf "
+                    "was based on downrevved template. "
+                    "You are strongly advised to "
+                    "contact your support representatives\n"
+                )
             return YES
 
         if revision == mpathconf.REVISION_OK:
-            sys.stdout.write("Current revision of multipath.conf detected,"
-                             " preserving\n")
+            sys.stdout.write(
+                "Current revision of multipath.conf detected," " preserving\n"
+            )
             return YES
 
         if revision == mpathconf.REVISION_OLD:
-            sys.stdout.write("Downrev multipath.conf detected, "
-                             "upgrade required\n")
+            sys.stdout.write(
+                "Downrev multipath.conf detected, " "upgrade required\n"
+            )
             return NO
 
         if revision == mpathconf.REVISION_MISSING:
@@ -105,7 +110,9 @@ def isconfigured():
                     sys.stdout.write(f"    {attr.key} {attr.value}\n")
                 sys.stdout.write("  }\n")
             if check_result.issues:
-                sys.stdout.write("This configuration is not supported and "
-                                 "may lead to storage domain corruption.\n")
+                sys.stdout.write(
+                    "This configuration is not supported and "
+                    "may lead to storage domain corruption.\n"
+                )
 
     return conf_metadata_ok

@@ -64,8 +64,11 @@ def _lvm_conf_configured():
     if cur_conf.revision is None:
         # LVM installs a default lvmlocal.conf with documention for the "local"
         # section. We backup this file and replace it with vdsm version.
-        _log("WARNING: LVM local configuration: %s is not based on vdsm "
-             "configuration", _LVMLOCAL_CUR)
+        _log(
+            "WARNING: LVM local configuration: %s is not based on vdsm "
+            "configuration",
+            _LVMLOCAL_CUR,
+        )
         return False
 
     vdsm_conf = confmeta.read_metadata(_LVMLOCAL_VDSM)
@@ -75,9 +78,13 @@ def _lvm_conf_configured():
         if cur_conf.revision < vdsm_conf.revision:
             # But using outated configuration is not. The admin should update
             # the file revision to avoid this warning.
-            _log("WARNING: Installed lvm local configuration: %s was based "
-                 "on an older revision. Please update the file form vdsm "
-                 "configuration: %s", _LVMLOCAL_CUR, _LVMLOCAL_VDSM)
+            _log(
+                "WARNING: Installed lvm local configuration: %s was based "
+                "on an older revision. Please update the file form vdsm "
+                "configuration: %s",
+                _LVMLOCAL_CUR,
+                _LVMLOCAL_VDSM,
+            )
         return True
 
     return vdsm_conf.revision == cur_conf.revision

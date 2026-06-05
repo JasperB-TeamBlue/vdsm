@@ -8,7 +8,6 @@ from vdsm.network.link.bond import sysfs_options_mapper
 
 from . import YES, NO
 
-
 BONDING_DEFAULTS = constants.P_VDSM_RUN + 'bonding-defaults.json'
 
 

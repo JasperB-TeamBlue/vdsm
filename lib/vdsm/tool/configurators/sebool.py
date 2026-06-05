@@ -51,6 +51,7 @@ def isconfigured():
         _log("WARNING: SELinux is disabled!")
     else:
         import seobject
+
         sebool_obj = seobject.booleanRecords()
         sebool_status = sebool_obj.get_all()
 

@@ -17,12 +17,14 @@ def validate():
 
 def _exec_vdsm_gencerts():
     try:
-        commands.run([
-            os.path.join(constants.P_VDSM_EXEC, 'vdsm-gencerts.sh'),
-            pki.CA_FILE,
-            pki.KEY_FILE,
-            pki.CERT_FILE
-        ])
+        commands.run(
+            [
+                os.path.join(constants.P_VDSM_EXEC, 'vdsm-gencerts.sh'),
+                pki.CA_FILE,
+                pki.KEY_FILE,
+                pki.CERT_FILE,
+            ]
+        )
     except cmdutils.Error as e:
         msg = "Failed to perform vdsm-gencerts action: {}".format(e)
         raise RuntimeError(msg)
@@ -37,5 +39,6 @@ def isconfigured():
 
 
 def _certsExist():
-    return not config.getboolean('vars', 'ssl') or\
-        os.path.isfile(pki.CERT_FILE)
+    return not config.getboolean('vars', 'ssl') or os.path.isfile(
+        pki.CERT_FILE
+    )

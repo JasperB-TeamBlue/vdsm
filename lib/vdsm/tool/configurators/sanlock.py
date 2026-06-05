@@ -67,20 +67,23 @@ def _groups_issues():
     """
     Return set of groups missing for user sanlock.
     """
-    actual_groups = {g.gr_name for g in grp.getgrall()
-                     if constants.SANLOCK_USER in g.gr_mem}
+    actual_groups = {
+        g.gr_name for g in grp.getgrall() if constants.SANLOCK_USER in g.gr_mem
+    }
     return REQUIRED_GROUPS - actual_groups
 
 
 def _configure_groups():
     try:
-        commands.run([
-            '/usr/sbin/usermod',
-            '-a',
-            '-G',
-            ','.join(REQUIRED_GROUPS),
-            constants.SANLOCK_USER
-        ])
+        commands.run(
+            [
+                '/usr/sbin/usermod',
+                '-a',
+                '-G',
+                ','.join(REQUIRED_GROUPS),
+                constants.SANLOCK_USER,
+            ]
+        )
     except cmdutils.Error as e:
         raise RuntimeError("Failed to perform sanlock config: {}".format(e))
 
@@ -93,9 +96,11 @@ def _config_file_issues():
     Return dict of options that need to be configured for vdsm.
     """
     conf = sanlockconf.load()
-    return {option: value
-            for option, value in _config_for_vdsm().items()
-            if conf.get(option) != value}
+    return {
+        option: value
+        for option, value in _config_for_vdsm().items()
+        if conf.get(option) != value
+    }
 
 
 def _configure_config_file():
@@ -115,25 +120,22 @@ def _config_for_vdsm():
     hardware_id = host.uuid()
     if hardware_id is None:
         raise RuntimeError(
-            "Cannot get host hardware id: please add host to engine")
+            "Cannot get host hardware id: please add host to engine"
+        )
 
     return {
-
         # If not configured, sanlock generates a new UUID on each
         # restart.  Using constant host name, recovery from unclean
         # shutdown is 3 times faster. Using the host hardware id will
         # make it easier to detect which host is related to sanlock
         # issues.
         # See https://bugzilla.redhat.com/1508098
-
         "our_host_name": hardware_id,
-
         # If not configured, sanlock uses 8 worker threads, limiting
         # concurrent add_lockspace calls. Using 40 worker threads,
         # activating a host with 40 storage domains is 3 times faster.
         # We use 50 worker threads to optimize for 50 storage domains.
         # See https://bugzilla.redhat.com/1902468
-
         "max_worker_threads": "50",
     }
 
@@ -182,10 +184,10 @@ def _daemon_groups():
     match = re.search(r"^Groups:\t?(.*)$", status, re.MULTILINE)
     if not match:
         raise RuntimeError(
-            "Cannot get sanlock daemon groups: {!r}".format(status))
+            "Cannot get sanlock daemon groups: {!r}".format(status)
+        )
 
-    return {grp.getgrgid(int(s)).gr_name
-            for s in match.group(1).split()}
+    return {grp.getgrgid(int(s)).gr_name for s in match.group(1).split()}
 
 
 def _daemon_options():
