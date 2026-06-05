@@ -13,7 +13,6 @@ _periodic = {}
 
 
 class _Periodic(object):
-
     def __init__(self, interval, timeout):
         self._interval = interval
         self._timeout = timeout
@@ -29,8 +28,7 @@ class _Periodic(object):
         return result
 
     def _result(self, now):
-        return (self._counter == 0 or
-                (now - self._last_time) >= self._timeout)
+        return self._counter == 0 or (now - self._last_time) >= self._timeout
 
 
 def throttle(name, interval, timeout=_DEFAULT_TIMEOUT_SEC):
