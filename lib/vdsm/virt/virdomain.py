@@ -17,7 +17,6 @@ class TimeoutError(libvirt.libvirtError):
 
 
 class Disconnected(object):
-
     def __init__(self, vmid):
         self.vmid = vmid
 
@@ -26,8 +25,9 @@ class Disconnected(object):
         return False
 
     def __getattr__(self, name):
-        raise NotConnectedError("VM %r was not defined yet or was undefined"
-                                % self.vmid)
+        raise NotConnectedError(
+            "VM %r was not defined yet or was undefined" % self.vmid
+        )
 
 
 class Defined(Disconnected):
@@ -108,6 +108,7 @@ class Notifying(object):
                     toe.err = e.err
                     raise toe
                 raise
+
         return f
 
 
@@ -140,6 +141,7 @@ def expose(*method_names):
         backup_id =  backup_dom.backupBegin(backup_xml, checkopoint_xml)
 
     """
+
     def class_decorator(cls):
         for name in method_names:
             setattr(cls, name, _call(name))
