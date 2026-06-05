@@ -8,9 +8,11 @@ from . import exception as ge
 from . import gluster_mgmt_api
 
 
-_glusterEventsApi = cmdutils.CommandPath("gluster-eventsapi",
-                                         "/sbin/gluster-eventsapi",
-                                         "/usr/sbin/gluster-eventsapi",)
+_glusterEventsApi = cmdutils.CommandPath(
+    "gluster-eventsapi",
+    "/sbin/gluster-eventsapi",
+    "/usr/sbin/gluster-eventsapi",
+)
 
 
 @gluster_mgmt_api
