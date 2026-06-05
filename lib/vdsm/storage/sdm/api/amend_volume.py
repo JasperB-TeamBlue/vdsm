@@ -20,7 +20,6 @@ class Error(errors.Base):
 
 
 class Job(base.Job):
-
     def __init__(self, job_id, host_id, vol_info, qcow2_attr):
         super(Job, self).__init__(job_id, 'amend_volume', host_id)
         # While performing operations, the volume is not set as illegal since
@@ -43,9 +42,11 @@ class Job(base.Job):
             raise Error(self._vol_info.vol_id, "volume is shared")
         sd = sdCache.produce_manifest(self._vol_info.sd_id)
         if not sd.supports_qcow2_compat(self._qcow2_attr.compat):
-            raise Error(self._vol_info.vol_id,
-                        "storage domain %s does not support compat %s" %
-                        (self._vol_info.sd_id, self._qcow2_attr.compat))
+            raise Error(
+                self._vol_info.vol_id,
+                "storage domain %s does not support compat %s"
+                % (self._vol_info.sd_id, self._qcow2_attr.compat),
+            )
 
     def _run(self):
         with guarded.context(self._vol_info.locks):
@@ -56,7 +57,6 @@ class Job(base.Job):
 
 
 class Qcow2Attributes(object):
-
     def __init__(self, params):
         compat = params.get("compat")
         if compat is None:

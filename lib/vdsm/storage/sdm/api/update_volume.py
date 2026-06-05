@@ -9,7 +9,6 @@ from . import base
 
 
 class Job(base.Job):
-
     def __init__(self, job_id, host_id, vol_info, vol_attr):
         super(Job, self).__init__(job_id, 'update_volume', host_id)
         self._endpoint = CopyDataDivEndpoint(vol_info, host_id)
@@ -17,5 +16,6 @@ class Job(base.Job):
 
     def _run(self):
         with guarded.context(self._endpoint.locks):
-            self._endpoint.volume.update_attributes(self._endpoint.generation,
-                                                    self._vol_attr)
+            self._endpoint.volume.update_attributes(
+                self._endpoint.generation, self._vol_attr
+            )

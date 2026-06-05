@@ -25,7 +25,6 @@ def open(path, mode="r"):
 
 
 class DirectFile(object):
-
     def __init__(self, path, mode):
         self._writable = True
         flags = os.O_DIRECT

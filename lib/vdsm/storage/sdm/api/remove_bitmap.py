@@ -11,8 +11,10 @@ from . import base
 
 
 class Error(errors.Base):
-    msg = ("Cannot remove bitmap {self.bitmap} from "
-           "volume {self.vol_id}: {self.reason}")
+    msg = (
+        "Cannot remove bitmap {self.bitmap} from "
+        "volume {self.vol_id}: {self.reason}"
+    )
 
     def __init__(self, vol_id, bitmap, reason):
         self.vol_id = vol_id
@@ -21,7 +23,6 @@ class Error(errors.Base):
 
 
 class Job(base.Job):
-
     def __init__(self, job_id, host_id, vol_info, bitmap):
         super(Job, self).__init__(job_id, 'remove_bitmap', host_id)
         self._vol_info = VolumeInfo(vol_info, host_id)
@@ -32,7 +33,8 @@ class Job(base.Job):
             raise Error(
                 self._vol_info.vol_id,
                 self.bitmap,
-                "volume is not in COW format")
+                "volume is not in COW format",
+            )
 
     def _run(self):
         with guarded.context(self._vol_info.locks):

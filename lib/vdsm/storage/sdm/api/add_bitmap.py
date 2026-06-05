@@ -13,8 +13,10 @@ from . import base
 
 
 class Error(errors.Base):
-    msg = ("Cannot add bitmap {self.bitmap} to "
-           "volume {self.vol_id}: {self.reason}")
+    msg = (
+        "Cannot add bitmap {self.bitmap} to "
+        "volume {self.vol_id}: {self.reason}"
+    )
 
     def __init__(self, vol_id, bitmap, reason):
         self.vol_id = vol_id
@@ -23,7 +25,6 @@ class Error(errors.Base):
 
 
 class Job(base.Job):
-
     def __init__(self, job_id, host_id, vol_info, bitmap):
         super(Job, self).__init__(job_id, 'add_bitmap', host_id)
         self._vol_info = VolumeInfo(vol_info, host_id)
@@ -34,7 +35,8 @@ class Job(base.Job):
             raise Error(
                 self._vol_info.vol_id,
                 self.bitmap,
-                "volume is not in COW format")
+                "volume is not in COW format",
+            )
 
         # validate that the bitmap doesn't exists on any volume on the chain
         for info in qemuimg.info(self._vol_info.path, backing_chain=True):
@@ -45,7 +47,8 @@ class Job(base.Job):
                     raise Error(
                         self._vol_info.vol_id,
                         self.bitmap,
-                        "Volume already contains the requested bitmap")
+                        "Volume already contains the requested bitmap",
+                    )
 
     def _run(self):
         with guarded.context(self._vol_info.locks):

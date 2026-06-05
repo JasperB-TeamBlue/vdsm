@@ -26,45 +26,43 @@ log = logging.getLogger("managedvolume-helper")
 
 
 class UsageError(Exception):
-    """ Raised when usage is wrong """
+    """Raised when usage is wrong"""
 
 
 def main(args):
 
     parser = argparse.ArgumentParser(description="Vdsm connector helper")
-    parser.add_argument("--verbose", help="increase output verbosity",
-                        action="store_true")
+    parser.add_argument(
+        "--verbose", help="increase output verbosity", action="store_true"
+    )
     subparsers = parser.add_subparsers(title="commands")
     info = subparsers.add_parser(
-        "connector_info",
-        help="Get Connector info. Returns connector info")
+        "connector_info", help="Get Connector info. Returns connector info"
+    )
     info.set_defaults(command=connector_info)
 
     attach_parser = subparsers.add_parser(
-        "attach",
-        help="Attach volume. Returns attachment information")
+        "attach", help="Attach volume. Returns attachment information"
+    )
     attach_parser.set_defaults(command=attach)
 
-    detach_parser = subparsers.add_parser(
-        "detach",
-        help="Detach volume.")
+    detach_parser = subparsers.add_parser("detach", help="Detach volume.")
     detach_parser.set_defaults(command=detach)
 
     args = parser.parse_args()
 
     logging.basicConfig(
         level=logging.DEBUG if args.verbose else logging.INFO,
-        format="%(name)s: %(message)s")
+        format="%(name)s: %(message)s",
+    )
 
     args.command(args)
 
 
 def connector_info(args):
     con = connector.get_connector_properties(
-                        root_helper=None,
-                        my_ip=None,
-                        multipath=True,
-                        enforce_multipath=True)
+        root_helper=None, my_ip=None, multipath=True, enforce_multipath=True
+    )
     write_output(con)
 
 
@@ -84,10 +82,8 @@ def read_input():
 
 def get_connector(conn_info):
     connector_properties = connector.get_connector_properties(
-        root_helper=None,
-        my_ip=None,
-        multipath=True,
-        enforce_multipath=True)
+        root_helper=None, my_ip=None, multipath=True, enforce_multipath=True
+    )
 
     protocol = conn_info['driver_volume_type']
 
@@ -99,6 +95,7 @@ def get_connector(conn_info):
 
         def factory(protocol, *args, **kwargs):
             return nos_brick.RBDConnector(*args, **kwargs)
+
     else:
         factory = connector.InitiatorConnector.factory
 
@@ -107,7 +104,8 @@ def get_connector(conn_info):
         None,
         use_multipath=connector_properties['multipath'],
         device_scan_attempts=conn_info.get('scan_attempts', 3),
-        conn=connector_properties)
+        conn=connector_properties,
+    )
 
     return conn
 
@@ -126,10 +124,12 @@ def detach(args):
     volume_info = read_input()
     log.debug("Volume info: %s", volume_info)
     conn = get_connector(volume_info["connection_info"])
-    conn.disconnect_volume(volume_info['connection_info']['data'],
-                           volume_info['attachment'],
-                           force=False,
-                           ignore_errors=False)
+    conn.disconnect_volume(
+        volume_info['connection_info']['data'],
+        volume_info['attachment'],
+        force=False,
+        ignore_errors=False,
+    )
     write_output({})
 
 

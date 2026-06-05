@@ -95,8 +95,10 @@ class RWLock(object):
     def release(self):
         me = threading.current_thread()
         if me not in self._holders:
-            raise RuntimeError("Thread %s attempted to release a lock it "
-                               "does not hold" % me)
+            raise RuntimeError(
+                "Thread %s attempted to release a lock it "
+                "does not hold" % me
+            )
         self._holders[me] -= 1
         if self._holders[me] > 0:
             return
@@ -125,7 +127,6 @@ class RWLock(object):
 
 
 class Waiter(object):
-
     def __init__(self, wants_write):
         self.wants_write = wants_write
         self._event = threading.Event()
@@ -138,7 +139,6 @@ class Waiter(object):
 
 
 class Context(object):
-
     def __init__(self, acquire, release):
         self._acquire = acquire
         self._release = release

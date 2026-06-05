@@ -10,7 +10,7 @@ from . import base
 
 
 class SparsifyException(VdsmException):
-    ''' Base class for sparsify exceptions '''
+    '''Base class for sparsify exceptions'''
 
 
 class VolumeIsNotLeafException(SparsifyException):
@@ -18,7 +18,6 @@ class VolumeIsNotLeafException(SparsifyException):
 
 
 class Job(base.Job):
-
     def __init__(self, job_id, host_id, vol_info):
         super(Job, self).__init__(job_id, 'sparsify_volume', host_id)
         self._vol_info = VolumeInfo(vol_info, host_id)

@@ -11,7 +11,6 @@ from . import base
 
 
 class Job(base.Job):
-
     def __init__(self, job_id, host_id, vol_info):
         super(Job, self).__init__(job_id, 'clear_bitmaps', host_id)
         self._vol_info = VolumeInfo(vol_info, host_id)
@@ -19,13 +18,14 @@ class Job(base.Job):
     def _validate(self):
         if self._vol_info.volume.getFormat() != sc.COW_FORMAT:
             raise se.UnsupportedOperation(
-                "Volume is not in COW format",
-                vol_uuid=self._vol_info.vol_id)
+                "Volume is not in COW format", vol_uuid=self._vol_info.vol_id
+            )
 
         if self._vol_info.volume.isShared():
             raise se.UnsupportedOperation(
                 "Cannot remove bitmaps from shared volume",
-                vol_uuid=self._vol_info.vol_id)
+                vol_uuid=self._vol_info.vol_id,
+            )
 
     def _run(self):
         with guarded.context(self._vol_info.locks):

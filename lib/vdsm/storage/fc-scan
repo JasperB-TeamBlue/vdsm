@@ -76,7 +76,8 @@ def main(args):
 
     logging.basicConfig(
         level=logging.DEBUG if '-v' in args else logging.INFO,
-        format="%(name)s: %(message)s")
+        format="%(name)s: %(message)s",
+    )
 
     hosts = find_fc_hosts()
     if not hosts:
@@ -91,17 +92,18 @@ def main(args):
 
 # Scanning hosts.
 
+
 def find_fc_hosts():
-    return [os.path.basename(path)
-            for path in glob.glob("/sys/class/fc_host/host*")]
+    return [
+        os.path.basename(path)
+        for path in glob.glob("/sys/class/fc_host/host*")
+    ]
 
 
 def scan_hosts(hosts):
     results = concurrent.tmap(
-        scan_scsi_host,
-        hosts,
-        max_workers=MAX_WORKERS,
-        name="scan")
+        scan_scsi_host, hosts, max_workers=MAX_WORKERS, name="scan"
+    )
 
     if not all(res.value for res in results):
         raise Error("Scanning hosts failed")
@@ -128,6 +130,7 @@ def scan_scsi_host(host):
 
 # Rescanning fc devices.
 
+
 def rescan_devices():
     # This takes about 0.4 seconds on a system with 1300 devices.
     log.debug("Looking up devices")
@@ -141,10 +144,8 @@ def rescan_devices():
     random.shuffle(devices)
 
     results = concurrent.tmap(
-        rescan_scsi_device,
-        devices,
-        max_workers=MAX_WORKERS,
-        name="rescan")
+        rescan_scsi_device, devices, max_workers=MAX_WORKERS, name="rescan"
+    )
 
     if not all(res.value for res in results):
         raise Error("Rescanning devices failed")
