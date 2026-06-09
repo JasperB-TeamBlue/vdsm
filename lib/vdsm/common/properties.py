@@ -72,7 +72,6 @@ from vdsm.common.password import ProtectedPassword
 
 
 class Property(object):
-
     def __init__(self, required=False, default=None, doc=None):
         self.name = None
         self.required = required
@@ -115,34 +114,35 @@ class Property(object):
 
 
 class Enum(Property):
-
     def __init__(self, required=False, default=None, doc=None, values=()):
         if not required and default is not None and default not in values:
-            raise ValueError("Default value %s not in allowed values %s" %
-                             (default, values))
+            raise ValueError(
+                "Default value %s not in allowed values %s" % (default, values)
+            )
         super().__init__(required=required, default=default, doc=doc)
         self.values = values
 
     def validate(self, value):
         if value not in self.values:
-            raise ValueError("Invalid value %r for property %s" %
-                             (value, self.name))
+            raise ValueError(
+                "Invalid value %r for property %s" % (value, self.name)
+            )
         return value
 
 
 class String(Property):
-
     def validate(self, value):
         if not isinstance(value, str):
-            raise ValueError("Invalid value %r for string property %s" %
-                             (value, self.name))
+            raise ValueError(
+                "Invalid value %r for string property %s" % (value, self.name)
+            )
         return value
 
 
 class _Number(Property):
-
-    def __init__(self, required=False, default=None, doc=None, minval=None,
-                 maxval=None):
+    def __init__(
+        self, required=False, default=None, doc=None, minval=None, maxval=None
+    ):
         if minval is not None and default is not None and default < minval:
             raise ValueError("Invalid default %s < %s" % (default, minval))
         if maxval is not None and default is not None and default > maxval:
@@ -153,49 +153,51 @@ class _Number(Property):
 
     def validate(self, value):
         if self.minval is not None and value < self.minval:
-            raise ValueError("Invalid value %s < %s for property %s" %
-                             (value, self.minval, self.name))
+            raise ValueError(
+                "Invalid value %s < %s for property %s"
+                % (value, self.minval, self.name)
+            )
         if self.maxval is not None and value > self.maxval:
-            raise ValueError("Invalid value %s > %s for property %s" %
-                             (value, self.maxval, self.name))
+            raise ValueError(
+                "Invalid value %s > %s for property %s"
+                % (value, self.maxval, self.name)
+            )
         return value
 
 
 class Integer(_Number):
-
     def validate(self, value):
         if not isinstance(value, int):
-            raise ValueError("Invalid value %r for integer property %s" %
-                             (value, self.name))
+            raise ValueError(
+                "Invalid value %r for integer property %s" % (value, self.name)
+            )
         return super().validate(value)
 
 
 class Float(_Number):
-
     def validate(self, value):
         if not isinstance(value, float):
-            raise ValueError("Invalid value %r for float property %s" %
-                             (value, self.name))
+            raise ValueError(
+                "Invalid value %r for float property %s" % (value, self.name)
+            )
         return super().validate(value)
 
 
 class Boolean(Property):
-
     def validate(self, value):
         if value not in (True, False):
-            raise ValueError("Invalid value %r for boolean property %s" %
-                             (value, self.name))
+            raise ValueError(
+                "Invalid value %r for boolean property %s" % (value, self.name)
+            )
         return value
 
 
 class UUID(Property):
-
     def validate(self, value):
         return str(uuid.UUID(value))
 
 
 class Password(Property):
-
     def __init__(self, required=False, default=None, doc=None, decode=None):
         super().__init__(required=required, default=default, doc=doc)
         self.decode = decode
@@ -216,7 +218,6 @@ def decode_base64(value):
 
 
 class OwnerType(type):
-
     def __new__(cls, name, bases, dct):
         # Name properties used by this class
         for k, v in dct.items():

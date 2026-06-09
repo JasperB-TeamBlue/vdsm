@@ -22,28 +22,29 @@ class _SuperVdsmManager(BaseManager):
 
 
 class ProxyCaller(object):
-
     def __init__(self, supervdsmProxy, funcName):
         self._funcName = funcName
         self._supervdsmProxy = supervdsmProxy
 
     def __call__(self, *args, **kwargs):
-        callMethod = lambda: \
-            getattr(self._supervdsmProxy._svdsm, self._funcName)(*args,
-                                                                 **kwargs)
+        callMethod = lambda: getattr(
+            self._supervdsmProxy._svdsm, self._funcName
+        )(*args, **kwargs)
         try:
             return callMethod()
         except RemoteError:
             self._supervdsmProxy._connect()
             raise RuntimeError(
                 "Broken communication with supervdsm. Failed call to %s"
-                % self._funcName)
+                % self._funcName
+            )
 
 
 class SuperVdsmProxy(object):
     """
     A wrapper around all the supervdsm init stuff
     """
+
     _log = logging.getLogger("SuperVdsmProxy")
 
     def __init__(self):
@@ -62,7 +63,8 @@ class SuperVdsmProxy(object):
         self._log.debug("Trying to connect to Super Vdsm")
         try:
             function.retry(
-                self._manager.connect, Exception, timeout=60, tries=3)
+                self._manager.connect, Exception, timeout=60, tries=3
+            )
         except Exception as ex:
             msg = "Connect to supervdsm service failed: %s" % ex
             panic(msg)
