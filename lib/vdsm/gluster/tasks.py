@@ -8,7 +8,6 @@ from vdsm.gluster import cli
 from vdsm.gluster import exception as ge
 from vdsm.gluster.cli import TaskType
 
-
 log = logging.getLogger("Gluster")
 
 

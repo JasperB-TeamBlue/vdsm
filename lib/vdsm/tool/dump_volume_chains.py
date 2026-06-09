@@ -141,8 +141,7 @@ def _parse_args(args):
 
 def _dump_sql(volumes_info, sql_file):
     with sqlite3.connect(sql_file) as con:
-        con.executescript(
-            """
+        con.executescript("""
             DROP TABLE IF EXISTS volumes;
             CREATE TABLE volumes(
                 uuid UUID,
@@ -159,8 +158,7 @@ def _dump_sql(volumes_info, sql_file):
                 truesize UNSIGNED INTEGER,
                 ctime UNSIGNED INTEGER
             );
-            """
-        )
+            """)
         con.executemany(
             """
             INSERT INTO volumes VALUES (

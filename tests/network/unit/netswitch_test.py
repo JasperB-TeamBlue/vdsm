@@ -8,7 +8,6 @@ from vdsm.network import netswitch
 
 from .testlib import NetInfo as NetInfoLib
 
-
 BOND_NAME = 'bond1'
 NETWORK1_NAME = 'test-network1'
 

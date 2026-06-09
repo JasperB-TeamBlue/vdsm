@@ -447,9 +447,9 @@ class Snapshot(properties.Owner):
             # failed for some unknown issue that left the volume active.
             prepared_drives[vm_dev_name] = vm_device
             try:
-                new_drives[vm_dev_name][
-                    "path"
-                ] = self._vm.cif.prepareVolumePath(new_drives[vm_dev_name])
+                new_drives[vm_dev_name]["path"] = (
+                    self._vm.cif.prepareVolumePath(new_drives[vm_dev_name])
+                )
             except Exception:
                 self._vm.log.exception(
                     'unable to prepare the volume path for ' 'disk %s',

@@ -7,7 +7,6 @@ from vdsm.common import commands
 from . import exception as ge
 from . import gluster_mgmt_api
 
-
 _glusterEventsApi = cmdutils.CommandPath(
     "gluster-eventsapi",
     "/sbin/gluster-eventsapi",

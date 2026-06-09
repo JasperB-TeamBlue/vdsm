@@ -78,8 +78,7 @@ REVISION_MISSING = "MISSING"
 # is restored the delay is reset for the next time all paths fail.
 _NO_PATH_RETRY = 16
 
-_CONF_DATA = Template(
-    """\
+_CONF_DATA = Template("""\
 $current_tag
 
 # This file is managed by vdsm.
@@ -277,8 +276,7 @@ overrides {
     no_path_retry   $no_path_retry
 }
 
-"""
-).substitute({"current_tag": CURRENT_TAG, "no_path_retry": _NO_PATH_RETRY})
+""").substitute({"current_tag": CURRENT_TAG, "no_path_retry": _NO_PATH_RETRY})
 
 _SKIPPED_SECTIONS = ("blacklist", "blacklist_exceptions")
 
@@ -340,9 +338,7 @@ def format_blacklist(wwids):
     return """blacklist {{
 {}
 }}
-""".format(
-        lines
-    )
+""".format(lines)
 
 
 def read_blacklist():

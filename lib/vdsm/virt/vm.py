@@ -1874,10 +1874,9 @@ class Vm(object):
         try:
             self.lastStatus = vmstatus.DOWN
             if self._altered_state.origin == _FILE_ORIGIN:
-                exit_info[
-                    'exitMessage'
-                ] = "Wake up from hibernation failed" + (
-                    (":" + exitMessage) if exitMessage else ''
+                exit_info['exitMessage'] = (
+                    "Wake up from hibernation failed"
+                    + ((":" + exitMessage) if exitMessage else '')
                 )
             self._exit_info = exit_info
             self.log.info(

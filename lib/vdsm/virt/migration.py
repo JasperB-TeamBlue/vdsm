@@ -669,9 +669,9 @@ class SourceThread(object):
         if self._maxBandwidth:
             params[libvirt.VIR_MIGRATE_PARAM_BANDWIDTH] = self._maxBandwidth
         if self._parallel is not None:
-            params[
-                libvirt.VIR_MIGRATE_PARAM_PARALLEL_CONNECTIONS
-            ] = self._parallel
+            params[libvirt.VIR_MIGRATE_PARAM_PARALLEL_CONNECTIONS] = (
+                self._parallel
+            )
         if not self.tunneled:
             params[libvirt.VIR_MIGRATE_PARAM_URI] = str(muri)
         if self._consoleAddress:
@@ -684,9 +684,9 @@ class SourceThread(object):
             # the remote certificate.  Not the migration destination,
             # which may be e.g. an IP address from a migration
             # network, not present in the certificate.
-            params[
-                libvirt.VIR_MIGRATE_PARAM_TLS_DESTINATION
-            ] = normalize_literal_addr(self.remoteHost)
+            params[libvirt.VIR_MIGRATE_PARAM_TLS_DESTINATION] = (
+                normalize_literal_addr(self.remoteHost)
+            )
         xml = self._vm.migratable_domain_xml()
         # REQUIRED_FOR: destination Vdsm < 4.3
         dom = xmlutils.fromstring(xml)

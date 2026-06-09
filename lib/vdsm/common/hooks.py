@@ -104,7 +104,7 @@ def _runHooksDir(
             )
 
             with commands.terminating(p):
-                (out, err) = p.communicate()
+                out, err = p.communicate()
 
             rc = p.returncode
             logging.info('%s: rc=%s err=%s', s, rc, err)

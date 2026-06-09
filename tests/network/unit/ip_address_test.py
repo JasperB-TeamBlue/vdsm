@@ -5,7 +5,6 @@ import pytest
 
 from vdsm.network.ip import address
 
-
 DEVICE_NAME = 'foo'
 
 IPV4_PREFIX = 29

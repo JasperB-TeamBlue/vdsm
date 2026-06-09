@@ -17,7 +17,7 @@ def ksmTune(tuningParams):
         'sleep_millisecs': 0x100000000,
         'pages_to_scan': 0x100000000,
     }
-    for (k, v) in tuningParams.items():
+    for k, v in tuningParams.items():
         if k not in KSM_PARAMS.keys():
             raise Exception('Invalid key in KSM parameter: %s=%s' % (k, v))
         if int(v) < 0 or int(v) >= KSM_PARAMS[k]:

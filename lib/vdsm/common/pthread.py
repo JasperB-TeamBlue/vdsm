@@ -5,7 +5,6 @@ import ctypes
 import logging
 import threading
 
-
 NAME_MAX_LENGTH = 15
 
 

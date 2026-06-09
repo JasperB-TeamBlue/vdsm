@@ -27,7 +27,6 @@ from vdsm.network.netlink import monitor
 from vdsm.network.netlink import waitfor
 from vdsm.network.restore_net_config import restore
 
-
 try:
     from functional.utils import getProxy, SUCCESS
 except ImportError:
@@ -972,9 +971,7 @@ def _get_network_iface_name(net_name, net_attrs):
     return (
         net_name
         if bridged
-        else '{}.{}'.format(base_iface, vlan)
-        if vlan
-        else base_iface
+        else '{}.{}'.format(base_iface, vlan) if vlan else base_iface
     )
 
 
