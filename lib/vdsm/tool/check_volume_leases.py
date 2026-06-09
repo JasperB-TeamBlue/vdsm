@@ -50,10 +50,12 @@ def main(*args):
 
 
 def _confirm_check_leases():
-    return common.confirm("""\
+    return common.confirm(
+        """\
 WARNING: Make sure there are no running storage operations.
 
-Do you want to check volume leases? [yes,NO] """)
+Do you want to check volume leases? [yes,NO] """
+    )
 
 
 def _confirm_repair_leases():
