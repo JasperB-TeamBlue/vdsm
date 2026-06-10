@@ -177,7 +177,8 @@ class SchemaValidation(TestCaseBase):
     def _get_default_args(self, method_obj):
         argSpec = Sigargs(method_obj)
         if argSpec.defaults:
-            return argSpec.args[-len(argSpec.defaults) :]
+            splice = -len(argSpec.defaults)
+            return argSpec.args[splice:]
         else:
             return []
 

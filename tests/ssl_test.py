@@ -90,10 +90,12 @@ def dummy_register_protocol_detector(monkeypatch):
     )
 
 
-@pytest.fixture  # noqa: F811 # TODO: remove after upgrading flake to 3.9.2
+@pytest.fixture
 def listener(
-    dummy_register_protocol_detector, key_cert_pair, request
-):  # noqa: F811, E501
+    dummy_register_protocol_detector,
+    key_cert_pair,  # noqa: F811 TODO: remove after upgrading flake to 3.9.2
+    request,
+):
     key_file, cert_file = key_cert_pair
     reactor = Reactor()
 

@@ -243,7 +243,11 @@ class Register(object):
             cert = f.read()
 
         fp = hashlib.sha1(ssl.PEM_cert_to_DER_cert(cert)).hexdigest()
-        fp = ':'.join(fp[pos : pos + 2] for pos in range(0, len(fp), 2))
+        groups = []
+        for pos in range(0, len(fp), 2):
+            end = pos + 2
+            groups.append(fp[pos:end])
+        fp = ':'.join(groups)
 
         return fp
 

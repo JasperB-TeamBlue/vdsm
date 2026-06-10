@@ -51,8 +51,9 @@ def proc_info(path):
     # f<FD>
     for i in range(0, len(lines), 4):
         record = {}
+        end = i + 4
         try:
-            for item in lines[i : i + 4]:
+            for item in lines[i:end]:
                 key, value = item[0], item[1:]
                 if key == "p":
                     record["pid"] = int(value)
@@ -65,7 +66,7 @@ def proc_info(path):
                 else:
                     log.warning("Unexpected key=%r value=%r", key, value)
         except Exception as e:
-            log.warning("Failed to parse lines %r: %s", lines[i : i + 4], e)
+            log.warning("Failed to parse lines %r: %s", lines[i:end], e)
             continue
 
         yield record

@@ -296,7 +296,8 @@ class Parser(object):
             raise RuntimeError("Frame doesn't end with NULL byte")
 
         self._flush()
-        self._write_buffer(buf[cl + 1 :])
+        start = cl + 1
+        self._write_buffer(buf[start:])
         body = buf[:cl]
 
         self._tmp_frame.body = body

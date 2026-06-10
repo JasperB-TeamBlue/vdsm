@@ -29,10 +29,12 @@ def pidstat(pid):
     with open("/proc/%d/stat" % pid, "r") as f:
         statline = f.readline()
         procNameStart = statline.find("(")
+        procNameStartBump = procNameStart + 1
         procNameEnd = statline.rfind(")")
+        procNameEndBump = procNameEnd + 2
         res.append(int(statline[:procNameStart]))
-        res.append(statline[procNameStart + 1 : procNameEnd])
-        args = statline[procNameEnd + 2 :].split()
+        res.append(statline[procNameStartBump:procNameEnd])
+        args = statline[procNameEndBump:].split()
         res.append(args[0])
         res.extend([int(item) for item in args[1:]])
         # Only 44 fields are documented in man page while /proc/pid/stat has 52

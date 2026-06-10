@@ -289,7 +289,8 @@ class TestGuestIFHandleData(TestCaseBase):
     # helper for chunking messages
     def messageChunks(self, s, chunkSize):
         for start in range(0, len(s), chunkSize):
-            yield s[start : start + chunkSize]
+            end = start + chunkSize
+            yield s[start:end]
 
     # perform general setup tasks
     def setUp(self):

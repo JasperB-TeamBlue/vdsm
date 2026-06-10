@@ -172,7 +172,9 @@ class HostSample(object):
         try:
             with open(_THP_STATE_PATH) as f:
                 s = f.read()
-                self.thpState = s[s.index('[') + 1 : s.index(']')]
+                splice_start = s.index('[') + 1
+                splice_end = s.index(']')
+                self.thpState = s[splice_start:splice_end]
         except:
             self.thpState = 'never'
         self.hugepages = hugepages.state()

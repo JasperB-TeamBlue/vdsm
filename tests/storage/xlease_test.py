@@ -1085,6 +1085,7 @@ class TestDirectFile:
     )
     def test_pread(self, tmpdir, direct_file, offset, size):
         data = b"a" * 512 + b"b" * 512 + b"c" * 512 + b"d" * 512
+        end = offset + size
         path = tmpdir.join("file")
         path.write(data)
         file = direct_file(str(path))
@@ -1093,7 +1094,7 @@ class TestDirectFile:
             with utils.closing(buf):
                 n = file.pread(offset, buf)
                 assert n == size
-                assert buf[:] == data[offset : offset + size]
+                assert buf[:] == data[offset:end]
 
     def test_pread_short(self, tmpdir, direct_file):
         data = b"a" * 1024

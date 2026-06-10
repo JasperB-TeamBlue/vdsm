@@ -109,16 +109,16 @@ def main():
             pool_info = cli.StoragePool.getInfo(storagepoolID=args.pool_id)
             if pool_info['info']['master_ver'] != master_ver:
                 raise RuntimeError(
-                    "Unexpected master_ver value: expecting: {} actual: {}".format(
-                        master_ver, pool_info['info']['master_ver']
-                    )
+                    "Unexpected master_ver value: expecting: %s actual: %s",
+                    master_ver,
+                    pool_info['info']['master_ver'],
                 )
 
             if pool_info['info']['master_uuid'] != new_master:
                 raise RuntimeError(
-                    "Unexpected master_uuid value: expecting: {} actual: {}".format(
-                        new_master, pool_info['info']['master_uuid']
-                    )
+                    "Unexpected master_uuid value: expecting: %s actual: %s",
+                    new_master,
+                    pool_info['info']['master_uuid'],
                 )
 
             new_master_info = cli.StorageDomain.getInfo(

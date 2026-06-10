@@ -150,18 +150,19 @@ class SPM_Extend_Message:
     def processRequest(cls, pool, msgID, payload):
         cls.log.debug("processRequest, payload:" + repr(payload))
         sdOffset = 5
-        volumeOffset = sdOffset + PACKED_UUID_SIZE
-        sizeOffset = volumeOffset + PACKED_UUID_SIZE
+        sdOffset_end = sdOffset + PACKED_UUID_SIZE
+        volumeOffset = sdOffset_end
+        volumeOffset_end = volumeOffset + PACKED_UUID_SIZE
+        sizeOffset = volumeOffset_end
+        sizeOffset_end = sizeOffset + SIZE_CHARS
 
         volume = {}
         volume['poolID'] = pool.spUUID
-        volume['domainID'] = unpack_uuid(
-            payload[sdOffset : sdOffset + PACKED_UUID_SIZE]
-        )
+        volume['domainID'] = unpack_uuid(payload[sdOffset:sdOffset_end])
         volume['volumeID'] = unpack_uuid(
-            payload[volumeOffset : volumeOffset + PACKED_UUID_SIZE]
+            payload[volumeOffset:volumeOffset_end]
         )
-        size = int(payload[sizeOffset : sizeOffset + SIZE_CHARS], 16)
+        size = int(payload[sizeOffset:sizeOffset_end], 16)
 
         cls.log.info(
             "processRequest: extending volume %s "
@@ -337,10 +338,11 @@ class HSM_MailMonitor(object):
                 continue
 
             start = i * MESSAGE_SIZE
+            end = start + 1
 
             # First byte of message is message version.
             # A null byte indicates an empty response message to be skipped.
-            if newMsgs[start : start + 1] == b"\0":
+            if newMsgs[start:end] == b"\0":
                 continue
 
             for j in range(start, start + MESSAGE_SIZE):
@@ -358,8 +360,9 @@ class HSM_MailMonitor(object):
             # reply
             #
             rc = True
+            end = start + MESSAGE_SIZE
 
-            newMsg = newMsgs[start : start + MESSAGE_SIZE]
+            newMsg = newMsgs[start:end]
 
             if newMsg == CLEAN_MESSAGE:
                 del self._activeMessages[i]
@@ -368,7 +371,7 @@ class HSM_MailMonitor(object):
                 self._outgoingMail = (
                     self._outgoingMail[0:start]
                     + MESSAGE_SIZE * b"\0"
-                    + self._outgoingMail[start + MESSAGE_SIZE :]
+                    + self._outgoingMail[end:]
                 )
                 continue
 
@@ -377,7 +380,7 @@ class HSM_MailMonitor(object):
             self._outgoingMail = (
                 self._outgoingMail[0:start]
                 + CLEAN_MESSAGE
-                + self._outgoingMail[start + MESSAGE_SIZE :]
+                + self._outgoingMail[end:]
             )
 
             try:
@@ -443,12 +446,11 @@ class HSM_MailMonitor(object):
         return self._handleResponses(in_mail)
 
     def _sendMail(self):
+        mailbox_without_checksum = MAILBOX_SIZE - CHECKSUM_BYTES
         self.log.debug("HSM_MailMonitor sending mail to SPM")
-        pChk = packed_checksum(
-            self._outgoingMail[0 : MAILBOX_SIZE - CHECKSUM_BYTES]
-        )
+        pChk = packed_checksum(self._outgoingMail[0:mailbox_without_checksum])
         self._outgoingMail = (
-            self._outgoingMail[0 : MAILBOX_SIZE - CHECKSUM_BYTES] + pChk
+            self._outgoingMail[0:mailbox_without_checksum] + pChk
         )
         _mboxExecCmd(self._outCmd, data=self._outgoingMail)
 
@@ -780,6 +782,7 @@ class SPM_MailMonitor:
         for host in range(0, self._numHosts):
             # Check mailbox checksum
             mailboxStart = host * MAILBOX_SIZE
+            mailboxEnd = mailboxStart + MAILBOX_SIZE
 
             isMailboxValidated = False
 
@@ -787,10 +790,11 @@ class SPM_MailMonitor:
 
                 msgId = host * SLOTS_PER_MAILBOX + i
                 msgStart = msgId * MESSAGE_SIZE
+                msgEnd = msgStart + 1
 
                 # First byte of message is message version.
                 # A null byte indicates an empty message to be skipped.
-                if newMail[msgStart : msgStart + 1] == b"\0":
+                if newMail[msgStart:msgEnd] == b"\0":
                     continue
 
                 # Most mailboxes are probably empty so it costs less to check
@@ -799,14 +803,14 @@ class SPM_MailMonitor:
                 # mailbox
                 if not isMailboxValidated:
                     if not self.validateMailbox(
-                        newMail[mailboxStart : mailboxStart + MAILBOX_SIZE],
+                        newMail[mailboxStart:mailboxEnd],
                         host,
                     ):
                         # Cleaning invalid mbx in newMail
                         newMail = (
                             newMail[:mailboxStart]
                             + EMPTYMAILBOX
-                            + newMail[mailboxStart + MAILBOX_SIZE :]
+                            + newMail[mailboxEnd:]
                         )
                         break
                     self.log.debug(
@@ -816,8 +820,11 @@ class SPM_MailMonitor:
                     )
                     isMailboxValidated = True
 
-                newMsg = newMail[msgStart : msgStart + MESSAGE_SIZE]
+                msgEnd = msgStart + MESSAGE_SIZE
+                newMsg = newMail[msgStart:msgEnd]
                 msgOffset = msgId * MESSAGE_SIZE
+                msgOffsetEnd = msgOffset + MESSAGE_SIZE
+                outMailLen = self._outMailLen
                 if newMsg == CLEAN_MESSAGE:
                     # Should probably put a setter on outgoingMail which would
                     # take the lock
@@ -825,9 +832,7 @@ class SPM_MailMonitor:
                         self._outgoingMail = (
                             self._outgoingMail[0:msgOffset]
                             + CLEAN_MESSAGE
-                            + self._outgoingMail[
-                                msgOffset + MESSAGE_SIZE : self._outMailLen
-                            ]
+                            + self._outgoingMail[msgOffsetEnd:outMailLen]
                         )
                     send = True
                     continue
@@ -846,15 +851,16 @@ class SPM_MailMonitor:
 
                 # We only get here if there is a novel request
                 try:
-                    msgType = newMail[msgStart + 1 : msgStart + 5]
+                    start = msgStart + 1
+                    end = start + 5
+                    msgType = newMail[start:end]
                     if msgType in self._messageTypes:
                         # Use message class to process request according to
                         # message specific logic
                         id = str(uuid.uuid4())
                         self.log.debug(
                             "SPM_MailMonitor: processing request: "
-                            "%s"
-                            % repr(newMail[msgStart : msgStart + MESSAGE_SIZE])
+                            "%s" % repr(newMail[msgStart:msgEnd])
                         )
                         res = self.tp.queueTask(
                             id,
@@ -862,7 +868,7 @@ class SPM_MailMonitor:
                             (
                                 self._messageTypes[msgType],
                                 msgId,
-                                newMail[msgStart : msgStart + MESSAGE_SIZE],
+                                newMail[msgStart:msgEnd],
                             ),
                         )
                         if not res:
@@ -878,13 +884,13 @@ class SPM_MailMonitor:
                         "SPM_MailMonitor: exception: %s caught "
                         "while handling message: %s",
                         str(e),
-                        newMail[msgStart : msgStart + MESSAGE_SIZE],
+                        newMail[msgStart:msgEnd],
                     )
                 except:
                     self.log.error(
                         "SPM_MailMonitor: exception caught while "
                         "handling message: %s",
-                        newMail[msgStart : msgStart + MESSAGE_SIZE],
+                        newMail[msgStart:msgEnd],
                         exc_info=True,
                     )
 
@@ -935,17 +941,16 @@ class SPM_MailMonitor:
         # outgoingMail is not changed while used
         with self._outLock:
             msgOffset = msgID * MESSAGE_SIZE
+            msgOffsetSplice = msgOffset + MESSAGE_SIZE
+            outMailLen = self._outMailLen
             self._outgoingMail = (
                 self._outgoingMail[0:msgOffset]
                 + msg.payload
-                + self._outgoingMail[
-                    msgOffset + MESSAGE_SIZE : self._outMailLen
-                ]
+                + self._outgoingMail[msgOffsetSplice:outMailLen]
             )
             mailboxOffset = (msgID // SLOTS_PER_MAILBOX) * MAILBOX_SIZE
-            mailbox = self._outgoingMail[
-                mailboxOffset : mailboxOffset + MAILBOX_SIZE
-            ]
+            mailboxOffsetEnd = mailboxOffset + MAILBOX_SIZE
+            mailbox = self._outgoingMail[mailboxOffset:mailboxOffsetEnd]
             cmd = self._outCmd + [
                 'bs=' + str(MAILBOX_SIZE),
                 'seek=' + str(mailboxOffset // MAILBOX_SIZE),

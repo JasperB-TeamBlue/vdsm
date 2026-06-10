@@ -266,9 +266,8 @@ class TestGetCmdArgs(TestCaseBase):
         try:
             cmd_args = utils.getCmdArgs(sproc.pid)
             # let's ignore optional taskset at the beginning
-            self.assertEqual(
-                cmd_args[-len(args) :], tuple(a.encode() for a in args)
-            )
+            start = -len(args)
+            self.assertEqual(cmd_args[start:], tuple(a.encode() for a in args))
         finally:
             sproc.kill()
             sproc.wait()

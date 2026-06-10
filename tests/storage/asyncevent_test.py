@@ -584,7 +584,9 @@ class Sender(object):
         if self.pos == len(self.data):
             os.close(self.fd)
             return
-        buf = memoryview(self.data)[self.pos : self.pos + self.bufsize]
+        start = self.pos
+        end = self.pos + self.bufsize
+        buf = memoryview(self.data)[start:end]
         self.pos += os.write(self.fd, buf)
         self.loop.call_soon(self.send)
 

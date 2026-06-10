@@ -127,7 +127,9 @@ def test_parser_should_wait_until_frame_is_fully_transfered(encoded_frame):
     # When iterating over bytes in py3 you get ints, not byte slices,
     # so we need to use this quirky way of obtaining single-byte slices
     single_bytes = [
-        encoded_frame[i : i + 1] for i in range(len(encoded_frame))
+        encoded_frame[i:end]
+        for i in range(len(encoded_frame))
+        for end in [i + 1]
     ]
 
     for byte in single_bytes[:-1]:

@@ -1227,9 +1227,10 @@ class ChangeBlock(object):
         """
         self._index_offset = index_offset
         self._offset = offset
+        offset_end = offset + size
         self._size = size
         self._buf = mmap.mmap(-1, size, mmap.MAP_SHARED)
-        self._buf[:] = index_buf[offset : offset + size]
+        self._buf[:] = index_buf[offset:offset_end]
 
     def write_record(self, recnum, record):
         """

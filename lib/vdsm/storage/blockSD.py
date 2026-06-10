@@ -218,7 +218,10 @@ def _iter_volumes(sdUUID):
 
 
 def _occupied_metadata_slots(sdUUID):
-    stripPrefix = lambda s, pfx: s[len(pfx) :]
+    def stripPrefix(s, pfx):
+        splice = len(pfx)
+        return s[splice:]
+
     occupiedSlots = []
 
     for lv in _iter_volumes(sdUUID):
@@ -254,12 +257,15 @@ def parse_lv_tags(lv):
 
     for tag in lv.tags:
         if tag.startswith(sc.TAG_PREFIX_IMAGE):
-            image = tag[len(sc.TAG_PREFIX_IMAGE) :]
+            splice = len(sc.TAG_PREFIX_IMAGE)
+            image = tag[splice:]
         elif tag.startswith(sc.TAG_PREFIX_PARENT):
-            parent = tag[len(sc.TAG_PREFIX_PARENT) :]
+            splice = len(sc.TAG_PREFIX_PARENT)
+            parent = tag[splice:]
         elif tag.startswith(sc.TAG_PREFIX_MD):
+            splice = len(sc.TAG_PREFIX_MD)
             try:
-                mdslot = int(tag[len(sc.TAG_PREFIX_MD) :])
+                mdslot = int(tag[splice:])
             except ValueError:
                 log.warning(
                     "Invalid tag %r for lv %s/%s", tag, lv.vg_name, lv.name
@@ -374,7 +380,8 @@ class VGTagMetadataRW(object):
             if not tag.startswith(self.METADATA_TAG_PREFIX):
                 continue
 
-            metadata.append(lvmTagDecode(tag[self.METADATA_TAG_PREFIX_LEN :]))
+            splice = self.METADATA_TAG_PREFIX_LEN
+            metadata.append(lvmTagDecode(tag[splice:]))
 
         return metadata
 
@@ -1769,7 +1776,8 @@ class BlockStorageDomain(sd.StorageDomain):
                     self.log.debug(
                         "Reading v4 metadata slot %s offset=%s", slot, v4_off
                     )
-                    v4_data = bytes(src[v4_off : v4_off + sc.METADATA_SIZE])
+                    v4_end = v4_off + sc.METADATA_SIZE
+                    v4_data = bytes(src[v4_off:v4_end])
 
                     try:
                         md = VolumeMetadata.from_lines(
@@ -1793,7 +1801,8 @@ class BlockStorageDomain(sd.StorageDomain):
                     self.log.debug(
                         "Writing v5 metadata slot %s offset=%s", slot, v5_off
                     )
-                    dst[v5_off : v5_off + sc.METADATA_SIZE] = v5_data
+                    v5_end = v5_off + sc.METADATA_SIZE
+                    dst[v5_off:v5_end] = v5_data
 
                 # Synchonize v5 metadadta to underlying storage.
                 dst.flush()
@@ -1921,7 +1930,8 @@ class BlockStorageDomain(sd.StorageDomain):
         # Parse metadata per slot.
         for slot in slots:
             offset = self._manifest.metadata_offset(slot) - start_offset
-            slot_raw_md = raw_md[offset : offset + sc.METADATA_SIZE]
+            offset_end = offset + sc.METADATA_SIZE
+            slot_raw_md = raw_md[offset:offset_end]
             md_lines = slot_raw_md.rstrip(b"\0").splitlines()
             slot_md = volumemetadata.dump(md_lines)
             slot_md["mdslot"] = slot

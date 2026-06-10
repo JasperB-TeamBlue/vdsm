@@ -40,8 +40,9 @@ def call2str(func, args, kwargs, printers={}):
         kwargs[name] = val
 
     defaults = func.__defaults__ if func.__defaults__ else []
+    negative_len_defaults = -len(defaults)
 
-    for name, val in zip(varnames[-len(defaults) :], defaults):
+    for name, val in zip(varnames[negative_len_defaults:], defaults):
         if name not in kwargs:
             kwargs[name] = val
 

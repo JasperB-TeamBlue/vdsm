@@ -117,7 +117,8 @@ def networks():
     allNets = ((net, net.name()) for net in conn.listAllNetworks(0))
     for net, netname in allNets:
         if netname.startswith(LIBVIRT_NET_PREFIX):
-            netname = netname[len(LIBVIRT_NET_PREFIX) :]
+            libvirt_net_prefix_len = len(LIBVIRT_NET_PREFIX)
+            netname = netname[libvirt_net_prefix_len:]
             nets[netname] = {}
             xml = etree.fromstring(net.XMLDesc())
             interface = xml.find('.//interface')
@@ -143,8 +144,9 @@ def netname_o2l(ovirt_name):
 
 
 def netname_l2o(libvirt_name):
+    splice = len(LIBVIRT_NET_PREFIX)
     """Translate the name used by libvirt database to the ovirt network name"""
-    return libvirt_name[len(LIBVIRT_NET_PREFIX) :]
+    return libvirt_name[splice:]
 
 
 def _netlookup_by_name(conn, netname):

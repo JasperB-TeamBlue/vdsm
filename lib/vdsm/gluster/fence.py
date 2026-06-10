@@ -52,9 +52,9 @@ def _is_gluster_quorum_met(volumeInfo, volStatus, hostUuid):
     else:
         return True
     for index in range(0, subVolumes):
-        subVolume = volumeInfo.get('bricksInfo')[
-            index * replicaCount : index * replicaCount + replicaCount
-        ]
+        start_splice = index * replicaCount
+        end_splice = start_splice + replicaCount
+        subVolume = volumeInfo.get('bricksInfo')[start_splice:end_splice]
 
         bricksRemainingUp = 0
         bricksGoingDown = 0

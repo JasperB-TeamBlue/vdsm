@@ -115,7 +115,8 @@ class ConfigFile(object):
                 if not self._remove or self._rmstate != WITHIN:
                     if self._prefixRemove:
                         if line.startswith(self._prefix):
-                            line = line[len(self._prefix) :]
+                            prefixLen = len(self._prefix)
+                            line = line[prefixLen:]
                     if self._prefixAdd:
                         line = self._prefix + line
                     # remove this if at 4.0. see  'Backward compatibility'

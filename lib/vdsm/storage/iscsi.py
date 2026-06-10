@@ -303,7 +303,8 @@ def discoverSendTargets(iface, portal, credentials=None):
 
 def iterateIscsiSessions():
     for sessionDir in glob.iglob("/sys/class/iscsi_session/session*"):
-        sessionID = int(os.path.basename(sessionDir)[len("session") :])
+        session_length = len("session")
+        sessionID = int(os.path.basename(sessionDir)[session_length:])
         try:
             yield getSessionInfo(sessionID)
         except OSError as e:
@@ -518,7 +519,8 @@ def getiScsiSession(dev):
     device = os.path.realpath(os.path.join("/sys/block", dev, "device"))
     sessiondir = os.path.realpath(os.path.join(device, "../.."))
     session = os.path.basename(sessiondir)
-    return int(session[len('session') :])
+    session_length = len("session")
+    return int(session[session_length:])
 
 
 def getDefaultInitiatorName():

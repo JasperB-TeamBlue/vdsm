@@ -844,7 +844,8 @@ def getVolumeTag(sdUUID, volUUID, tagPrefix):
 
     for tag in tags:
         if tag.startswith(tagPrefix):
-            return tag[len(tagPrefix) :]
+            tag_prefix_len = len(tagPrefix)
+            return tag[tag_prefix_len:]
     else:
         log.error(
             "Missing tag %s in volume: %s/%s. tags: %s",

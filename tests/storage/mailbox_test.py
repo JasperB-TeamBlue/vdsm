@@ -276,8 +276,9 @@ class TestCommunicate:
         def mbox_cmd_hook(*args, **kwargs):
             data = kwargs.get('data')
             if data and all(
-                data[i : i + 1] != b"\0"
+                data[i:end] != b"\0"
                 for i in range(0, sm.MESSAGES_PER_MAILBOX, sm.MESSAGE_SIZE)
+                for end in [i + 1]
             ):
                 filled.set()
             return orig_cmd(*args, **kwargs)
