@@ -4,7 +4,7 @@
 name: CI
 on:
   push:
-    branches: [master]
+    branches: [master, update_ssl_test]
   pull_request:
     branches: [master]
   workflow_dispatch:
