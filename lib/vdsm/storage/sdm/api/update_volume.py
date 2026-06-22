@@ -11,7 +11,7 @@ from . import base
 class Job(base.Job):
 
     def __init__(self, job_id, host_id, vol_info, vol_attr):
-        super(Job, self).__init__(job_id, 'update_volume', host_id)
+        super().__init__(job_id, 'update_volume', host_id)
         self._endpoint = CopyDataDivEndpoint(vol_info, host_id)
         self._vol_attr = validators.VolumeAttributes(vol_attr)
 

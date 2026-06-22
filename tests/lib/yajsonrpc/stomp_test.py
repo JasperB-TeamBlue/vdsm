@@ -61,7 +61,7 @@ class StompTests(TestCaseBase):
         with generate_key_cert_pair() as key_cert_pair:
             key_file, cert_file = key_cert_pair
             self.ssl_ctx = create_ssl_context(key_file, cert_file)
-            super(TestCaseBase, self).run(result)
+            super().run(result)
 
     @broken_on_ci(
         "Fails randomly in oVirt CI, see https://gerrit.ovirt.org/c/95899/",

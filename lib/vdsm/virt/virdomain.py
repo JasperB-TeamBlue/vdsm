@@ -41,7 +41,7 @@ class Defined(Disconnected):
         :param dom: libvirt domain accessor created by `VM` class
         :type dom: libvirt.virDomain instance (or its wrapper)
         """
-        super(Defined, self).__init__(vmid)
+        super().__init__(vmid)
         self._dom = dom
 
     @property

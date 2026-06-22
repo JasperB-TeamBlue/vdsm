@@ -16,7 +16,7 @@ class Job(base.Job):
     """
 
     def __init__(self, job_id, host_id, move_params):
-        super(Job, self).__init__(job_id, 'move_device', host_id)
+        super().__init__(job_id, 'move_device', host_id)
         self.params = StorageDomainDeviceMoveParams(move_params)
 
     def _run(self):

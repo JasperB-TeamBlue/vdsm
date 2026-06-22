@@ -463,13 +463,13 @@ class _Visitor(periodic._RunnableOnVm):
     def required(self):
         if getattr(self._vm, 'fail_required', False):
             raise ValueError('required failed')
-        return super(_Visitor, self).required
+        return super().required
 
     @property
     def runnable(self):
         if getattr(self._vm, 'fail_runnable', False):
             raise ValueError('runnable failed')
-        return super(_Visitor, self).runnable
+        return super().runnable
 
     def _execute(self):
         _Visitor.VMS[self._vm.id] += 1

@@ -207,7 +207,7 @@ class CallbackChain(threading.Thread):
             callable and when invoked should return True/False based on whether
             it was successful in accomplishing the chain's action.
         """
-        super(CallbackChain, self).__init__()
+        super().__init__()
         self.daemon = True
         self.callbacks = deque(callbacks)
 

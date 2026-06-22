@@ -89,7 +89,7 @@ class AcceptorTests(VdsmTestCase):
         with generate_key_cert_pair() as key_cert_pair:
             self.key_file, self.cert_file = key_cert_pair
             self.ssl_ctx = create_ssl_context(self.key_file, self.cert_file)
-            super(VdsmTestCase, self).run(result)
+            super().run(result)
 
     def setUp(self):
         self.reactor = None

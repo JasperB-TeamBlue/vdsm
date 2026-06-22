@@ -724,7 +724,7 @@ def _ipv6_is_unused(attrs):
 
 class SetupNetworksError(Exception):
     def __init__(self, status, msg):
-        super(SetupNetworksError, self).__init__(msg)
+        super().__init__(msg)
         self.status = status
         self.msg = msg
 

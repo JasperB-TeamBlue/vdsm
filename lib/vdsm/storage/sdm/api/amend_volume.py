@@ -22,7 +22,7 @@ class Error(errors.Base):
 class Job(base.Job):
 
     def __init__(self, job_id, host_id, vol_info, qcow2_attr):
-        super(Job, self).__init__(job_id, 'amend_volume', host_id)
+        super().__init__(job_id, 'amend_volume', host_id)
         # While performing operations, the volume is not set as illegal since
         # fail to amend a qcow volume should not reflect on the disk capability
         # to be used in a VM.

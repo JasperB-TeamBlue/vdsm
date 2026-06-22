@@ -445,7 +445,7 @@ class ExternalDataFailed(ContextException):
             kwargs['exception_class'] = exception.__class__
             if exception.args:
                 kwargs['exception_arg_1'] = exception.args[0]
-        super(ExternalDataFailed, self).__init__(reason=reason, **kwargs)
+        super().__init__(reason=reason, **kwargs)
 
 
 class ResetFailed(ContextException):

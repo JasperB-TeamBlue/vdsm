@@ -347,7 +347,7 @@ class NotSoFakeClientIF(clientIF.clientIF):
                 ),
             ]
         ):
-            super(NotSoFakeClientIF, self).__init__(irs, log, scheduler)
+            super().__init__(irs, log, scheduler)
 
     def _createAcceptor(self, host, port):
         pass

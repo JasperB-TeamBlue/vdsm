@@ -885,7 +885,7 @@ class MonitorThread:
     )  # seconds
 
     def __init__(self, vm, startTime, conv_schedule):
-        super(MonitorThread, self).__init__()
+        super().__init__()
         self._stop = threading.Event()
         self._vm = vm
         self._dom = DomainAdapter(self._vm)

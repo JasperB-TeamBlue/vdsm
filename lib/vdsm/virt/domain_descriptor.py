@@ -183,17 +183,17 @@ class DomainDescriptor(MutableDomainDescriptor):
         :type xml_source: XmlSource
         :type migration_src: bool
         """
-        super(DomainDescriptor, self).__init__(xmlStr)
+        super().__init__(xmlStr)
         self._xml = xmlStr
         self._xml_source = xml_source
-        self._devices = super(DomainDescriptor, self).devices
+        self._devices = super().devices
         if (
             self._xml_source == XmlSource.INITIAL
             or self._xml_source == XmlSource.MIGRATION_SOURCE
         ):
             self._devices_hash = None
         else:
-            self._devices_hash = super(DomainDescriptor, self).devices_hash
+            self._devices_hash = super().devices_hash
 
     @property
     def xml_source(self):

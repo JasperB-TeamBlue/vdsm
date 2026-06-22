@@ -19,7 +19,7 @@ class ConfigNetworkError(Exception):
     def __init__(self, errCode, message):
         self.errCode = errCode
         self.msg = message
-        super(ConfigNetworkError, self).__init__(errCode, message)
+        super().__init__(errCode, message)
 
 
 class RollbackIncomplete(Exception):
@@ -33,7 +33,7 @@ class RollbackIncomplete(Exception):
         self.diff = diff
         self.exc_type = exc_type
         self.value = value
-        super(RollbackIncomplete, self).__init__()
+        super().__init__()
 
     def __str__(self):
         return '{} : diff={} exc_type={} value={}'.format(

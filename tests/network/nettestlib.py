@@ -98,7 +98,7 @@ class Vlan(Interface):
         self.tag = tag
         self.backing_device_name = backing_device_name
         vlan_name = f'{backing_device_name}.{tag}'
-        super(Vlan, self).__init__(vlan_name, len(vlan_name))
+        super().__init__(vlan_name, len(vlan_name))
 
     def create(self):
         linkAdd(
@@ -191,7 +191,7 @@ class Dummy(Interface):
     """
 
     def __init__(self, prefix='dummy_', max_length=11):
-        super(Dummy, self).__init__(prefix, max_length)
+        super().__init__(prefix, max_length)
 
     def create(self):
         try:
@@ -239,7 +239,7 @@ class VethPair:
 
 class Bond(Interface):
     def __init__(self, prefix='bond_', max_length=15):
-        super(Bond, self).__init__(prefix, max_length)
+        super().__init__(prefix, max_length)
 
     def create(self):
         linkAdd(self.dev_name, 'bond')

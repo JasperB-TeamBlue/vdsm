@@ -292,7 +292,7 @@ class Drive(core.Base):
         self.scratch_disk = None
         self.managed_reservation = False
 
-        super(Drive, self).__init__(log, **kwargs)
+        super().__init__(log, **kwargs)
 
         if not hasattr(self, 'vm_custom'):
             self.vm_custom = {}
@@ -649,7 +649,7 @@ class Drive(core.Base):
         }
 
     def config(self):
-        return compat.drive_config(super(Drive, self).config(), self)
+        return compat.drive_config(super().config(), self)
 
     def getXML(self):
         """

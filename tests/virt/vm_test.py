@@ -78,7 +78,7 @@ _TICKET_PARAMS = {
 class TestVm(XMLTestCase):
 
     def __init__(self, *args, **kwargs):
-        super(TestVm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.channelListener = None
         self.conf = {
             'vmName': 'testVm',

@@ -581,7 +581,7 @@ class FakeBlockVolumeManifest(FakeVolumeManifest):
 
 class FakeFileVolumeManifest(FakeVolumeManifest):
     def __init__(self):
-        super(FakeFileVolumeManifest, self).__init__()
+        super().__init__()
         self.oop = 'oop'
 
     @recorded

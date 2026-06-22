@@ -591,7 +591,7 @@ class V2VCommand:
 
 class LibvirtCommand(V2VCommand):
     def __init__(self, uri, username, password, vminfo, vmid, irs):
-        super(LibvirtCommand, self).__init__(vminfo, vmid, irs)
+        super().__init__(vminfo, vmid, irs)
         self._uri = uri
         self._username = username
         self._password = password
@@ -637,7 +637,7 @@ class LibvirtCommand(V2VCommand):
 
 class OvaCommand(V2VCommand):
     def __init__(self, ova_path, vminfo, vmid, irs):
-        super(OvaCommand, self).__init__(vminfo, vmid, irs)
+        super().__init__(vminfo, vmid, irs)
         self._ova_path = ova_path
 
     def _command(self):
@@ -685,7 +685,7 @@ class XenCommand(V2VCommand):
     """
 
     def __init__(self, uri, vminfo, job_id, irs):
-        super(XenCommand, self).__init__(vminfo, job_id, irs)
+        super().__init__(vminfo, job_id, irs)
         self._uri = uri
         self._ssh_agent = SSHAgent()
 
@@ -726,14 +726,14 @@ class XenCommand(V2VCommand):
             yield self._start_helper()
 
     def _environment(self):
-        env = super(XenCommand, self)._environment()
+        env = super()._environment()
         env.update(self._ssh_agent.auth)
         return env
 
 
 class KVMCommand(V2VCommand):
     def __init__(self, uri, username, password, vminfo, vmid, irs):
-        super(KVMCommand, self).__init__(vminfo, vmid, irs)
+        super().__init__(vminfo, vmid, irs)
         self._uri = uri
         self._username = username
         self._password = password

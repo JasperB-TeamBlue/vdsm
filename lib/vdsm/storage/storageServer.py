@@ -315,7 +315,7 @@ class GlusterFSConnection(MountConnection):
     def __init__(
         self, id, spec, vfsType=None, options="", mountClass=mount.Mount
     ):
-        super(GlusterFSConnection, self).__init__(
+        super().__init__(
             id, spec, vfsType=vfsType, options=options, mountClass=mountClass
         )
         self._volinfo = None

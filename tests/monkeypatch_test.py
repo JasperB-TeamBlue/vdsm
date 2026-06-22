@@ -94,7 +94,7 @@ class TestMonkeyClassChain(VdsmTestCase):
 class TestMonkeyPatchFixture(VdsmTestCase):
 
     def __init__(self, *a, **kw):
-        super(VdsmTestCase, self).__init__(*a, **kw)
+        super().__init__(*a, **kw)
         self.module = FakeModule()
         self.patch = monkeypatch.Patch(
             [

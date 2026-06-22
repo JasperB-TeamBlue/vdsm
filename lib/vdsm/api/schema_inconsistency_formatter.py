@@ -11,7 +11,7 @@ from vdsm.common import api
 class SchemaInconsistencyFormatter(logging.Formatter):
 
     def format(self, record):
-        msg = super(SchemaInconsistencyFormatter, self).format(record)
+        msg = super().format(record)
         if record.levelno == logging.DEBUG:
             return self._add_debug_info(msg)
         return msg

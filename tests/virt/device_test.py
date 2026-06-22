@@ -502,7 +502,7 @@ class BrokenSuperVdsm(fake.SuperVdsm):
     def setPortMirroring(self, network, nic_name):
         if self.mirrored_networks:
             raise Exception("Too many networks")
-        super(BrokenSuperVdsm, self).setPortMirroring(network, nic_name)
+        super().setPortMirroring(network, nic_name)
 
 
 @expandPermutations

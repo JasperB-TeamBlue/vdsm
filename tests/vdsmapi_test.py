@@ -1170,7 +1170,7 @@ class SchemaInconsistencyFormatterTest(TestCaseBase):
         with mock.patch.object(
             vdsmapi, "_log_inconsistency", new=self.logger.debug
         ):
-            super(SchemaInconsistencyFormatterTest, self).run(result)
+            super().run(result)
 
     def test_warnings_should_have_no_debugging_info_in(self):
         self.logger.warning(u"zorro")
