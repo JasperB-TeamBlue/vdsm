@@ -147,7 +147,7 @@ class MutableDomainDescriptor:
         cputune = vmxml.find_first(self._dom, 'cputune', None)
         if cputune is None:
             return {}
-        pinning = dict()
+        pinning = {}
         for vcpupin in vmxml.find_all(cputune, 'vcpupin'):
             cpuset = vcpupin.get('cpuset', None)
             vcpu = vcpupin.get('vcpu', None)

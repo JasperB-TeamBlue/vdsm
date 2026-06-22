@@ -1376,14 +1376,14 @@ class BlockStorageDomain(sd.StorageDomain):
         """ """
         vg = lvm.getVG(self.sdUUID)
         vgMetadataStatus = metadataValidity(vg)
-        return dict(
-            disktotal=vg.size,
-            diskfree=vg.free,
-            mdasize=vg.vg_mda_size,
-            mdafree=vg.vg_mda_free,
-            mdavalid=vgMetadataStatus['mdavalid'],
-            mdathreshold=vgMetadataStatus['mdathreshold'],
-        )
+        return {
+            "disktotal": vg.size,
+            "diskfree": vg.free,
+            "mdasize": vg.vg_mda_size,
+            "mdafree": vg.vg_mda_free,
+            "mdavalid": vgMetadataStatus['mdavalid'],
+            "mdathreshold": vgMetadataStatus['mdathreshold'],
+        }
 
     def rmDCImgDir(self, imgUUID, volsImgs):
         return self._manifest.rmDCImgDir(imgUUID, volsImgs)

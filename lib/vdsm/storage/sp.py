@@ -1883,7 +1883,7 @@ class StoragePool:
                 discard,
             )
 
-        return dict(uuid=dstUUID)
+        return {"uuid": dstUUID}
 
     def moveImage(
         self,
@@ -2080,7 +2080,7 @@ class StoragePool:
         with rm.acquireResource(img_ns, imgUUID, rm.EXCLUSIVE):
             img = image.Image(self.poolPath)
             chain = img.reconcileVolumeChain(sdUUID, imgUUID, leafVolUUID)
-        return dict(volumes=chain)
+        return {"volumes": chain}
 
     def prepareMerge(self, subchainInfo):
         """
@@ -2199,7 +2199,7 @@ class StoragePool:
                 bitmap=bitmap,
             )
 
-        return dict(uuid=newVolUUID)
+        return {"uuid": newVolUUID}
 
     def deleteVolume(self, sdUUID, imgUUID, volumes, postZero, force, discard):
         """

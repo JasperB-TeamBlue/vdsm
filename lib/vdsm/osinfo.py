@@ -219,16 +219,16 @@ def version():
     except:
         logging.error('failed to find version/release', exc_info=True)
 
-    return dict(
-        release=release_name,
-        version=version,
-        name=osname,
-        pretty_name=pretty_name,
-    )
+    return {
+        "release": release_name,
+        "version": version,
+        "name": osname,
+        "pretty_name": pretty_name,
+    }
 
 
 def selinux_status():
-    selinux = dict()
+    selinux = {}
     selinux['mode'] = str(utils.get_selinux_enforce_mode())
 
     return selinux
@@ -306,7 +306,7 @@ def package_versions():
                 deb_pkg = KEY_PACKAGES[pkg]
                 ver = cache[deb_pkg].installed.version
                 # Debian just offers a version
-                pkgs[pkg] = dict(version=ver, release="")
+                pkgs[pkg] = {"version": ver, "release": ""}
             except Exception:
                 logging.error('', exc_info=True)
 
@@ -324,7 +324,7 @@ def runtime_kernel_flags():
 
     realtime = 'RT' in ret[3]
 
-    return KernelFlags(dict(version=ver, release=rel), realtime)
+    return KernelFlags({"version": ver, "release": rel}, realtime)
 
 
 @cache.memoized

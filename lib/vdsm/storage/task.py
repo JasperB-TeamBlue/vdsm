@@ -432,9 +432,11 @@ class TaskResult:
         self.result = result
 
     def toDict(self):
-        return dict(
-            message=self.message, code=str(self.code), result=self.result
-        )
+        return {
+            "message": self.message,
+            "code": str(self.code),
+            "result": self.result,
+        }
 
     def __str__(self):
         return "Task result: %s - %s: %s" % (
@@ -1278,7 +1280,7 @@ class Task:
                     self.log.error('failed to acquire task %s', self.id)
                     raise self.error
                 self.log.debug("returning")
-                return dict(uuid=str(self.id))
+                return {"uuid": str(self.id)}
 
             self.log.debug("finished: %s", result)
             self._updateResult(0, "OK", result)
@@ -1403,7 +1405,7 @@ class Task:
         return str(self.state)
 
     def getInfo(self):
-        return dict(id=self.id, verb=self.name)
+        return {"id": self.id, "verb": self.name}
 
     def deprecated_getStatus(self):
         oReturn = {}

@@ -1504,12 +1504,12 @@ class Vm:
                 domain_id=vol_pdiv["domainID"],
                 volume_id=vol_pdiv["volumeID"],
             )
-        return dict(
-            result=dict(
-                apparentsize=str(vol_size.apparentsize),
-                truesize=str(vol_size.truesize),
-            )
-        )
+        return {
+            "result": {
+                "apparentsize": str(vol_size.apparentsize),
+                "truesize": str(vol_size.truesize),
+            }
+        }
 
     def refresh_volume(self, volInfo):
         self.log.debug(
@@ -6418,7 +6418,7 @@ class Vm:
             'mime_type': mime_type,
         }
 
-        return dict(result=logutils.Suppressed(result))
+        return {"result": logutils.Suppressed(result)}
 
     def sync_jobs_metadata(self):
         with self._md_desc.values() as vm:

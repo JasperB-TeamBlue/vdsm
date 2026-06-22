@@ -366,7 +366,7 @@ class HSM:
         """
         vars.task.setDefaultException(se.StoragePoolActionError())
         pools = [self._pool.spUUID] if self._pool.is_connected() else []
-        return dict(poollist=pools)
+        return {"poollist": pools}
 
     @public
     def spmStart(
@@ -483,7 +483,7 @@ class HSM:
             self.log.error("Non existent or invalid MD key", exc_info=True)
             raise se.StorageDomainMasterError("Version or spm id invalid")
 
-        return dict(spm_st=status)
+        return {"spm_st": status}
 
     @public
     def extendVolume(self, sdUUID, spUUID, imgUUID, volumeUUID, size):
@@ -592,7 +592,7 @@ class HSM:
         if volFormat != sc.COW_FORMAT:
             # This method is used only with COW volumes (see docstring),
             # for RAW volumes we just return the volume size.
-            return dict(size=str(volToExtend.getVolumeSize()))
+            return {"size": str(volToExtend.getVolumeSize())}
 
         qemuImgFormat = sc.fmt2str(sc.COW_FORMAT)
 
@@ -617,7 +617,7 @@ class HSM:
 
         volToExtend.setCapacity(virtual_size)
 
-        return dict(size=str(virtual_size))
+        return {"size": str(virtual_size)}
 
     @public
     def extendStorageDomain(self, sdUUID, spUUID, guids, force=False):
@@ -672,7 +672,7 @@ class HSM:
         pool.resizePV(sdUUID, guid)
 
         pv = lvm.getPV(guid)
-        return dict(size=str(pv.size))
+        return {"size": str(pv.size)}
 
     def _detachStorageDomainFromOldPools(self, sdUUID):
         dom = sdCache.produce(sdUUID=sdUUID)
@@ -1308,7 +1308,7 @@ class HSM:
             sdUUID = pool.masterDomain.sdUUID
         vars.task.getSharedLock(STORAGE, sdUUID)
         vms = pool.getVmsList(sdUUID)
-        return dict(vmlist=vms)
+        return {"vmlist": vms}
 
     @public
     def getVmsInfo(self, spUUID, sdUUID, vmList=None):
@@ -1335,7 +1335,7 @@ class HSM:
             sdUUID = pool.masterDomain.sdUUID
         vars.task.getSharedLock(STORAGE, sdUUID)
         vms = pool.getVmsInfo(sdUUID, vmList)
-        return dict(vmlist=vms)
+        return {"vmlist": vms}
 
     @public
     def createVolume(
@@ -2124,7 +2124,7 @@ class HSM:
             checkStatus=checkStatus,
             refresh=refresh,
         )
-        return dict(devList=devices)
+        return {"devList": devices}
 
     def _getDeviceList(
         self, storageType=None, guids=(), checkStatus=True, refresh=True
@@ -2294,7 +2294,7 @@ class HSM:
             force=force,
         )
 
-        return dict(uuid=lvm.getVG(vgname).uuid)
+        return {"uuid": lvm.getVG(vgname).uuid}
 
     @deprecated
     @public
@@ -2327,7 +2327,7 @@ class HSM:
         """
         # getSharedLock(tasksResource...)
         taskStatus = self.taskMng.getTaskStatus(taskID=taskID)
-        return dict(taskStatus=taskStatus)
+        return {"taskStatus": taskStatus}
 
     @public
     def getAllTasksStatuses(self):
@@ -2345,7 +2345,7 @@ class HSM:
         except securable.SecureError:
             raise exception.expected(se.SpmStatusError())
 
-        return dict(allTasksStatus=allTasksStatus)
+        return {"allTasksStatus": allTasksStatus}
 
     @public
     def getTaskInfo(self, taskID):
@@ -2363,7 +2363,7 @@ class HSM:
         """
         # getSharedLock(tasksResource...)
         inf = self.taskMng.getTaskInfo(taskID=taskID)
-        return dict(TaskInfo=inf)
+        return {"TaskInfo": inf}
 
     @public
     def getAllTasksInfo(self):
@@ -2384,7 +2384,7 @@ class HSM:
         except securable.SecureError:
             raise exception.expected(se.SpmStatusError())
 
-        return dict(allTasksInfo=allTasksInfo)
+        return {"allTasksInfo": allTasksInfo}
 
     @public
     def getAllTasks(self):
@@ -2395,7 +2395,7 @@ class HSM:
         :rtype: dict
         """
         ret = self.taskMng.getAllTasks()
-        return dict(tasks=ret)
+        return {"tasks": ret}
 
     @public
     def stopTask(self, taskID):
@@ -2591,7 +2591,7 @@ class HSM:
         status_list = [
             {"id": con.id, "status": status} for con, status in results
         ]
-        return dict(statuslist=status_list)
+        return {"statuslist": status_list}
 
     @deprecated
     @public
@@ -2614,7 +2614,7 @@ class HSM:
             # Engine currently sends empty list when more than one iSCSI SD use
             # same iSCSI target. Return empty result list.
             self.log.warning("Connection list is empty, ignoring request")
-            return dict(statuslist=[])
+            return {"statuslist": []}
 
         vars.task.setDefaultException(
             se.StorageServerDisconnectionError(
@@ -2631,7 +2631,7 @@ class HSM:
         status_list = [
             {"id": con.id, "status": status} for con, status in results
         ]
-        return dict(statuslist=status_list)
+        return {"statuslist": status_list}
 
     @public
     def getStoragePoolInfo(self, spUUID):
@@ -2658,7 +2658,7 @@ class HSM:
         else:
             poolInfo['isoprefix'] = ''  # No ISO domain found
 
-        return dict(info=poolInfo, dominfo=domInfo)
+        return {"info": poolInfo, "dominfo": domInfo}
 
     @public
     def createStorageDomain(
@@ -2884,7 +2884,7 @@ class HSM:
         # getSharedLock(connectionsResource...)
 
         vars.task.getSharedLock(STORAGE, sdUUID)
-        return dict(info=dom.getInfo())
+        return {"info": dom.getInfo()}
 
     @public
     def getStorageDomainStats(self, sdUUID):
@@ -2905,7 +2905,7 @@ class HSM:
         dom = sdCache.produce(sdUUID=sdUUID)
         dom.refresh()
         stats = dom.getStats()
-        return dict(stats=stats)
+        return {"stats": stats}
 
     @public
     def getStorageDomainsList(
@@ -2957,7 +2957,7 @@ class HSM:
                 domains.remove(sdUUID)
                 continue
 
-        return dict(domlist=domains)
+        return {"domlist": domains}
 
     def __fillPVDict(self, devInfo, pv, devtype):
         info = {}
@@ -3003,7 +3003,7 @@ class HSM:
                     continue
             vglist.append(vgInfo)
 
-        return dict(vglist=vglist)
+        return {"vglist": vglist}
 
     def __getVGsInfo(self, vgUUIDs=None):
         getGuid = lambda pvName: os.path.split(pvName)[-1]
@@ -3092,7 +3092,7 @@ class HSM:
         vg = lvm.getVGbyUUID(vgUUID)
         lvm.invalidateVG(vg.name, invalidateLVs=False, invalidatePVs=True)
         # getSharedLock(connectionsResource...)
-        return dict(info=self.__getVGsInfo([vgUUID])[0])
+        return {"info": self.__getVGsInfo([vgUUID])[0]}
 
     @public
     def discoverSendTargets(self, con):
@@ -3135,7 +3135,7 @@ class HSM:
                 fullTargets.append(str(target))
                 partialTargets.append(target.iqn)
 
-        return dict(targets=partialTargets, fullTargets=fullTargets)
+        return {"targets": partialTargets, "fullTargets": fullTargets}
 
     @public
     def refreshVolume(self, sdUUID, spUUID, imgUUID, volUUID):
@@ -3165,7 +3165,7 @@ class HSM:
 
     @public
     def get_image_ticket(self, uuid):
-        return dict(result=imagetickets.get_ticket(uuid))
+        return {"result": imagetickets.get_ticket(uuid)}
 
     @public
     def remove_image_ticket(self, uuid):
@@ -3195,9 +3195,10 @@ class HSM:
         # Return string because xmlrpc's "int" is very limited
         dom = sdCache.produce(sdUUID=sdUUID)
         size = dom.getVolumeSize(imgUUID, volUUID)
-        return dict(
-            apparentsize=str(size.apparentsize), truesize=str(size.truesize)
-        )
+        return {
+            "apparentsize": str(size.apparentsize),
+            "truesize": str(size.truesize),
+        }
 
     @public
     def setVolumeSize(self, sdUUID, spUUID, imgUUID, volUUID, capacity):
@@ -3224,7 +3225,7 @@ class HSM:
         :rtype: dict
         """
         info = self._produce_volume(sdUUID, imgUUID, volUUID).getInfo()
-        return dict(info=info)
+        return {"info": info}
 
     @public
     def getQemuImageInfo(self, sdUUID, spUUID, imgUUID, volUUID):
@@ -3248,7 +3249,7 @@ class HSM:
         sd = sdCache.produce(sdUUID)
         vol = sd.produceVolume(imgUUID, volUUID)
         info = vol.getQemuImageInfo()
-        return dict(info=info)
+        return {"info": info}
 
     @public
     def measure(
@@ -3316,7 +3317,7 @@ class HSM:
             unsafe=True,
         )
 
-        return dict(result=result)
+        return {"result": result}
 
     @public
     def prune_bitmaps(self, sdUUID, imgUUID, volUUID, baseUUID):
@@ -3357,13 +3358,13 @@ class HSM:
             supervdsm.getProxy().appropriateDevice(guid, thiefId, deviceType)
             supervdsm.getProxy().udevTrigger(guid, deviceType)
             size = str(multipath.getDeviceSize(devicemapper.getDmId(guid)))
-            device = dict(truesize=size, apparentsize=size, path=devPath)
+            device = {"truesize": size, "apparentsize": size, "path": devPath}
         elif deviceType == 'rbd':
             # In case the device is rbd, the entire path will be passed
             devPath = guid
             supervdsm.getProxy().appropriateDevice(guid, thiefId, deviceType)
             supervdsm.getProxy().udevTrigger(devPath, deviceType)
-            device = dict(path=devPath)
+            device = {"path": devPath}
         else:
             raise RuntimeError("Unsupported device type %r" % deviceType)
 
@@ -3472,9 +3473,9 @@ class HSM:
             raise
 
         return {
-            'path': leafPath,
-            'info': leafInfo,
-            'imgVolumesInfo': imgVolumesInfo,
+            "path": leafPath,
+            "info": leafInfo,
+            "imgVolumesInfo": imgVolumesInfo,
         }
 
     @public
@@ -3531,7 +3532,7 @@ class HSM:
             volUUIDs = list(vols)
         else:
             volUUIDs = [k for k, v in vols.items() if imgUUID in v.imgs]
-        return dict(uuidlist=volUUIDs)
+        return {"uuidlist": volUUIDs}
 
     @public
     def dumpStorageDomain(self, sdUUID, full=False):
@@ -3554,7 +3555,7 @@ class HSM:
         dom = sdCache.produce(sdUUID)
         # Make sure we are not reading stale metadata.
         dom.invalidateMetadata()
-        return dict(result=dom.dump(full=full))
+        return {"result": dom.dump(full=full)}
 
     @public
     def getImagesList(self, sdUUID):
@@ -3613,7 +3614,7 @@ class HSM:
                         if imgUUID in imgs:
                             imgDomains.append(sdUUID)
 
-        return dict(domainslist=imgDomains)
+        return {"domainslist": imgDomains}
 
     @public
     def prepareForShutdown(self):
@@ -4022,13 +4023,13 @@ class HSM:
         with rm.acquireResource(STORAGE, lease.sd_id, rm.SHARED):
             dom = sdCache.produce_manifest(lease.sd_id)
             info = dom.lease_info(lease.lease_id)
-        lease_info = dict(
-            sd_id=info.lockspace,
-            lease_id=info.resource,
-            path=info.path,
-            offset=info.offset,
-        )
-        return dict(result=lease_info)
+        lease_info = {
+            "sd_id": info.lockspace,
+            "lease_id": info.resource,
+            "path": info.path,
+            "offset": info.offset,
+        }
+        return {"result": lease_info}
 
     @public
     def rebuild_leases(self, sd_id):
@@ -4048,7 +4049,7 @@ class HSM:
         self._check_pool_connected()
         with rm.acquireResource(STORAGE, lease.sd_id, rm.SHARED):
             dom = sdCache.produce_manifest(lease.sd_id)
-            return dict(result=dom.lease_status(lease.lease_id, self._pool.id))
+            return {"result": dom.lease_status(lease.lease_id, self._pool.id)}
 
     @public
     def fence_lease(self, lease, metadata):
@@ -4065,7 +4066,7 @@ class HSM:
     def start_nbd_server(self, server_id, config):
         self._check_pool_connected()
         url = nbd.start_server(server_id, config)
-        return dict(result=url)
+        return {"result": url}
 
     @public
     def stop_nbd_server(self, server_id):
@@ -4076,7 +4077,7 @@ class HSM:
     @public
     def create_transient_disk(self, owner_name, disk_name, size):
         disk_info = transientdisk.create_disk(owner_name, disk_name, size)
-        return dict(result=disk_info)
+        return {"result": disk_info}
 
     @public
     def remove_transient_disk(self, owner_name, disk_name):
@@ -4085,7 +4086,7 @@ class HSM:
     @public
     def list_transient_disks(self, owner_name):
         disks = transientdisk.list_disks(owner_name)
-        return dict(result=disks)
+        return {"result": disks}
 
     # Helpers
 

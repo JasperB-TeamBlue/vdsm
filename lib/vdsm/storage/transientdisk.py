@@ -58,7 +58,7 @@ def create_disk(
         remove_disk(owner_name, disk_name)
         raise
 
-    return dict(path=path)
+    return {"path": path}
 
 
 def remove_disk(owner_name, disk_name):

@@ -112,7 +112,7 @@ def domain_cpu_models(conn, arch, cpu_mode):
         )
         return {}
 
-    dom_models = dict()
+    dom_models = {}
     for mode in cpucaps.findall('mode'):
         if mode.get('name') == cpu_mode and mode.get('supported') == 'yes':
             for model in mode.findall('model'):

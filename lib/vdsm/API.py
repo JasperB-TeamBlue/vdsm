@@ -669,19 +669,19 @@ class VM(APIBase):
             paramImageID,
             paramVolumeID,
         ) = hibernationStr.split(',')
-        return dict(
-            domainID=domainID,
-            poolID=poolID,
-            imageID=stateImageID,
-            volumeID=stateVolumeID,
-            device='disk',
-        ), dict(
-            domainID=domainID,
-            poolID=poolID,
-            imageID=paramImageID,
-            volumeID=paramVolumeID,
-            device='disk',
-        )
+        return {
+            "domainID": domainID,
+            "poolID": poolID,
+            "imageID": stateImageID,
+            "volumeID": stateVolumeID,
+            "device": 'disk',
+        }, {
+            "domainID": domainID,
+            "poolID": poolID,
+            "imageID": paramImageID,
+            "volumeID": paramVolumeID,
+            "device": 'disk',
+        }
 
     @api.logged(on="api.virt")
     @api.method
@@ -1737,7 +1737,7 @@ class Global(APIBase):
         :type name: string
         """
         logutils.set_level(level, name)
-        return dict(status=doneCode)
+        return {"status": doneCode}
 
     # VM-related functions
     @api.logged(on="api.host")
@@ -1947,21 +1947,21 @@ class Global(APIBase):
     def setMOMPolicy(self, policy):
         try:
             self._cif.mom.setPolicy(policy)
-            return dict(status=doneCode)
+            return {"status": doneCode}
         except:
             return errCode['momErr']
 
     def setMOMPolicyParameters(self, key_value_store):
         try:
             self._cif.mom.setPolicyParameters(key_value_store)
-            return dict(status=doneCode)
+            return {"status": doneCode}
         except:
             return errCode['momErr']
 
     def setKsmTune(self, tuningParams):
         try:
             supervdsm.getProxy().ksmTune(tuningParams)
-            return dict(status=doneCode)
+            return {"status": doneCode}
         except:
             self.log.exception('setKsmTune API call failed.')
             return errCode['ksmErr']

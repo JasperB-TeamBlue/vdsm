@@ -265,12 +265,12 @@ def delete_checkpoints(vm, dom, checkpoint_ids):
                         'message': e.get_error_message(),
                     },
                 }
-                return dict(result=result)
+                return {"result": result}
 
         deleted_checkpoint_ids.append(checkpoint_id)
 
     result = {'checkpoint_ids': deleted_checkpoint_ids}
-    return dict(result=result)
+    return {"result": result}
 
 
 def redefine_checkpoints(vm, dom, checkpoints):
@@ -309,12 +309,12 @@ def redefine_checkpoints(vm, dom, checkpoints):
                     'message': e.get_error_message(),
                 },
             }
-            return dict(result=result)
+            return {"result": result}
 
         checkpoint_ids.append(checkpoint_cfg.id)
 
     result = {'checkpoint_ids': checkpoint_ids}
-    return dict(result=result)
+    return {"result": result}
 
 
 def list_checkpoints(vm, dom):
@@ -328,13 +328,13 @@ def list_checkpoints(vm, dom):
             vm_id=vm.id,
         )
 
-    return dict(result=result)
+    return {"result": result}
 
 
 def dump_checkpoint(dom, checkpoint_id):
     try:
         checkpoint = dom.checkpointLookupByName(checkpoint_id)
-        return dict(result={'checkpoint': checkpoint.getXMLDesc()})
+        return {"result": {"checkpoint": checkpoint.getXMLDesc()}}
     except libvirt.libvirtError as e:
         if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN_CHECKPOINT:
             raise exception.NoSuchCheckpointError(
@@ -420,7 +420,7 @@ def _backup_info(vm, dom, backup_id, backup, checkpoint_id=None):
     if checkpoint_id is not None:
         _add_checkpoint_xml(vm, dom, backup_id, checkpoint_id, result)
 
-    return dict(result=result)
+    return {"result": result}
 
 
 def _get_backup_xml(vm_id, dom, backup_id):

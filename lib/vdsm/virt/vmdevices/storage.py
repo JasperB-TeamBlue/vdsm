@@ -643,10 +643,10 @@ class Drive(core.Base):
 
     @classmethod
     def get_identifying_attrs(cls, dev_elem):
-        return dict(
-            devtype=core.dev_class_from_dev_elem(dev_elem),
+        return {
+            "devtype": core.dev_class_from_dev_elem(dev_elem),
             **core.get_xml_elem(dev_elem, 'name', 'target', 'dev'),
-        )
+        }
 
     def config(self):
         return compat.drive_config(super(Drive, self).config(), self)
