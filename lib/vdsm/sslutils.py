@@ -67,8 +67,7 @@ class SSLSocket:
     def makefile(self, mode='rb', bufsize=-1):
         if mode == 'rb':
             return socket.socket.makefile(self, mode, bufsize)
-        else:
-            return self.sock.makefile(mode, bufsize)
+        return self.sock.makefile(mode, bufsize)
 
 
 class SSLContext:
@@ -216,16 +215,15 @@ class SSLHandshakeDispatcher:
 
         if src_addr == cert_common_name:
             return True
-        elif src_addr in SSLHandshakeDispatcher.LOCAL_ADDRESSES:
+        if src_addr in SSLHandshakeDispatcher.LOCAL_ADDRESSES:
             return True
-        else:
-            name, aliaslist, addresslist = socket.gethostbyaddr(src_addr)
-            hostnames = [name] + aliaslist + addresslist
+        name, aliaslist, addresslist = socket.gethostbyaddr(src_addr)
+        hostnames = [name] + aliaslist + addresslist
 
-            return any(
-                cert_common_name.lower() == hostname.lower()
-                for hostname in hostnames
-            )
+        return any(
+            cert_common_name.lower() == hostname.lower()
+            for hostname in hostnames
+        )
 
     @staticmethod
     def _normalize_ip_address(addr):

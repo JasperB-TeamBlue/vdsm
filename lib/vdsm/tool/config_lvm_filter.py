@@ -48,14 +48,13 @@ def main(*args):
 
     if config_method == "filter":
         return config_with_filter(args)
-    elif config_method == "devices":
+    if config_method == "devices":
         return config_with_devices(args)
-    else:
-        print(
-            "Unknown configuration method %s, use either 'filter' or "
-            "'devices'." % config_method
-        )
-        return CANNOT_CONFIG
+    print(
+        "Unknown configuration method %s, use either 'filter' or "
+        "'devices'." % config_method
+    )
+    return CANNOT_CONFIG
 
 
 def config_with_filter(args):

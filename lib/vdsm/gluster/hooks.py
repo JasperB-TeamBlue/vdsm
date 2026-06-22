@@ -153,9 +153,8 @@ def hookEnable(glusterCmd, hookLevel, hookName):
             raise ge.GlusterHookNotFoundException(
                 glusterCmd, hookLevel, hookName
             )
-        else:
-            errMsg = "[Errno %s] %s: '%s'" % (e.errno, e.strerror, e.filename)
-            raise ge.GlusterHookEnableFailedException(err=[errMsg])
+        errMsg = "[Errno %s] %s: '%s'" % (e.errno, e.strerror, e.filename)
+        raise ge.GlusterHookEnableFailedException(err=[errMsg])
 
 
 @checkArgs

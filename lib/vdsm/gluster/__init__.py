@@ -49,8 +49,7 @@ def listPublicFunctions(gluster_mgmt_enabled=True):
 def _shouldPublish(func, gluster_mgmt_enabled):
     if gluster_mgmt_enabled:
         return getattr(func, 'gluster_mgmt_api', False)
-    else:
-        return getattr(func, 'gluster_api', False)
+    return getattr(func, 'gluster_api', False)
 
 
 def safeWrite(fileName, content):

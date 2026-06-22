@@ -28,9 +28,8 @@ class _Adapter:
         temp_len = len(temp)
         if temp_len == 0:
             return 0
-        else:
-            b[:temp_len] = temp
-            return temp_len
+        b[:temp_len] = temp
+        return temp_len
 
     def read(self, size):
         raise NotImplementedError

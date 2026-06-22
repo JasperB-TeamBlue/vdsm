@@ -66,16 +66,15 @@ def glfsInit(volumeId, host, port, protocol):
     rc = _glfs_init(fs)
     if rc == 0:
         return fs
-    elif rc == 1:
+    if rc == 1:
         raise ge.GlfsInitException(
             rc=rc, err=["Volume:%s is stopped." % volumeId]
         )
-    elif rc == -1:
+    if rc == -1:
         raise ge.GlfsInitException(
             rc=rc, err=["Volume:%s not found." % volumeId]
         )
-    else:
-        raise ge.GlfsInitException(rc=rc, err=["unknown error."])
+    raise ge.GlfsInitException(rc=rc, err=["unknown error."])
 
 
 def glfsFini(fs, volumeId):

@@ -77,6 +77,5 @@ def apply_upgrade(upgrade, *args):
         except Exception:
             _get_upgrade_log().exception("Failed to run %s", upgrade.name)
             return 1
-        else:
-            _upgrade_seal(upgrade)
+        _upgrade_seal(upgrade)
     return 0

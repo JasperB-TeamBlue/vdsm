@@ -82,9 +82,8 @@ def _getDeviceSize(device, unitType='MiB'):
         unit = getattr(blivet.size, unitType)
         convert_to = _get_convert_to(device)
         return convert_to(unit)
-    else:
-        # Older blivet needs spec string
-        return device.size.convertTo(spec=unitType)
+    # Older blivet needs spec string
+    return device.size.convertTo(spec=unitType)
 
 
 def _getDeviceDict(device, createBrick=False):

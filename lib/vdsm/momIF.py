@@ -137,8 +137,7 @@ class MomClient:
         try:
             if self._mom.ping():
                 return 'active'
-            else:
-                return 'inactive'
+            return 'inactive'
         except (ThrottledClient.Inactive, AttributeError, socket.error) as e:
             throttledlog.warning(
                 'MomNotAvailable', "MOM not available. Error: %s", str(e)

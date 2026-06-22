@@ -259,8 +259,7 @@ class clientIF:
                         "Logging facility is required to create "
                         "the single clientIF instance"
                     )
-                else:
-                    cls._instance = clientIF(irs, log, scheduler)
+                cls._instance = clientIF(irs, log, scheduler)
         return cls._instance
 
     def _createAcceptor(self, host, port):
@@ -397,8 +396,7 @@ class clientIF:
             self.qga_poller.stop()
             if self.irs:
                 return self.irs.prepareForShutdown()
-            else:
-                return {'status': doneCode}
+            return {'status': doneCode}
         finally:
             self._shutdownSemaphore.release()
 
@@ -619,8 +617,7 @@ class clientIF:
             json_binding = self.servers['jsonrpc']
             reactor = json_binding.reactor
             return reactor.createClient(client_socket)
-        else:
-            raise JsonRpcBindingsError()
+        raise JsonRpcBindingsError()
 
     def _recoverThread(self):
         # Trying to run recover process until it works. During that time vdsm
@@ -768,10 +765,9 @@ class clientIF:
             )
             if not launching:
                 break
-            else:
-                self.log.info(
-                    'recovery: waiting for %d domains to go up', launching
-                )
+            self.log.info(
+                'recovery: waiting for %d domains to go up', launching
+            )
             time.sleep(1)
 
     def _waitForStoragePool(self):

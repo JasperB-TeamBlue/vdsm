@@ -59,8 +59,7 @@ def filter_types(item):
 
     if item in vdsmapi.TYPE_KEYS or item == 'dict':
         return item
-    else:
-        return item['name']
+    return item['name']
 
 
 def write_no_params(f):

@@ -82,8 +82,7 @@ def _get_brick(hostUuid, brickName, volStatus):
     ]
     if bricks:
         return bricks[0]
-    else:
-        return {}
+    return {}
 
 
 def _getVolumeInfo(vdsmProxy):

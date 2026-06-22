@@ -44,9 +44,8 @@ def isconfigured():
     if _lvm_conf_configured():
         _log("lvm is configured for vdsm")
         return YES
-    else:
-        _log("lvm requires configuration")
-        return NO
+    _log("lvm requires configuration")
+    return NO
 
 
 def _lvm_conf_configured():

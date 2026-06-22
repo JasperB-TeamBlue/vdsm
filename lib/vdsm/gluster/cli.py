@@ -103,10 +103,9 @@ def _getTree(out):
         raise ge.GlusterXmlErrorException(err=out)
     if rv == 0:
         return tree
-    else:
-        if errNo != 0:
-            rv = errNo
-        raise ge.GlusterCmdFailedException(rc=rv, err=[msg])
+    if errNo != 0:
+        rv = errNo
+    raise ge.GlusterCmdFailedException(rc=rv, err=[msg])
 
 
 def _execGlusterXml(cmd):
@@ -401,12 +400,11 @@ def volumeStatus(volumeName, brick=None, option=None):
     try:
         if option == 'detail':
             return _parseVolumeStatusDetail(xmltree)
-        elif option == 'clients':
+        if option == 'clients':
             return _parseVolumeStatusClients(xmltree)
-        elif option == 'mem':
+        if option == 'mem':
             return _parseVolumeStatusMem(xmltree)
-        else:
-            return _parseVolumeStatus(xmltree)
+        return _parseVolumeStatus(xmltree)
     except _etreeExceptions:  # pylint: disable=catching-non-exception
         raise ge.GlusterXmlErrorException(err=[etree.tostring(xmltree)])
 
@@ -978,8 +976,7 @@ def peerDetach(hostName, force=False):
     except ge.GlusterCmdFailedException as e:
         if e.rc == 2:
             raise ge.GlusterHostNotFoundException(rc=e.rc, err=e.err)
-        else:
-            raise ge.GlusterHostRemoveFailedException(rc=e.rc, err=e.err)
+        raise ge.GlusterHostRemoveFailedException(rc=e.rc, err=e.err)
 
 
 def _parsePeerStatus(tree, gHostName, gUuid, gStatus):
@@ -1727,8 +1724,7 @@ def snapshotInfo(volumeName=None):
     try:
         if volumeName:
             return _parseVolumeSnapshotList(xmltree)
-        else:
-            return _parseAllVolumeSnapshotList(xmltree)
+        return _parseAllVolumeSnapshotList(xmltree)
     except _etreeExceptions:  # pylint: disable=catching-non-exception
         raise ge.GlusterXmlErrorException(err=[etree.tostring(xmltree)])
 

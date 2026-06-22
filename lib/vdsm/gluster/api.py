@@ -77,8 +77,7 @@ def exportAsVerb(func):
         if rv:
             rv.update(_SUCCESS)
             return rv
-        else:
-            return _SUCCESS
+        return _SUCCESS
 
     wrapper.exportAsVerb = True
     return wrapper
@@ -207,13 +206,12 @@ def mountMetaVolume(metaVolumeName):
                     % (META_VOLUME, META_VOL_MOUNT_POINT)
                 )
                 return True
-            else:
-                raise ge.GlusterMetaVolumeMountFailedException(
-                    err=[
-                        "%s already mounted at %s"
-                        % (fs_spec, META_VOL_MOUNT_POINT)
-                    ]
-                )
+            raise ge.GlusterMetaVolumeMountFailedException(
+                err=[
+                    "%s already mounted at %s"
+                    % (fs_spec, META_VOL_MOUNT_POINT)
+                ]
+            )
         except OSError as e:
             raise ge.GlusterMetaVolumeMountFailedException(
                 err=["Failed to check if volume is already mounted", str(e)]

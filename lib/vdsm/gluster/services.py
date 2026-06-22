@@ -57,8 +57,7 @@ def _serviceStatus(serviceName):
     rc1 = service.service_is_managed(serviceName)
     if rc1 == 0:
         return _formatStatus(serviceName, StatusTypes.STOPPED)
-    else:
-        return _formatStatus(serviceName, StatusTypes.NOT_AVAILABLE)
+    return _formatStatus(serviceName, StatusTypes.NOT_AVAILABLE)
 
 
 def _serviceAction(serviceName, action):

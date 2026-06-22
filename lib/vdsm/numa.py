@@ -112,12 +112,11 @@ def autonuma_status():
 
     if not out:
         return AUTONUMA_STATUS_UNKNOWN
-    elif out[0] == '0':
+    if out[0] == '0':
         return AUTONUMA_STATUS_DISABLE
-    elif out[0] == '1':
+    if out[0] == '1':
         return AUTONUMA_STATUS_ENABLE
-    else:
-        return AUTONUMA_STATUS_UNKNOWN
+    return AUTONUMA_STATUS_UNKNOWN
 
 
 def memory_by_cell(index):

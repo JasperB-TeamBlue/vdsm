@@ -203,8 +203,7 @@ class Schema:
     def _report_inconsistency(self, message):
         if self._strict_mode:
             raise JsonRpcInvalidParamsError(message)
-        else:
-            _log_inconsistency('%s', message)
+        _log_inconsistency('%s', message)
 
     def verify_args(self, rep, args):
         try:
@@ -250,7 +249,7 @@ class Schema:
                 self._verify_type(param[0], a, identifier)
             return
         # check whether a parameter is defined as primitive type
-        elif param in TYPE_KEYS:
+        if param in TYPE_KEYS:
             self._check_primitive_type(param, value, param)
             return
 

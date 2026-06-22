@@ -101,10 +101,9 @@ def convertToStr(val):
     varType = type(val)
     if varType is float:
         return '%.2f' % (val)
-    elif varType is int:
+    if varType is int:
         return '%d' % (val)
-    else:
-        return val
+    return val
 
 
 class Canceled(BaseException):

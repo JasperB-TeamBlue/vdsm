@@ -46,7 +46,6 @@ def parse_meta_comments(path):
 def boolify(value):
     if value == b"YES":
         return True
-    elif value == b"NO":
+    if value == b"NO":
         return False
-    else:
-        raise ValueError("Invalid boolean value: %s" % value)
+    raise ValueError("Invalid boolean value: %s" % value)

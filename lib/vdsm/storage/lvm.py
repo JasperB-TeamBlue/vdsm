@@ -1262,9 +1262,8 @@ def _fqpvname(pv):
     if pv[0] == "/":
         # Absolute path, use as is.
         return pv
-    else:
-        # Multipath device guid
-        return os.path.join(PV_PREFIX, pv)
+    # Multipath device guid
+    return os.path.join(PV_PREFIX, pv)
 
 
 def _createpv(devices, metadataSize, options=tuple()):
@@ -1369,18 +1368,17 @@ def _setLVAvailability(vg, lvs, available):
     except se.LVMCommandError as e:
         if available == "y":
             raise se.CannotActivateLogicalVolumes.from_lvmerror(e)
+        if e.lv_in_use():
+            users = _lvs_proc_info(vg, lvs)
+            log.warning(
+                "Cannot deactivate LV vg=%s lv=%s users=%s: %s",
+                vg,
+                lvs,
+                users,
+                e,
+            )
         else:
-            if e.lv_in_use():
-                users = _lvs_proc_info(vg, lvs)
-                log.warning(
-                    "Cannot deactivate LV vg=%s lv=%s users=%s: %s",
-                    vg,
-                    lvs,
-                    users,
-                    e,
-                )
-            else:
-                raise se.CannotDeactivateLogicalVolume.from_lvmerror(e)
+            raise se.CannotDeactivateLogicalVolume.from_lvmerror(e)
 
 
 def _lvs_proc_info(vg, lvs):
@@ -1574,10 +1572,9 @@ def createVG(vgName, devices, initialTag, metadataSize, force=False):
         _lvminfo.run_command(cmd, devices=tuple(pvs))
     except se.LVMCommandError as e:
         raise se.VolumeGroupCreateError.from_lvmerror(e)
-    else:
-        _lvminfo._invalidatepvs(pvs)
-        _lvminfo._invalidatevgs(vgName)
-        log.debug("Cache after createvg %s", _lvminfo._vgs)
+    _lvminfo._invalidatepvs(pvs)
+    _lvminfo._invalidatevgs(vgName)
+    log.debug("Cache after createvg %s", _lvminfo._vgs)
 
 
 def removeVG(vgName):
@@ -1597,10 +1594,9 @@ def removeVG(vgName):
         # If vgremove failed reintroduce the VG into the cache
         _lvminfo._invalidatevgs(vgName)
         raise se.VolumeGroupRemoveError.from_lvmerror(e)
-    else:
-        _lvminfo._invalidatevgpvs(vgName)
-        # Remove the vg from the cache
-        _lvminfo._removevgs(vgName)
+    _lvminfo._invalidatevgpvs(vgName)
+    # Remove the vg from the cache
+    _lvminfo._removevgs(vgName)
 
 
 def removeVGbyUUID(vgUUID):
@@ -1624,10 +1620,9 @@ def extendVG(vgName, devices, force):
         _lvminfo.run_command(cmd, devices=devs)
     except se.LVMCommandError as e:
         raise se.VolumeGroupExtendError.from_lvmerror(e)
-    else:
-        _lvminfo._invalidatepvs(pvs)
-        _lvminfo._invalidatevgs(vgName)
-        log.debug("Cache after extending vg %s", _lvminfo._vgs)
+    _lvminfo._invalidatepvs(pvs)
+    _lvminfo._invalidatevgs(vgName)
+    log.debug("Cache after extending vg %s", _lvminfo._vgs)
 
 
 def _removeHolders(devices):
@@ -1659,9 +1654,8 @@ def reduceVG(vgName, device):
         _lvminfo.run_command(cmd, devices=_lvminfo._getVGDevs((vgName,)))
     except se.LVMCommandError as e:
         raise se.VolumeGroupReduceError.from_lvmerror(e)
-    else:
-        _lvminfo._invalidatepvs(pvName)
-        _lvminfo._invalidatevgs(vgName)
+    _lvminfo._invalidatepvs(pvName)
+    _lvminfo._invalidatevgs(vgName)
 
 
 def chkVG(vgName):
@@ -1796,9 +1790,8 @@ def createLV(
         _lvminfo.run_command(cmd, devices=_lvminfo._getVGDevs((vgName,)))
     except se.LVMCommandError as e:
         raise se.CannotCreateLogicalVolume.from_lvmerror(e)
-    else:
-        _lvminfo._invalidatevgs(vgName)
-        _lvminfo._invalidatelvs(vgName, lvName)
+    _lvminfo._invalidatevgs(vgName)
+    _lvminfo._invalidatelvs(vgName, lvName)
 
     # TBD: Need to explore the option of running lvcreate w/o devmapper
     # so that if activation is not needed it would be skipped in the
@@ -1847,11 +1840,10 @@ def removeLVs(vgName, lvNames):
         # LV info needs to be refreshed
         _lvminfo._invalidatelvs(vgName, lvNames)
         raise se.LogicalVolumeRemoveError.from_lvmerror(e)
-    else:
-        # Remove the LV from the cache
-        _lvminfo._removelvs(vgName, lvNames)
-        # If lvremove succeeded it affected VG as well
-        _lvminfo._invalidatevgs(vgName)
+    # Remove the LV from the cache
+    _lvminfo._removelvs(vgName, lvNames)
+    # If lvremove succeeded it affected VG as well
+    _lvminfo._invalidatevgs(vgName)
 
 
 def extendLV(vgName, lvName, size_mb, refresh=True):
@@ -1914,9 +1906,8 @@ def extendLV(vgName, lvName, size_mb, refresh=True):
                 "needed=%d)" % (vgName, lvName, free_extents, needed_extents)
             )
         raise se.LogicalVolumeExtendError.from_lvmerror(e)
-    else:
-        _lvminfo._invalidatevgs(vgName)
-        _lvminfo._invalidatelvs(vgName, lvName)
+    _lvminfo._invalidatevgs(vgName)
+    _lvminfo._invalidatelvs(vgName, lvName)
 
 
 def reduceLV(vgName, lvName, size_mb, force=False):
@@ -1962,9 +1953,8 @@ def reduceLV(vgName, lvName, size_mb, force=False):
 
         # TODO: add and raise LogicalVolumeReduceError
         raise se.LogicalVolumeExtendError.from_lvmerror(e)
-    else:
-        _lvminfo._invalidatevgs(vgName)
-        _lvminfo._invalidatelvs(vgName, lvName)
+    _lvminfo._invalidatevgs(vgName)
+    _lvminfo._invalidatelvs(vgName, lvName)
 
 
 def activateLVs(vgName, lvNames, refresh=True):
@@ -2019,8 +2009,7 @@ def _refreshLVs(vgName, lvNames):
     except se.LVMCommandError as e:
         _lvminfo._invalidatelvs(vgName, lvNames)
         raise se.LogicalVolumeRefreshError.from_lvmerror(e)
-    else:
-        _lvminfo._invalidatelvs(vgName, lvNames)
+    _lvminfo._invalidatelvs(vgName, lvNames)
 
 
 def changeLVsTags(vg, lvs, delTags=(), addTags=()):

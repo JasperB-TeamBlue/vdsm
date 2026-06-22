@@ -1080,18 +1080,17 @@ def _mem_to_mib(size, unit):
     lunit = unit.lower()
     if lunit in ('bytes', 'b'):
         return size // MiB
-    elif lunit in ('kib', 'k'):
+    if lunit in ('kib', 'k'):
         return size // 1024
-    elif lunit in ('mib', 'm'):
+    if lunit in ('mib', 'm'):
         return size
-    elif lunit in ('gib', 'g'):
+    if lunit in ('gib', 'g'):
         return size * 1024
-    elif lunit in ('tib', 't'):
+    if lunit in ('tib', 't'):
         return size * 1024 * 1024
-    else:
-        raise InvalidVMConfiguration(
-            "Invalid currentMemory unit attribute:" " %r" % unit
-        )
+    raise InvalidVMConfiguration(
+        "Invalid currentMemory unit attribute:" " %r" % unit
+    )
 
 
 def _list_domains(conn):
@@ -1289,7 +1288,7 @@ def _convert_disk_format(format):
     #       will be accessible for /lib/vdsm/v2v.py
     if format == 'qcow2':
         return 'COW'
-    elif format == 'raw':
+    if format == 'raw':
         return 'RAW'
     raise KeyError
 
@@ -1406,9 +1405,9 @@ def _read_ovf_from_ova(ova_path):
     """
     if os.path.isdir(ova_path):
         return _read_ovf_from_ova_dir(ova_path)
-    elif zipfile.is_zipfile(ova_path):
+    if zipfile.is_zipfile(ova_path):
         return _read_ovf_from_zip_ova(ova_path)
-    elif tarfile.is_tarfile(ova_path):
+    if tarfile.is_tarfile(ova_path):
         return _read_ovf_from_tar_ova(ova_path)
     raise ClientError(
         'Unknown ova format, supported formats:' ' tar, zip or a directory'

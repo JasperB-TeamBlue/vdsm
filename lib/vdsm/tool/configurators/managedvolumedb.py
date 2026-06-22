@@ -42,9 +42,8 @@ def isconfigured():
     if _db_exists() and _db_owned_by_vdsm() and _db_version_correct():
         sys.stdout.write("Managed volume database is already configured\n")
         return YES
-    else:
-        sys.stdout.write("Managed volume database requires configuration\n")
-        return NO
+    sys.stdout.write("Managed volume database requires configuration\n")
+    return NO
 
 
 def removeConf():
@@ -65,9 +64,8 @@ def _set_db_ownership():
 def _db_exists():
     if os.path.isfile(mvdb.DB_FILE):
         return True
-    else:
-        sys.stdout.write("DB file %s doesn't exists\n" % mvdb.DB_FILE)
-        return False
+    sys.stdout.write("DB file %s doesn't exists\n" % mvdb.DB_FILE)
+    return False
 
 
 def _db_owned_by_vdsm():
@@ -79,12 +77,11 @@ def _db_owned_by_vdsm():
 
     if expected_uid == actual_uid and expected_gid == actual_gid:
         return True
-    else:
-        sys.stdout.write("DB file %s doesn't have proper ownership %s:%s\n"
-                         "Actual ownership is %s:%s\n" %
-                         (mvdb.DB_FILE, expected_uid, expected_gid,
-                          actual_uid, actual_gid))
-        return False
+    sys.stdout.write("DB file %s doesn't have proper ownership %s:%s\n"
+                     "Actual ownership is %s:%s\n" %
+                     (mvdb.DB_FILE, expected_uid, expected_gid,
+                      actual_uid, actual_gid))
+    return False
 
 
 def _db_version_correct():
@@ -94,7 +91,6 @@ def _db_version_correct():
 
     if mvdb.VERSION == version["version"]:
         return True
-    else:
-        sys.stdout.write("Database version (%s) is not the same as expected "
-                         "one (%s)\n" % (version["version"], mvdb.VERSION))
-        return False
+    sys.stdout.write("Database version (%s) is not the same as expected "
+                     "one (%s)\n" % (version["version"], mvdb.VERSION))
+    return False

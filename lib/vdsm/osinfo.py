@@ -91,16 +91,15 @@ def kdump_status():
 def _release_name():
     if os.path.exists('/etc/rhev-hypervisor-release'):
         return OSName.RHEVH
-    elif glob.glob('/etc/ovirt-node-*-release'):
+    if glob.glob('/etc/ovirt-node-*-release'):
         return OSName.OVIRT
-    elif os.path.exists('/etc/fedora-release'):
+    if os.path.exists('/etc/fedora-release'):
         return OSName.FEDORA
-    elif os.path.exists('/etc/redhat-release'):
+    if os.path.exists('/etc/redhat-release'):
         return OSName.RHEL
-    elif os.path.exists('/etc/debian_version'):
+    if os.path.exists('/etc/debian_version'):
         return OSName.DEBIAN
-    else:
-        return OSName.UNKNOWN
+    return OSName.UNKNOWN
 
 
 def _parse_release_file(path):

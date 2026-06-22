@@ -238,8 +238,7 @@ class VM(APIBase):
         self.vm.guestAgent.desktopLock()
         if self.vm.guestAgent.isResponsive():
             return {'status': doneCode}
-        else:
-            return errCode['nonresp']
+        return errCode['nonresp']
 
     @api.logged(on="api.virt")
     @api.method
@@ -250,8 +249,7 @@ class VM(APIBase):
         self.vm.guestAgent.desktopLogin(domain, username, password)
         if self.vm.guestAgent.isResponsive():
             return {'status': doneCode}
-        else:
-            return errCode['nonresp']
+        return errCode['nonresp']
 
     @api.logged(on="api.virt")
     @api.method
@@ -262,8 +260,7 @@ class VM(APIBase):
         self.vm.guestAgent.desktopLogoff(force)
         if self.vm.guestAgent.isResponsive():
             return {'status': doneCode}
-        else:
-            return errCode['nonresp']
+        return errCode['nonresp']
 
     @api.logged(on="api.virt")
     @api.method
@@ -274,8 +271,7 @@ class VM(APIBase):
         self.vm.guestAgent.sendHcCmdToDesktop(message)
         if self.vm.guestAgent.isResponsive():
             return {'status': doneCode}
-        else:
-            return errCode['nonresp']
+        return errCode['nonresp']
 
     @api.logged(on="api.virt")
     @api.method
@@ -580,8 +576,7 @@ class VM(APIBase):
             except KeyError:
                 return errCode['imageErr']
             return volume.updateSize(newSize)
-        else:
-            return self.vm.diskSizeExtend(driveSpecs, newSize)
+        return self.vm.diskSizeExtend(driveSpecs, newSize)
 
     @api.logged(on="api.virt")
     @api.method
@@ -1134,16 +1129,14 @@ class LVMVolumeGroup(APIBase):
     def getInfo(self):
         if self._UUID is not None:
             return self._irs.getVGInfo(self._UUID)
-        else:
-            # FIXME: Add proper error return
-            return None
+        # FIXME: Add proper error return
+        return None
 
     def remove(self):
         if self._UUID is not None:
             return self._irs.removeVG(self._UUID)
-        else:
-            # FIXME: Add proper error return
-            return None
+        # FIXME: Add proper error return
+        return None
 
 
 class ISCSIConnection(APIBase):
@@ -1232,10 +1225,9 @@ class StorageDomain(APIBase):
             return self._irs.forcedDetachStorageDomain(
                 storagedomainID, storagepoolID
             )
-        else:
-            return self._irs.detachStorageDomain(
-                storagedomainID, storagepoolID, masterSdUUID, masterVersion
-            )
+        return self._irs.detachStorageDomain(
+            storagedomainID, storagepoolID, masterSdUUID, masterVersion
+        )
 
     def extend(self, storagedomainID, storagepoolID, devlist, force=False):
         return self._irs.extendStorageDomain(
