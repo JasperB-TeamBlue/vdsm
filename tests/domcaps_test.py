@@ -13,7 +13,7 @@ from vdsm import machinetype
 from vdsm.common import cpuarch
 
 
-class FakeConnection(object):
+class FakeConnection:
 
     def __init__(self, arch, file_name=None):
         test_path = os.path.realpath(__file__)
@@ -43,7 +43,7 @@ class FakeConnection(object):
         return libvirt.VIR_CPU_COMPARE_SUPERSET
 
 
-class FailingConnection(object):
+class FailingConnection:
 
     def getDomainCapabilities(self, *args):
         raise libvirt.libvirtError('test')

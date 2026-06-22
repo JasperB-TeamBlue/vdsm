@@ -34,7 +34,7 @@ import inspect
 #         # using patched functions
 # ---
 #
-class Patch(object):
+class Patch:
 
     def __init__(self, what):
         self.what = what

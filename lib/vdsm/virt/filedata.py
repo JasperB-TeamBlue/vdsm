@@ -45,7 +45,7 @@ def _unpack_tar_archive(path, data):
     )
 
 
-class _FileSystemData(object):
+class _FileSystemData:
     """
     Handling possibly changing data in a local file system.
 
@@ -266,7 +266,7 @@ class DirectoryData(_FileSystemData):
         _unpack_tar_archive(self._path, data)
 
 
-class Monitor(object):
+class Monitor:
     """
     Monitoring and reporting file system data.
 

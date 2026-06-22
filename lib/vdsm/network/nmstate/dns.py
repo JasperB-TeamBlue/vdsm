@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 
-class Dns(object):
+class Dns:
     def __init__(self, netconf, runconf):
         self._netconf = netconf
         self._runconf = runconf

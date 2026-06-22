@@ -15,7 +15,7 @@ def link_iface():
         yield _iface
 
 
-class TestLinkIface(object):
+class TestLinkIface:
     def test_iface_up(self, link_iface):
         link_iface.up()
         assert link_iface.is_up()

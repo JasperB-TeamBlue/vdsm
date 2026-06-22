@@ -26,7 +26,7 @@ CYCLE_TIMEOUT = 5.0
 log = logging.getLogger("test")
 
 
-class FakeEvent(object):
+class FakeEvent:
     """
     Fake vdsm.storage.misc.Event, keeping emitting events into a list. The
     original class is starting a new thread for each event, making it hard to
@@ -41,7 +41,7 @@ class FakeEvent(object):
         self.received.append((args, kwargs))
 
 
-class FakeCheckService(object):
+class FakeCheckService:
     """
     Fake vdsm.storage.check.CheckService, keeping registered callbacks but not
     doing anything.
@@ -73,7 +73,7 @@ SETUP = "setup"
 TEARDOWN = "teardown"
 
 
-class FakeDomain(object):
+class FakeDomain:
     """
     Fake storage domain implementing the minimal interface required for domain
     monitoring.
@@ -168,7 +168,7 @@ class UnexpectedError(Exception):
     pass
 
 
-class FakeCheckResult(object):
+class FakeCheckResult:
 
     def __init__(self, error=None):
         self.error = error
@@ -179,7 +179,7 @@ class FakeCheckResult(object):
         return 0.005
 
 
-class MonitorEnv(object):
+class MonitorEnv:
 
     def __init__(self, thread, event, checker):
         self.thread = thread
@@ -224,7 +224,7 @@ def monitor_env(shutdown=False, refresh=300):
                 log.error("Error joining thread: %s", e)
 
 
-class FakeMonitorThread(object):
+class FakeMonitorThread:
 
     def __init__(self, sd_uuid, host_id, interval, event, checker):
         self.sdUUID = sd_uuid

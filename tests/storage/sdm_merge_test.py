@@ -38,7 +38,7 @@ from vdsm.storage.sdm.api import merge as api_merge
 from vdsm.storage.volume import Qcow2BitmapInfo
 
 
-class FakeImage(object):
+class FakeImage:
     def __init__(self, repoPath):
         pass
 

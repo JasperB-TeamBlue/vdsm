@@ -14,7 +14,7 @@ from .cleanup import CleanupError
 log = logging.getLogger("test")
 
 
-class TemporaryFS(object):
+class TemporaryFS:
     """
     Temporary file system created on provided device. Contains also support for
     mounting newly created FS.

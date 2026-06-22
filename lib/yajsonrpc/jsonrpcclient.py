@@ -16,7 +16,7 @@ from yajsonrpc import (
 )
 
 
-class _JsonRpcClientRequestContext(object):
+class _JsonRpcClientRequestContext:
     def __init__(self, requests, callback):
         self.callback = callback
         self._requests = requests
@@ -47,7 +47,7 @@ class _JsonRpcClientRequestContext(object):
         return "[" + ", ".join(r.encode() for r in self._requests) + "]"
 
 
-class JsonRpcClient(object):
+class JsonRpcClient:
     def __init__(self, transport):
         self.log = logging.getLogger("jsonrpc.JsonRpcClient")
         transport.set_message_handler(self._handleMessage)
@@ -254,7 +254,7 @@ class JsonRpcClient(object):
     stop = close
 
 
-class JsonRpcCall(object):
+class JsonRpcCall:
     def __init__(self):
         self._ev = Event()
         self.responses = None

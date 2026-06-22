@@ -313,7 +313,7 @@ def iterateIscsiSessions():
             continue
 
 
-class ChapCredentials(object):
+class ChapCredentials:
     def __init__(self, username=None, password=None):
         self.username = username
         self.password = password
@@ -345,7 +345,7 @@ class ChapCredentials(object):
 
 # Technically there are a lot more interface properties but VDSM doesn't
 # support them at the moment
-class IscsiInterface(object):
+class IscsiInterface:
 
     _fields = {
         "name": ('iface.iscsi_ifacename', 'rw'),

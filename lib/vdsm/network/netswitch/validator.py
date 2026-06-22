@@ -11,7 +11,7 @@ MAX_NAME_LEN = 15
 ILLEGAL_CHARS = frozenset(':. \t')
 
 
-class Validator(object):
+class Validator:
     def __init__(self, nets, bonds, net_info):
         self._nets = nets
         self._bonds = bonds
@@ -109,7 +109,7 @@ class Validator(object):
         return desired_config
 
 
-class _NetValidator(object):
+class _NetValidator:
     def __init__(self, name, attrs, desired_config, net_info, running_config):
         self._name = name
         self._attrs = attrs
@@ -167,7 +167,7 @@ class _NetValidator(object):
             )
 
 
-class _BondValidator(object):
+class _BondValidator:
     def __init__(self, name, attrs, desired_config, net_info):
         self._name = name
         self._desired_config = desired_config

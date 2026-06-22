@@ -85,7 +85,7 @@ def dynamic_ipv4_iface():
 
 
 @parametrize_switch_change
-class TestBasicSwitchChange(object):
+class TestBasicSwitchChange:
     def test_switch_change_basic_network(self, adapter, sw_src, sw_dst, nic0):
         NETSETUP_SOURCE = {NET1_NAME: {'nic': nic0, 'switch': sw_src}}
         NETSETUP_TARGET = _change_switch_type(NETSETUP_SOURCE, sw_dst)
@@ -123,7 +123,7 @@ class TestBasicSwitchChange(object):
 
 
 @parametrize_switch_change
-class TestIpSwitch(object):
+class TestIpSwitch:
     def test_switch_change_bonded_network_with_static_ip(
         self, adapter, sw_src, sw_dst, nic0, nic1
     ):
@@ -171,7 +171,7 @@ class TestIpSwitch(object):
 
 
 @parametrize_switch_change
-class TestSwitchRollback(object):
+class TestSwitchRollback:
     def test_rollback_target_configuration_with_invalid_ip(
         self, adapter, sw_src, sw_dst, nic0
     ):
@@ -239,7 +239,7 @@ class TestSwitchRollback(object):
 
 
 @parametrize_switch_change
-class TestSwitchValidation(object):
+class TestSwitchValidation:
     def test_switch_change_with_not_all_existing_networks_specified(
         self, adapter, sw_src, sw_dst, nic0
     ):

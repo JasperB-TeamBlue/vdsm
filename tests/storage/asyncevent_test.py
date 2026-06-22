@@ -570,7 +570,7 @@ class TestBufferedReader:
         assert complete_calls[0] == 1
 
 
-class Sender(object):
+class Sender:
 
     def __init__(self, loop, fd, data, bufsize):
         self.loop = loop

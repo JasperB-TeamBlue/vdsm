@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 
-class NetInfo(object):
+class NetInfo:
     DEFAULT_STP = 'off'
     DEFAULT_IPV6_GATEWAY = '::'
     DEFAULT_MTU = 1500

@@ -111,7 +111,7 @@ def bridgeless_network(switch):
 
 
 @nftestlib.parametrize_switch
-class TestNetworkSetupHook(object):
+class TestNetworkSetupHook:
     def test_before_network_setup_hook_enables_bridged(
         self, adapter, before_network_setup_hook, bridgeless_network
     ):

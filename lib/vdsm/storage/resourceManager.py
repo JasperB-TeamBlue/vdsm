@@ -77,7 +77,7 @@ def _statusFromType(locktype):
 
 
 # TODO : Integrate all factory functionality to manager
-class SimpleResourceFactory(object):
+class SimpleResourceFactory:
     """
     A resource factory that does nothing. Can be used when nothing is enough.
 
@@ -106,7 +106,7 @@ class SimpleResourceFactory(object):
         return None
 
 
-class RequestRef(object):
+class RequestRef:
     """
     The request object that the user can interact with.
     Makes sure that the user does only what he is allowed to.
@@ -149,7 +149,7 @@ class RequestRef(object):
         return hash(self._realRequset)
 
 
-class Request(object):
+class Request:
     """
     Internal request object, don't use directly
     """
@@ -242,7 +242,7 @@ class Request(object):
         )
 
 
-class ResourceRef(object):
+class ResourceRef:
     """
     A reference to a resource. Can be used to conveniently modify an owned
     resource.
@@ -346,7 +346,7 @@ class ResourceRef(object):
         )
 
 
-class _ResourceManager(object):
+class _ResourceManager:
     """
     Manages all the resources in the application.
 
@@ -732,7 +732,7 @@ class _ResourceManager(object):
                     )
 
 
-class Namespace(object):
+class Namespace:
     """
     Namespace struct
     """
@@ -743,7 +743,7 @@ class Namespace(object):
         self.factory = factory
 
 
-class ResourceInfo(object):
+class ResourceInfo:
     """
     Resource struct
     """
@@ -758,7 +758,7 @@ class ResourceInfo(object):
         self.full_name = "%s.%s" % (namespace, name)
 
 
-class Owner(object):
+class Owner:
 
     def __init__(self, ownerobject, raiseonfailure=False):
         self.ownerobject = ownerobject

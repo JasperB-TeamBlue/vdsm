@@ -13,7 +13,7 @@ BOND_NAME = 'bond1'
 NETWORK1_NAME = 'test-network1'
 
 
-class TestSouthboundValidation(object):
+class TestSouthboundValidation:
     def test_two_bridgless_ovs_nets_with_used_nic_fails(self):
         self._assert_net_setup_fails_bad_params(
             'fakebrnet2', 'ovs', {'nic': 'eth0'}

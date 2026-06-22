@@ -76,7 +76,7 @@ class SchemaType(Enum):
         )
 
 
-class MethodRep(object):
+class MethodRep:
 
     def __init__(self, class_name, method_name):
         self._id = '%s.%s' % (class_name, method_name)
@@ -91,7 +91,7 @@ class MethodRep(object):
         return self._class_name
 
 
-class EventRep(object):
+class EventRep:
     def __init__(self, sub_id):
         self._id = self._trim_subscription_id(sub_id)
 
@@ -104,7 +104,7 @@ class EventRep(object):
         return self._id
 
 
-class Schema(object):
+class Schema:
 
     log = logging.getLogger("SchemaCache")
 
@@ -324,7 +324,7 @@ class Schema(object):
                     ' %s' % (arg, t.get('name'), identifier)
                 )
         else:
-            # if custom time (object) we need to check whether all the
+            # if custom time  we need to check whether all the
             # properties match values provided
             self._verify_object_type(t, arg, identifier)
 

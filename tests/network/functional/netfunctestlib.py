@@ -82,12 +82,12 @@ def retry_assert(func):
     return retry
 
 
-class Target(object):
+class Target:
     SERVICE = 1
     LIB = 0
 
 
-class LibProxy(object):
+class LibProxy:
     def __init__(self):
         self.netinfo = None
         self.config = None
@@ -126,7 +126,7 @@ class TargetNotDefinedError(Exception):
     pass
 
 
-class NetFuncTestAdapter(object):
+class NetFuncTestAdapter:
     def __init__(self, target=Target.SERVICE):
         self.netinfo = None
         self.running_config = None
@@ -729,7 +729,7 @@ class SetupNetworksError(Exception):
         self.msg = msg
 
 
-class SetupNetworks(object):
+class SetupNetworks:
     def __init__(
         self,
         vdsm_proxy,

@@ -46,7 +46,7 @@ def restoreRules(base):
         ipwrapper.ruleDel(ipwrapper.Rule.fromText(rule))
 
 
-class _VdsProxy(object):
+class _VdsProxy:
     """
     Vdscli wrapper to save tests
     from common boilerplate code.

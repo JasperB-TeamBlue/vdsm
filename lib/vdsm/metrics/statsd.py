@@ -23,7 +23,7 @@ def send(report):
         _client.gauge(name, value)
 
 
-class _StatsClient(object):
+class _StatsClient:
     """
     Simple client that sends udp messages to stastd port in metrics format
     standard (based on http://metrics20.org/spec).

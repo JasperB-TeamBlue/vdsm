@@ -156,7 +156,7 @@ def _netlookup_by_name(conn, netname):
         raise
 
 
-class NetworksUsersCache(object):
+class NetworksUsersCache:
     """
     Manages networks users reference.
     Note: The implementation is NOT thread safe.

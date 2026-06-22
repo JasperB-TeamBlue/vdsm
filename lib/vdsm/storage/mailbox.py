@@ -259,7 +259,7 @@ class HSM_Mailbox:
         return self._mailman.wait(timeout)
 
 
-class HSM_MailMonitor(object):
+class HSM_MailMonitor:
     log = logging.getLogger('storage.mailbox')
 
     def __init__(

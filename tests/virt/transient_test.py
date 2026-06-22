@@ -28,7 +28,7 @@ class FakeVM(vm.Vm):
         pass
 
 
-class FakeSDCache(object):
+class FakeSDCache:
 
     def produce_manifest(self, sdUUID):
         return self

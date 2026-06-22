@@ -470,7 +470,7 @@ def fake_totalvfs(device_name):
     raise IOError
 
 
-class FakeMdevType(object):
+class FakeMdevType:
 
     def __init__(self, name, available_instances):
         self.name = name

@@ -9,7 +9,7 @@ from vdsm.common import exception
 from testlib import VdsmTestCase
 
 
-class FakeContext(object):
+class FakeContext:
 
     def requestDone(self, res):
         self._res = res

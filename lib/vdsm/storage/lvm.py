@@ -333,7 +333,7 @@ def _tags2Tuple(sTags):
     return tuple(sTags.split(",")) if sTags else tuple()
 
 
-class LVMRunner(object):
+class LVMRunner:
     """
     Does actual execution of the LVM command and handle output, e.g. decode
     output or log warnings.
@@ -396,7 +396,7 @@ class LVMRunner(object):
         return p.returncode, out, err
 
 
-class LVMCache(object):
+class LVMCache:
     """
     Keep all the LVM information.
     """
@@ -1169,7 +1169,7 @@ class LVMCache(object):
         )
 
 
-class CacheStats(object):
+class CacheStats:
 
     def __init__(self):
         self._lock = threading.Lock()

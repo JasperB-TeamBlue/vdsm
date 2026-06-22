@@ -22,7 +22,7 @@ NIC = 'dummy_nic'
 BOND = 'dummy_bond'
 
 
-class TestConversions(object):
+class TestConversions:
     def test_qos_to_str(self):
         data = (
             (
@@ -83,7 +83,7 @@ class TestConversions(object):
         assert qos.get_root_qdisc(qdiscs) == root
 
 
-class TestAddDevicesQoSInfo(object):
+class TestAddDevicesQoSInfo:
     def test_no_devices_no_networks(self):
         nets_info = {}
 

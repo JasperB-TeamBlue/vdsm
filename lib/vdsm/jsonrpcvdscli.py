@@ -106,7 +106,7 @@ _COMMAND_CONVERTER = {
 }
 
 
-class _Server(object):
+class _Server:
 
     def __init__(self, client, xml_compat):
         api_strict_mode = config.getboolean('devel', 'api_strict_mode')

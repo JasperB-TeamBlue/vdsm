@@ -7,7 +7,7 @@ from vdsm.network.nmstate import sriov
 from .testlib import IFACE0
 
 
-class TestSriov(object):
+class TestSriov:
     def test_create_sriov_state_with_2_vfs(self):
         expected_state = {
             nmstate.Interface.KEY: [

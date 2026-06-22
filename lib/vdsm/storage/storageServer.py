@@ -941,7 +941,7 @@ class UnknownConnectionTypeError(RuntimeError):
     pass
 
 
-class ConnectionFactory(object):
+class ConnectionFactory:
     registeredConnectionTypes = {
         "nfs": NFSConnection,
         "posixfs": MountConnection,

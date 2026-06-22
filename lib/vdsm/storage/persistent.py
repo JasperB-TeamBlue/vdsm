@@ -55,7 +55,7 @@ def unicodeDecoder(s):
     return s
 
 
-class DictValidator(object):
+class DictValidator:
     def __init__(self, dictObj, validatorDict):
         self._dict = dictObj
         self._validatorDict = validatorDict
@@ -142,7 +142,7 @@ class DictValidator(object):
         return md
 
 
-class PersistentDict(object):
+class PersistentDict:
     """
     This class provides interface for a generic set of key=value pairs
     that can be accessed by any consumer

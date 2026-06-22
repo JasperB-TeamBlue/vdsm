@@ -168,7 +168,7 @@ def getMountFromTarget(target):
     raise OSError(errno.ENOENT, 'Mount target %s not found' % target)
 
 
-class Mount(object):
+class Mount:
 
     log = logging.getLogger("storage.mount")
 

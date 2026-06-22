@@ -512,7 +512,7 @@ class TestVmHugepages(TestCaseBase):
                 self.assertEqual(fakevm.nr_hugepages, expected)
 
 
-class FakeClientIF(object):
+class FakeClientIF:
     def __init__(self, vmContainer):
         self.vmContainer = vmContainer
 
@@ -520,7 +520,7 @@ class FakeClientIF(object):
         return self.vmContainer
 
 
-class FakeVM(object):
+class FakeVM:
     def __init__(self, hugepages, hugepagesz):
         self.nr_hugepages = hugepages
         self.hugepagesz = hugepagesz

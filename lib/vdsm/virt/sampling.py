@@ -32,7 +32,7 @@ _METRICS_ENABLED = config.getboolean('metrics', 'enabled')
 _NOWAIT_ENABLED = config.getboolean('vars', 'nowait_domain_stats')
 
 
-class TotalCpuSample(object):
+class TotalCpuSample:
     """
     A sample of total CPU consumption.
 
@@ -47,7 +47,7 @@ class TotalCpuSample(object):
         self.user += userNice
 
 
-class CpuCoreSample(object):
+class CpuCoreSample:
     """
     A sample of the CPU consumption of each core
 
@@ -77,7 +77,7 @@ class CpuCoreSample(object):
         return self.coresSample.get(strCoreId)
 
 
-class NumaNodeMemorySample(object):
+class NumaNodeMemorySample:
     """
     A sample of the memory stats of each numa node
 
@@ -110,7 +110,7 @@ class NumaNodeMemorySample(object):
             self.nodesMemSample[nodeIndex] = nodeMemSample
 
 
-class PidCpuSample(object):
+class PidCpuSample:
     """
     A sample of the CPU consumption of a process.
 
@@ -122,7 +122,7 @@ class PidCpuSample(object):
             self.user, self.sys = map(int, stat.read().split()[13:15])
 
 
-class HostSample(object):
+class HostSample:
     """
     A sample of host-related statistics.
 
@@ -183,7 +183,7 @@ class HostSample(object):
 _MINIMUM_SAMPLES = 1
 
 
-class SampleWindow(object):
+class SampleWindow:
     """Keep sliding window of samples."""
 
     def __init__(self, size, timefn=time.time):
@@ -242,7 +242,7 @@ class StatsSample(_StatsSample):
         )
 
 
-class StatsCache(object):
+class StatsCache:
     """
     Cache for bulk stats samples.
     Provide facilities to retrieve per-vm samples, and the glue code to deal
@@ -393,7 +393,7 @@ BULK_STATS_TYPES = (
 )
 
 
-class VMBulkstatsMonitor(object):
+class VMBulkstatsMonitor:
     def __init__(
         self,
         conn,
@@ -478,7 +478,7 @@ HOST_STATS_AVERAGING_WINDOW = 2
 host_samples = SampleWindow(size=HOST_STATS_AVERAGING_WINDOW)
 
 
-class HostMonitor(object):
+class HostMonitor:
 
     def __init__(self, samples=host_samples, cif=None):
         self._samples = samples

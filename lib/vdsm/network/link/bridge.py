@@ -11,7 +11,7 @@ BRIDGING_OPTS = IFACE_PATH + '/bridge/{}'
 SKIPPED_BRIDGE_OPTIONS = ('flush',)
 
 
-class Bridge(object):
+class Bridge:
     def __init__(self, name, options=None):
         self.name = name
         self.options = {}

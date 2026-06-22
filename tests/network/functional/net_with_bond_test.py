@@ -60,7 +60,7 @@ def bond_without_remove(slaves):
 
 
 @nftestlib.parametrize_switch
-class TestNetworkWithBond(object):
+class TestNetworkWithBond:
     def test_add_the_same_nic_to_net_and_bond_in_one_step(
         self, adapter, switch, nic0
     ):
@@ -258,7 +258,7 @@ class TestNetworkWithBond(object):
 
 
 @nftestlib.parametrize_switch
-class TestReuseBond(object):
+class TestReuseBond:
     def test_detach_used_bond_from_bridge(self, adapter, switch, nic0):
         NETCREATE = {
             NETWORK1_NAME: {'bonding': BOND_NAME, 'switch': switch},
@@ -339,7 +339,7 @@ class TestReuseBond(object):
 
 
 @pytest.mark.legacy_switch
-class TestReuseBondOnLegacySwitch(object):
+class TestReuseBondOnLegacySwitch:
     def test_add_net_on_existing_external_vlanned_bond(
         self, adapter, nic0, nic1
     ):

@@ -15,7 +15,7 @@ class DhcpError(Exception):
     pass
 
 
-class Dnsmasq(object):
+class Dnsmasq:
     def __init__(self):
         self._popen = None
 

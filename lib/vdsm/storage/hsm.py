@@ -108,7 +108,7 @@ def public(f):
     return dispatcher.exported(logged(f))
 
 
-class HSM(object):
+class HSM:
     """
     This is the HSM class. It controls all the stuff relate to the Host.
     Further more it doesn't change any pool metadata.

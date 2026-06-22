@@ -48,7 +48,7 @@ class InvalidCall(Exception):
         )
 
 
-class DynamicBridge(object):
+class DynamicBridge:
     def __init__(self):
         api_strict_mode = config.getboolean('devel', 'api_strict_mode')
         self._schema = vdsmapi.Schema.vdsm_api(

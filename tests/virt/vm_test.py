@@ -1540,7 +1540,7 @@ def err_no_domain():
     return error
 
 
-class FakePersistentDomain(object):
+class FakePersistentDomain:
 
     def __init__(self, undefined, uuid, name, state):
         self.id = uuid
@@ -1557,7 +1557,7 @@ class FakePersistentDomain(object):
         self.undefined.append(self.id)
 
 
-class FakePersistentConnection(object):
+class FakePersistentConnection:
 
     def __init__(self, domains):
         self.domains = domains
@@ -1580,7 +1580,7 @@ class FakePersistentConnection(object):
             raise self._no_domain_error()
 
 
-class FakePersistentVm(object):
+class FakePersistentVm:
 
     def __init__(self):
         self.id = '123'
@@ -1928,7 +1928,7 @@ class BlockIoTuneTests(TestCaseBase):
         assert res[0]['ioTune'] == iotune
 
 
-class FakeBlockIoTuneDrive(object):
+class FakeBlockIoTuneDrive:
 
     def __init__(self, name, path=None):
         self.name = name
@@ -1940,7 +1940,7 @@ class FakeBlockIoTuneDrive(object):
         return xmlutils.fromstring('<fake />')
 
 
-class FakeBlockIoTuneDomain(object):
+class FakeBlockIoTuneDomain:
 
     def __init__(self):
         self.iotunes = {}
@@ -2244,7 +2244,7 @@ class TestQgaContext(TestCaseBase):
                     pass
 
 
-class FakeLeaseDomain(object):
+class FakeLeaseDomain:
 
     def attachDevice(self, device_xml):
         pass
@@ -2256,7 +2256,7 @@ class FakeLeaseDomain(object):
         return []
 
 
-class FakeLeaseIRS(object):
+class FakeLeaseIRS:
     def __init__(self, conf):
         self._conf = conf
 
@@ -2264,7 +2264,7 @@ class FakeLeaseIRS(object):
         return response.success(result=self._conf)
 
 
-class FakeLeaseClientIF(object):
+class FakeLeaseClientIF:
     def __init__(self, conf):
         self.irs = FakeLeaseIRS(conf)
 

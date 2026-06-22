@@ -14,12 +14,12 @@ DEFAULT_TABLE_ID = 254
 RULE_PRIORITY = 3200
 
 
-class Family(object):
+class Family:
     IPV4 = 4
     IPV6 = 6
 
 
-class DefaultRouteDestination(object):
+class DefaultRouteDestination:
     IPV4 = '0.0.0.0/0'
     IPV6 = '::/0'
 
@@ -32,7 +32,7 @@ class DefaultRouteDestination(object):
         return None
 
 
-class Routes(object):
+class Routes:
     def __init__(self, netconf, runconf):
         self._netconf = netconf
         self._runconf = runconf
@@ -105,7 +105,7 @@ class Routes(object):
         )
 
 
-class SourceRoutes(object):
+class SourceRoutes:
     def __init__(self, netconf, runconf, current_state):
         self._netconf = netconf
         self._runconf = runconf
@@ -197,7 +197,7 @@ class SourceRoutes(object):
 
 
 # FIXME: Currently we are supporting only IPv4 source routing
-class SourceRouteHelper(object):
+class SourceRouteHelper:
     def __init__(self, next_hop, ipaddr, mask, gateway):
         self._next_hop = next_hop
         self._ipaddr = ipaddr

@@ -4,7 +4,7 @@
 from vdsm.virt.vmdevices import hwclass
 
 
-class DeviceMixin(object):
+class DeviceMixin:
     """
     Mixin that extends *TestCase class with method to verify device parsing
     from libvirt XML.

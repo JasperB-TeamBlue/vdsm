@@ -15,7 +15,7 @@ import logging
 log = logging.getLogger('storage.resourcesfactories')
 
 
-class LvmActivation(object):
+class LvmActivation:
     """
     Represents activation state of the LV.
     When the resource is created (i.e. the LV is being activated)
@@ -58,7 +58,7 @@ class LvmActivationFactory(rm.SimpleResourceFactory):
         return LvmActivation(self._vg, resourceName, lockType)
 
 
-class ImageResource(object):
+class ImageResource:
     """
     Represents resource for image's volumes.
     """

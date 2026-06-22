@@ -46,7 +46,7 @@ def chunk_size():
     return config.getint("irs", "volume_utilization_chunk_mb") * MiB
 
 
-class FakeTime(object):
+class FakeTime:
 
     def __init__(self, value=0):
         self.time = value

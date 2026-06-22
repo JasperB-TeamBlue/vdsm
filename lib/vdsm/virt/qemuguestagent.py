@@ -146,7 +146,7 @@ def channel_state_to_str(state):
 
 
 @virdomain.expose("guestInfo", "interfaceAddresses", "guestVcpus")
-class QemuGuestAgentDomain(object):
+class QemuGuestAgentDomain:
     """Wrapper object exposing libvirt API."""
 
     def __init__(self, vm):
@@ -165,7 +165,7 @@ class QemuGuestAgentDomain(object):
         raise NotImplementedError("method stub")
 
 
-class QemuGuestAgentPoller(object):
+class QemuGuestAgentPoller:
 
     def __init__(self, cif, log, scheduler):
         self._cif = cif

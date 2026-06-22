@@ -7,7 +7,7 @@ from yajsonrpc import stomp
 from yajsonrpc.stompserver import StompDetector
 
 
-class Dummy(object):
+class Dummy:
     def __init__(self):
         self.reactor = None
 

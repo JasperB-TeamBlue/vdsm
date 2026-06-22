@@ -12,7 +12,7 @@ from .testlib import (
 )
 
 
-class TestBond(object):
+class TestBond:
     def test_translate_new_bond_with_two_slaves(self):
         bondings = {TESTBOND0: {'nics': [IFACE0, IFACE1], 'switch': 'legacy'}}
         state = nmstate.generate_state(networks={}, bondings=bondings)

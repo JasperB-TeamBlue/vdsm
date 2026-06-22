@@ -15,7 +15,7 @@ from vdsm.storage import imagetickets
 from testlib import recorded
 
 
-class FakeResponse(object):
+class FakeResponse:
 
     def __init__(self, status=200, reason="OK", data=b""):
         self.status = status
@@ -37,7 +37,7 @@ class FakeResponse(object):
         return self.file.read(amt)
 
 
-class FakeUnixHTTPConnection(object):
+class FakeUnixHTTPConnection:
 
     def __init__(self, response=None):
         self.path = None

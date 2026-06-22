@@ -6,9 +6,9 @@ from testlib import VdsmTestCase
 
 
 @secured
-class SecureClass(object):
+class SecureClass:
 
-    class InnerClass(object):
+    class InnerClass:
         pass
 
     classVariable = 42
@@ -37,11 +37,11 @@ class SecureClass(object):
         pass
 
 
-class ClassWithoutIsSecureMethod(object):
+class ClassWithoutIsSecureMethod:
     pass
 
 
-class ClassIsSecureClassMethod(object):
+class ClassIsSecureClassMethod:
 
     @classmethod
     def __is_secure__(cls):

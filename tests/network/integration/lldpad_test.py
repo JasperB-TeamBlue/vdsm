@@ -33,7 +33,7 @@ def lldp_nics(veth_nics):
         yield veth_nics
 
 
-class TestLldpadReportInteg(object):
+class TestLldpadReportInteg:
     def test_get_lldp_tlvs(self, lldp_nics):
         assert lldptool.is_lldp_enabled_on_iface(lldp_nics[0])
         assert lldptool.is_lldp_enabled_on_iface(lldp_nics[1])

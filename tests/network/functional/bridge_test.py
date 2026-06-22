@@ -35,7 +35,7 @@ def hidden_nic():
         yield nic
 
 
-class TestBridge(object):
+class TestBridge:
     @nftestlib.parametrize_switch
     def test_add_bridge_with_stp(self, adapter, switch, nic0):
         if switch == 'ovs':

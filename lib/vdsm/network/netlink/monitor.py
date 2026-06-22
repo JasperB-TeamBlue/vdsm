@@ -29,14 +29,14 @@ E_NOT_RUNNING = 1
 E_TIMEOUT = 2
 
 
-class EventType(object):
+class EventType:
     DATA = 0
     EXCEPTION = 30
     STOP = 31
     TIMEOUT = 32
 
 
-class Event(object):
+class Event:
     def __init__(self, type, data=None):
         self.type = type
         self.data = data or {}

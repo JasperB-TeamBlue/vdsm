@@ -64,7 +64,7 @@ Log = namedtuple("Log", (
 ))
 
 
-class Stats(object):
+class Stats:
     def __init__(self):
         self.repostats = defaultdict(DomainStats)
         self.lvm_commands = defaultdict(CommandStats)
@@ -73,7 +73,7 @@ class Stats(object):
         self.disk_commands = defaultdict(CommandStats)
 
 
-class DomainStats(object):
+class DomainStats:
 
     def __init__(self):
         self.timestamp = []
@@ -89,7 +89,7 @@ class DomainStats(object):
         self.delay.append(delay)
 
 
-class CommandStats(object):
+class CommandStats:
 
     def __init__(self):
         self.timestamp = []

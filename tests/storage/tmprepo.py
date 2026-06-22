@@ -11,7 +11,7 @@ from vdsm.storage import sd
 from vdsm.storage.sdc import sdCache
 
 
-class TemporaryRepo(object):
+class TemporaryRepo:
     """
     Temporary storage repository replacing /rhev/data-center during tests.
     """

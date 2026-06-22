@@ -29,7 +29,7 @@ class FakeHSM(hsm.HSM):
         pass
 
 
-class TestVerifyUntrustedVolume(object):
+class TestVerifyUntrustedVolume:
     SIZE = MiB
 
     @pytest.mark.parametrize('vol_fmt,', [sc.RAW_FORMAT, sc.COW_FORMAT])
@@ -250,7 +250,7 @@ class TestVerifyUntrustedVolume(object):
             yield env.sd_manifest.produceVolume(img_id, vol_id)
 
 
-class FakePool(object):
+class FakePool:
     """
     Fake storage pool class implementing the extend volume interface.
     """

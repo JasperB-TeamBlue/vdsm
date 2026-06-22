@@ -14,7 +14,7 @@ from stat import S_IRUSR, S_IWUSR
 from vdsm.config import config
 
 
-class DaemonAdapter(object):
+class DaemonAdapter:
     def __init__(self):
         self._args = None
 

@@ -30,7 +30,7 @@ from monkeypatch import MonkeyPatchScope
 from vmfakecon import Error, Connection
 
 
-class IRS(object):
+class IRS:
 
     def __init__(self):
         self.ready = True
@@ -166,7 +166,7 @@ class IRS(object):
         return response.success()
 
 
-class _Server(object):
+class _Server:
     def __init__(self, notifications):
         self.notifications = notifications
 
@@ -174,29 +174,29 @@ class _Server(object):
         self.notifications.append((message, address))
 
 
-class _Reactor(object):
+class _Reactor:
     def __init__(self, notifications):
         self.server = _Server(notifications)
 
 
-class _Bridge(object):
+class _Bridge:
     def __init__(self):
         self.event_schema = _Schema()
 
 
-class _Schema(object):
+class _Schema:
     def verify_event_params(self, sub_id, args):
         pass
 
 
-class JsonRpcServer(object):
+class JsonRpcServer:
     def __init__(self):
         self.notifications = []
         self.reactor = _Reactor(self.notifications)
         self.bridge = _Bridge()
 
 
-class ClientIF(object):
+class ClientIF:
     def __init__(self, irs=None):
         # the bare minimum initialization for our test needs.
         self.irs = irs or IRS()
@@ -244,7 +244,7 @@ class ClientIF(object):
         return ret
 
 
-class Domain(object):
+class Domain:
     def __init__(
         self,
         xml='',
@@ -398,7 +398,7 @@ class Domain(object):
         return []
 
 
-class GuestAgent(object):
+class GuestAgent:
     def __init__(self):
         self.guestDiskMapping = {}
         self.diskMappingHash = 0
@@ -421,7 +421,7 @@ class GuestAgent(object):
         pass
 
 
-class ConfStub(object):
+class ConfStub:
 
     def __init__(self, conf):
         self.conf = conf
@@ -557,7 +557,7 @@ def run_with_vms(func, vm_specs):
     make_vms()
 
 
-class SuperVdsm(object):
+class SuperVdsm:
     def __init__(self, exception=None):
         self._exception = exception
         self.prepared_path = None
@@ -604,7 +604,7 @@ class SampleWindow:
         return self._samples
 
 
-class CpuCoreSample(object):
+class CpuCoreSample:
 
     def __init__(self, samples):
         self._samples = samples
@@ -613,7 +613,7 @@ class CpuCoreSample(object):
         return self._samples.get(key)
 
 
-class HostSample(object):
+class HostSample:
 
     def __init__(self, timestamp, samples):
         self.timestamp = timestamp
@@ -625,7 +625,7 @@ SETUP = "setup"
 TEARDOWN = "teardown"
 
 
-class Device(object):
+class Device:
     log = logging.getLogger('fake.Device')
 
     def __init__(self, device, fail_setup=None, fail_teardown=None):
@@ -655,7 +655,7 @@ class Device(object):
         self.log.info("%s teardown", self.device)
 
 
-class MigrationSourceThread(object):
+class MigrationSourceThread:
 
     def __init__(self, *args, **kwargs):
         self.status = response.success()
@@ -676,7 +676,7 @@ class MigrationSourceThread(object):
     isAlive = is_alive
 
 
-class Nic(object):
+class Nic:
 
     def __init__(self, name, model, mac_addr):
         self.name = name

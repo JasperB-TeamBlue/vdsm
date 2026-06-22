@@ -13,7 +13,7 @@ DEFAULT_MTU = 1500
 OVN_BRIDGE_MAPPINGS_KEY = 'ovn-bridge-mappings'
 
 
-class NetworkConfig(object):
+class NetworkConfig:
     def __init__(self, name, attrs):
         if not attrs:
             name = None
@@ -57,7 +57,7 @@ class NetworkConfig(object):
         return self.vlan_iface or self.base_iface
 
 
-class NetInfoSchema(object):
+class NetInfoSchema:
     NETWORKS = 'networks'
     VLANS = 'vlans'
     BONDS = 'bondings'
@@ -65,7 +65,7 @@ class NetInfoSchema(object):
     BRIDGES = 'bridges'
 
 
-class NetInfoIfaceSchema(object):
+class NetInfoIfaceSchema:
     IFACE = 'iface'
     BRIDGED = 'bridged'
     SOUTHBOUND = 'southbound'
@@ -75,7 +75,7 @@ class NetInfoIfaceSchema(object):
     MTU = 'mtu'
     VLAN = 'vlanid'
 
-    class IPv4(object):
+    class IPv4:
         PRIMARY_ADDR = 'addr'
         ADRRS = 'ipv4addrs'
         DEFAULT_ROUTE = 'ipv4defaultroute'
@@ -83,7 +83,7 @@ class NetInfoIfaceSchema(object):
         GATEWAY = 'gateway'
         DHCP = 'dhcpv4'
 
-    class IPv6(object):
+    class IPv6:
         ADDRS = 'ipv6addrs'
         GATEWAY = 'ipv6gateway'
         AUTOCONF = 'ipv6autoconf'

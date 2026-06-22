@@ -16,7 +16,7 @@ class ExternalDataKind(Enum):
     NVRAM = "nvram"
 
 
-class ExternalData(object):
+class ExternalData:
     Data = namedtuple(
         "Data", ["stable_data", "current_data", "monitor_hash", "engine_hash"]
     )

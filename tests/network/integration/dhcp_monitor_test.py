@@ -44,7 +44,7 @@ def add_rule_mock():
         yield add_rule_mock
 
 
-class FakeNotifier(object):
+class FakeNotifier:
     def __init__(self):
         self.events = []
 
@@ -52,7 +52,7 @@ class FakeNotifier(object):
         self.events.append(event_id)
 
 
-class AtomicAddressCounter(object):
+class AtomicAddressCounter:
     def __init__(self, families):
         self._addresses = self._init_addresses(families)
         self._lock = threading.Lock()
@@ -77,7 +77,7 @@ class AtomicAddressCounter(object):
         return addresses
 
 
-class TestMonitor(object):
+class TestMonitor:
     @parametrize_ip_families
     def test_add_ip_with_monitor(
         self, families, nic0, dhcp_monitor_notifier, add_rule_mock

@@ -39,7 +39,7 @@ EVENT_TOPIC = "jms.topic.test"
 USE_SSL = [[True], [False]]
 
 
-class _DummyBridge(object):
+class _DummyBridge:
     log = logging.getLogger("tests.DummyBridge")
     cif = None
 
@@ -81,7 +81,7 @@ class _DummyBridge(object):
         self.server_address = None
 
 
-class FakeSchema(object):
+class FakeSchema:
 
     def verify_event_params(self, event_id, kwargs):
         pass

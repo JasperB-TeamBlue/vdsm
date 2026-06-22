@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 
-class SwitchType(object):
+class SwitchType:
     LINUX_BRIDGE = 'legacy'
     OVS = 'ovs'
 

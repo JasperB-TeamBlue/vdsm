@@ -87,7 +87,7 @@ def _is_ovirt_secret(virsecret):
     return virsecret.usageID().startswith("ovirt/")
 
 
-class Secret(object):
+class Secret:
     """
     Validate libvirt secret parameters and create secret xml string.
 

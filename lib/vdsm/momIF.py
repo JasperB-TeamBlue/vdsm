@@ -21,7 +21,7 @@ CONNECTION_TIMEOUT_SEC = 2
 THROTTLE_INTERVAL = 5
 
 
-class ThrottledClient(object):
+class ThrottledClient:
     class Inactive(Exception):
         pass
 
@@ -58,7 +58,7 @@ class ThrottledClient(object):
         return method
 
 
-class MomClient(object):
+class MomClient:
 
     def __init__(self, sock_path):
         self.log = logging.getLogger("MOM")

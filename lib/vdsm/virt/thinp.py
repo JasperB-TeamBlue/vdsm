@@ -38,7 +38,7 @@ class ImprobableAllocationError(RuntimeError):
     """
 
 
-class VolumeMonitor(object):
+class VolumeMonitor:
     """
     Track the highest allocation of thin-provisioned volumes of a Vm,
     triggering the extension flow when needed.

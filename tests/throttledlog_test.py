@@ -9,7 +9,7 @@ from monkeypatch import MonkeyPatch
 from testlib import VdsmTestCase
 
 
-class FakeLogger(object):
+class FakeLogger:
 
     def __init__(self, level):
         self.level = level
@@ -24,7 +24,7 @@ class FakeLogger(object):
         self.messages.append(message % args)
 
 
-class FakeTime(object):
+class FakeTime:
 
     def __init__(self):
         self.time = 0.0

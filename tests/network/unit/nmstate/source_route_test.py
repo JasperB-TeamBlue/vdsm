@@ -22,7 +22,7 @@ from .testlib import (
 )
 
 
-class TestIpv4SourceRoute(object):
+class TestIpv4SourceRoute:
     @parametrize_bridged
     def test_remove_net_with_static_source_route(
         self, bridged, current_state_mock

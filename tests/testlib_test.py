@@ -153,7 +153,7 @@ class RecordedTests(VdsmTestCase):
         )
 
 
-class Recorded(object):
+class Recorded:
 
     @classmethod
     @recorded
@@ -183,7 +183,7 @@ class Recorded(object):
 
 
 @expandPermutations
-class Permutated(object):
+class Permutated:
 
     @permutations([[1, 2], [3, 4]])
     def fn(self, a, b):

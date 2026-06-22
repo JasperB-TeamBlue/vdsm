@@ -871,7 +871,7 @@ def test_pv_move_cmd(fake_devices, monkeypatch, use_filter):
     ]
 
 
-class Workers(object):
+class Workers:
 
     def __init__(self):
         self.threads = []

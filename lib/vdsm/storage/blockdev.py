@@ -20,7 +20,7 @@ from vdsm.storage import exception as se
 log = logging.getLogger("storage.blockdev")
 
 
-class _NullTask(object):
+class _NullTask:
     """
     A task that doesn't call to its given callback when it is aborted.
     Useful as a default non op task like object.

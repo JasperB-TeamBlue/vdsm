@@ -5,7 +5,7 @@ import logging
 from vdsm import schedule
 
 
-class FakeScheduler(object):
+class FakeScheduler:
 
     def __init__(self):
         self.calls = []
@@ -15,7 +15,7 @@ class FakeScheduler(object):
         return schedule.ScheduledCall(delay, callable)
 
 
-class FakeLogger(object):
+class FakeLogger:
 
     def __init__(self, level=logging.DEBUG):
         self.level = level
@@ -45,7 +45,7 @@ class FakeLogger(object):
         return level >= self.level
 
 
-class FakeNotifier(object):
+class FakeNotifier:
 
     def __init__(self):
         self.calls = []

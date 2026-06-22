@@ -121,7 +121,7 @@ IFLA_EVENT_MAP = {
 
 
 # libnl/include/linux-private/linux/rtnetlink.h
-class RtKnownTables(object):
+class RtKnownTables:
     RT_TABLE_UNSPEC = 0
     RT_TABLE_COMPAT = 252
     RT_TABLE_DEFAULT = 253
@@ -131,7 +131,7 @@ class RtKnownTables(object):
 
 
 # include/linux-private/linux/if.h
-class IfaceStatus(object):
+class IfaceStatus:
     IFF_UP = 1 << 0  # Device administrative status.
     IFF_BROADCAST = 1 << 1
     IFF_DEBUG = 1 << 2
@@ -154,21 +154,21 @@ class IfaceStatus(object):
 
 
 # include/netlink/handlers.h
-class NlCbAction(object):
+class NlCbAction:
     NL_OK = 0  # Proceed with whatever would come next
     NL_SKIP = 1  # Skip this message
     NL_STOP = 2  # Stop parsing altogether and discard remaining messages
 
 
 # include/netlink/handlers.h
-class NlCbKind(object):
+class NlCbKind:
     NL_CB_DEFAULT = 0  # Default handlers (quiet)
     NL_CB_VERBOSE = 1  # Verbose default handlers (error messages printed)
     NL_CB_DEBUG = 2  # Debug handlers for debugging
     NL_CB_CUSTOM = 3  # Customized handler specified by user
 
 
-class RtnlObjectType(object):
+class RtnlObjectType:
     BASE = 'route'
     ADDR = BASE + '/addr'  # libnl/lib/route/addr.c
     LINK = BASE + '/link'  # libnl/lib/route/link.c

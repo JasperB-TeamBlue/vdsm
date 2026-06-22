@@ -392,7 +392,7 @@ def amend(image, compat):
     _run_cmd(cmd, cwd=workdir)
 
 
-class ProgressCommand(object):
+class ProgressCommand:
 
     REGEXPR = re.compile(br'\s*\(([\d.]+)/100%\)\s*')
 

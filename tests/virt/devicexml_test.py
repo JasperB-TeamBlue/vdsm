@@ -1447,7 +1447,7 @@ _VM_MDEV_XML = """<?xml version='1.0' encoding='utf-8'?>
 """
 
 
-class FakeLibvirtConnection(object):
+class FakeLibvirtConnection:
 
     def get(self, *args, **kwargs):
         return fake.Connection()

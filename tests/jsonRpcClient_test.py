@@ -11,7 +11,7 @@ from testlib import VdsmTestCase
 
 
 # Mocks yajsonrpc.ClientRpcTransportAdapter
-class _TransportMock(object):
+class _TransportMock:
     def __init__(self):
         self._message_handler = lambda msg: None
         self._subs = {}
@@ -39,7 +39,7 @@ class _TransportMock(object):
         pass
 
 
-class _FakeEventSchema(object):
+class _FakeEventSchema:
     def verify_event_params(self, *args, **kwargs):
         pass
 

@@ -48,7 +48,7 @@ class ItemExpired(KeyError):
     pass
 
 
-class ExpiringCache(object):
+class ExpiringCache:
     """
     ExpiringCache behaves like a dict, but an expiration time
     is attached to each key. Thread safe.
@@ -131,7 +131,7 @@ def cleanup_guest_socket(sock):
     rm_file(sock)
 
 
-class DynamicBoundedSemaphore(object):
+class DynamicBoundedSemaphore:
     """
     Bounded Semaphore with the additional ability
     to dynamically adjust its `bound`.
@@ -224,7 +224,7 @@ class TeardownError(Exception):
     pass
 
 
-class prepared(object):
+class prepared:
     """
     A context manager to prepare a group of objects (for example, disk images)
     for an operation.
@@ -288,7 +288,7 @@ class LockTimeout(RuntimeError):
         )
 
 
-class TimedAcquireLock(object):
+class TimedAcquireLock:
 
     def __init__(self, lockid):
         self._lockid = lockid
@@ -410,7 +410,7 @@ def run_logging(args, log_tag=None):
     return cmd_log_path
 
 
-class LibguestfsCommand(object):
+class LibguestfsCommand:
     def __init__(self, path):
         self._args = [path, '-v', '-x']
 

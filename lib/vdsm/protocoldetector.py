@@ -18,7 +18,7 @@ def _is_handshaking(sock):
     return sock.is_handshaking
 
 
-class _AcceptorImpl(object):
+class _AcceptorImpl:
     log = logging.getLogger("ProtocolDetector.AcceptorImpl")
 
     def __init__(self, dispatcher_factory):
@@ -62,7 +62,7 @@ class _AcceptorImpl(object):
         panic.panic("Listen socket was closed: %s" % dispatcher.socket)
 
 
-class _ProtocolDetector(object):
+class _ProtocolDetector:
     log = logging.getLogger("ProtocolDetector.Detector")
 
     def __init__(self, detectors, timeout=None):
@@ -133,7 +133,7 @@ class MultiProtocolAcceptor:
     To support a new protocol, register a detector object using
     add_detector. Protocol detectors must implement this interface:
 
-    class ProtocolDetector(object):
+    class ProtocolDetector:
         NAME = "protocol name"
 
         # How many bytes are needed to detect this protocol

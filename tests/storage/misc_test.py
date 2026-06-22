@@ -137,7 +137,7 @@ class TestEvent(VdsmTestCase):
         self.assertFalse(ev.is_set())
 
 
-class Receiver(object):
+class Receiver:
 
     def __init__(self, event, flag):
         self._callback = partial(Receiver.callback, weakref.proxy(self))
@@ -708,7 +708,7 @@ class TestSamplingMethod(VdsmTestCase):
             return self.results.pop(0)
 
 
-class SamplingThread(object):
+class SamplingThread:
 
     def __init__(self, func):
         self._func = func

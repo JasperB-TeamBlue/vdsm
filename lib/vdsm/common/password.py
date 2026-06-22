@@ -4,7 +4,7 @@
 import copy
 
 
-class ProtectedPassword(object):
+class ProtectedPassword:
     """
     Protect a password so it will not be logged or serialized by mistake.
     """

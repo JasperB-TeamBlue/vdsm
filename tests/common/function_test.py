@@ -41,7 +41,7 @@ class TestWeakmethod(TestCaseBase):
         self.assertRaises(function.InvalidatedWeakRef, method)
 
 
-class ObjectWithDel(object):
+class ObjectWithDel:
 
     def public(self, *args, **kw):
         return 'public', args, kw

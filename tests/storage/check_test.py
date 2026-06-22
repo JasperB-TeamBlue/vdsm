@@ -472,7 +472,7 @@ def test_unexpected_output(err):
         result.delay()
 
 
-class FakeDD(object):
+class FakeDD:
     def __init__(self, path):
         self._path = path
         self.configure(delay=0)

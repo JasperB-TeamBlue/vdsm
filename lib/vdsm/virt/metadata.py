@@ -111,7 +111,7 @@ class MissingDevice(Error):
     msg = 'Failed to uniquely identify one device using the given attributes'
 
 
-class Metadata(object):
+class Metadata:
     """
     Use this class to load or dump a group (see the module docstring) from
     or to a metadata element.
@@ -332,7 +332,7 @@ def create(name, namespace, namespace_uri, **kwargs):
     return metadata_obj.dump(name, **kwargs)
 
 
-class Descriptor(object):
+class Descriptor:
 
     _log = logging.getLogger('virt.metadata.Descriptor')
 

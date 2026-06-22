@@ -89,7 +89,7 @@ def _fake_qemuAgentCommand(domain, command, timeout, flags):
     return '{"error": {"class": "CommandNotFound", "desc": "..."}}'
 
 
-class FakeDomain(object):
+class FakeDomain:
     def interfaceAddresses(self, source):
         if source != libvirt.VIR_DOMAIN_INTERFACE_ADDRESSES_SRC_AGENT:
             return None
@@ -163,12 +163,12 @@ class FakeDomain(object):
         return {'vcpus': '0-7', 'online': '0-3', 'offlinable': '0-7'}
 
 
-class FakeGuestAgent(object):
+class FakeGuestAgent:
     def __init__(self):
         self.guestStatus = None
 
 
-class FakeVM(object):
+class FakeVM:
     def __init__(self):
         self._dom = FakeDomain()
         self.guestAgent = FakeGuestAgent()

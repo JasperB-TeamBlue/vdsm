@@ -50,7 +50,7 @@ _ARCH_REAL = platform.machine()
 _ARCH_FAKE = 'x86_64'
 
 
-class Sigargs(object):
+class Sigargs:
 
     def __init__(self, func):
         try:
@@ -161,7 +161,7 @@ def permutations(perms):
     return wrap
 
 
-class TermColor(object):
+class TermColor:
     black = 30
     red = 31
     green = 32
@@ -340,7 +340,7 @@ def not_raises(test_case):
         raise test_case.failureException("Exception raised: %s" % e)
 
 
-class AssertingLock(object):
+class AssertingLock:
     """
     Lock that raises when trying to acquire a locked lock.
     """
@@ -462,7 +462,7 @@ def recorded(meth):
     return wrapper
 
 
-class LockingThread(object):
+class LockingThread:
     """
     A thread that locks the given context, for testing locks.
 
@@ -547,7 +547,7 @@ def maybefail(meth):
     Objects using this decorator must define an errors instance
     variable:
 
-    class Foo(object):
+    class Foo:
 
         def __init__(self):
             self.errors = {}

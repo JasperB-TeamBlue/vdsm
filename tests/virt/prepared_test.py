@@ -8,7 +8,7 @@ from vdsm.virt.utils import TeardownError
 import pytest
 
 
-class FakeImage(object):
+class FakeImage:
     def __init__(self, name, log, prepare=None, teardown=None):
         self._name = name
         self._log = log

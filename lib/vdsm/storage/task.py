@@ -219,7 +219,7 @@ class State:
 # TODO: Consider removing some of these enum classes to simplify the code.
 #  If we never compare instances of the classes, they can be removed.
 #  Immediate suspects: EnumType and 3 its subclasses (Task*Type) below.
-class EnumType(object):
+class EnumType:
     def __init__(self, enum):
         if not getattr(self, enum, None):
             raise ValueError("%s not a valid type for %s" % (enum, repr(self)))
@@ -419,7 +419,7 @@ class Recovery:
         )
 
 
-class TaskResult(object):
+class TaskResult:
     fields = {
         "code": int,
         "message": str,

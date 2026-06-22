@@ -145,7 +145,7 @@ for code, symbol in errno.errorcode.items():
     symbolerror[os.strerror(code)] = symbol
 
 
-class closing(object):
+class closing:
     """
     Context Manager that is responsible for closing the object it gets upon
     completion of the with statement.
@@ -240,7 +240,7 @@ class CallbackChain(threading.Thread):
         self.callbacks.append(Callback(func, args, kwargs))
 
 
-class RollbackContext(object):
+class RollbackContext:
     '''
     A context manager for recording and playing rollback.
     The first exception will be remembered and re-raised after rollback

@@ -51,13 +51,13 @@ def canonicalize_networks_attributes():
     canonicalize_networks({'net': NETWORK_ATTRIBUTES})
 
 
-class TestNetConfBaseConfig(object):
+class TestNetConfBaseConfig:
     def test_empty_config(self):
         config = BaseConfig({}, {}, {})
         assert not config
 
 
-class TestNetConfPersistence(object):
+class TestNetConfPersistence:
     def testInit(self, netconf_dir):
         net_path = os.path.join(netconf_dir, NETCONF_NETS, NETWORK)
         bond_path = os.path.join(netconf_dir, NETCONF_BONDS, BONDING)
@@ -169,7 +169,7 @@ def groups_paths(netconf_dir):
     )
 
 
-class TestTransaction(object):
+class TestTransaction:
     def test_successful_setup(self, config, groups_paths):
         with Transaction(config=config) as _config:
             _config.setNetwork(NETWORK, NETWORK_ATTRIBUTES)

@@ -68,7 +68,7 @@ throttledlog.throttle('getAllVmStats', 100)
 throttledlog.throttle('getStats', 100)
 
 
-class APIBase(object):
+class APIBase:
     ctorArgs = []
 
     def __init__(self):

@@ -21,7 +21,7 @@ from ..state import NetworkingState
 BRIDGE_PREFIX = 'vdsmbr_'
 
 
-class OvsNetwork(object):
+class OvsNetwork:
     def __init__(self, netconf, runconf, current_state):
         """
         netconf: NetworkConfig object, representing a requested network setup.
@@ -142,7 +142,7 @@ class OvsNetwork(object):
         nb_state[Interface.IPV6] = ip_addr.create(IpAddress.IPV6)
 
 
-class OvsBridge(object):
+class OvsBridge:
     def __init__(self, networks, running_networks, ovs_info):
         """
         networks: List of NetworkConfig objects, representing a requested

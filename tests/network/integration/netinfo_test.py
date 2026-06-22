@@ -67,7 +67,7 @@ def dynamic_ipv6_iface():
             yield client
 
 
-class TestNetinfo(object):
+class TestNetinfo:
     def test_speed_on_an_iface_that_does_not_support_speed(self):
         assert nic.speed('lo') == 0
 
@@ -198,7 +198,7 @@ class TestNetinfo(object):
         assert netinfo.routes.getRouteDeviceTo(str(addr_in_net)) == nic0
 
 
-class TestIPv6Addresses(object):
+class TestIPv6Addresses:
     def test_local_auto_when_ipv6_is_disabled(self, nic0):
         sysctl.disable_ipv6(nic0)
         assert not netinfo.addresses.is_ipv6_local_auto(nic0)

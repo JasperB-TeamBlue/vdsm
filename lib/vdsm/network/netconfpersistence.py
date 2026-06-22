@@ -24,7 +24,7 @@ CONF_PERSIST_DIR = constants.P_VDSM_LIB + 'persistence/netconf'
 VOLATILE_NET_ATTRS = ('blockingdhcp',)
 
 
-class BaseConfig(object):
+class BaseConfig:
     def __init__(self, networks, bonds, devices):
         self.networks = networks
         self.bonds = bonds
@@ -247,7 +247,7 @@ class PersistentConfig(Config):
         super(PersistentConfig, self).__init__(CONF_PERSIST_DIR)
 
 
-class Transaction(object):
+class Transaction:
     def __init__(self, config=None, persistent=True, in_rollback=False):
         self.config = config if config is not None else RunningConfig()
         self.base_config = deepcopy(self.config)

@@ -112,14 +112,14 @@ def _is_property_line(lines, line_number):
     return line_number < len(lines) and lines[line_number].startswith('\t')
 
 
-class OUI(object):
+class OUI:
     """Organizationally Unique Identifier"""
 
     IEEE8021 = 0x0080C2
     IEEE8023 = 0x00120F
 
 
-class Tlv(object):
+class Tlv:
     def __init__(
         self, tlv_type, oui, subtype, name, description, property_parser
     ):
@@ -134,7 +134,7 @@ class Tlv(object):
         return self._property_parser.parse(self.name, properties_text)
 
 
-class PropertyParser(object):
+class PropertyParser:
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod

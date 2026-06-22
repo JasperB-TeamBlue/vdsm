@@ -115,7 +115,7 @@ CHECKPOINT_1 = FakeCheckpoint(CHECKPOINT_1_XML, CHECKPOINT_1_ID)
 CHECKPOINT_2 = FakeCheckpoint(CHECKPOINT_2_XML, CHECKPOINT_2_ID)
 
 
-class FakeDrive(object):
+class FakeDrive:
 
     def __init__(
         self,
@@ -176,13 +176,13 @@ class FakeHSM(hsm.HSM):
         return True
 
 
-class FakeClientIF(object):
+class FakeClientIF:
 
     def __init__(self):
         self.irs = Dispatcher(FakeHSM())
 
 
-class FakeVm(object):
+class FakeVm:
 
     def __init__(self, drives=FAKE_DRIVES):
         self.drives = drives

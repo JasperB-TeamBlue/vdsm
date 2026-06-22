@@ -319,7 +319,7 @@ class ExecutorTaskTests(TestCaseBase):
         self.assertTrue(msg.startswith('<Task discardable'))
 
 
-class Task(object):
+class Task:
 
     def __init__(self, wait=None, error=None, event=None, start_barrier=None):
         self.wait = wait

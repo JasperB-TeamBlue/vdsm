@@ -30,7 +30,7 @@ EXEC_ERROR = 127
 _log = logging.getLogger("storage.check")
 
 
-class CheckService(object):
+class CheckService:
     """
     Provides path checking service.
 
@@ -132,7 +132,7 @@ RUNNING = "running"
 STOPPING = "stopping"
 
 
-class DirectioChecker(object):
+class DirectioChecker:
     """
     Check path availability using direct I/O.
 
@@ -379,7 +379,7 @@ class DirectioChecker(object):
         return "<%s at 0x%x>" % (" ".join(info), id(self))
 
 
-class CheckResult(object):
+class CheckResult:
 
     _PATTERN = re.compile(br".*, ([\de\-.]+) s,[^,]+")
 

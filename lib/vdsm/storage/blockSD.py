@@ -358,7 +358,7 @@ def zeroImgVolumes(sdUUID, imgUUID, volUUIDs, discard):
         raise se.VolumesZeroingError(errors)
 
 
-class VGTagMetadataRW(object):
+class VGTagMetadataRW:
     log = logging.getLogger("storage.metadata.vgtagmetadatarw")
     METADATA_TAG_PREFIX = "MDT_"
     METADATA_TAG_PREFIX_LEN = len(METADATA_TAG_PREFIX)

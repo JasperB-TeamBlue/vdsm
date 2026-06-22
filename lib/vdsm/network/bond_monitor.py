@@ -11,7 +11,7 @@ _monitor_instance = None
 _monitor_lock = threading.Lock()
 
 
-class Monitor(object):
+class Monitor:
     def __init__(self):
         self._handlers = []
         self._nl_monitor = monitor.ifla_monitor(groups=('link',))

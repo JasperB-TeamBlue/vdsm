@@ -60,7 +60,7 @@ class AbortNotSupported(ClientError):
     name = 'AbortNotSupported'
 
 
-class Job(object):
+class Job:
     _JOB_TYPE = None
 
     # If set to True, jobs of this class will be automatically deleted when

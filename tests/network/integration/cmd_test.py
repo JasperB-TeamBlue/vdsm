@@ -4,7 +4,7 @@
 from vdsm.network import cmd
 
 
-class TestCmd(object):
+class TestCmd:
     def test_exec_sync_with_no_output(self):
         _, out, err = cmd.exec_sync(('true',))
         assert out == ''

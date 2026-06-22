@@ -364,7 +364,7 @@ class ThreadedHandler(logging.handlers.MemoryHandler):
             record = None
 
 
-class _Dropper(object):
+class _Dropper:
 
     def handle(self, record):
         pass
@@ -373,7 +373,7 @@ class _Dropper(object):
 _DROPPER = _Dropper()
 
 
-class Suppressed(object):
+class Suppressed:
 
     def __init__(self, value):
         self._value = value

@@ -186,7 +186,7 @@ class TestLookup(VdsmTestCase):
         assert drive == devices_conf[dev_index]
 
 
-class FakeDrive(object):
+class FakeDrive:
     def __init__(self, name='vda', serial='0000', alias='ua-0'):
         self.name = name
         self.serial = serial

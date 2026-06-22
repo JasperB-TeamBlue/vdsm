@@ -224,7 +224,7 @@ def fake_scheduler():
 @pytest.fixture
 def add_recovery(monkeypatch):
     def add_recovery_func(task, module_name, params):
-        class FakeRecovery(object):
+        class FakeRecovery:
             task_proxy = None
             args = None
 

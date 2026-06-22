@@ -57,7 +57,7 @@ def equals(cls):
     return cls
 
 
-class LinkType(object):
+class LinkType:
     """Representation of the different link types"""
 
     NIC = 'nic'
@@ -76,7 +76,7 @@ class LinkType(object):
 
 
 @equals
-class Link(object):
+class Link:
     """Represents link information obtained from iproute2"""
 
     _fakeNics = config.get('vars', 'fake_nics').split(',')
@@ -311,7 +311,7 @@ visible_nics = partial(_visible_devs, Link.isNICLike)
 
 
 @equals
-class Route(object):
+class Route:
     def __init__(self, network, via=None, src=None, device=None, table=None):
         if network != 'local' and not _isValid(network, ip_network):
             raise ValueError('network %s is not properly defined' % network)
@@ -404,7 +404,7 @@ class Route(object):
 
 
 @equals
-class Rule(object):
+class Rule:
     def __init__(
         self,
         table,

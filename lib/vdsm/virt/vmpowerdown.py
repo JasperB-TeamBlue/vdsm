@@ -6,7 +6,7 @@ from vdsm.common import response
 from vdsm import utils
 
 
-class VmPowerDown(object):
+class VmPowerDown:
     """
     Base class for the VmShutdown and VmReboot commands.
     Derived classes must provide the ovirtGuestAgentCallback and acpiCallback

@@ -11,7 +11,7 @@ from testlib import normalized
 from . import vmfakelib as fake
 
 
-class FakeCheckpoint(object):
+class FakeCheckpoint:
 
     def __init__(self, checkpoint_xml, name, dom=None):
         self.xml = checkpoint_xml
@@ -37,7 +37,7 @@ class FakeCheckpoint(object):
         self.dom = None
 
 
-class FakeDomainAdapter(object):
+class FakeDomainAdapter:
     """
     FakeDomainAdapter mock a code that is depending on libvirt backup
     calls, using it will allow test the code without running a

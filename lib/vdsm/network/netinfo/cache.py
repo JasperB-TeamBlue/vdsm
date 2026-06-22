@@ -352,7 +352,7 @@ def _getNetInfo(iface, bridged, routes, ipaddrs):
     return data
 
 
-class NetInfo(object):
+class NetInfo:
     def __init__(self, _netinfo):
         self.networks = _netinfo['networks']
         self.vlans = _netinfo['vlans']

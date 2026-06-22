@@ -35,7 +35,7 @@ def file_env(request):
         yield env
 
 
-class ManifestMixin(object):
+class ManifestMixin:
 
     def test_init_failure_raises(self, monkeypatch, file_env):
         def fail(*a, **kw):

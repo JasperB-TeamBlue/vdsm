@@ -116,7 +116,7 @@ class TemporaryFailure(Error):
 Lease = collections.namedtuple("Lease", "name, path, offset")
 
 
-class SafeLease(object):
+class SafeLease:
     log = logging.getLogger("storage.safelease")
 
     lockUtilPath = config.get('irs', 'lock_util_path')
@@ -278,7 +278,7 @@ class SafeLease(object):
             )
 
 
-class SANLock(object):
+class SANLock:
 
     STATUS_NAME = {
         sanlock.HOST_UNKNOWN: HOST_STATUS_UNKNOWN,
@@ -802,7 +802,7 @@ class SANLock(object):
         return json.loads(data)
 
 
-class LocalLock(object):
+class LocalLock:
     log = logging.getLogger("storage.locallock")
 
     LVER = 0

@@ -354,7 +354,7 @@ SD_MD_FIELDS = {
 }
 
 
-class StorageDomainManifest(object):
+class StorageDomainManifest:
     log = logging.getLogger("storage.storagedomainmanifest")
     mountpoint = None
 
@@ -988,7 +988,7 @@ class StorageDomainManifest(object):
             self.release_external_lease(lease_id)
 
 
-class StorageDomain(object):
+class StorageDomain:
     log = logging.getLogger("storage.storagedomain")
     mdBackupVersions = config.get('irs', 'md_backup_versions')
     mdBackupDir = config.get('irs', 'md_backup_dir')

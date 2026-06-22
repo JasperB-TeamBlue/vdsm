@@ -16,7 +16,7 @@ _monitored_item_pool_instance = None
 _monitored_item_pool_lock = threading.Lock()
 
 
-class MonitoredItemPool(object):
+class MonitoredItemPool:
     """
     Thread safe singleton for keeping track which interfaces are monitored
     (Methods are not thread safe)
@@ -50,7 +50,7 @@ class MonitoredItemPool(object):
         self._item_pool.clear()
 
 
-class Monitor(object):
+class Monitor:
     """
     Monitor that handles new ip notifications
     """
@@ -96,16 +96,16 @@ class Monitor(object):
             self.handle_event(event)
 
 
-class EventField(object):
-    class Scope(object):
+class EventField:
+    class Scope:
         KEY = 'scope'
         GLOBAL = 'global'
 
-    class Event(object):
+    class Event:
         KEY = 'event'
         NEW_ADDR = 'new_addr'
 
-    class Family(object):
+    class Family:
         KEY = 'family'
         IPV4 = 'inet'
         IPV6 = 'inet6'

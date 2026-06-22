@@ -489,7 +489,7 @@ class _Nop(periodic._RunnableOnVm):
         pass
 
 
-class _RecoveringExecutor(object):
+class _RecoveringExecutor:
 
     def __init__(self, tries_before_success=None):
         self._tries_before_success = max(0, tries_before_success)
@@ -513,7 +513,7 @@ class _RecoveringExecutor(object):
         )
 
 
-class _FakeExecutor(object):
+class _FakeExecutor:
 
     def __init__(self, fail=False, max_attempts=None):
         self._fail = fail
@@ -539,7 +539,7 @@ class _FakeExecutor(object):
 # fake.VM is a quite complex beast. We need only the bare minimum here,
 # literally only `id' and `name', so it seems sensible to create this
 # new tiny fake locally.
-class _FakeVM(object):
+class _FakeVM:
     def __init__(self, vmId, vmName):
         self.id = vmId
         self.name = vmName
@@ -566,7 +566,7 @@ class _FakeVM(object):
         self.updated_drives.append(vmDrive)
 
 
-class _FakeDrive(object):
+class _FakeDrive:
 
     def __init__(self, name, readonly=False):
         self.name = name

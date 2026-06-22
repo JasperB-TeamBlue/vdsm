@@ -13,13 +13,13 @@ from vdsm.gluster import cli as gluster_cli
 from vdsm.gluster import exception as ge
 
 
-class FakeSupervdsm(object):
+class FakeSupervdsm:
 
     def getProxy(self):
         return self
 
 
-class FakeMount(object):
+class FakeMount:
     def __init__(self, fs_spec, fs_file):
         self.fs_spec = fs_spec
         self.fs_file = fs_file

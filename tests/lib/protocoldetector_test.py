@@ -18,7 +18,7 @@ from testlib import VdsmTestCase, expandPermutations, permutations
 from integration.sslhelper import generate_key_cert_pair, create_ssl_context
 
 
-class Detector(object):
+class Detector:
     """
     A detector returning response to the client, so we can tell if detection
     was successful and transport is useable after detection.

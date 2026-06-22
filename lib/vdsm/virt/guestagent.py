@@ -105,7 +105,7 @@ class GuestAgentUnsupportedMessage(Exception):
         Exception.__init__(self, message)
 
 
-class GuestAgentEvents(object):
+class GuestAgentEvents:
     def __init__(self, agent):
         self._agent = weakref.ref(agent)
 
@@ -135,7 +135,7 @@ class GuestAgentEvents(object):
         self._send('after_migration')
 
 
-class GuestAgent(object):
+class GuestAgent:
     MAX_MESSAGE_SIZE = 1 * MiB  # for now
 
     def __init__(

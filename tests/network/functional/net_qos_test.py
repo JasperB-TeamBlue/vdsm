@@ -23,7 +23,7 @@ def nic0():
 
 # TODO: When QoS will be available on OVS, enable the tests.
 @nftestlib.parametrize_legacy_switch
-class TestNetworkHostQos(object):
+class TestNetworkHostQos:
     @nftestlib.parametrize_bridged
     @nftestlib.parametrize_bonded
     def test_add_vlan_network_with_qos(

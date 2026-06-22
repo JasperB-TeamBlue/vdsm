@@ -22,7 +22,7 @@ NET_PATH = '/sys/class/net'
 DEFAULT_MTU = 1500
 
 
-class Type(object):
+class Type:
     NIC = 'nic'
     VLAN = 'vlan'
     BOND = 'bond'
@@ -37,7 +37,7 @@ class Type(object):
     VF = 'vf'
 
 
-class IfaceAPI(object):
+class IfaceAPI:
     """
     Link iface driver interface.
     """

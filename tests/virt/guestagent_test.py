@@ -386,7 +386,7 @@ class DiskMappingTests(TestCaseBase):
         assert isinstance(self.agent.diskMappingHash, int)
 
 
-class FakeClientIF(object):
+class FakeClientIF:
     def __init__(self, vmContainer):
         self.vmContainer = vmContainer
 

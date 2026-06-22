@@ -83,7 +83,7 @@ def make_object(name, vm, event, force=False):
     return klass(vm, delay, message, timeout, force, event)
 
 
-class FakeVM(object):
+class FakeVM:
 
     def __init__(self, dom, ga, acpiEnable='true'):
         self._dom = dom
@@ -111,7 +111,7 @@ class FakeVM(object):
         return self.conf['acpiEnable'] == 'true'
 
 
-class FakeGuestAgent(object):
+class FakeGuestAgent:
 
     def __init__(self, responsive=True):
         self.responsive = responsive
@@ -124,7 +124,7 @@ class FakeGuestAgent(object):
         pass
 
 
-class FakeDomain(object):
+class FakeDomain:
 
     @recorded
     def reset(self, flags=0):

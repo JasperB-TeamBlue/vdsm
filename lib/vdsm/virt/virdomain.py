@@ -16,7 +16,7 @@ class TimeoutError(libvirt.libvirtError):
     pass
 
 
-class Disconnected(object):
+class Disconnected:
 
     def __init__(self, vmid):
         self.vmid = vmid
@@ -70,7 +70,7 @@ class Defined(Disconnected):
         self._dom.undefineFlags(flags)
 
 
-class Notifying(object):
+class Notifying:
     # virDomain wrapper that notifies vm when a method raises an exception with
     # get_error_code() = VIR_ERR_OPERATION_TIMEOUT
 
@@ -124,7 +124,7 @@ def expose(*method_names):
     Example usage:
 
         @virdomain.expose("backupBegin", "backupEnd")
-        class BackupDomain(object):
+        class BackupDomain:
             def __init__(self, vm):
                 self._vm = vm
 

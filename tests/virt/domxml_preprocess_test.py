@@ -438,6 +438,6 @@ def extract_device_snippet(device_type, xml_str=None, dom=None):
     return xmlutils.tostring(devs, pretty=True)
 
 
-class FakeVM(object):
+class FakeVM:
     def __init__(self, log):
         self.log = log

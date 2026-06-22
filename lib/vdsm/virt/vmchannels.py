@@ -20,7 +20,7 @@ GUESTFS_DEVICE_NAME = 'org.libguestfs.channel.0'
 QEMU_GA_DEVICE_NAME = 'org.qemu.guest_agent.0'
 
 
-class Listener(object):
+class Listener:
     """
     An events driven listener which handle messages from virtual machines.
     """

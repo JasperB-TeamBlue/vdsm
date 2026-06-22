@@ -9,7 +9,7 @@ from itertools import zip_longest
 from vdsm.network import tc
 
 
-class TestFilters(object):
+class TestFilters:
     def test_filter_objs(self):
         dirName = os.path.dirname(os.path.realpath(__file__))
         path = os.path.join(dirName, "tc_filter_show.out")

@@ -10,7 +10,7 @@ import logging
 log = logging.getLogger("storage.asyncutils")
 
 
-class LoopingCall(object):
+class LoopingCall:
     """
     A simplified version of `twisted.internet.task.LoopingCall`.
 

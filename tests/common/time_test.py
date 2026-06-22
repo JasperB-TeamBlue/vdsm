@@ -5,7 +5,7 @@ import pytest
 from vdsm.common import time
 
 
-class FakeTime(object):
+class FakeTime:
 
     def __init__(self, value=0):
         self.time = value

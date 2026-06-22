@@ -95,7 +95,7 @@ def threaded_handler(capacity, target, adaptive=True):
         yield handler, logger
 
 
-class Handler(object):
+class Handler:
     """
     A handler for testing composite handlers such as ThreadedHandler.
     """

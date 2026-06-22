@@ -60,7 +60,7 @@ End of LLDPDU TLV
 """
 
 
-class TestLldpadReport(object):
+class TestLldpadReport:
     TLVS_REPORT = [
         {
             'type': 1,

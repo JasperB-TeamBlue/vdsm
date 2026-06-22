@@ -212,7 +212,7 @@ class TestAllDomains(TestCaseBase):
         assert set(self.cif.vmRequests.keys()) == set(('b',))
 
 
-class FakeConnection(object):
+class FakeConnection:
 
     def __init__(self):
         self.domains = {}

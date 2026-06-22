@@ -12,7 +12,7 @@ from .bond_speed import speed
 speed
 
 
-class BondAPI(object):
+class BondAPI:
     """
     Bond driver interface.
     """
@@ -113,7 +113,7 @@ class BondAPI(object):
                 slave.down()
 
 
-class Drivers(object):
+class Drivers:
     SYSFS = 'sysfs_driver'
 
 

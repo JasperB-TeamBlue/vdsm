@@ -19,7 +19,7 @@ class UserError(Exception):
     """Raised by user code inside a transaction"""
 
 
-class MemoryBackend(object):
+class MemoryBackend:
 
     def __init__(self, lines=(), fail_read=False, fail_write=False):
         self.lines = list(lines)

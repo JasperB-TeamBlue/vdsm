@@ -57,7 +57,7 @@ def requires_tc(bridge_dev):
         )
 
 
-class TestQdisc(object):
+class TestQdisc:
     def _show_qdisc(self, bridge):
         _, out, _ = cmd.exec_sync([EXT_TC, 'qdisc', 'show', 'dev', bridge])
         return out
@@ -92,7 +92,7 @@ class TestQdisc(object):
 @pytest.mark.skipif(
     not os.path.exists('/dev/net/tun'), reason='No tun device available'
 )
-class TestPortMirror(object):
+class TestPortMirror:
     """
     Tests port mirroring of IP traffic between two bridges.
 
@@ -242,7 +242,7 @@ def vlan17(dummy):
         yield vlan
 
 
-class TestConfigureOutbound(object):
+class TestConfigureOutbound:
     # TODO:
     # test remove_outbound
 

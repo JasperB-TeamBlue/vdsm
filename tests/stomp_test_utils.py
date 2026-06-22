@@ -6,7 +6,7 @@ import itertools
 from collections import deque
 
 
-class FakeAsyncClient(object):
+class FakeAsyncClient:
     def __init__(self):
         self._queue = []
 
@@ -20,7 +20,7 @@ class FakeAsyncClient(object):
         self._queue.append(msg)
 
 
-class FakeConnection(object):
+class FakeConnection:
 
     def __init__(self, client=None):
         self._client = client
@@ -48,7 +48,7 @@ class FakeConnection(object):
         pass
 
 
-class FakeAsyncDispatcher(object):
+class FakeAsyncDispatcher:
 
     socket = None
 
@@ -74,7 +74,7 @@ class FakeAsyncDispatcher(object):
         pass
 
 
-class FakeSubscription(object):
+class FakeSubscription:
 
     def __init__(self, destination, id):
         self._destination = destination
@@ -96,7 +96,7 @@ class FakeSubscription(object):
         return self._client
 
 
-class FakeFrameHandler(object):
+class FakeFrameHandler:
 
     def __init__(self):
         self.handle_connect_called = False
@@ -131,7 +131,7 @@ class FakeFrameHandler(object):
         dispatcher.connection.close()
 
 
-class FakeTimeGen(object):
+class FakeTimeGen:
 
     def __init__(self, list):
         self._chain = itertools.chain(list)

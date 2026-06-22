@@ -7,7 +7,7 @@ from vdsm.network.ipwrapper import Route
 from vdsm.network.ipwrapper import Rule
 
 
-class TestIpwrapper(object):
+class TestIpwrapper:
     def testRouteFromText(self):
         _getRouteAttrs = lambda x: (x.network, x.via, x.device, x.table)
         good_routes = {

@@ -331,7 +331,7 @@ def _read_ovf(job_id):
         raise NoSuchOvf("No such ovf %r" % file_name)
 
 
-class SSHAgent(object):
+class SSHAgent:
     """
     virt-v2v uses ssh-agent for importing xen vms from libvirt,
     after virt-v2v log in to the machine it needs to copy its disks
@@ -400,7 +400,7 @@ class SSHAgent(object):
         return self._auth
 
 
-class V2VCommand(object):
+class V2VCommand:
     def __init__(self, vminfo, vmid, irs):
         self._vminfo = vminfo
         self._vmid = vmid
@@ -802,7 +802,7 @@ class KVMCommand(V2VCommand):
         return ret
 
 
-class PipelineProc(object):
+class PipelineProc:
 
     def __init__(self, proc1, proc2):
         self._procs = (proc1, proc2)
@@ -875,7 +875,7 @@ class PipelineProc(object):
         return True
 
 
-class ImportVm(object):
+class ImportVm:
 
     def __init__(self, job_id, command):
         self._id = job_id
@@ -1024,7 +1024,7 @@ class ImportVm(object):
                 self._proc.wait()
 
 
-class OutputParser(object):
+class OutputParser:
     COPY_DISK_RE = re.compile(br'.*(Copying disk (\d+)/(\d+)).*')
     DISK_PROGRESS_RE = re.compile(br'\s+\((\d+).*|.+ (\d+)% \[[*-]+\]')
 

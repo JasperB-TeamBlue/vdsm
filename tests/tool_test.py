@@ -43,7 +43,7 @@ def _setConfig(obj, *configurations):
             testConf.write(data)
 
 
-class MockModuleConfigurator(object):
+class MockModuleConfigurator:
 
     def __init__(self, name, requires=(), should_succeed=True):
         self._name = name
@@ -220,7 +220,7 @@ class ConfiguratorTests(VdsmTestCase):
         )
 
     def testConfigureFiltering(self):
-        class Dummy(object):
+        class Dummy:
             pass
 
         c = Dummy()
@@ -867,7 +867,7 @@ class ConfigFileTests(TestCase):
 
 class UpgradeTests(TestCase):
 
-    class UpgraduratorTM(object):
+    class UpgraduratorTM:
         name = 'test'
 
         def __init__(self):
@@ -884,7 +884,7 @@ class UpgradeTests(TestCase):
             self.args = args
             return 0
 
-    class BadUpgraduratorTM(object):
+    class BadUpgraduratorTM:
         name = 'bad'
 
         def run(self, ns, args):

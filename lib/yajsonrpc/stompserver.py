@@ -31,7 +31,7 @@ def parseHeartBeatHeader(v):
     return (x, y)
 
 
-class StompAdapterImpl(object):
+class StompAdapterImpl:
     log = logging.getLogger("Broker.StompAdapter")
 
     """
@@ -277,7 +277,7 @@ class StompAdapterImpl(object):
         return subscriptions
 
 
-class StompServer(object):
+class StompServer:
     log = logging.getLogger("yajsonrpc.StompServer")
 
     def __init__(self, reactor, subscriptions):
@@ -343,7 +343,7 @@ def StompListener(reactor, server, acceptHandler, connected_socket):
 # FIXME: We should go about making a listener wrapper like the client wrapper
 #        This is not as high priority as users don't interact with listeners
 #        as much
-class StompListenerImpl(object):
+class StompListenerImpl:
     log = logging.getLogger("jsonrpc.StompListener")
 
     def __init__(self, server, acceptHandler, connected_socket):
@@ -361,7 +361,7 @@ class StompListenerImpl(object):
         return False
 
 
-class StompReactor(object):
+class StompReactor:
     def __init__(self, subs):
         self._reactor = Reactor()
         self._server = StompServer(self._reactor, subs)
@@ -407,7 +407,7 @@ class StompDetector:
         self.log.debug("Stomp detected from %s", socket_address)
 
 
-class ServerRpcContextAdapter(object):
+class ServerRpcContextAdapter:
     """
     Adapter is responsible for passing received messages from the broker
     to instance of a JsonRpcServer and adds 'reply_to' header to a frame

@@ -88,7 +88,7 @@ def getDomUuidFromMetafilePath(metafile):
     return metaList[-3]
 
 
-class FileMetadataRW(object):
+class FileMetadataRW:
     """
     FileSDMetadata implements metadata extractor/committer over a simple file
     """

@@ -139,7 +139,7 @@ def test_translate_nets_with_ip(bridged):
     assert expected_state == state
 
 
-class TestBondedNetwork(object):
+class TestBondedNetwork:
     def test_translate_empty_networks_and_bonds(self):
         state = nmstate.generate_state(networks={}, bondings={})
 
@@ -802,7 +802,7 @@ def test_update_network_from_bridged_to_bridgeless(rconfig_mock):
     assert expected_state == state
 
 
-class TestDns(object):
+class TestDns:
     def test_dns_add_network_with_default_route(self):
         networks = {
             TESTNET1: create_network_config(
@@ -967,7 +967,7 @@ class TestDns(object):
         assert expected_state == state
 
 
-class TestEnforceMacAddress(object):
+class TestEnforceMacAddress:
     @parametrize_vlanned
     def test_net_over_existing_interface_enforce_mac(
         self, vlanned, current_state_mock
@@ -1012,7 +1012,7 @@ class TestEnforceMacAddress(object):
         assert expected_state == state
 
 
-class TestMtu(object):
+class TestMtu:
     def test_single_network_with_specific_mtu(self, current_state_mock):
         mtu = 2000
         current_ifaces_states = current_state_mock[nmstate.Interface.KEY]

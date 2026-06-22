@@ -10,12 +10,12 @@ from vdsm.gluster import exception
 from vdsm.storage import glusterVolume
 
 
-class FakeSD(object):
+class FakeSD:
     def getRealPath(self):
         return "host.example.com:/volume"
 
 
-class FakeSuperVdsm(object):
+class FakeSuperVdsm:
     def __init__(self, gluster_volume_info=None):
         self._gluster_volume_info = gluster_volume_info
 

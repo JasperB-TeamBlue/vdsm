@@ -432,7 +432,7 @@ _IMAGE_REPOSITORY_CONVERSION_TABLE = {
 }
 
 
-class FormatConverter(object):
+class FormatConverter:
     def __init__(self, conversionTable):
         self._convTable = conversionTable
 

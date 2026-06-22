@@ -40,7 +40,7 @@ class Alarm(Exception):
     pass
 
 
-class Nfs(object):
+class Nfs:
     def handler(self, signum, frame):
         raise Alarm()
 

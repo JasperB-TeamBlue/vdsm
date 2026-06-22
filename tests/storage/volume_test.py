@@ -20,7 +20,7 @@ from vdsm.storage import volume
 HOST_ID = 1
 
 
-class FakeSDManifest(object):
+class FakeSDManifest:
     @recorded
     def acquireVolumeLease(self, hostId, imgUUID, volUUID):
         pass
@@ -203,7 +203,7 @@ class TestVolumeSize:
         assert info["truesize"] == str(st.st_blocks * 512)
 
 
-class CountedInstanceMethod(object):
+class CountedInstanceMethod:
     def __init__(self, method):
         self._method = method
         self.nr_calls = 0

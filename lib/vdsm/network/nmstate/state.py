@@ -18,7 +18,7 @@ from .schema import RouteRule
 from .schema import Vlan
 
 
-class NetworkingState(object):
+class NetworkingState:
     def __init__(
         self,
         net_ifstate=None,
@@ -175,7 +175,7 @@ class NetworkingState(object):
             slave_state[Interface.MTU] = max(bond_mtu, slave_mtu)
 
 
-class CurrentState(object):
+class CurrentState:
     def __init__(self, state):
         self._interfaces_state = self._get_interfaces_state(state)
         self._dns_state = self._get_dns_state(state)

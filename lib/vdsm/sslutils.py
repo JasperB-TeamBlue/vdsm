@@ -12,7 +12,7 @@ from vdsm.common.time import monotonic_time
 from .config import config
 
 
-class SSLSocket(object):
+class SSLSocket:
     def __init__(self, sock):
         self.sock = sock
         self._data = b''
@@ -71,7 +71,7 @@ class SSLSocket(object):
             return self.sock.makefile(mode, bufsize)
 
 
-class SSLContext(object):
+class SSLContext:
 
     def __init__(self, cert_file, key_file, ca_certs=None):
         self.cert_file = cert_file
@@ -94,7 +94,7 @@ class SSLContext(object):
         )
 
 
-class SSLHandshakeDispatcher(object):
+class SSLHandshakeDispatcher:
     """
     SSLHandshakeDispatcher is dispatcher implementation to process ssl
     handshake in asynchronous way. Once we are done with handshaking we

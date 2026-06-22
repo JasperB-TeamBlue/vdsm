@@ -45,7 +45,7 @@ def nic1():
 
 
 @nftestlib.parametrize_switch
-class TestNetworkStaticIpBasic(object):
+class TestNetworkStaticIpBasic:
     @nftestlib.parametrize_bridged
     @parametrize_ip_families
     def test_add_net_with_ip_based_on_nic(
@@ -227,7 +227,7 @@ class TestNetworkStaticIpBasic(object):
 
 
 @nftestlib.parametrize_switch
-class TestNetworkIPDefaultGateway(object):
+class TestNetworkIPDefaultGateway:
     @pytest.fixture(autouse=True)
     def preserve_conf(self):
         with restore_resolv_conf(), preserve_default_route():
@@ -469,7 +469,7 @@ class TestNetworkIPDefaultGateway(object):
 
 
 @nftestlib.parametrize_switch
-class TestAcquireNicsWithStaticIP(object):
+class TestAcquireNicsWithStaticIP:
     def test_attach_nic_with_ip_to_ipless_network(self, adapter, switch, nic0):
         nic0_interface = Interface.from_existing_dev_name(nic0)
         nic0_interface.add_ip(IPv4_ADDRESS, IPv4_PREFIX_LEN, IpFamily.IPv4)
@@ -536,7 +536,7 @@ class TestAcquireNicsWithStaticIP(object):
 
 
 @pytest.mark.legacy_switch
-class TestIfacesWithMultiplesUsers(object):
+class TestIfacesWithMultiplesUsers:
     @nftestlib.parametrize_bonded
     def test_remove_ip_from_an_iface_used_by_a_vlan_network(
         self, adapter, bonded, nic0
@@ -568,7 +568,7 @@ class TestIfacesWithMultiplesUsers(object):
 
 
 @nftestlib.parametrize_switch
-class TestIPValidation(object):
+class TestIPValidation:
     def test_add_net_ip_missing_addresses_fails(self, adapter, switch, nic0):
         self._test_invalid_ip_config_fails(
             adapter, switch, nic0, ipaddr='1.2.3.4'

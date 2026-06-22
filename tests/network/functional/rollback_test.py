@@ -38,7 +38,7 @@ def nic2():
 
 
 @nftestlib.parametrize_switch
-class TestNetworkRollback(object):
+class TestNetworkRollback:
     def test_remove_broken_network(self, adapter, switch, nic0, nic1):
         BROKEN_NETCREATE = {
             NETWORK_NAME: {

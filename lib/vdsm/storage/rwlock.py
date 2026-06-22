@@ -4,7 +4,7 @@
 import threading
 
 
-class RWLock(object):
+class RWLock:
     """
     A simple readers-writer lock implementation.
 
@@ -126,7 +126,7 @@ class RWLock(object):
         self._waiters[0].grant()
 
 
-class Waiter(object):
+class Waiter:
 
     def __init__(self, wants_write):
         self.wants_write = wants_write
@@ -139,7 +139,7 @@ class Waiter(object):
         self._event.set()
 
 
-class Context(object):
+class Context:
 
     def __init__(self, acquire, release):
         self._acquire = acquire

@@ -777,7 +777,7 @@ def expected_locks(src_vol, dst_vol):
     return ret
 
 
-class FakeQemuConvertChecker(object):
+class FakeQemuConvertChecker:
     def __init__(self, src_vol, dst_vol, error=None, wait_for_abort=False):
         self.src_vol = src_vol
         self.dst_vol = dst_vol
@@ -793,7 +793,7 @@ class FakeQemuConvertChecker(object):
         )
 
 
-class FakeQemuImgOperation(object):
+class FakeQemuImgOperation:
     def __init__(self, ready_event, wait_for_abort, error):
         self.ready_event = ready_event
         self.wait_for_abort = wait_for_abort

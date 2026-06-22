@@ -46,7 +46,7 @@ def two_connected_pairs_of_bond_slaves():
 
 
 @nftestlib.parametrize_switch
-class TestBondBasic(object):
+class TestBondBasic:
     def test_add_bond_with_two_nics(self, adapter, switch, nic0, nic1):
         BONDCREATE = {BOND_NAME: {'nics': [nic0, nic1], 'switch': switch}}
 
@@ -171,7 +171,7 @@ class TestBondBasic(object):
 
 
 @nftestlib.parametrize_switch
-class TestBondOptions(object):
+class TestBondOptions:
     def test_bond_mode_1(self, adapter, switch, nic0, nic1):
         BONDCREATE = {
             BOND_NAME: {

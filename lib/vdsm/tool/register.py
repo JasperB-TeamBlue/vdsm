@@ -20,7 +20,7 @@ from vdsm import host
 from vdsm.common.conv import tobool
 
 
-class Register(object):
+class Register:
 
     def __init__(
         self,

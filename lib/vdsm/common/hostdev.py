@@ -100,7 +100,7 @@ class UnsuitableSCSIDevice(Exception):
     pass
 
 
-class _DeviceTreeCache(object):
+class _DeviceTreeCache:
 
     def __init__(self, devices):
         self._parent_to_device_params = {}
