@@ -52,7 +52,7 @@ def _deleteImage(dom, imgUUID, postZero, discard):
     if not imgVols:
         log.warning("No volumes found for image %s. %s", imgUUID, allVols)
         return
-    elif postZero:
+    if postZero:
         dom.zeroImage(dom.sdUUID, imgUUID, imgVols, discard)
     else:
         dom.deleteImage(dom.sdUUID, imgUUID, imgVols)
@@ -937,32 +937,29 @@ class Image:
             # destination 'raw'.
             # The actual volume size must be the src virtual size.
             return src_vol_params['capacity']
-        else:
-            # destination 'cow'.
-            # The actual volume size can be more than virtual size
-            # due to qcow2 metadata.
-            if src_vol_params['volFormat'] == sc.COW_FORMAT:
-                # source 'cow'
-                if src_vol_params['parent'] != sc.BLANK_UUID:
-                    # source 'cow' with parent
-                    # Using estimated size of the chain.
-                    if src_vol_params['prealloc'] != sc.SPARSE_VOL:
-                        raise se.IncorrectFormat(self)
-                    return self.estimateChainSize(
-                        src_sd_id,
-                        src_vol_params['imgUUID'],
-                        src_vol_params['volUUID'],
-                        src_vol_params['capacity'],
-                    )
-                else:
-                    # source 'cow' without parent.
-                    # Use estimate for supporting compressed source images, for
-                    # example, uploaded compressed qcow2 appliance.
-                    return self.estimate_qcow2_size(src_vol_params, dst_sd_id)
-            else:
-                # source 'raw'.
-                # Add additional space for qcow2 metadata.
-                return self.estimate_qcow2_size(src_vol_params, dst_sd_id)
+        # destination 'cow'.
+        # The actual volume size can be more than virtual size
+        # due to qcow2 metadata.
+        if src_vol_params['volFormat'] == sc.COW_FORMAT:
+            # source 'cow'
+            if src_vol_params['parent'] != sc.BLANK_UUID:
+                # source 'cow' with parent
+                # Using estimated size of the chain.
+                if src_vol_params['prealloc'] != sc.SPARSE_VOL:
+                    raise se.IncorrectFormat(self)
+                return self.estimateChainSize(
+                    src_sd_id,
+                    src_vol_params['imgUUID'],
+                    src_vol_params['volUUID'],
+                    src_vol_params['capacity'],
+                )
+            # source 'cow' without parent.
+            # Use estimate for supporting compressed source images, for
+            # example, uploaded compressed qcow2 appliance.
+            return self.estimate_qcow2_size(src_vol_params, dst_sd_id)
+        # source 'raw'.
+        # Add additional space for qcow2 metadata.
+        return self.estimate_qcow2_size(src_vol_params, dst_sd_id)
 
     def syncVolumeChain(self, sdUUID, imgUUID, volUUID, actualChain):
         """

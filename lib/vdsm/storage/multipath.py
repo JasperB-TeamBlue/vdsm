@@ -298,8 +298,7 @@ def resize_map(name):
 def deduceType(a, b):
     if a == b:
         return a
-    else:
-        return DEV_MIXED
+    return DEV_MIXED
 
 
 def getDeviceBlockSizes(dev):

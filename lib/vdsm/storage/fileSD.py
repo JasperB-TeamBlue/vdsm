@@ -106,9 +106,8 @@ class FileMetadataRW:
             if e.errno != errno.ENOENT:
                 raise
             return []
-        else:
-            data = data.rstrip(b"\0")
-            return data.decode('utf-8').splitlines()
+        data = data.rstrip(b"\0")
+        return data.decode('utf-8').splitlines()
 
     def writelines(self, metadata):
         metadata = [line.encode('utf-8') + b'\n' for line in metadata]
@@ -152,8 +151,7 @@ class FileStorageDomainManifest(sd.StorageDomainManifest):
     def special_volumes(cls, version):
         if cls.supports_external_leases(version):
             return sd.SPECIAL_VOLUMES_V4
-        else:
-            return sd.SPECIAL_VOLUMES_V0
+        return sd.SPECIAL_VOLUMES_V0
 
     @property
     def supportsSparseness(self):

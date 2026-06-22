@@ -166,11 +166,10 @@ def translate_pci_device(device):
             'driver_version': device['driver-version'],
             'vendor_id': int(device['id']['vendor-id']),
         }
-    else:
-        return {
-            'device_id': int(device['address']['data']['device-id']),
-            'driver_date': date,
-            'driver_name': device['driver-name'],
-            'driver_version': device['driver-version'],
-            'vendor_id': int(device['address']['data']['vendor-id']),
-        }
+    return {
+        'device_id': int(device['address']['data']['device-id']),
+        'driver_date': date,
+        'driver_name': device['driver-name'],
+        'driver_version': device['driver-version'],
+        'vendor_id': int(device['address']['data']['vendor-id']),
+    }

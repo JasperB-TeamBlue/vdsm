@@ -55,11 +55,9 @@ def is_error(res, err=None):
         code = res["status"]["code"]
     except KeyError:
         raise MalformedResponse(res)
-    else:
-        if err:
-            return code == errCode[err]["status"]["code"]
-        else:
-            return code != doneCode["code"]
+    if err:
+        return code == errCode[err]["status"]["code"]
+    return code != doneCode["code"]
 
 
 def is_valid(res):
@@ -83,5 +81,4 @@ def is_valid(res):
         status = res["status"]
     except KeyError:
         return False
-    else:
-        return "message" in status and "code" in status
+    return "message" in status and "code" in status

@@ -80,8 +80,7 @@ class ContextException(VdsmException):
     def __str__(self):
         if self.context:
             return "%s: %s" % (self.msg, self.context)
-        else:
-            return self.msg
+        return self.msg
 
 
 class NoSuchVM(ContextException):

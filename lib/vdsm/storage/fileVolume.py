@@ -47,8 +47,7 @@ def grep_files(pattern, paths):
     except cmdutils.Error as e:
         if e.rc == 1:
             return []  # pattern not found
-        else:
-            raise
+        raise
 
 
 class FileVolumeManifest(volume.VolumeManifest):
@@ -89,8 +88,7 @@ class FileVolumeManifest(volume.VolumeManifest):
     def metaVolumePath(cls, volPath):
         if volPath:
             return volPath + META_FILEEXT
-        else:
-            return None
+        return None
 
     def getMetaVolumePath(self, vol_path=None):
         """
@@ -271,8 +269,7 @@ class FileVolumeManifest(volume.VolumeManifest):
     def leaseVolumePath(cls, vol_path):
         if vol_path:
             return vol_path + sc.LEASE_FILEEXT
-        else:
-            return None
+        return None
 
     def getLeaseVolumePath(self, vol_path=None):
         if not vol_path:
@@ -383,8 +380,7 @@ class FileVolumeManifest(volume.VolumeManifest):
         """
         if self.getFormat() == sc.RAW_FORMAT:
             return self.getCapacity()
-        else:
-            return self.getVolumeSize()
+        return self.getVolumeSize()
 
     @classmethod
     def zero_initialized(cls):
@@ -460,21 +456,20 @@ class FileVolume(volume.Volume):
                 return cls._create_raw_volume(
                     dom, volUUID, capacity, volPath, initial_size, preallocate
                 )
-            else:
-                return cls._create_cow_volume(
-                    dom,
-                    volUUID,
-                    capacity,
-                    volPath,
-                    initial_size,
-                    preallocate,
-                    volParent,
-                    imgUUID,
-                    srcImgUUID,
-                    srcVolUUID,
-                    add_bitmaps=add_bitmaps,
-                    bitmap=bitmap,
-                )
+            return cls._create_cow_volume(
+                dom,
+                volUUID,
+                capacity,
+                volPath,
+                initial_size,
+                preallocate,
+                volParent,
+                imgUUID,
+                srcImgUUID,
+                srcVolUUID,
+                add_bitmaps=add_bitmaps,
+                bitmap=bitmap,
+            )
         except cmdutils.Error as e:
             cls.log.error("Unexpected error: %s", e, exc_info=True)
             raise se.VolumeCreationError(volPath) from e
@@ -849,11 +844,11 @@ class FileVolume(volume.Volume):
         # they're computed and used in the pre-allocated case.
         if new_capacity == cur_capacity:
             return  # Nothing to do
-        elif cur_capacity <= 0:
+        if cur_capacity <= 0:
             raise se.StorageException(
                 "Volume capacity is impossible: %s" % cur_capacity
             )
-        elif new_capacity < cur_capacity:
+        if new_capacity < cur_capacity:
             raise se.VolumeResizeValueError(new_capacity)
 
         if self.getType() == sc.PREALLOCATED_VOL:

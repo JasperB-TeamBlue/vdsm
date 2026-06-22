@@ -125,7 +125,7 @@ def _runHooksDir(
         os.unlink(data_filename)
     if hookType == _DOMXML_HOOK:
         return final_data
-    elif hookType == _JSON_HOOK:
+    if hookType == _JSON_HOOK:
         return json.loads(final_data)
 
 

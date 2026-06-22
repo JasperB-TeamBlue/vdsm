@@ -1375,8 +1375,7 @@ class StoragePool:
                         sdUUID,
                     )
                     return
-                else:
-                    self.masterMigrate(sdUUID, newMsdUUID, masterVersion)
+                self.masterMigrate(sdUUID, newMsdUUID, masterVersion)
             else:
                 masterDir = os.path.join(dom.domaindir, sd.MASTER_FS_DIR)
                 try:

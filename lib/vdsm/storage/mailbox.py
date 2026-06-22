@@ -767,7 +767,7 @@ class SPM_MailMonitor:
                 expected,
             )
             return False
-        elif expected == pZeroChecksum:
+        if expected == pZeroChecksum:
             return False  # Ignore messages of empty mailbox
         return True
 

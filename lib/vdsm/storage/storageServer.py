@@ -461,8 +461,7 @@ class NFSConnection(Connection):
             rec = mnt.getRecord()
             if rec.fs_vfstype == "nfs4":
                 return 4
-            else:
-                return 3
+            return 3
         except OSError:
             # We are not connected
             pass

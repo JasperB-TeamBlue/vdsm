@@ -365,8 +365,7 @@ def _process_mdev_params(device_xml):
     supported_types = {k: v for k, v in supported_types.items() if v}
     if supported_types:
         return {'mdev': supported_types}
-    else:
-        return {}
+    return {}
 
 
 @_data_processor('pci')
@@ -393,8 +392,7 @@ def _process_udev_path(device_xml):
         udev_path = device_xml.find('./capability/char').text
     except AttributeError:
         return {}
-    else:
-        return {'udev_path': udev_path}
+    return {'udev_path': udev_path}
 
 
 @_data_processor()
@@ -404,8 +402,7 @@ def _process_driver(device_xml):
     except AttributeError:
         # No driver exposed by libvirt/sysfs.
         return {}
-    else:
-        return {'driver': driver_name}
+    return {'driver': driver_name}
 
 
 @_data_processor('storage')
@@ -414,8 +411,7 @@ def _process_storage(device_xml):
         model = device_xml.find('./capability/model').text
     except AttributeError:
         return {}
-    else:
-        return {'product': model}
+    return {'product': model}
 
 
 @_data_processor('pci')
@@ -705,8 +701,7 @@ def _suitable_device_for_mdev_type(mdev_properties, log):
         if target_device is not None:
             log.debug("Matching mdev found: {}".format(target_device))
             return target_device
-        else:
-            log.debug("Mdev not suitable: {}".format(device))
+        log.debug("Mdev not suitable: {}".format(device))
 
     if target_device is None and mdev_placement == MdevPlacement.SEPARATE:
         log.info("Separate mdev placement failed, trying compact placement.")

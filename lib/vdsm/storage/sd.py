@@ -438,8 +438,7 @@ class StorageDomainManifest:
     def supports_qcow2_compat(self, value):
         if self.getVersion() >= 4:
             return qemuimg.supports_compat(value)
-        else:
-            return value in ("0.10", qemuimg.default_qcow2_compat())
+        return value in ("0.10", qemuimg.default_qcow2_compat())
 
     def supports_device_reduce(self):
         return False
@@ -1199,8 +1198,7 @@ class StorageDomain:
         if storage_block_size == sc.BLOCK_SIZE_NONE:
             if block_size != sc.BLOCK_SIZE_AUTO:
                 return block_size
-            else:
-                return sc.BLOCK_SIZE_512
+            return sc.BLOCK_SIZE_512
 
         # If we can detect the storage block size and the user does not care
         # about it, use it.

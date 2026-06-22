@@ -1347,7 +1347,7 @@ class Task:
                     "Task already stopped (%s), ignoring", self.state
                 )
                 return
-            elif (
+            if (
                 self.state.isRecovering()
                 and not force
                 and (self.cleanPolicy == TaskCleanType.auto)

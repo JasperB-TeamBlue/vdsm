@@ -249,10 +249,8 @@ class _IOProcessOs:
             except OSError as e:
                 if e.errno == errno.ENOENT:
                     return False
-                else:
-                    raise
-            else:
-                return stat.S_ISDIR(res.st_mode)
+                raise
+            return stat.S_ISDIR(res.st_mode)
 
         def islink(self, path):
             # Note: islink does not follow symlinks. This is not documented
@@ -262,10 +260,8 @@ class _IOProcessOs:
             except OSError as e:
                 if e.errno == errno.ENOENT:
                     return False
-                else:
-                    raise
-            else:
-                return stat.S_ISLNK(res.st_mode)
+                raise
+            return stat.S_ISLNK(res.st_mode)
 
         def lexists(self, path):
             return self._iop.lexists(path)

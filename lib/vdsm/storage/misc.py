@@ -50,8 +50,7 @@ def pidExists(pid):
         # The actual exception for 'File does not exists' is ENOENT
         if e.errno == errno.ENOENT:
             return False
-        else:
-            log.error("Error on stat pid %s (%s)", pid, str(e))
+        log.error("Error on stat pid %s (%s)", pid, str(e))
 
     return True
 
@@ -141,10 +140,7 @@ def parseBool(var):
     if isinstance(var, bool):
         return var
     # Transform: str -> bool
-    if var.lower() == 'true':
-        return True
-    else:
-        return False
+    return var.lower() == 'true'
 
 
 UUID_REGEX = re.compile("^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$")

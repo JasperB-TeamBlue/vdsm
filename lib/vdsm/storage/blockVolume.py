@@ -482,11 +482,10 @@ class BlockVolumeManifest(volume.VolumeManifest):
             virtual_size = self.getCapacity()
             self.log.debug("RAW format, using virtual size: %s", virtual_size)
             return virtual_size
-        else:
-            check = qemuimg.check(self.getVolumePath(), qemuimg.FORMAT.QCOW2)
-            return self.optimal_cow_size(
-                check['offset'], self.getCapacity(), self.isLeaf() or as_leaf
-            )
+        check = qemuimg.check(self.getVolumePath(), qemuimg.FORMAT.QCOW2)
+        return self.optimal_cow_size(
+            check['offset'], self.getCapacity(), self.isLeaf() or as_leaf
+        )
 
 
 class BlockVolume(volume.Volume):

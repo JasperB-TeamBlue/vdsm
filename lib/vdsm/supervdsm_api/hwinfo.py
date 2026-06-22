@@ -17,13 +17,12 @@ def getHardwareInfo(*args, **kwargs):
         from vdsm.dmidecodeUtil import getHardwareInfoStructure
 
         return getHardwareInfoStructure()
-    elif cpuarch.is_ppc(arch):
+    if cpuarch.is_ppc(arch):
         from vdsm.ppc64HardwareInfo import getHardwareInfoStructure
 
         return getHardwareInfoStructure()
-    else:
-        #  not implemented over other architecture
-        return {}
+    #  not implemented over other architecture
+    return {}
 
 
 def read_fs_property(path):

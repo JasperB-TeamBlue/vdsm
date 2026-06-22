@@ -562,9 +562,8 @@ class SANLock:
                 e,
             )
             return HOST_STATUS_UNAVAILABLE
-        else:
-            status = hosts[0]['flags']
-            return self.STATUS_NAME[status]
+        status = hosts[0]['flags']
+        return self.STATUS_NAME[status]
 
     # The hostId parameter is maintained here only for compatibility with
     # ClusterLock. We could consider to remove it in the future but keeping it
@@ -691,7 +690,7 @@ class SANLock:
                 # add_lockspace has not been completed yet,
                 # the inquiry has to be retried.
                 raise TemporaryFailure("inspect", lease, str(e))
-            elif e.errno == errno.EAGAIN:
+            if e.errno == errno.EAGAIN:
                 # The host status is not available yet.
                 # Normally, we'd raise it to the caller, but this
                 # breaks the "Remove DC" flow in engine, so we assume
@@ -704,8 +703,7 @@ class SANLock:
                     lease,
                 )
                 return resource_version, host_id
-            else:
-                raise
+            raise
 
         host_status = self.STATUS_NAME[host["flags"]]
 

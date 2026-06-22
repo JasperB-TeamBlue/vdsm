@@ -106,10 +106,9 @@ def _create_endpoint(params, host_id, job_id=None, dest=None):
     endpoint_type = params.pop('endpoint_type')
     if endpoint_type == 'div':
         return CopyDataDivEndpoint(params, host_id, dest=dest)
-    elif endpoint_type == 'external':
+    if endpoint_type == 'external':
         return CopyDataExternalEndpoint(params, host_id, job_id)
-    else:
-        raise ValueError("Invalid or unsupported endpoint %r" % params)
+    raise ValueError("Invalid or unsupported endpoint %r" % params)
 
 
 class CopyDataDivEndpoint(properties.Owner):

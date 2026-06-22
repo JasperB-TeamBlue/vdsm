@@ -19,13 +19,12 @@ def host_in_shutdown():
         )
     except dbus.DBusException:
         return False
-    else:
-        jobs = systemd_bus.ListJobs(
-            dbus_interface='org.freedesktop.systemd1.Manager'
-        )
+    jobs = systemd_bus.ListJobs(
+        dbus_interface='org.freedesktop.systemd1.Manager'
+    )
 
-        for job in jobs:
-            if 'shutdown.target' in job and 'start' in job:
-                return True
+    for job in jobs:
+        if 'shutdown.target' in job and 'start' in job:
+            return True
 
     return False

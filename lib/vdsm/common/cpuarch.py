@@ -58,8 +58,7 @@ def effective():
     '''
     if config.getboolean('vars', 'fake_kvm_support'):
         return _supported(config.get('vars', 'fake_kvm_architecture'))
-    else:
-        return real()
+    return real()
 
 
 def is_ppc(arch):

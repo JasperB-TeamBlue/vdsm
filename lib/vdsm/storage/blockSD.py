@@ -446,8 +446,7 @@ class BlockStorageDomainManifest(sd.StorageDomainManifest):
     def special_volumes(cls, version):
         if cls.supports_external_leases(version):
             return SPECIAL_LVS_V4
-        else:
-            return SPECIAL_LVS_V0
+        return SPECIAL_LVS_V0
 
     @classmethod
     def special_volumes_size_mb(cls, alignment):
@@ -871,8 +870,7 @@ class BlockStorageDomainManifest(sd.StorageDomainManifest):
         # - V5: always 1, slot 0 reserved for metadata lv metadata.
         if version < 5:
             return 4
-        else:
-            return 1
+        return 1
 
     def validateCreateVolumeParams(
         self,
@@ -960,8 +958,7 @@ class BlockStorageDomainManifest(sd.StorageDomainManifest):
 
         if version < 5:
             return METADATA_BASE_V4 + slot * METADATA_SLOT_SIZE_V4
-        else:
-            return METADATA_BASE_V5 + slot * METADATA_SLOT_SIZE_V5
+        return METADATA_BASE_V5 + slot * METADATA_SLOT_SIZE_V5
 
     def read_metadata_block(self, slot):
         """

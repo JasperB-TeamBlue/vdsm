@@ -148,8 +148,7 @@ def get_boot_time():
                 parts = line.split()
                 if len(parts) > 1:
                     return int(parts[1])
-                else:
-                    break
+                break
     raise ValueError('Boot time not present')
 
 

@@ -53,5 +53,4 @@ def read(path, default=None):
         if e.errno != errno.ENOENT or default is None:
             raise
         return default
-    else:
-        return value.strip()
+    return value.strip()

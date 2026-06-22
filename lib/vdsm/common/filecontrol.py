@@ -8,8 +8,7 @@ import os
 def _set_or_clear_bits(set, word, bits):
     if set:
         return word | bits
-    else:
-        return word & (~bits)
+    return word & (~bits)
 
 
 def set_non_blocking(fd, value=True):

@@ -120,10 +120,9 @@ def image_info(url, headers=None):
 
     if version == "v1":
         return _image_info_v1(url, headers)
-    elif version == "v2":
+    if version == "v2":
         return _image_info_v2(url, headers)
-    else:
-        raise ApiVersionError(url)
+    raise ApiVersionError(url)
 
 
 def download_image(image_path, url, headers=None):

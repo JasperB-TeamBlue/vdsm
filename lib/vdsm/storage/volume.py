@@ -925,8 +925,7 @@ class VolumeManifest:
         """
         if self.getFormat() == sc.RAW_FORMAT:
             return self.isSparse()
-        else:
-            return self.getParent() == sc.BLANK_UUID
+        return self.getParent() == sc.BLANK_UUID
 
     @classmethod
     def zero_initialized(cls):

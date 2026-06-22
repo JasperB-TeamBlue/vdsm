@@ -250,15 +250,14 @@ def _resolve_path(vol_id, connection_info, attachment):
             raise se.ManagedVolumeUnsupportedDevice(vol_id, attachment)
         # /dev/mapper/xxxyyy
         return os.path.join(DEV_MAPPER, attachment["multipath_id"])
-    elif vol_type == "rbd":
+    if vol_type == "rbd":
         # /dev/rbd/poolname/volume-vol-id
         return os.path.join(DEV_RBD, connection_info['data']['name'])
-    elif vol_type == "storpool":
+    if vol_type == "storpool":
         # StorPool returns a full device path
         return attachment["path"]
-    else:
-        log.warning("Managed Volume without multipath info: %s", attachment)
-        return attachment["path"]
+    log.warning("Managed Volume without multipath info: %s", attachment)
+    return attachment["path"]
 
 
 def _invalidate_lvm_devices(attachment):
