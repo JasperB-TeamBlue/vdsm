@@ -57,7 +57,7 @@ confidence=
 # multiple time. See also the "--disable" option for examples.
 #
 # Enable *E*rror and *F*atal categories only
-enable=E,F
+enable=E,F,R
 
 # Disable the message, report, category or checker with the given id(s). You
 # can either give multiple identifiers separated by comma (,) or put this
@@ -72,7 +72,7 @@ enable=E,F
 # Disable *C*onvention, *I*info, *R*efactor, *W*arnings and individual faulty checks.
 # see https://github.com/PyCQA/pylint/issues/782
 # remove once we upgrade to pylint 2.0+
-disable=C,I,R,W,not-context-manager
+disable=C,I,W,not-context-manager
 
 [REPORTS]
 
