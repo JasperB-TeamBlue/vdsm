@@ -124,10 +124,10 @@ class ConfigFile:
             return oldlines
 
     def _start(self):
-        return u"%s-%s\n" % (self._sectionStart, self._version)
+        return "%s-%s\n" % (self._sectionStart, self._version)
 
     def _end(self):
-        return u"%s-%s\n" % (self._sectionEnd, self._version)
+        return "%s-%s\n" % (self._sectionEnd, self._version)
 
     def _writeSection(self, f):
         f.write(self._start())
@@ -137,7 +137,7 @@ class ConfigFile:
     def _writeEntries(self, f):
         f.write(self._start())
         for key, val in sorted(self._entries.items()):
-            f.write(u"{k}={v}\n".format(k=key, v=val))
+            f.write("{k}={v}\n".format(k=key, v=val))
         f.write(self._end())
 
     def __exit__(self, exec_ty, exec_val, tb):
@@ -157,8 +157,8 @@ class ConfigFile:
                         if key not in self._entries:
                             f.write(fullline)
                         else:
-                            f.write(u'## commented out by vdsm\n')
-                            f.write(u'# %s\n' % (fullline))
+                            f.write('## commented out by vdsm\n')
+                            f.write('# %s\n' % (fullline))
                     if self._entries:
                         self._writeEntries(f)
 
@@ -248,4 +248,4 @@ class ParserWrapper:
 
     def read(self, path):
         with io.open(path, 'r', encoding='utf8') as f:
-            return self.wrapped.read_file(io.StringIO(u'[root]\n' + f.read()))
+            return self.wrapped.read_file(io.StringIO('[root]\n' + f.read()))

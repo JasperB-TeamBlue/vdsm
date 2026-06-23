@@ -23,15 +23,15 @@ class SchemaInconsistencyFormatter(logging.Formatter):
 
     @staticmethod
     def _format_debug_msg(rep_id, relevant_frames, msg):
-        header = u"{}".format(rep_id)
-        message = u"With message: {}".format(msg).rstrip()
-        ctx_string = u"With context: {}".format(api.context_string(None))
+        header = "{}".format(rep_id)
+        message = "With message: {}".format(msg).rstrip()
+        ctx_string = "With context: {}".format(api.context_string(None))
         if len(relevant_frames) > 0:
             backtrace_json = json.dumps(
                 relevant_frames, indent=2, separators=(",", ":")
             )
             backtrace_dump = backtrace_json.replace("  ", "\t")
-            backtrace = u"With backtrace: {}".format(backtrace_dump)
+            backtrace = "With backtrace: {}".format(backtrace_dump)
         else:
             backtrace = ""
         return "\n".join((header, ctx_string, message, backtrace))
