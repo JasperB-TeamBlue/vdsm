@@ -534,7 +534,7 @@ class AsyncDispatcher:
         return not self._on_timeout
 
     def _milis(self):
-        return int(round(self._clock() * 1000))  # pylint: disable=W1633
+        return int(round(self._clock() * 1000))
 
     def handle_close(self, dispatcher):
         if not self._on_timeout:
