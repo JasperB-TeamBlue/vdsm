@@ -57,13 +57,15 @@ confidence=
 # multiple time. See also the "--disable" option for examples.
 #
 # Enable *E*rror and *F*atal categories only
-enable=E,F,R
+enable=E,F,R,W
 
 # Disable certain issues that are currently not a priority.
 # R0917: too many positional arguments
+# R0912: too many branches
 # R0913: too many arguments
+# R0914: too many local variables
 # R0903: too few public methods
-disable=C,I,W,not-context-manager,R0917,R0913,R0903
+disable=C,I,not-context-manager,R0917,R0913,R0914,R0903,R0912
 
 [REPORTS]
 
