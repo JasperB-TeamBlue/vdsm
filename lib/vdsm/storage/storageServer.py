@@ -230,9 +230,7 @@ class MountConnection(Connection):
                 )
             raise me
         try:
-            fileSD.validateDirAccess(
-                self.getMountObj().getRecord().fs_file
-            )
+            fileSD.validateDirAccess(self.getMountObj().getRecord().fs_file)
         except se.StorageServerAccessPermissionError as ssape:
             t, v, tb = sys.exc_info()
             try:

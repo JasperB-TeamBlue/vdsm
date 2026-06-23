@@ -982,9 +982,7 @@ class Vm:
                 except Exception:
                     if not self.recovering:
                         raise
-                    self.log.info(
-                        "Skipping errors on recovery", exc_info=True
-                    )
+                    self.log.info("Skipping errors on recovery", exc_info=True)
 
             if self._altered_state and self.lastStatus != vmstatus.DOWN:
                 self._completeIncomingMigration()
@@ -6037,8 +6035,7 @@ class Vm:
                 'failed to invoke acpiShutdown: ' 'domain not connected'
             )
             return response.error('down')
-        else:
-            return response.success()
+        return response.success()
 
     def acpiReboot(self):
         try:
@@ -6050,8 +6047,7 @@ class Vm:
                 'failed to invoke acpiReboot: ' 'domain not connected'
             )
             return response.error('down')
-        else:
-            return response.success()
+        return response.success()
 
     def setBalloonTarget(self, target):
         dev = next(self._domain.get_device_elements('memballoon'))
