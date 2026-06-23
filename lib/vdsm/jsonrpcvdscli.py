@@ -69,7 +69,6 @@ _COMMAND_CONVERTER = {
     'glusterVolumeSet': 'GlusterVolume.set',
     'glusterVolumesList': 'GlusterVolume.list',
     'glusterVolumeStart': 'GlusterVolume.start',
-    'glusterTasksList': 'GlusterTask.list',
     'hotplugDisk': 'VM.hotplugDisk',
     'hotplugNic': 'VM.hotplugNic',
     'hotunplugDisk': 'VM.hotunplugDisk',
