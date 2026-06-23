@@ -4130,9 +4130,7 @@ class Vm:
 
         self._updateDomainDescriptor()
         vmdevices.storage.Drive.update_device_info(self, device_conf)
-        hooks.after_disk_hotplug(
-            driveXml, self._custom, params=drive.custom
-        )
+        hooks.after_disk_hotplug(driveXml, self._custom, params=drive.custom)
         self._last_disk_hotplug = vdsm.common.time.monotonic_time()
 
         return {'status': doneCode, 'vmList': {}}
