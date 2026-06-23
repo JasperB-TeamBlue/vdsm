@@ -72,7 +72,7 @@ enable=E,F,R
 # Disable *C*onvention, *I*info, *R*efactor, *W*arnings and individual faulty checks.
 # see https://github.com/PyCQA/pylint/issues/782
 # remove once we upgrade to pylint 2.0+
-disable=C,I,W,not-context-manager
+disable=C,I,W,not-context-manager,R0917,R0913
 
 [REPORTS]
 
