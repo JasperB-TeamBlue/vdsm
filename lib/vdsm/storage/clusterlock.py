@@ -160,7 +160,7 @@ class SafeLease:
             raise MultipleLeasesNotSupported("init", lease)
         lockUtil = constants.EXT_SAFELEASE
         initCommand = [lockUtil, "release", "-f", lease.path, "0"]
-        rc, out, err = misc.execCmd(initCommand, cwd=self.lockUtilPath)
+        rc, out, _ = misc.execCmd(initCommand, cwd=self.lockUtilPath)
         if rc != 0:
             self.log.warn("could not initialise spm lease (%s): %s", rc, out)
             raise se.ClusterLockInitError()
@@ -882,7 +882,7 @@ class LocalLock:
 
     def hasHostId(self, hostId):
         with self._globalLockMapSync:
-            currentHostId, lockFile = self._getLease()
+            currentHostId, _ = self._getLease()
             return currentHostId == hostId
 
     def getHostStatus(self, hostId):

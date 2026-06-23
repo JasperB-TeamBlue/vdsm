@@ -390,7 +390,7 @@ def normalize_items(items):
         ]
     """
     res = []
-    for k, g in itertools.groupby(items, operator.attrgetter("action")):
+    for _, g in itertools.groupby(items, operator.attrgetter("action")):
         res.extend(sorted(g))
     return res
 

@@ -3672,7 +3672,7 @@ class HSM:
             raise
 
         cls.log.warning("Found lease locks, releasing")
-        for i in range(10):
+        for _ in range(10):
             time.sleep(1)
 
             try:

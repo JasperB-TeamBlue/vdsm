@@ -286,7 +286,7 @@ def _undefine_stale_domain(vm, connection):
         doms_to_remove.append(dom)
     for dom in doms_to_remove:
         try:
-            state, reason = dom.state(0)
+            state, _ = dom.state(0)
             if state in vmstatus.LIBVIRT_DOWN_STATES:
                 flags = _undefine_vm_flags()
                 dom.undefineFlags(flags)
@@ -2281,7 +2281,7 @@ class Vm:
                 " number of CPUs (%d)"
                 % (len(cpusets), self.get_number_of_cpus())
             )
-        for vcpu, cpuset in enumerate(cpusets):
+        for _, cpuset in enumerate(cpusets):
             if cpuset is None:
                 continue
             # Try parsing the content to validate it
@@ -2980,7 +2980,7 @@ class Vm:
 
         if self.recovering:
             dom = self._connection.lookupByUUIDString(self.id)
-            state, reason = dom.state(0)
+            state, _ = dom.state(0)
             if state in vmstatus.LIBVIRT_DOWN_STATES:
                 self._dom = virdomain.Defined(self.id, dom)
                 return
@@ -4306,7 +4306,7 @@ class Vm:
         False positive (domain is reported ready, but it is NOT) is avoided
         """
         try:
-            state, details, stateTime = self._dom.controlInfo()
+            state, _, _ = self._dom.controlInfo()
         except virdomain.NotConnectedError:
             # this method may be called asynchronously by periodic
             # operations. Thus, we must use a try/except block

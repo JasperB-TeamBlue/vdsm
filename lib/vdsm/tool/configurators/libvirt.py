@@ -54,7 +54,7 @@ def configure():
     }
 
     # write configuration
-    for cfile, content in FILES.items():
+    for _, content in FILES.items():
         content['configure'](content, CONF_VERSION, vdsmConfiguration)
 
     # enable and acivate dev-hugepages1G mounth path

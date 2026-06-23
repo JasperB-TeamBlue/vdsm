@@ -29,7 +29,7 @@ def _is_ignored_vm(dom_uuid, dom_obj, dom_xml):
         return True
     if _is_external_vm(dom_xml):
         try:
-            state, reason = dom_obj.state(0)
+            state, _ = dom_obj.state(0)
         except libvirt.libvirtError as e:
             if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN:
                 return True

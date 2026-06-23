@@ -46,7 +46,7 @@ def disable_lldp_on_iface(iface):
 
 
 def is_lldp_enabled_on_iface(iface):
-    rc, out, err = cmd.exec_sync(
+    rc, out, _ = cmd.exec_sync(
         [LLDPTOOL, 'get-lldp', '-i', iface, 'adminStatus']
     )
     if rc:

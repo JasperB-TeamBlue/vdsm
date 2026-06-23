@@ -208,7 +208,7 @@ class DynamicBoundedSemaphore:
         # context manager otherwise release() would deadlock since it also
         # tries to obtain the lock
         if delta > 0:
-            for i in range(delta):
+            for _ in range(delta):
                 self.release()
 
 

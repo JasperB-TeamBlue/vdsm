@@ -286,7 +286,7 @@ class FileStorageDomainManifest(sd.StorageDomainManifest):
         images = collections.defaultdict(list)
         for metaPath in volMetaPaths:
             head, tail = os.path.split(metaPath)
-            volUUID, volExt = os.path.splitext(tail)
+            volUUID, _ = os.path.splitext(tail)
             imgUUID = os.path.basename(head)
             images[imgUUID].append(volUUID)
 

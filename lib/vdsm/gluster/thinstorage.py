@@ -128,7 +128,7 @@ def vdoVolumeList():
         raise ge.GlusterCmdExecFailedException(rc=e.rc, err=e.err)
     vdoData = yaml.safe_load(out)
     result = []
-    for vdo, data in vdoData["VDOs"].items():
+    for _, data in vdoData["VDOs"].items():
         if data["VDO statistics"] == "not available":
             log.debug("VDO statistics data not available, skipping device ")
             continue

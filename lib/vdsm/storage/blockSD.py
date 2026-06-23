@@ -796,7 +796,7 @@ class BlockStorageDomainManifest(sd.StorageDomainManifest):
         return vols, remnants
 
     def getAllVolumes(self):
-        vols, rems = self.getAllVolumesImages()
+        vols, _ = self.getAllVolumesImages()
         return vols
 
     def getAllImages(self):
@@ -805,7 +805,7 @@ class BlockStorageDomainManifest(sd.StorageDomainManifest):
         """
         vols = self.getAllVolumes()  # {volName: ([imgs], parent)}
         images = set()
-        for imgs, parent in vols.values():
+        for imgs, _ in vols.values():
             images.update(imgs)
         return images
 
@@ -1494,7 +1494,7 @@ class BlockStorageDomain(sd.StorageDomain):
 
         masterfsdev = lvm.lvPath(self.sdUUID, MASTERLV)
         cmd = [constants.EXT_FSCK, "-p", masterfsdev]
-        rc, out, err = misc.execCmd(cmd, sudo=True)
+        rc, _, _ = misc.execCmd(cmd, sudo=True)
 
         # fsck exit codes
         # 0    - No errors

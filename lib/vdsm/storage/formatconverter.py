@@ -125,7 +125,7 @@ def v3DomainConverter(repoPath, hostId, domain, isMsd):
         )
 
         # Updating the volumes one by one, doesn't require activation
-        for volUUID, (imgUUIDs, parentUUID) in allVolumes.items():
+        for volUUID, (imgUUIDs, _) in allVolumes.items():
             # The first imgUUID is the imgUUID of the template or the only
             # imgUUID where the volUUID appears.
             vol = domain.produceVolume(imgUUIDs[0], volUUID)
@@ -178,7 +178,7 @@ def v3DomainConverter(repoPath, hostId, domain, isMsd):
         v3ReallocateMetadataSlot(domain, allVolumes)
 
         # Updating the volumes one by one, doesn't require activation
-        for volUUID, (imgUUIDs, parentUUID) in allVolumes.items():
+        for volUUID, (imgUUIDs, _) in allVolumes.items():
             log.debug("Converting volume: %s", volUUID)
 
             # Maintaining a dict of {images: parent_image}

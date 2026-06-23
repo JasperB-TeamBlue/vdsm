@@ -244,7 +244,7 @@ class DirectoryData(_FileSystemData):
 
     def last_modified(self):
         timestamp = 0
-        for root, dirs, files in os.walk(self._path):
+        for root, _, files in os.walk(self._path):
             timestamp = max(timestamp, self._file_timestamp(root))
             for f in files:
                 path = os.path.join(root, f)

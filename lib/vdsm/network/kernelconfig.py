@@ -182,7 +182,7 @@ def _remove_zero_values_in_net_qos(net_qos):
 
 
 def _normalize_bonding_opts(config_copy):
-    for bond, bond_attr in config_copy.bonds.items():
+    for _, bond_attr in config_copy.bonds.items():
         # TODO: globalize default bond options from Bond in models.py
         normalized_opts = _parse_bond_options(bond_attr.get('options'))
         if 'mode' not in normalized_opts:

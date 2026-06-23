@@ -231,7 +231,7 @@ def resize_devices():
     with utils.stopwatch(
         "Resizing multipath devices", level=logging.INFO, log=log
     ):
-        for dmId, guid in getMPDevsIter():
+        for _, guid in getMPDevsIter():
             try:
                 _resize_if_needed(guid)
             except Exception:
@@ -314,7 +314,7 @@ def getDeviceBlockSizes(dev):
 
 def getDeviceSize(dev):
     devName = os.path.basename(dev)
-    bs, phyBs = getDeviceBlockSizes(devName)
+    bs, _ = getDeviceBlockSizes(devName)
     size = bs * read_int(os.path.join(SYS_BLOCK, devName, "size"))
     return size
 

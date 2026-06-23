@@ -43,7 +43,7 @@ def stop():
     left when a tests ends.
     """
     with _procPoolLock:
-        for name, (eol, proc) in _procPool.items():
+        for name, (_, proc) in _procPool.items():
             log.debug("Closing ioprocess %s", name)
             try:
                 proc._ioproc.close()
@@ -55,7 +55,7 @@ def stop():
 
 def cleanIdleIOProcesses(clientName):
     now = elapsed_time()
-    for name, (eol, proc) in list(_procPool.items()):
+    for name, (eol, _) in list(_procPool.items()):
         if eol < now and name != clientName:
             log.debug("Removing idle ioprocess %s", name)
             del _procPool[name]

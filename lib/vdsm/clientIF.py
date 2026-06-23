@@ -706,7 +706,7 @@ class clientIF:
                 (utcoffset,) = args[:-1]
                 v.onRTCUpdate(utcoffset)
             elif eventid == libvirt.VIR_DOMAIN_EVENT_ID_IO_ERROR_REASON:
-                srcPath, devAlias, action, reason = args[:-1]
+                _, devAlias, action, reason = args[:-1]
                 v.onIOError(devAlias, reason, action)
             elif eventid == libvirt.VIR_DOMAIN_EVENT_ID_GRAPHICS:
                 phase, localAddr, remoteAddr, authScheme, subject = args[:-1]

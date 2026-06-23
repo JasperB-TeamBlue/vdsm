@@ -60,7 +60,7 @@ def cleanup_transient_repository(*args):
     if len(transient_images) == 0:
         return  # Nothing to do
 
-    cmd_ret, cmd_out, cmd_err = execCmd([_fuser.cmd] + list(transient_images))
+    _, _, cmd_err = execCmd([_fuser.cmd] + list(transient_images))
     # According to: "fuser returns a non-zero return code if none of the
     # specified files is accessed or in case of a fatal error. If at least
     # one access has been found, fuser returns zero." we can discard the

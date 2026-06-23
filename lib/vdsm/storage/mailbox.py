@@ -310,7 +310,7 @@ class HSM_MailMonitor:
 
     def _initMailbox(self):
         # Sync initial incoming mail state with storage view
-        rc, out, err = _mboxExecCmd(self._inCmd, raw=True)
+        rc, out, _ = _mboxExecCmd(self._inCmd, raw=True)
         if rc == 0:
             self._incomingMail = out
             self._init = True
@@ -429,7 +429,7 @@ class HSM_MailMonitor:
     def _checkForMail(self):
         # self.log.debug("HSM_MailMonitor - checking for mail")
         # self.log.debug("Running command: " + str(self._inCmd))
-        rc, in_mail, err = _mboxExecCmd(self._inCmd, raw=True)
+        rc, in_mail, _ = _mboxExecCmd(self._inCmd, raw=True)
         if rc:
             raise RuntimeError(
                 "_handleResponses.Could not read mailbox - rc " "%s" % rc
@@ -723,7 +723,7 @@ class SPM_MailMonitor:
             self._outCmd,
         )
         cmd = self._outCmd + ['bs=' + str(self._outMailLen)]
-        rc, out, err = _mboxExecCmd(cmd, data=self._outgoingMail)
+        rc, _, _ = _mboxExecCmd(cmd, data=self._outgoingMail)
         if rc:
             self.log.warning(
                 "SPM_MailMonitor couldn't clear outgoing mail, " "dd failed"
@@ -899,7 +899,7 @@ class SPM_MailMonitor:
             cmd = self._inCmd + ['bs=' + str(self._outMailLen)]
             # self.log.debug("SPM_MailMonitor - reading incoming mail, "
             #               "command: " + str(cmd))
-            rc, in_mail, err = _mboxExecCmd(cmd, raw=True)
+            rc, in_mail, _ = _mboxExecCmd(cmd, raw=True)
             if rc:
                 raise IOError(
                     errno.EIO,
@@ -923,7 +923,7 @@ class SPM_MailMonitor:
             if self._handleRequests(in_mail):
                 with self._outLock:
                     cmd = self._outCmd + ['bs=' + str(self._outMailLen)]
-                    rc, out, err = _mboxExecCmd(cmd, data=self._outgoingMail)
+                    rc, _, _ = _mboxExecCmd(cmd, data=self._outgoingMail)
                     if rc:
                         self.log.warning(
                             "SPM_MailMonitor couldn't write "
@@ -952,7 +952,7 @@ class SPM_MailMonitor:
             ]
             # self.log.debug("Running command: %s, for message id: %s",
             #               str(cmd), str(msgID))
-            rc, out, err = _mboxExecCmd(cmd, data=mailbox)
+            rc, _, _ = _mboxExecCmd(cmd, data=mailbox)
             if rc:
                 self.log.error(
                     "SPM_MailMonitor: sendReply - couldn't send "

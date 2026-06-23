@@ -34,16 +34,16 @@ def driver_name(device_name):
     (
         cmds,
         driver,
-        version,
-        fw_version,
-        businfo,
         _,
         _,
-        n_priv_flags,
-        n_stats,
-        testinfo_len,
-        eedump_len,
-        regdump_len,
+        _,
+        _,
+        _,
+        _,
+        _,
+        _,
+        _,
+        _,
     ) = struct.unpack(DRVINFO_FORMAT, buff)
     driver_str = conversion_util.to_str(driver)
     return driver_str.rstrip('\0')  # C string end with the leftmost null char

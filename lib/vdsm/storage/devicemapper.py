@@ -153,7 +153,7 @@ PATH_STATUS_RE = re.compile(r"(?P<devnum>\d+:\d+)\s+(?P<status>[AF])")
 
 def getPathsStatus():
     res = {}
-    for devName, statusLine in dmsetup.status(target="multipath"):
+    for _, statusLine in dmsetup.status(target="multipath"):
         for m in PATH_STATUS_RE.finditer(statusLine):
             devNum, status = m.groups()
             physdevName = device_name(devNum)

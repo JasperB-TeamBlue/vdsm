@@ -33,7 +33,7 @@ def getDomUuidFromVolumePath(volPath):
     # fileVolume path has pattern:
     # */sdUUID/images/imgUUID/volUUID
     sdPath = os.path.normpath(volPath).rsplit('/images/', 1)[0]
-    target, sdUUID = os.path.split(sdPath)
+    _, sdUUID = os.path.split(sdPath)
     return sdUUID
 
 
@@ -407,7 +407,7 @@ class FileVolume(volume.Volume):
             (volPath,) = args
             sdUUID = getDomUuidFromVolumePath(volPath)
         elif len(args) == 3:
-            sdUUID, volUUID, volPath = args
+            sdUUID, _, volPath = args
         else:
             raise TypeError(
                 "halfbakedVolumeRollback takes 1 or 3 "

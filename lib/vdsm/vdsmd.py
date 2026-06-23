@@ -137,7 +137,7 @@ def run():
         logging.root.handlers.append(logging.StreamHandler())
         log.handlers.append(logging.StreamHandler())
 
-        sysname, nodename, release, version, machine = os.uname()
+        _, nodename, release, _, _ = os.uname()
         log.info(
             '(PID: %s) I am the actual vdsm %s %s (%s)',
             os.getpid(),

@@ -65,7 +65,8 @@ enable=E,F,R,W
 # R0913: too many arguments
 # R0914: too many local variables
 # R0903: too few public methods
-disable=C,I,not-context-manager,R0917,R0913,R0914,R0903,R0912
+# W0511: do not trigger on TODO/FIXME comments
+disable=C,I,not-context-manager,R0917,R0913,R0914,R0903,R0912, W0511
 
 [REPORTS]
 
