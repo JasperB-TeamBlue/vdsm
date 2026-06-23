@@ -94,7 +94,7 @@ class TaskManager:
                         subRes[taskID] = task.deprecated_getStatus()
                     except se.UnknownTask:
                         # Return statuses for existing tasks only.
-                        self.log.warn(
+                        self.log.warning(
                             "Unknown task %s. "
                             "Maybe task was already cleared.",
                             taskID,
@@ -114,7 +114,7 @@ class TaskManager:
                     subRes[taskID] = task.getDetails()
                 except se.UnknownTask:
                     # Return info for existing tasks only.
-                    self.log.warn(
+                    self.log.warning(
                         "Unknown task %s. Maybe task was already " "cleared.",
                         taskID,
                     )
@@ -183,7 +183,7 @@ class TaskManager:
                         subRes[taskID] = task.getInfo()
                     except se.UnknownTask:
                         # Return info for existing tasks only.
-                        self.log.warn(
+                        self.log.warning(
                             "Unknown task %s. "
                             "Maybe task was already cleared.",
                             taskID,

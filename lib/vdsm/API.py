@@ -1840,7 +1840,7 @@ class Global(APIBase):
         """Add a new network to this vds, replacing an old one."""
 
         if not self._cif._networkSemaphore.acquire(blocking=False):
-            self.log.warn('concurrent network verb already executing')
+            self.log.warning('concurrent network verb already executing')
             return errCode['unavail']
 
         try:
@@ -1862,7 +1862,7 @@ class Global(APIBase):
     def setSafeNetworkConfig(self):
         """Declare current network configuration as 'safe'"""
         if not self._cif._networkSemaphore.acquire(blocking=False):
-            self.log.warn('concurrent network verb already executing')
+            self.log.warning('concurrent network verb already executing')
             return errCode['unavail']
         try:
             self._cif._netConfigDirty = False

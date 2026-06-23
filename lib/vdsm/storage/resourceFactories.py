@@ -37,7 +37,7 @@ class LvmActivation:
             # If storage not accessible or lvm error occurred
             # the LV deactivation will failure.
             # We can live with it and still release the resource.
-            log.warn("Failure deactivate LV %s/%s (%s)", self._vg, self._lv, e)
+            log.warning("Failure deactivate LV %s/%s (%s)", self._vg, self._lv, e)
 
 
 class LvmActivationFactory(rm.SimpleResourceFactory):

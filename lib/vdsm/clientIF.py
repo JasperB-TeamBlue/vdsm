@@ -316,7 +316,7 @@ class clientIF:
                 from vdsm.rpc.bindingjsonrpc import BindingJsonRpc
                 from yajsonrpc.stompserver import StompDetector
             except ImportError:
-                self.log.warn(
+                self.log.warning(
                     'Unable to load the json rpc server module. '
                     'Please make sure it is installed.'
                 )

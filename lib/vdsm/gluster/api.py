@@ -191,7 +191,7 @@ def mountMetaVolume(metaVolumeName):
                 err=["fstab update failed", str(e)]
             )
         except ge.GlusterHostStorageDeviceFsTabFoundException as e:
-            logging.warn(e.message)
+            logging.warning(e.message)
 
     _metaVolumeFstabUpdate(metaVolumeName)
 
@@ -201,9 +201,9 @@ def mountMetaVolume(metaVolumeName):
                 os.path.realpath(META_VOL_MOUNT_POINT)
             ).fs_spec
             if fs_spec.endswith(META_VOLUME):
-                logging.warn(
-                    "Meta Volume %s already mounted at %s"
-                    % (META_VOLUME, META_VOL_MOUNT_POINT)
+                logging.warning(
+                    "Meta Volume %s already mounted at %s",
+                    META_VOLUME, META_VOL_MOUNT_POINT
                 )
                 return True
             raise ge.GlusterMetaVolumeMountFailedException(

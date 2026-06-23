@@ -142,7 +142,7 @@ def hookEnable(glusterCmd, hookLevel, hookName):
         glusterCmd, hookLevel.lower(), hookName
     )
     if os.path.exists(enabledFile):
-        log.warn("Enabled hook file:%s already exists" % enabledFile)
+        log.warning("Enabled hook file:%s already exists", enabledFile)
         return
     try:
         os.rename(disabledFile, enabledFile)
@@ -168,7 +168,9 @@ def hookDisable(glusterCmd, hookLevel, hookName):
     except OSError as e:
         if errno.ENOENT == e.errno:
             if os.path.exists(disabledFile):
-                log.warn("Disabled hook file:%s already exists" % disabledFile)
+                log.warning(
+                    "Disabled hook file:%s already exists", disabledFile
+                )
             else:
                 raise ge.GlusterHookNotFoundException(
                     glusterCmd, hookLevel, hookName

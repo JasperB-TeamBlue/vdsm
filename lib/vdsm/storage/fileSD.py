@@ -1061,7 +1061,7 @@ def scanDomains(pattern="*"):
                     return (sdUUID, os.path.dirname(metaFile))
 
         except Exception:
-            log.warn(
+            log.warning(
                 "Could not collect metadata file for domain path %s",
                 mountPoint,
                 exc_info=True,

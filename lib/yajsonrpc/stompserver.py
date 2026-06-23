@@ -259,7 +259,7 @@ class StompAdapterImpl:
         try:
             self._commands[frame.command](dispatcher, frame)
         except KeyError:
-            self.log.warn("Unknown command %s", frame)
+            self.log.warning("Unknown command %s", frame)
             dispatcher.handle_error()
 
     def find_subscribers(self, destination):
@@ -314,7 +314,7 @@ class StompServer:
         try:
             connections = self._sub_map[destination]
         except KeyError:
-            self.log.warn(
+            self.log.warning(
                 "Attempt to reply to unknown destination %s", destination
             )
             return

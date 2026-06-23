@@ -416,9 +416,9 @@ class BlockVolumeManifest(volume.VolumeManifest):
                 # we will failure to get the parent volume.
                 # We can live with it and still succeed in volume's teardown.
                 pvolUUID = sc.BLANK_UUID
-                cls.log.warn(
-                    "Failure to get parent of volume %s/%s (%s)"
-                    % (sdUUID, volUUID, e)
+                cls.log.warning(
+                    "Failure to get parent of volume %s/%s (%s)",
+                    sdUUID, volUUID, e
                 )
 
             if pvolUUID != sc.BLANK_UUID:
@@ -615,7 +615,7 @@ class BlockVolume(volume.Volume):
         try:
             lvm.deactivateLVs(dom.sdUUID, [volUUID])
         except se.CannotDeactivateLogicalVolume:
-            cls.log.warn(
+            cls.log.warning(
                 "Cannot deactivate new created volume %s/%s",
                 dom.sdUUID,
                 volUUID,

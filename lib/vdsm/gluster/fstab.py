@@ -64,7 +64,7 @@ class FsTab:
             raise ge.GlusterHostStorageDeviceFsTabFoundException(device)
         uuid = self._getFsUuid(device)
         if not uuid:
-            log.warn("UUID not found for device %s" % device)
+            log.warning("UUID not found for device %s", device)
         content = open(self.fileName).read()
         content += "%s%s\t%s\t%s\t%s\t%s\t%s\n" % (
             '' if content.endswith('\n') else '\n',

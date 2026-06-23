@@ -380,7 +380,7 @@ def getFwRev(physDev):
 def getHBTL(physdev):
     hbtl = os.listdir(SYS_BLOCK + "/%s/device/scsi_disk/" % physdev)
     if len(hbtl) > 1:
-        log.warn("Found more the 1 HBTL, this shouldn't happen")
+        log.warning("Found more the 1 HBTL, this shouldn't happen")
 
     return HBTL(*hbtl[0].split(":"))
 
@@ -426,7 +426,7 @@ def pathListIter(filterGuids=()):
                 try:
                     devInfo["vendor"] = getVendor(slave)
                 except Exception:
-                    log.warn(
+                    log.warning(
                         "Problem getting vendor from device `%s`",
                         slave,
                         exc_info=True,
@@ -436,7 +436,7 @@ def pathListIter(filterGuids=()):
                 try:
                     devInfo["product"] = getModel(slave)
                 except Exception:
-                    log.warn(
+                    log.warning(
                         "Problem getting model name from device `%s`",
                         slave,
                         exc_info=True,
@@ -446,7 +446,7 @@ def pathListIter(filterGuids=()):
                 try:
                     devInfo["fwrev"] = getFwRev(slave)
                 except Exception:
-                    log.warn(
+                    log.warning(
                         "Problem getting fwrev from device `%s`",
                         slave,
                         exc_info=True,
@@ -461,7 +461,7 @@ def pathListIter(filterGuids=()):
                     devInfo["logicalblocksize"] = str(logBlkSize)
                     devInfo["physicalblocksize"] = str(phyBlkSize)
                 except Exception:
-                    log.warn(
+                    log.warning(
                         "Problem getting blocksize from device `%s`",
                         slave,
                         exc_info=True,
@@ -475,7 +475,7 @@ def pathListIter(filterGuids=()):
                 hbtl = getHBTL(slave)
             except OSError as e:
                 if e.errno == errno.ENOENT:
-                    log.warn("Device has no hbtl: %s", slave)
+                    log.warning("Device has no hbtl: %s", slave)
                     pathInfo["lun"] = 0
                 else:
                     log.error(
