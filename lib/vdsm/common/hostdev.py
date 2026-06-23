@@ -623,8 +623,7 @@ def _update_address_to_name_map(address_to_name, device_name, device_params):
 
 
 def _each_mdev_device():
-    for pci_device in sorted(os.listdir(_MDEV_PATH)):
-        yield pci_device
+    yield from sorted(os.listdir(_MDEV_PATH))
 
 
 def _each_supported_mdev_type(pci_device):

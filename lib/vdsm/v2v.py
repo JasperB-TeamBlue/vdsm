@@ -1095,8 +1095,7 @@ def _mem_to_mib(size, unit):
 
 def _list_domains(conn):
     try:
-        for vm in conn.listAllDomains():
-            yield vm
+        yield from conn.listAllDomains()
     # TODO: use only the new API (no need to fall back to listDefinedDomains)
     #       when supported in Xen under RHEL 5.x
     except libvirt.libvirtError as e:

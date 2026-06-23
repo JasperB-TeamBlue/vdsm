@@ -2814,8 +2814,7 @@ class Vm:
             )
             yield vmdevices.hostdevice.HostDevice(dom, meta, self.log)
         for dev_objects in self._devices.values():
-            for dev_object in dev_objects[:]:
-                yield dev_object
+            yield from dev_objects[:]
 
     def _setup_devices(self):
         """

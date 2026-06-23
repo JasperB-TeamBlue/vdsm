@@ -517,7 +517,6 @@ def walk(top, topdown=True, onerror=None, followlinks=False, skip=()):
     for name in dirs:
         path = os.path.join(top, name)
         if followlinks or not os.path.islink(path):
-            for x in walk(path, topdown, onerror, followlinks, skip):
-                yield x
+            yield from walk(path, topdown, onerror, followlinks, skip)
     if not topdown:
         yield top, dirs, nondirs

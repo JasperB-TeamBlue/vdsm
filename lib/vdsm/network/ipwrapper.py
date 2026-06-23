@@ -398,8 +398,7 @@ class Route:
         return output
 
     def __iter__(self):
-        for word in str(self).split():
-            yield word
+        yield from str(self).split()
 
 
 @equals
@@ -523,8 +522,7 @@ class Rule:
         return output
 
     def __iter__(self):
-        for word in str(self).split():
-            yield word
+        yield from str(self).split()
 
 
 class IPRoute2Error(Exception):
