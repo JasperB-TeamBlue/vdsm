@@ -198,10 +198,9 @@ def setupNetworks(networks, bondings, options):
         }
         hooks.after_network_setup_fail(network_config_dict)
         raise
-    else:
-        hooks.after_network_setup(
-            _build_setup_hook_dict(networks, bondings, options)
-        )
+    hooks.after_network_setup(
+        _build_setup_hook_dict(networks, bondings, options)
+    )
 
 
 def _setup_networks(networks, bondings, options):

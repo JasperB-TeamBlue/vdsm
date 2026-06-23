@@ -149,8 +149,7 @@ class StompAdapterImpl:
         except KeyError:
             self.log.debug("No subscription for %s id", sub_id)
             return
-        else:
-            self._remove_subscription(subscription)
+        self._remove_subscription(subscription)
 
     def _cmd_disconnect(self, dispatcher, frame):
         self.log.info("Disconnect command received")

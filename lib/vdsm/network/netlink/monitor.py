@@ -130,9 +130,9 @@ class Monitor:
                 if self._silent_timeout:
                     break
                 raise MonitorError(E_TIMEOUT)
-            elif event.type == EventType.STOP:
+            if event.type == EventType.STOP:
                 break
-            elif event.type == EventType.EXCEPTION:
+            if event.type == EventType.EXCEPTION:
                 _, val, tb = event.data
                 raise MonitorError(val).with_traceback(tb)
 
@@ -182,7 +182,7 @@ class Monitor:
                                 self._queue.put(Event(EventType.TIMEOUT))
                                 break
                             # stopped by pipetrick
-                            elif (self._pipetrick[0], select.POLLIN) in events:
+                            if (self._pipetrick[0], select.POLLIN) in events:
                                 uninterruptible(os.read, self._pipetrick[0], 1)
                                 self._queue.put(Event(EventType.STOP))
                                 break
@@ -196,10 +196,9 @@ class Monitor:
     def stop(self):
         if self.is_stopped():
             raise MonitorError(E_NOT_RUNNING)
-        else:
-            self._scanning_stopped.set()
-            self._scanning_started.wait()
-            os.write(self._pipetrick[1], b'c')
+        self._scanning_stopped.set()
+        self._scanning_started.wait()
+        os.write(self._pipetrick[1], b'c')
 
     def is_stopped(self):
         return self._scanning_stopped.is_set()

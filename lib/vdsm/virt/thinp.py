@@ -761,5 +761,4 @@ def parse_target(target):
     if match:
         name, index = match.groups()
         return name, int(index)
-    else:
-        return target, None
+    return target, None

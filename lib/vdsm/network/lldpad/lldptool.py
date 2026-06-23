@@ -67,8 +67,7 @@ def get_tlvs(iface):
     rc, stdout, err = cmd.exec_sync([LLDPTOOL, 'get-tlv', '-n', '-i', iface])
     if rc == 0:
         return _parse_tlvs(stdout)
-    else:
-        raise TlvReportLldpError(rc, stdout, err, iface)
+    raise TlvReportLldpError(rc, stdout, err, iface)
 
 
 def _parse_tlvs(text):

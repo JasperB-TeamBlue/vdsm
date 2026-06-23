@@ -272,7 +272,6 @@ def restore(force):
     except Exception:
         logging.exception('restoration failed.')
         raise
-    else:
-        logging.info('restoration completed successfully.')
+    logging.info('restoration completed successfully.')
 
     touch_file(NETS_RESTORED_MARK)

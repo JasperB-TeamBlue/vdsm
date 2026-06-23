@@ -71,8 +71,7 @@ class BlockVolumeManifest(volume.VolumeManifest):
                 "missing offset tag on volume %s/%s"
                 % (self.sdUUID, self.volUUID)
             )
-        else:
-            return int(md)
+        return int(md)
 
     def getMetadata(self, metaId=None):
         """

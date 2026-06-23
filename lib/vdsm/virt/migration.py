@@ -579,11 +579,10 @@ class SourceThread:
                 self.status = result
                 if response.is_error(result, 'migrateLimit'):
                     raise MigrationLimitExceeded()
-                else:
-                    raise MigrationDestinationSetupError(
-                        'migration destination error: '
-                        + result['status']['message']
-                    )
+                raise MigrationDestinationSetupError(
+                    'migration destination error: '
+                    + result['status']['message']
+                )
 
             self._switch_state(State.STARTED)
 

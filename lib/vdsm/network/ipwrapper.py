@@ -145,8 +145,7 @@ class Link:
                 else:
                     detectedType = LinkType.DUMMY
                 return detectedType
-            else:
-                raise  # Reraise other errors like ENODEV
+            raise  # Reraise other errors like ENODEV
         if driver in (
             LinkType.BRIDGE,
             LinkType.MACVLAN,
@@ -211,7 +210,7 @@ class Link:
         """Returns True iff vdsm config hides the device."""
         if self.isVLAN():
             return _any_fnmatch(self.name, self._hiddenVlans)
-        elif self.isNICLike():
+        if self.isNICLike():
             return (
                 _any_fnmatch(self.name, self._hiddenNics)
                 or (
@@ -221,9 +220,9 @@ class Link:
                 )
                 or (self.isVF() and self._isVFhidden())
             )
-        elif self.isBOND():
+        if self.isBOND():
             return _any_fnmatch(self.name, self._hiddenBonds)
-        elif self.isBRIDGE():
+        if self.isBRIDGE():
             return self.name == DUMMY_BRIDGE
         return False
 

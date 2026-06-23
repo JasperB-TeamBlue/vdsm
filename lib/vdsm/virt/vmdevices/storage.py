@@ -373,8 +373,7 @@ class Drive(core.Base):
             value = getattr(self, str(key))
         except AttributeError:
             raise KeyError(key)
-        else:
-            return value
+        return value
 
     def __contains__(self, attr):
         return hasattr(self, attr)

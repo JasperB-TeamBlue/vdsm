@@ -320,8 +320,7 @@ def get_metadata_attrs(dev_obj, dev_class):
         # 'alias' is expected to be present when we call this function.
         dev_obj.log.warning('Cannot find device alias for %s', dev_obj)
         return {}
-    else:
-        return {'devtype': dev_class, 'name': name}
+    return {'devtype': dev_class, 'name': name}
 
 
 def get_metadata_values(dev):

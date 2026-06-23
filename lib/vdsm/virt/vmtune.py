@@ -233,10 +233,9 @@ def validate_io_tune_params(params):
                 'an integer is required for ioTune' ' parameter %s' % key,
             ) + e.args[1:]
             raise
-        else:
-            raise ValueError(
-                'parameter %s value should be'
-                ' equal or greater than zero' % key
-            )
+        raise ValueError(
+            'parameter %s value should be'
+            ' equal or greater than zero' % key
+        )
 
     _check_io_tune_categories(params)

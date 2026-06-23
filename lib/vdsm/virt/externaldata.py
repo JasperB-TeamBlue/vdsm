@@ -73,9 +73,8 @@ class ExternalData:
             self._log.error("Failed to read %s data: %s", self._kind, e)
             if isinstance(e, exception.ExternalDataFailed):
                 raise
-            else:
-                # Let's not leak data from the exception
-                error = e
+            # Let's not leak data from the exception
+            error = e
         if error is not None:
             raise exception.ExternalDataFailed(
                 reason="Failed to read %s data" % self._kind, exception=error

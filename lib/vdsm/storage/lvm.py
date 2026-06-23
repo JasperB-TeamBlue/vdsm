@@ -1454,9 +1454,8 @@ def resizePV(vgName, guid):
         _lvminfo.run_command(cmd, devices=_lvminfo._getVGDevs((vgName,)))
     except se.LVMCommandError as e:
         raise se.CouldNotResizePhysicalVolume.from_lvmerror(e)
-    else:
-        _lvminfo._invalidatepvs(pvName)
-        _lvminfo._invalidatevgs(vgName)
+    _lvminfo._invalidatepvs(pvName)
+    _lvminfo._invalidatevgs(vgName)
 
 
 def movePV(vgName, src_device, dst_devices):

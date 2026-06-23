@@ -229,18 +229,17 @@ class MountConnection(Connection):
                     e,
                 )
             raise me
-        else:
+        try:
+            fileSD.validateDirAccess(
+                self.getMountObj().getRecord().fs_file
+            )
+        except se.StorageServerAccessPermissionError as ssape:
+            t, v, tb = sys.exc_info()
             try:
-                fileSD.validateDirAccess(
-                    self.getMountObj().getRecord().fs_file
-                )
-            except se.StorageServerAccessPermissionError as ssape:
-                t, v, tb = sys.exc_info()
-                try:
-                    self.disconnect()
-                except OSError:
-                    log.exception("Error disconnecting")
-                raise ssape
+                self.disconnect()
+            except OSError:
+                log.exception("Error disconnecting")
+            raise ssape
 
     def validate(self):
         """

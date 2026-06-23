@@ -60,8 +60,7 @@ def find_first(element, tag, default=_UNSPECIFIED):
                     tag,
                 )
             )
-        else:
-            return default
+        return default
 
 
 def find_attr(element, tag, attribute):
@@ -154,8 +153,7 @@ def children(element, tag=None):
     """
     if tag is None:
         return iter(element)
-    else:
-        return element.iterfind('./' + tag)
+    return element.iterfind('./' + tag)
 
 
 def append_child(element, child=None, etree_child=None):

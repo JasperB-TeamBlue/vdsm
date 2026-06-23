@@ -168,7 +168,7 @@ class Command:
             if self._state == ABORTING:
                 self._state = ABORTED
                 raise exception.ActionStopped
-            elif self._state == RUNNING:
+            if self._state == RUNNING:
                 self._state = TERMINATED
                 if rc != 0:
                     raise cmdutils.Error(self._cmd, rc, out, err)

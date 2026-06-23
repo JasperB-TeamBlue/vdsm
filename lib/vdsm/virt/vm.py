@@ -213,8 +213,7 @@ def domain_required():
         # always bubble up this exception.
         if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN:
             raise MissingLibvirtDomainError()
-        else:
-            raise
+        raise
 
 
 class DestroyedOnStartupError(Exception):
@@ -690,9 +689,8 @@ class Vm:
                 )
                 if isinstance(e, exception.ExternalDataFailed):
                     raise
-                else:
-                    # Let's not leak data from the exception
-                    error = e
+                # Let's not leak data from the exception
+                error = e
             if error is not None:
                 raise exception.ExternalDataFailed(
                     reason="Failed to write initial data",
@@ -757,8 +755,7 @@ class Vm:
                 )
                 if value == vmstatus.DOWN:
                     raise DoubleDownError
-                else:
-                    return
+                return
             if value not in VALID_STATES:
                 self.log.error('setting state to %s', value)
             if self._lastStatus != value:
@@ -985,10 +982,9 @@ class Vm:
                 except Exception:
                     if not self.recovering:
                         raise
-                    else:
-                        self.log.info(
-                            "Skipping errors on recovery", exc_info=True
-                        )
+                    self.log.info(
+                        "Skipping errors on recovery", exc_info=True
+                    )
 
             if self._altered_state and self.lastStatus != vmstatus.DOWN:
                 self._completeIncomingMigration()
@@ -1580,9 +1576,8 @@ class Vm:
         elif resume_behavior == ResumeBehavior.KILL:
             if self.maybe_kill_paused():
                 raise DestroyedOnResumeError()
-            else:
-                self.cont()
-                self.log.info("VM resumed")
+            self.cont()
+            self.log.info("VM resumed")
         else:
             raise Exception(
                 "Unsupported resume behavior value: %s", (resume_behavior,)
@@ -2847,8 +2842,7 @@ class Vm:
                 )
                 self._teardown_devices(done)
                 raise
-            else:
-                done.append(dev_object)
+            done.append(dev_object)
 
     def _make_devices(self):
         disk_objs = self._perform_host_local_adjustment()
@@ -3478,13 +3472,12 @@ class Vm:
                 xmlutils.tostring(vnicXML), libvirt.VIR_DOMAIN_AFFECT_LIVE
             )
             raise
-        else:
-            # Update the device and the configuration.
-            dev.network = networkValue
-            dev.linkActive = linkValue == 'up'
-            dev.custom = custom
-            dev.mtu = MTU
-            dev.port_isolated = port_isolated
+        # Update the device and the configuration.
+        dev.network = networkValue
+        dev.linkActive = linkValue == 'up'
+        dev.custom = custom
+        dev.mtu = MTU
+        dev.port_isolated = port_isolated
 
     @contextmanager
     def updatePortMirroring(self, nic, networks):
@@ -3879,8 +3872,7 @@ class Vm:
                 self.log.exception("updateVmPolicy failed")
                 if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN:
                     raise exception.NoSuchVM()
-                else:
-                    return response.error('updateVmPolicyErr', str(e))
+                return response.error('updateVmPolicyErr', str(e))
 
         return {'status': doneCode}
 
@@ -3994,9 +3986,8 @@ class Vm:
                 self.log.exception("getVmIoTune failed")
                 if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN:
                     raise exception.NoSuchVM()
-                else:
-                    self.log.error('updateIoTuneErr', str(e))
-                    raise exception.UpdateIOTuneError(str(e))
+                self.log.error('updateIoTuneErr', str(e))
+                raise exception.UpdateIOTuneError(str(e))
 
         return resultList
 
@@ -4035,8 +4026,7 @@ class Vm:
                 self.log.exception("setVmIoTune failed")
                 if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN:
                     raise exception.NoSuchVM()
-                else:
-                    raise exception.UpdateIOTuneError(str(e))
+                raise exception.UpdateIOTuneError(str(e))
 
             with self._ioTuneLock:
                 self._ioTuneValues[found_device.name] = io_tune
@@ -5611,9 +5601,8 @@ class Vm:
         except virdomain.TimeoutError as tmo:
             raise exception.SpiceTicketError(str(tmo))
 
-        else:
-            hooks.after_vm_set_ticket(self._domain.xml, self._custom, params)
-            return {}
+        hooks.after_vm_set_ticket(self._domain.xml, self._custom, params)
+        return {}
 
     def reviveTicket(self, newlife):
         """
@@ -6086,9 +6075,8 @@ class Vm:
             if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN:
                 raise exception.NoSuchVM()
             raise exception.BalloonError(str(e))
-        else:
-            self._balloon_target = target
-            self._update_metadata()
+        self._balloon_target = target
+        self._update_metadata()
 
     def get_balloon_info(self):
         if self._balloon_minimum is None or self._balloon_target is None:
@@ -6110,9 +6098,8 @@ class Vm:
             )
         except libvirt.libvirtError as e:
             return self._reportException(key='cpuTuneErr', msg=str(e))
-        else:
-            # libvirt may change the value we set, so we must get fresh data
-            return self._updateVcpuTuneInfo()
+        # libvirt may change the value we set, so we must get fresh data
+        return self._updateVcpuTuneInfo()
 
     def setCpuTunePeriod(self, period):
         try:
@@ -6123,17 +6110,15 @@ class Vm:
             )
         except libvirt.libvirtError as e:
             return self._reportException(key='cpuTuneErr', msg=str(e))
-        else:
-            # libvirt may change the value we set, so we must get fresh data
-            return self._updateVcpuTuneInfo()
+        # libvirt may change the value we set, so we must get fresh data
+        return self._updateVcpuTuneInfo()
 
     def _updateVcpuTuneInfo(self):
         try:
             self._vcpuTuneInfo = self._dom.schedulerParameters()
         except libvirt.libvirtError as e:
             return self._reportException(key='cpuTuneErr', msg=str(e))
-        else:
-            return {'status': doneCode}
+        return {'status': doneCode}
 
     def _reportException(self, key, msg=None):
         """
@@ -6704,8 +6689,7 @@ class Vm:
                 )
                 self._updateDomainDescriptor()
                 return
-            else:
-                self._devices[device_hwclass].remove(device)
+            self._devices[device_hwclass].remove(device)
         try:
             device.teardown()
         finally:
@@ -6900,8 +6884,7 @@ class Vm:
         # is explicit CPU pinning
         if len(self._domain.pinned_cpus) > 0:
             return cpumanagement.CPU_POLICY_MANUAL
-        else:
-            return cpumanagement.CPU_POLICY_NONE
+        return cpumanagement.CPU_POLICY_NONE
 
     def cpu_policy(self):
         """

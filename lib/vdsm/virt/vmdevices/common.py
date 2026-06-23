@@ -269,7 +269,7 @@ def save_device_metadata(md_desc, dev_map, log):
                 # the device doesn't want to save anything.
                 # let's go ahead.
                 continue
-            elif not attrs:
+            if not attrs:
                 # data with no attrs? most likely a bug.
                 log.warning('No metadata attrs for %s', dev_obj)
                 continue

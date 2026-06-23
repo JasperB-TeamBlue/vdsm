@@ -71,8 +71,7 @@ class Routes:
     def _create_route(self, next_hop, gateway, family):
         if self._netconf.default_route:
             return self._create_add_default_route(next_hop, gateway, family)
-        else:
-            return self._create_remove_default_route(next_hop, gateway, family)
+        return self._create_remove_default_route(next_hop, gateway, family)
 
     def _should_remove_def_route(self, family):
         dhcp = (

@@ -677,7 +677,7 @@ class SANLock:
             )
             raise RuntimeError("Multiple owners for %s" % (lease,))
 
-        elif not owners:
+        if not owners:
             return None, None
 
         resource_owner = owners[0]
@@ -939,8 +939,7 @@ class LocalLock:
                         str(e),
                     )
                 raise
-            else:
-                self._globalLockMap[self._sdUUID] = (hostId, lockFile)
+            self._globalLockMap[self._sdUUID] = (hostId, lockFile)
 
         self.log.debug(
             "Local lock for domain %s successfully acquired " "(id: %s)",

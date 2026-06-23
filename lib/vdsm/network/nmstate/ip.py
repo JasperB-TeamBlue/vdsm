@@ -18,10 +18,9 @@ class IpAddress:
     def create(self, family, enabled=True):
         if family == IpAddress.IPV4:
             return self._create_ipv4(enabled)
-        elif family == IpAddress.IPV6:
+        if family == IpAddress.IPV6:
             return self._create_ipv6(enabled)
-        else:
-            return {}
+        return {}
 
     def _create_ipv4(self, enabled):
         ipstate = {InterfaceIP.ENABLED: enabled}

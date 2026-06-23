@@ -226,7 +226,7 @@ def _canonicalize_ip_default_route(nets):
             ne.ERR_BAD_PARAMS,
             'Only a single default route network is allowed.',
         )
-    elif default_route_nets:
+    if default_route_nets:
         existing_net_with_default_route = _net_with_default_route_from_config()
         if existing_net_with_default_route:
             netname, attrs = existing_net_with_default_route
@@ -262,7 +262,7 @@ def _rget(dict, keys, default=None):
     """
     if dict is None:
         return default
-    elif len(keys) == 0:
+    if len(keys) == 0:
         return dict
     return _rget(dict.get(keys[0]), keys[1:], default)
 

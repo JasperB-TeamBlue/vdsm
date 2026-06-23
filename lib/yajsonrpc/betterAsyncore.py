@@ -120,8 +120,7 @@ class Dispatcher(asyncore.dispatcher):
                 # a read condition, and having recv() return 0.
                 self.handle_close()
                 return b''
-            else:
-                return data
+            return data
         except sslutils.SSLError as e:
             if e.errno == ssl.SSL_ERROR_WANT_READ:
                 return None
@@ -134,11 +133,10 @@ class Dispatcher(asyncore.dispatcher):
             # we need additional errnos.
             if why.args[0] in _BLOCKING_IO_ERRORS:
                 return None
-            elif why.args[0] in asyncore._DISCONNECTED:
+            if why.args[0] in asyncore._DISCONNECTED:
                 self.handle_close()
                 return b''
-            else:
-                raise
+            raise
 
     def send(self, data):
         try:
@@ -155,11 +153,10 @@ class Dispatcher(asyncore.dispatcher):
         except socket.error as why:
             if why.args[0] in _BLOCKING_IO_ERRORS:
                 return 0
-            elif why.args[0] in asyncore._DISCONNECTED:
+            if why.args[0] in asyncore._DISCONNECTED:
                 self.handle_close()
                 return 0
-            else:
-                raise
+            raise
 
     def del_channel(self, map=None):
         asyncore.dispatcher.del_channel(self, map)
@@ -169,8 +166,7 @@ class Dispatcher(asyncore.dispatcher):
     def _delegate_call(self, name):
         if hasattr(self.__impl, name):
             return getattr(self.__impl, name)(self)
-        else:
-            return getattr(asyncore.dispatcher, name)(self)
+        return getattr(asyncore.dispatcher, name)(self)
 
     # Override asyncore.dispatcher logging to use our logger
     log = _log.debug

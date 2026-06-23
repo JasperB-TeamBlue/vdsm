@@ -35,8 +35,7 @@ def stp_state(bridge):
         stp = stp_file.readline()
     if stp == '1\n':
         return 'on'
-    else:
-        return 'off'
+    return 'off'
 
 
 def stp_booleanize(value):
@@ -46,10 +45,9 @@ def stp_booleanize(value):
         return value
     if value.lower() in ('true', 'on', 'yes'):
         return True
-    elif value.lower() in ('false', 'off', 'no'):
+    if value.lower() in ('false', 'off', 'no'):
         return False
-    else:
-        raise ValueError('Invalid value for bridge stp')
+    raise ValueError('Invalid value for bridge stp')
 
 
 def info(link):

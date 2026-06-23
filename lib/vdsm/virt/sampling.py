@@ -462,7 +462,7 @@ class VMBulkstatsMonitor:
             to_skip = self._skip_doms.get(vm_id, False)
             if to_skip:
                 continue
-            elif not vm_obj.isDomainReadyForCommands():
+            if not vm_obj.isDomainReadyForCommands():
                 self._skip_doms[vm_id] = True
             else:
                 # TODO: This racy check may fail if the underlying libvirt

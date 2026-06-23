@@ -240,7 +240,7 @@ def _permanent_hwaddr_info(devs_report):
 def get(vdsmnets=None, compatibility=None):
     if compatibility is None:
         return _get(vdsmnets)
-    elif compatibility < 30700:
+    if compatibility < 30700:
         # REQUIRED_FOR engine < 3.7
         return _stringify_mtus(_get(vdsmnets))
 
@@ -347,8 +347,7 @@ def _getNetInfo(iface, bridged, routes, ipaddrs):
         if e.errno == errno.ENOENT or e.errno == errno.ENODEV:
             logging.info('Obtaining info for net %s.', iface, exc_info=True)
             raise NetworkIsMissing('Network %s was not found' % iface)
-        else:
-            raise
+        raise
     return data
 
 

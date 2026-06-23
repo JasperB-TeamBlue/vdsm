@@ -85,28 +85,26 @@ def get_gateway(
     ]
     if not gateways:
         return '::' if family == 6 else ''
-    elif len(gateways) == 1:
+    if len(gateways) == 1:
         return gateways[0]['gateway']
-    else:
-        unique_gateways = frozenset(route['gateway'] for route in gateways)
-        if len(unique_gateways) == 1:
-            (gateway,) = unique_gateways
-            logging.debug(
-                'The gateway %s is duplicated for the device %s', gateway, dev
-            )
-            return gateway
-        else:
-            # We could pick the first gateway or the one with the lowest metric
-            # but, in general, there are also routing rules in the game so we
-            # should probably ask the kernel somehow.
-            logging.error(
-                'Multiple IPv%s gateways for the device %s in table ' '%s: %r',
-                family,
-                dev,
-                table,
-                gateways,
-            )
-            return '::' if family == 6 else ''
+    unique_gateways = frozenset(route['gateway'] for route in gateways)
+    if len(unique_gateways) == 1:
+        (gateway,) = unique_gateways
+        logging.debug(
+            'The gateway %s is duplicated for the device %s', gateway, dev
+        )
+        return gateway
+    # We could pick the first gateway or the one with the lowest metric
+    # but, in general, there are also routing rules in the game so we
+    # should probably ask the kernel somehow.
+    logging.error(
+        'Multiple IPv%s gateways for the device %s in table ' '%s: %r',
+        family,
+        dev,
+        table,
+        gateways,
+    )
+    return '::' if family == 6 else ''
 
 
 def get_routes():

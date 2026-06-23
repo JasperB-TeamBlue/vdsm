@@ -11,7 +11,7 @@ def to_str(value):
         raise ValueError(
             f'Expected a textual value, given {value} of type {type(value)}.'
         )
-    elif isinstance(value, bytes):
+    if isinstance(value, bytes):
         return value.decode('utf-8')
     return value
 
@@ -20,5 +20,4 @@ def to_binary(value):
     """Convert textual value to binary."""
     if isinstance(value, bytes):
         return value
-    else:
-        return value.encode('utf-8')
+    return value.encode('utf-8')

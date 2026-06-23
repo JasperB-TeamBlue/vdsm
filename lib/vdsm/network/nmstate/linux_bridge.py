@@ -54,15 +54,13 @@ class LinuxBridgeNetwork:
     def has_vlan(self):
         if self._to_remove:
             return self._runconf.vlan is not None
-        else:
-            return self._netconf.vlan is not None
+        return self._netconf.vlan is not None
 
     @property
     def base_iface(self):
         if self._to_remove:
             return self._runconf.base_iface
-        else:
-            return self._netconf.base_iface
+        return self._netconf.base_iface
 
     @property
     def to_remove(self):

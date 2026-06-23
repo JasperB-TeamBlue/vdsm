@@ -139,7 +139,7 @@ def _parse_ematch(tokens):
     for token in tokens:
         if token == _parser.LINE_DELIMITER:  # line break
             continue
-        elif token == 'handle':
+        if token == 'handle':
             data[token] = _parser.parse_str(tokens)
         elif token == 'flowid':
             data['flowid'] = _parser.parse_str(tokens)
@@ -175,7 +175,7 @@ def _parse_ematch_match(first_arg, tokens):
     for token in tokens:
         if token == _parser.LINE_DELIMITER:  # line break
             return data
-        elif token in ('eq', 'lt', 'gt'):
+        if token in ('eq', 'lt', 'gt'):
             data['relation'] = token
             data['value'] = int(next(tokens).strip(')'))
         elif token == 'mask':

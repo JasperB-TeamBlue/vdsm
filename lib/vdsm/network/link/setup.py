@@ -19,8 +19,7 @@ def parse_bond_options(options):
     if options:
         d_options = _string_to_dict(options, ' ', '=')
         return d_options
-    else:
-        return {}
+    return {}
 
 
 def setup_custom_bridge_opts(nets):

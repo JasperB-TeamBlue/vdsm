@@ -1575,7 +1575,7 @@ class HSM:
                 "Image virtual size %r is bigger than volume size %r"
                 % (qemu_size, meta_size)
             )
-        elif meta_size > qemu_size:
+        if meta_size > qemu_size:
             # Engine < 4.2.6 rounds up disk size to a multiple of 1G, creating
             # disk size that does not match the undelying image. We cannot
             # fail verification for this case.
@@ -1639,7 +1639,7 @@ class HSM:
                         tmpImgUUID=tImgs[0],
                         tmpVolUUID=tName,
                     )
-                elif imgUUID == tImgs[0] and not srcDom.isBackup():
+                if imgUUID == tImgs[0] and not srcDom.isBackup():
                     raise se.MoveTemplateImageError(imgUUID)
                 break
 
@@ -1693,11 +1693,10 @@ class HSM:
         except se.ImageDoesNotExistInSD as e:
             if not dstDom.isBackup():
                 raise
-            else:
-                # Create an ad-hoc fake template only on a backup SD
-                tmpVol = srcDom.produceVolume(e.tmpImgUUID, e.tmpVolUUID)
-                img = image.Image(os.path.join(sc.REPO_DATA_CENTER, spUUID))
-                img.createFakeTemplate(dstDom.sdUUID, tmpVol.getVolumeParams())
+            # Create an ad-hoc fake template only on a backup SD
+            tmpVol = srcDom.produceVolume(e.tmpImgUUID, e.tmpVolUUID)
+            img = image.Image(os.path.join(sc.REPO_DATA_CENTER, spUUID))
+            img.createFakeTemplate(dstDom.sdUUID, tmpVol.getVolumeParams())
 
         domains = [srcDomUUID, dstDomUUID]
         domains.sort()

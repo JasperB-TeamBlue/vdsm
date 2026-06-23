@@ -106,8 +106,7 @@ def _translate_default_route(net_attr, _routes):
     is_default_route = net_attr.get('ipv4defaultroute')
     if is_default_route is None:
         return routes.is_default_route(net_attr['gateway'], _routes)
-    else:
-        return is_default_route
+    return is_default_route
 
 
 def _translate_nics(attributes, nics):

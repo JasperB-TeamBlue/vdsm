@@ -29,5 +29,4 @@ def lock(filename):
     except EnvironmentError as e:
         if e.errno == errno.EWOULDBLOCK:
             raise LockError("Instance already running")
-        else:
-            raise LockError(str(e))
+        raise LockError(str(e))

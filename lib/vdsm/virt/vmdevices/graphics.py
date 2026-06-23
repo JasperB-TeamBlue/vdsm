@@ -44,10 +44,7 @@ def isSupportedDisplayType(vmParams):
 
 def _is_feature_flag_enabled(dev, node, attr):
     value = vmxml.find_attr(dev, node, attr)
-    if value is not None and value.lower() == 'no':
-        return False
-    else:
-        return True
+    return not (value is not None and value.lower() == 'no')
 
 
 def is_vnc_secure(vmParams, log):

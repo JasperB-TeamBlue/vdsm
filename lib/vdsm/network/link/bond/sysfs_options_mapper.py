@@ -95,11 +95,10 @@ def _create_bond_retry(bond_name):
         _bonding_masters_write(f'+{bond_name}')
         if os.path.exists(sysfs_options.BONDING_OPT % (bond_name, 'mode')):
             break
-        else:
-            # The bonding driver is not responding, we need to
-            # recreate the device BZ#1999122
-            _bonding_masters_write(f'-{bond_name}')
-            time.sleep(0.1)
+        # The bonding driver is not responding, we need to
+        # recreate the device BZ#1999122
+        _bonding_masters_write(f'-{bond_name}')
+        time.sleep(0.1)
 
 
 def _bonding_masters_write(cmd):
@@ -185,8 +184,7 @@ def _bond_opts_name2numeric_getval(opt_path, opt_write_file, numeric_val):
     except IOError as e:
         if e.errno in (errno.EINVAL, errno.EPERM, errno.EACCES):
             return None, None
-        else:
-            e.filename = "opt[%s], numeric_val[%s]" % (opt_path, numeric_val)
-            raise
+        e.filename = "opt[%s], numeric_val[%s]" % (opt_path, numeric_val)
+        raise
 
     return sysfs_options.bond_opts_read_elements(opt_path)
