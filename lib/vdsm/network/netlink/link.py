@@ -102,8 +102,7 @@ def _link_index_to_name(link_index, cache=None):
                 )
             name = libnl.rtnl_link_get_name(link)
         return name
-    else:
-        return libnl.rtnl_link_i2name(cache, link_index)
+    return libnl.rtnl_link_i2name(cache, link_index)
 
 
 def _link_state(link):

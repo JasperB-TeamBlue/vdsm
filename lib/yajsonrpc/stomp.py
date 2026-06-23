@@ -273,8 +273,7 @@ class Parser:
     def _parse_body(self):
         if self._content_length >= 0:
             return self._parse_body_length()
-        else:
-            return self._parse_body_terminator()
+        return self._parse_body_terminator()
 
     def _parse_body_terminator(self):
         body = self._handle_terminator(b"\0")

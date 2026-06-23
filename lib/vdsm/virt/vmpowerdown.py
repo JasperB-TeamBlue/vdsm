@@ -59,13 +59,12 @@ class VmPowerDown:
 
             self.chain.start()
             return response.success(message=self.returnMsg)
-        else:
-            # No tools, no ACPI
-            return response.error(
-                'exist',
-                message='VM without ACPI or active oVirt guest agent. '
-                'Try Forced Shutdown.',
-            )
+        # No tools, no ACPI
+        return response.error(
+            'exist',
+            message='VM without ACPI or active oVirt guest agent. '
+            'Try Forced Shutdown.',
+        )
 
     # action callbacks, to be reimplemented
 

@@ -33,10 +33,9 @@ def _is_ignored_vm(dom_uuid, dom_obj, dom_xml):
         except libvirt.libvirtError as e:
             if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN:
                 return True
-            else:
-                logging.warning(
-                    "Can't get status of external VM %s: %s", dom_uuid, e
-                )
+            logging.warning(
+                "Can't get status of external VM %s: %s", dom_uuid, e
+            )
         if state in vmstatus.LIBVIRT_DOWN_STATES:
             return True
     return False
@@ -142,10 +141,9 @@ def lookup_external_vms(cif):
             if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN:
                 logging.debug("External domain %s not found", vm_id)
                 continue
-            else:
-                logging.exception("Failed to retrieve external VM: %s", vm_id)
-                cif.add_unknown_vm_id(vm_id)
-                continue
+            logging.exception("Failed to retrieve external VM: %s", vm_id)
+            cif.add_unknown_vm_id(vm_id)
+            continue
         if _is_ignored_vm(vm_id, dom_obj, dom_xml):
             continue
         logging.debug("Recovering external domain: %s", vm_id)

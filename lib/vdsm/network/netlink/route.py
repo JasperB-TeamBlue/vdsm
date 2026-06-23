@@ -60,16 +60,14 @@ def _rtnl_route_get_oif(route):
     hop = _route_get_next_hop(route)
     if hop is None:
         return -1
-    else:
-        return libnl.rtnl_route_nh_get_ifindex(hop)
+    return libnl.rtnl_route_nh_get_ifindex(hop)
 
 
 def _rtnl_route_get_gateway(route):
     hop = _route_get_next_hop(route)
     if hop is None:
         return None
-    else:
-        return libnl.rtnl_route_nh_get_gateway(hop)
+    return libnl.rtnl_route_nh_get_gateway(hop)
 
 
 _nl_route_cache = partial(_cache_manager, _rtnl_route_alloc_cache)

@@ -139,10 +139,9 @@ def channel_state_to_str(state):
     # receive unsanitized input!
     if state == CHANNEL_CONNECTED:
         return 'connected'
-    elif state == CHANNEL_DISCONNECTED:
+    if state == CHANNEL_DISCONNECTED:
         return 'disconnected'
-    else:
-        return 'UNKNOWN'
+    return 'UNKNOWN'
 
 
 @virdomain.expose("guestInfo", "interfaceAddresses", "guestVcpus")
@@ -666,8 +665,7 @@ class QemuGuestAgentPoller:
                     mapping[info[disk_prefix + 'serial']] = {'name': dev}
         if store_disk_mapping:
             return {'disksUsage': disks, 'diskMapping': mapping}
-        else:
-            return {'disksUsage': disks}
+        return {'disksUsage': disks}
 
     def fake_apps_list(self, vm_id, os_id=None, kernel_release=None):
         """Create fake appsList entry in guest info"""
@@ -840,9 +838,8 @@ class QemuGuestAgentPoller:
                 else:
                     self.log.debug('Skipping unknown device: %r', device)
             return {'pci_devices': devices}
-        else:
-            self.set_failure(vm.id)
-            return {}
+        self.set_failure(vm.id)
+        return {}
 
     def _qga_call_get_vcpus(self, vm):
         try:

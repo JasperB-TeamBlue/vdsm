@@ -43,8 +43,7 @@ def is_disabled_ipv6(dev='default'):
     except IOError as e:
         if e.errno == errno.ENOENT:
             return 1
-        else:
-            raise
+        raise
 
 
 def is_ipv6_local_auto(dev):
@@ -59,8 +58,7 @@ def is_ipv6_local_auto(dev):
     except IOError as e:
         if e.errno == errno.ENOENT:
             return False
-        else:
-            raise
+        raise
 
     return bool(
         not is_disabled

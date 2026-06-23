@@ -848,7 +848,7 @@ class Vm:
         if len(balloon_devs) < 1:
             self.log.warning("No balloon device present")
             return
-        elif len(balloon_devs) > 1:
+        if len(balloon_devs) > 1:
             self.log.warning("Multiple balloon devices present")
             return
         if self._balloon_target is None:
@@ -1605,9 +1605,8 @@ class Vm:
                 reason=vmexitreason.DESTROYED_ON_PAUSE_TIMEOUT,
             )
             return True
-        else:
-            self.log.debug("VM not paused long enough, not killing it")
-            return False
+        self.log.debug("VM not paused long enough, not killing it")
+        return False
 
     def _acquireCpuLockWithTimeout(self, flow):
         timeout = self._load_corrected_timeout(
@@ -2139,15 +2138,13 @@ class Vm:
         )
         if self.lastStatus in statuses:
             return self.lastStatus
-        elif self.isMigrating():
+        if self.isMigrating():
             if self._migrationSourceThread.hibernating:
                 return vmstatus.SAVING_STATE
-            else:
-                return vmstatus.MIGRATION_SOURCE
-        elif self.lastStatus == vmstatus.UP:
+            return vmstatus.MIGRATION_SOURCE
+        if self.lastStatus == vmstatus.UP:
             return _getVmStatusFromGuest()
-        else:
-            return self.lastStatus
+        return self.lastStatus
 
     def getExternalData(self, kind, last_hash, force_update):
         """
@@ -2629,8 +2626,7 @@ class Vm:
             # * self._dom may be disconnected asynchronously (_onQemuDeath).
             #   If so, the VM is shutting down or already shut down.
             return False
-        else:
-            return status[0] == libvirt.VIR_DOMAIN_RUNNING
+        return status[0] == libvirt.VIR_DOMAIN_RUNNING
 
     def _getUnderlyingVmDevicesInfo(self):
         """
@@ -3247,17 +3243,16 @@ class Vm:
             if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN:
                 raise exception.NoSuchVM()
             return response.error('hotplugNic', str(e))
-        else:
-            # FIXME!  We may have a problem here if vdsm dies right after
-            # we sent command to libvirt and before save conf. In this case
-            # we will gather almost all needed info about this NIC from
-            # the libvirt during recovery process.
-            device_conf = self._devices[hwclass.NIC]
-            device_conf.append(nic)
-            self._hotplug_device_metadata(hwclass.NIC, nic)
-            self._updateDomainDescriptor()
-            vmdevices.network.Interface.update_device_info(self, device_conf)
-            hooks.after_nic_hotplug(nicXml, self._custom, params=nic.custom)
+        # FIXME!  We may have a problem here if vdsm dies right after
+        # we sent command to libvirt and before save conf. In this case
+        # we will gather almost all needed info about this NIC from
+        # the libvirt during recovery process.
+        device_conf = self._devices[hwclass.NIC]
+        device_conf.append(nic)
+        self._hotplug_device_metadata(hwclass.NIC, nic)
+        self._updateDomainDescriptor()
+        vmdevices.network.Interface.update_device_info(self, device_conf)
+        hooks.after_nic_hotplug(nicXml, self._custom, params=nic.custom)
 
         mirroredNetworks = []
         try:
@@ -4126,21 +4121,20 @@ class Vm:
             if e.get_error_code() == libvirt.VIR_ERR_NO_DOMAIN:
                 raise exception.NoSuchVM()
             return response.error('hotplugDisk', str(e))
-        else:
-            device_conf = self._devices[hwclass.DISK]
-            device_conf.append(drive)
+        device_conf = self._devices[hwclass.DISK]
+        device_conf.append(drive)
 
-            with self._confLock:
-                self.conf['devices'].append(diskParams)
+        with self._confLock:
+            self.conf['devices'].append(diskParams)
 
-            self._hotplug_device_metadata(hwclass.DISK, drive)
+        self._hotplug_device_metadata(hwclass.DISK, drive)
 
-            self._updateDomainDescriptor()
-            vmdevices.storage.Drive.update_device_info(self, device_conf)
-            hooks.after_disk_hotplug(
-                driveXml, self._custom, params=drive.custom
-            )
-            self._last_disk_hotplug = vdsm.common.time.monotonic_time()
+        self._updateDomainDescriptor()
+        vmdevices.storage.Drive.update_device_info(self, device_conf)
+        hooks.after_disk_hotplug(
+            driveXml, self._custom, params=drive.custom
+        )
+        self._last_disk_hotplug = vdsm.common.time.monotonic_time()
 
         return {'status': doneCode, 'vmList': {}}
 
@@ -4265,8 +4259,7 @@ class Vm:
             return not vmdevices.lease.is_attached_to(
                 device, self._dom.XMLDesc()
             )
-        else:
-            return device.hotunplug_event.wait(sleep_time)
+        return device.hotunplug_event.wait(sleep_time)
 
     def _waitForDeviceRemoval(self, device):
         self.log.debug("Waiting for hotunplug to finish")
@@ -4286,7 +4279,7 @@ class Vm:
                 if error == libvirt.VIR_DOMAIN_DISK_ERROR_NO_SPACE:
                     self.log.warning('device %s out of space', device)
                     return 'ENOSPC'
-                elif error == libvirt.VIR_DOMAIN_DISK_ERROR_UNSPEC:
+                if error == libvirt.VIR_DOMAIN_DISK_ERROR_UNSPEC:
                     self.log.warning('device %s reported I/O error', device)
                     return 'EIO'
                 # else error == libvirt.VIR_DOMAIN_DISK_ERROR_NONE
@@ -4328,8 +4321,7 @@ class Vm:
                 libvirt.VIR_ERR_OPERATION_INVALID,  # race on migration end
             ):
                 return False
-            else:
-                raise
+            raise
         else:
             return state == libvirt.VIR_DOMAIN_CONTROL_OK
 
@@ -5150,8 +5142,7 @@ class Vm:
         try:
             if drive.format == "cow":
                 return self._diskSizeExtendCow(drive, newSizeBytes)
-            else:
-                return self._diskSizeExtendRaw(drive, newSizeBytes)
+            return self._diskSizeExtendRaw(drive, newSizeBytes)
         except Exception as e:
             self.log.exception(
                 "Unable to extend disk %s to size %s: %s",

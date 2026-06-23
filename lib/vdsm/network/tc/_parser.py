@@ -28,18 +28,17 @@ def parse_rate(tokens):
     rate = next(tokens)
     if rate[-5:] == 'Gibit':
         return int(float(rate[:-5]) * 1024**3)
-    elif rate[-5:] == 'Mibit':
+    if rate[-5:] == 'Mibit':
         return int(float(rate[:-5]) * 1024**2)
-    elif rate[-5:] == 'Kibit':
+    if rate[-5:] == 'Kibit':
         return int(float(rate[:-5]) * 1024)
-    elif rate[-4:] == 'Gbit':
+    if rate[-4:] == 'Gbit':
         return int(float(rate[:-4]) * 1000**3)
-    elif rate[-4:] == 'Mbit':
+    if rate[-4:] == 'Mbit':
         return int(float(rate[:-4]) * 1000**2)
-    elif rate[-4:] == 'Kbit':
+    if rate[-4:] == 'Kbit':
         return int(float(rate[:-4]) * 1000)
-    else:
-        return int(float(rate[:-3]))
+    return int(float(rate[:-3]))
 
 
 def parse_size(tokens):
@@ -47,10 +46,10 @@ def parse_size(tokens):
     size = next(tokens)
     if size[-2:] == 'Mb':
         return int(float(size[:-2]) * MiB)
-    elif size[-2:] == 'Kb':
+    if size[-2:] == 'Kb':
         return int(float(size[:-2]) * KiB)
-    else:  # bytes
-        return int(size[:-1])
+    # bytes
+    return int(size[:-1])
 
 
 def parse_time(tokens):
@@ -58,10 +57,10 @@ def parse_time(tokens):
     size = next(tokens)
     if size[-2:] == 'ms':
         return int(float(size[:-2]) * 10**3)
-    elif size[-2:] == 'us':
+    if size[-2:] == 'us':
         return int(size[:-2])
-    else:  # s
-        return int(float(size[:-1]) * 10**6)
+    # s
+    return int(float(size[:-1]) * 10**6)
 
 
 def parse_int(tokens, base=10):

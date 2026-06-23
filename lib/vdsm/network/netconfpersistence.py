@@ -181,8 +181,7 @@ class Config(BaseConfig):
             if ioe.errno == errno.ENOENT:
                 logging.debug('Network entity at %s not found', path)
                 return {}
-            else:
-                raise
+            raise
 
     @staticmethod
     def _getConfigs(path):

@@ -221,8 +221,7 @@ class Metadata:
         """
         if parent is None:
             return ET.Element(self._add_ns(tag))
-        else:
-            return ET.SubElement(parent, self._add_ns(tag))
+        return ET.SubElement(parent, self._add_ns(tag))
 
     def find(self, elem, tag):
         """

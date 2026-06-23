@@ -1130,12 +1130,11 @@ def ongoing(stats):
         job_type = stats['type']
     except KeyError:
         return False
-    else:
-        return (
-            job_type != libvirt.VIR_DOMAIN_JOB_NONE
-            and stats['operation']
-            == libvirt.VIR_DOMAIN_JOB_OPERATION_MIGRATION_OUT
-        )
+    return (
+        job_type != libvirt.VIR_DOMAIN_JOB_NONE
+        and stats['operation']
+        == libvirt.VIR_DOMAIN_JOB_OPERATION_MIGRATION_OUT
+    )
 
 
 def __guess_defaults():

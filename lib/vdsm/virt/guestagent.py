@@ -75,9 +75,9 @@ def _filterObject(obj):
     def filt(o):
         if isinstance(o, dict):
             return {filt(k): filt(v) for k, v in o.items()}
-        elif isinstance(o, list):
+        if isinstance(o, list):
             return [filt(i) for i in o]
-        elif isinstance(o, str):
+        if isinstance(o, str):
             return _filterXmlChars(o)
         return o
 

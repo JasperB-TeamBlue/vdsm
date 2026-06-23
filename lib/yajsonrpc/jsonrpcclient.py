@@ -64,8 +64,7 @@ class JsonRpcClient:
         response = responses[0]
         if response.error:
             raise response.error
-        else:
-            return response.result
+        return response.result
 
     def call(self, *reqs, **kwargs):
         flow_id = kwargs.pop('flow_id', None)
@@ -195,8 +194,7 @@ class JsonRpcClient:
                     raise TypeError("batch is mixed")
 
             return v
-        else:
-            return "result" in obj or "error" in obj
+        return "result" in obj or "error" in obj
 
     def _handleMessage(self, message, event_queue=None):
         try:
