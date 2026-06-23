@@ -115,7 +115,7 @@ class TaskManager:
                 except se.UnknownTask:
                     # Return info for existing tasks only.
                     self.log.warning(
-                        "Unknown task %s. Maybe task was already " "cleared.",
+                        "Unknown task %s. Maybe task was already cleared.",
                         taskID,
                     )
         self.log.debug("Return: %s", subRes)

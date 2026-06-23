@@ -67,7 +67,7 @@ def v3DomainConverter(repoPath, hostId, domain, isMsd):
     currentVersion = domain.getVersion()
 
     log.debug(
-        "Starting conversion for domain %s from version %s " "to version %s",
+        "Starting conversion for domain %s from version %s to version %s",
         domain.sdUUID,
         currentVersion,
         targetVersion,
@@ -97,7 +97,7 @@ def v3DomainConverter(repoPath, hostId, domain, isMsd):
 
     def v3UpgradeVolumePermissions(vol):
         log.debug(
-            "Changing permissions (read-write) for the " "volume %s",
+            "Changing permissions (read-write) for the volume %s",
             vol.volUUID,
         )
         # Using the internal call to skip the domain V3 validation,
@@ -162,7 +162,7 @@ def v3DomainConverter(repoPath, hostId, domain, isMsd):
     try:
         if isMsd:
             log.debug(
-                "Acquiring the cluster lock for domain %s with " "host id: %s",
+                "Acquiring the cluster lock for domain %s with host id: %s",
                 domain.sdUUID,
                 hostId,
             )

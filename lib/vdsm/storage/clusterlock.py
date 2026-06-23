@@ -162,7 +162,9 @@ class SafeLease:
         initCommand = [lockUtil, "release", "-f", lease.path, "0"]
         rc, out, _ = misc.execCmd(initCommand, cwd=self.lockUtilPath)
         if rc != 0:
-            self.log.warning("could not initialise spm lease (%s): %s", rc, out)
+            self.log.warning(
+                "could not initialise spm lease (%s): %s", rc, out
+            )
             raise se.ClusterLockInitError()
 
     def setParams(
@@ -515,7 +517,7 @@ class SANLock:
                     raise se.ReleaseHostIdFailure(self._sdUUID, e)
 
         self.log.info(
-            "Host id for domain %s released successfully " "(id: %s)",
+            "Host id for domain %s released successfully (id: %s)",
             self._sdUUID,
             hostId,
         )
@@ -672,7 +674,7 @@ class SANLock:
 
         if len(owners) > 1:
             self.log.error(
-                "Cluster lock is reported to have more than " "one owner: %s",
+                "Cluster lock is reported to have more than one owner: %s",
                 owners,
             )
             raise RuntimeError("Multiple owners for %s" % (lease,))
@@ -942,7 +944,7 @@ class LocalLock:
             self._globalLockMap[self._sdUUID] = (hostId, lockFile)
 
         self.log.debug(
-            "Local lock for domain %s successfully acquired " "(id: %s)",
+            "Local lock for domain %s successfully acquired (id: %s)",
             self._sdUUID,
             hostId,
         )

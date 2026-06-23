@@ -180,7 +180,7 @@ class NetworksUsersCache:
     def remove(net, user_ref):
         if net not in NetworksUsersCache._nets_users:
             logging.warning(
-                'Attempting to remove a non existing network: ' '%s/%s',
+                'Attempting to remove a non existing network: %s/%s',
                 net,
                 user_ref,
             )
@@ -190,7 +190,7 @@ class NetworksUsersCache:
             net_users.remove(user_ref)
         except KeyError:
             logging.warning(
-                'Attempting to remove a non existing net user: ' '%s/%s',
+                'Attempting to remove a non existing net user: %s/%s',
                 net,
                 user_ref,
             )

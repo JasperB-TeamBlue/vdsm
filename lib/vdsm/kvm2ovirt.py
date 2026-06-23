@@ -272,7 +272,7 @@ def validate_disks(options):
         and len(options.source) == len(options.storagetype)
     ):
         write_output(
-            '>>> source, dest, and storage-type have different' ' lengths'
+            '>>> source, dest, and storage-type have different lengths'
         )
         sys.exit(1)
     elif not all(st in ("volume", "path") for st in options.storagetype):

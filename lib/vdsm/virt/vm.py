@@ -1108,7 +1108,7 @@ class Vm:
             if reason == libvirt.VIR_DOMAIN_RUNNING_POSTCOPY:
                 # post-copy migration on the destination
                 self.log.info(
-                    "Post-copy incoming migration detected " "in recovery"
+                    "Post-copy incoming migration detected in recovery"
                 )
                 self.set_last_status(
                     vmstatus.MIGRATION_DESTINATION, vmstatus.WAIT_FOR_LAUNCH
@@ -1505,7 +1505,7 @@ class Vm:
 
     def refresh_volume(self, volInfo):
         self.log.debug(
-            "Refreshing drive volume for %s (domainID: %s, " "volumeID: %s)",
+            "Refreshing drive volume for %s (domainID: %s, volumeID: %s)",
             volInfo['name'],
             volInfo['domainID'],
             volInfo['volumeID'],
@@ -2392,7 +2392,7 @@ class Vm:
                 self.destroy()
         else:
             self.log.warning(
-                "Unhandled state after a recovered migration: " "%s, %s",
+                "Unhandled state after a recovered migration: %s, %s",
                 state,
                 reason,
             )
@@ -2764,7 +2764,7 @@ class Vm:
         attrs, data = get_metadata(dev_class, dev_obj)
         if not attrs:
             self.log.error(
-                "No attrs trying to save metadata for " "hotplugged device %s",
+                "No attrs trying to save metadata for hotplugged device %s",
                 dev_obj,
             )
         else:
@@ -4071,7 +4071,7 @@ class Vm:
             self.log.info("Unlinking transient disk volume %r", transientPath)
             os.unlink(transientPath)  # Closing after deletion is correct
             self.log.exception(
-                "Failed to create the transient disk for " "volume %s",
+                "Failed to create the transient disk for volume %s",
                 diskParams['volumeID'],
             )
         finally:
@@ -4531,7 +4531,7 @@ class Vm:
             conf = self._findDriveConfigByName(driveParams["name"])
         except LookupError:
             self.log.error(
-                "Unable to update the device configuration " "for disk %s",
+                "Unable to update the device configuration for disk %s",
                 driveParams["name"],
             )
         else:
@@ -4855,7 +4855,7 @@ class Vm:
             self._dom.blockJobAbort(drive.name, flags=blockJobFlags)
         except Exception:
             self.log.exception(
-                "Unable to stop the replication for" " the drive: %s",
+                "Unable to stop the replication for the drive: %s",
                 drive.name,
             )
             return response.error('changeDisk')  # Finally is evaluated
@@ -4867,7 +4867,7 @@ class Vm:
                     # There is nothing we can do at this point other
                     # than logging
                     self.log.exception(
-                        "Unable to teardown the previous chain:" " %s",
+                        "Unable to teardown the previous chain: %s",
                         diskToTeardown,
                     )
                 self.updateDriveParameters(dstDiskCopy)
@@ -4876,7 +4876,7 @@ class Vm:
                 except errors.StorageUnavailableError as e:
                     # Will be recovered on the next monitoring cycle
                     self.log.error(
-                        "Unable to update drive %r volume size: " "%s",
+                        "Unable to update drive %r volume size: %s",
                         drive.name,
                         e,
                     )

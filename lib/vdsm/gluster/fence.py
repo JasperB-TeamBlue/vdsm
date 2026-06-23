@@ -89,9 +89,7 @@ def _getVolumeInfo(vdsmProxy):
     try:
         return vdsmProxy.glusterVolumeInfo()
     except ge.GlusterCmdExecFailedException as e:
-        log.warning(
-            "Failed to check gluster related fencing " "policies: %s", e
-        )
+        log.warning("Failed to check gluster related fencing policies: %s", e)
         return {}
 
 
@@ -99,7 +97,5 @@ def _getVolumeStatus(vdsmProxy, volumeName):
     try:
         return vdsmProxy.glusterVolumeStatus(volumeName)
     except ge.GlusterCmdExecFailedException as e:
-        log.warning(
-            "Failed to check gluster related fencing " "policies: %s", e
-        )
+        log.warning("Failed to check gluster related fencing policies: %s", e)
         return {}

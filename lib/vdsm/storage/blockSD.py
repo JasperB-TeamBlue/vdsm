@@ -291,7 +291,7 @@ def getAllVolumes(sdUUID):
                 imgIsUnknown = vImg not in res[parentVol]['imgs']
             except KeyError:
                 log.warning(
-                    "Found broken image %s, orphan volume %s/%s, " "parent %s",
+                    "Found broken image %s, orphan volume %s/%s, parent %s",
                     vImg,
                     sdUUID,
                     volName,
@@ -323,7 +323,7 @@ def zeroImgVolumes(sdUUID, imgUUID, volUUIDs, discard):
 
     def zeroVolume(volUUID):
         log.debug(
-            'Zero volume thread started for ' 'volume %s task %s',
+            'Zero volume thread started for volume %s task %s',
             volUUID,
             taskid,
         )
@@ -346,7 +346,7 @@ def zeroImgVolumes(sdUUID, imgUUID, volUUIDs, discard):
             log.exception("Task %s failed: %s", taskid, e)
 
         log.debug(
-            'Zero volume thread finished for ' 'volume %s task %s',
+            'Zero volume thread finished for volume %s task %s',
             volUUID,
             taskid,
         )
@@ -755,7 +755,7 @@ class BlockStorageDomainManifest(sd.StorageDomainManifest):
             deleteVolumes(sdUUID, (volUUID,))
 
             self.log.debug(
-                'Purge volume thread finished for ' 'volume %s task %s',
+                'Purge volume thread finished for volume %s task %s',
                 volUUID,
                 taskid,
             )
@@ -1676,7 +1676,7 @@ class BlockStorageDomain(sd.StorageDomain):
     def extendVolume(self, volumeUUID, size, refresh=True):
         with self.manifest.metadata_lock:
             self.log.debug(
-                "Extending thinly-provisioned LV for volume %s to " "%d MB",
+                "Extending thinly-provisioned LV for volume %s to %d MB",
                 volumeUUID,
                 size,
             )

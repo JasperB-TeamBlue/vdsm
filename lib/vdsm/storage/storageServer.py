@@ -42,7 +42,7 @@ LocaFsConnectionParameters = namedtuple(
 )
 NfsConnectionParameters = namedtuple(
     "NfsConnectionParameters",
-    "id, export, retrans, timeout, version, " "extraOptions",
+    "id, export, retrans, timeout, version, extraOptions",
 )
 
 FcpConnectionParameters = namedtuple("FcpConnectionParameters", "id")
@@ -729,14 +729,14 @@ class IscsiConnection(Connection):
                 ip = socket.gethostbyname(host)
                 if ip != portal.hostname:
                     raise self.Mismatch(
-                        "target.portal.hostname mismatch: " "%r != %r",
+                        "target.portal.hostname mismatch: %r != %r",
                         ip,
                         portal.hostname,
                     )
 
             except socket.gaierror:
                 raise self.Mismatch(
-                    "target.portal.hostname mismatch: " "%r != %r",
+                    "target.portal.hostname mismatch: %r != %r",
                     host,
                     portal.hostname,
                 )

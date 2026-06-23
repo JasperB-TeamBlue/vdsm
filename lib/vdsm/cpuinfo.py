@@ -10,7 +10,7 @@ from vdsm.common import cpuarch
 
 _PATH = '/proc/cpuinfo'
 CpuInfo = namedtuple(
-    'CpuInfo', 'flags, frequency, model, ppcmodel, platform,' 'machine'
+    'CpuInfo', 'flags, frequency, model, ppcmodel, platform, machine'
 )
 
 

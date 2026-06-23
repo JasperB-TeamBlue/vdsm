@@ -512,7 +512,7 @@ class SourceThread:
                         if self._migrationCanceledEvt.is_set():
                             self._raiseAbortError()
                         self.log.debug(
-                            "migration semaphore acquired " "after %d seconds",
+                            "migration semaphore acquired after %d seconds",
                             time.time() - startTime,
                         )
                         self._startUnderlyingMigration(
@@ -626,7 +626,7 @@ class SourceThread:
                 )
 
             self._vm.log.info(
-                'starting migration to %s ' 'with miguri %s', duri, muri
+                'starting migration to %s with miguri %s', duri, muri
             )
             self._monitorThread = MonitorThread(
                 self._vm, startTime, self._convergence_schedule

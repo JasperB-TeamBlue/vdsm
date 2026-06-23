@@ -11,7 +11,7 @@ from . import safeWrite
 
 log = logging.getLogger("Gluster")
 FstabRecord = namedtuple(
-    "FstabRecord", "device, mountPoint, fsType, " "mntOpts, fsDump, fsPass"
+    "FstabRecord", "device, mountPoint, fsType, mntOpts, fsDump, fsPass"
 )
 
 

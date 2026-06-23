@@ -1052,7 +1052,7 @@ class Volume:
     @classmethod
     def killProcRollback(cls, taskObj, pid, ctime):
         cls.log.info(
-            'ignoring killProcRollback request for pid %s and ' 'ctime %s',
+            'ignoring killProcRollback request for pid %s and ctime %s',
             pid,
             ctime,
         )
@@ -1581,7 +1581,7 @@ class Volume:
     @classmethod
     def extendSizeFinalize(cls, taskObj, sdUUID, imgUUID, volUUID):
         cls.log.debug(
-            "finalizing size extension for volume %s on domain " "%s",
+            "finalizing size extension for volume %s on domain %s",
             volUUID,
             sdUUID,
         )

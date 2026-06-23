@@ -89,7 +89,7 @@ class SPM_Extend_Message:
             or 'volumeID' not in volumeData
         ):
             self.log.error(
-                'create extend msg failed for volume: %s, size:' ' %d',
+                'create extend msg failed for volume: %s, size: %d',
                 '-'.join(volumeData.values()),
                 newSize,
             )
@@ -382,7 +382,7 @@ class HSM_MailMonitor:
 
             try:
                 self.log.debug(
-                    "HSM_MailboxMonitor(%s/%s) - Checking reply: " "%s",
+                    "HSM_MailboxMonitor(%s/%s) - Checking reply: %s",
                     self._msgCounter,
                     MESSAGES_PER_MAILBOX,
                     repr(newMsg),
@@ -719,14 +719,14 @@ class SPM_MailMonitor:
 
         # Clear outgoing mail
         self.log.debug(
-            "SPM_MailMonitor - clearing outgoing mail, command is: " "%s",
+            "SPM_MailMonitor - clearing outgoing mail, command is: %s",
             self._outCmd,
         )
         cmd = self._outCmd + ['bs=' + str(self._outMailLen)]
         rc, _, _ = _mboxExecCmd(cmd, data=self._outgoingMail)
         if rc:
             self.log.warning(
-                "SPM_MailMonitor couldn't clear outgoing mail, " "dd failed"
+                "SPM_MailMonitor couldn't clear outgoing mail, dd failed"
             )
 
         self._thread = concurrent.thread(
@@ -917,7 +917,7 @@ class SPM_MailMonitor:
                     repr(in_mail[:80]),
                 )
                 raise RuntimeError(
-                    "_handleRequests._checkForMail - Could not " "read mailbox"
+                    "_handleRequests._checkForMail - Could not read mailbox"
                 )
             # self.log.debug("Parsing inbox content: %s", in_mail)
             if self._handleRequests(in_mail):
@@ -971,7 +971,7 @@ class SPM_MailMonitor:
             self._stopped = True
             self.tp.joinAll()
             self.log.info(
-                "SPM_MailMonitor - Incoming mail monitoring thread " "stopped"
+                "SPM_MailMonitor - Incoming mail monitoring thread stopped"
             )
 
     # Events.

@@ -226,7 +226,9 @@ class HSM:
             # misc.walk, this sync call won't delay hsm initialization.
             self.__cleanStorageRepository()
         except Exception:
-            self.log.warning("Failed to clean Storage Repository.", exc_info=True)
+            self.log.warning(
+                "Failed to clean Storage Repository.", exc_info=True
+            )
 
         monitorInterval = config.getint('irs', 'sd_health_check_delay')
         self.mpathhealth_monitor = mpathhealth.Monitor(monitorInterval)
@@ -268,7 +270,7 @@ class HSM:
         """
 
         self.log.debug(
-            "Started cleaning storage " "repository at '%s'",
+            "Started cleaning storage repository at '%s'",
             sc.REPO_DATA_CENTER,
         )
 
@@ -335,7 +337,7 @@ class HSM:
                     os.unlink(os.path.join(base, fullPath))
                 except Exception:
                     self.log.warning(
-                        "Cold not delete file " "'%s'", fullPath, exc_info=True
+                        "Could not delete file '%s'", fullPath, exc_info=True
                     )
 
         for directory in rmDirList:
@@ -349,13 +351,11 @@ class HSM:
                     os.rmdir(directory)
             except Exception:
                 self.log.warning(
-                    "Cold not delete directory " "'%s'",
-                    directory,
-                    exc_info=True,
+                    "Could not delete directory '%s'", directory, exc_info=True
                 )
 
         self.log.debug(
-            "Finished cleaning storage " "repository at '%s'",
+            "Finished cleaning storage repository at '%s'",
             sc.REPO_DATA_CENTER,
         )
 

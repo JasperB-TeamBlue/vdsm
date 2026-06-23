@@ -612,7 +612,7 @@ class GuestAgent:
             if self._messageState is MessageState.TOO_BIG:
                 self._messageState = MessageState.NORMAL
                 self.log.warning(
-                    "Not processing current message because it " "was too big"
+                    "Not processing current message because it was too big"
                 )
             else:
                 self._processMessage(line)

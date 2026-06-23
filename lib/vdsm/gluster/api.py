@@ -203,7 +203,8 @@ def mountMetaVolume(metaVolumeName):
             if fs_spec.endswith(META_VOLUME):
                 logging.warning(
                     "Meta Volume %s already mounted at %s",
-                    META_VOLUME, META_VOL_MOUNT_POINT
+                    META_VOLUME,
+                    META_VOL_MOUNT_POINT,
                 )
                 return True
             raise ge.GlusterMetaVolumeMountFailedException(

@@ -279,7 +279,7 @@ class FileVolumeManifest(volume.VolumeManifest):
     @classmethod
     def newVolumeLease(cls, metaId, sdUUID, volUUID):
         cls.log.debug(
-            "Initializing volume lease volUUID=%s sdUUID=%s, " "metaId=%s",
+            "Initializing volume lease volUUID=%s sdUUID=%s, metaId=%s",
             volUUID,
             sdUUID,
             metaId,
@@ -550,7 +550,7 @@ class FileVolume(volume.Volume):
         """
         if initial_size:
             cls.log.error(
-                "initial size is not supported " "for file-based volumes"
+                "initial size is not supported for file-based volumes"
             )
             raise se.InvalidParameterException("initial size", initial_size)
 
@@ -756,7 +756,7 @@ class FileVolume(volume.Volume):
             oop.getProcessPool(sdUUID).os.rename(oldPath, newPath)
         except Exception:
             cls.log.error(
-                "Could not rollback " "volume rename (oldPath=%s newPath=%s)",
+                "Could not rollback volume rename (oldPath=%s newPath=%s)",
                 oldPath,
                 newPath,
                 exc_info=True,
