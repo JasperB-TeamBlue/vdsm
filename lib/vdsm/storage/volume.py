@@ -345,7 +345,7 @@ class VolumeManifest:
             self.setMetadata(meta)
         except Exception:
             self.log.error(
-                "Volume.setMetaParam: %s: %s=%s" % (self.volUUID, key, value)
+                "Volume.setMetaParam: %s: %s=%s", self.volUUID, key, value
             )
             raise
 
@@ -1228,8 +1228,10 @@ class Volume:
     @classmethod
     def parentVolumeRollback(cls, taskObj, sdUUID, pimgUUID, pvolUUID):
         cls.log.info(
-            "parentVolumeRollback: sdUUID=%s pimgUUID=%s"
-            " pvolUUID=%s" % (sdUUID, pimgUUID, pvolUUID)
+            "parentVolumeRollback: sdUUID=%s pimgUUID=%s pvolUUID=%s",
+            sdUUID,
+            pimgUUID,
+            pvolUUID,
         )
         if pvolUUID != sc.BLANK_UUID and pimgUUID != sc.BLANK_UUID:
             pvol = sdCache.produce(sdUUID).produceVolume(pimgUUID, pvolUUID)
@@ -1244,8 +1246,10 @@ class Volume:
     @classmethod
     def startCreateVolumeRollback(cls, taskObj, sdUUID, imgUUID, volUUID):
         cls.log.info(
-            "startCreateVolumeRollback: sdUUID=%s imgUUID=%s "
-            "volUUID=%s " % (sdUUID, imgUUID, volUUID)
+            "startCreateVolumeRollback: sdUUID=%s imgUUID=%s volUUID=%s ",
+            sdUUID,
+            imgUUID,
+            volUUID,
         )
         # This rollback doesn't actually do anything.
         # In general the createVolume rollbacks are a list of small rollbacks
@@ -1263,8 +1267,12 @@ class Volume:
     ):
         cls.log.info(
             "createVolumeRollback: repoPath=%s sdUUID=%s imgUUID=%s "
-            "volUUID=%s imageDir=%s"
-            % (repoPath, sdUUID, imgUUID, volUUID, imageDir)
+            "volUUID=%s imageDir=%s",
+            repoPath,
+            sdUUID,
+            imgUUID,
+            volUUID,
+            imageDir,
         )
         vol = sdCache.produce(sdUUID).produceVolume(imgUUID, volUUID)
         pvol = vol.getParentVolume()

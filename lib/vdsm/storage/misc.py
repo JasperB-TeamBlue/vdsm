@@ -93,7 +93,7 @@ def readblock(name, offset, size):
 
 
 def validateDDBytes(ddstderr, size):
-    log.debug("err: %s, size: %s" % (ddstderr, size))
+    log.debug("err: %s, size: %s", ddstderr, size)
     try:
         size = int(size)
     except (ValueError,):

@@ -568,7 +568,7 @@ class FileStorageDomain(sd.StorageDomain):
 
     def zeroImage(self, sdUUID, imgUUID, volsImgs, discard):
         self.log.warning(
-            "image %s on a fileSD %s won't be zeroed." % (imgUUID, sdUUID)
+            "image %s on a fileSD %s won't be zeroed.", imgUUID, sdUUID
         )
         if discard:
             raise se.DiscardIsNotSupported(sdUUID, "file storage domain")

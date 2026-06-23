@@ -426,7 +426,7 @@ class StoragePool:
 
             except Exception as e:
                 self.log.error("Unexpected error", exc_info=True)
-                self.log.error("failed: %s" % str(e))
+                self.log.error("failed: %s", str(e))
                 # __securityOverride is added by the @secured decorator
                 # pylint: disable=unexpected-keyword-arg
                 self.stopSpm(force=True, __securityOverride=True)
@@ -778,8 +778,11 @@ class StoragePool:
         """
         self.log.info(
             "Connect host #%s to the storage pool %s with master "
-            "domain: %s (ver = %s)"
-            % (hostID, self.spUUID, msdUUID, masterVersion)
+            "domain: %s (ver = %s)",
+            hostID,
+            self.spUUID,
+            msdUUID,
+            masterVersion,
         )
 
         self.id = hostID

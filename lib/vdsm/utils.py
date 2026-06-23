@@ -219,7 +219,7 @@ class CallbackChain(threading.Thread):
                 callback = self.callbacks.popleft()
                 if callback():
                     self.log.debug(
-                        "Succeeded after invoking " + callback.func.__name__
+                        "Succeeded after invoking %s", callback.func.__name__
                     )
                     return
             self.log.debug("Ran out of callbacks")

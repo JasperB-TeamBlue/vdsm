@@ -209,7 +209,7 @@ class SafeLease:
         ioOpTimeoutMs = self._ioOpTimeoutSec * 1000
         with self._lock:
             self.log.debug(
-                "Acquiring cluster lock for domain %s" % self._sdUUID
+                "Acquiring cluster lock for domain %s", self._sdUUID
             )
 
             lockUtil = self.getLockUtilFullPath()
@@ -260,9 +260,7 @@ class SafeLease:
         with self._lock:
             freeLockUtil = os.path.join(self.lockUtilPath, self.freeLockCmd)
             releaseLockCommand = [freeLockUtil, self._sdUUID]
-            self.log.info(
-                "Releasing cluster lock for domain %s" % self._sdUUID
-            )
+            self.log.info("Releasing cluster lock for domain %s", self._sdUUID)
             rc, out, err = misc.execCmd(
                 releaseLockCommand, raw=True, cwd=self.lockUtilPath
             )
@@ -270,7 +268,11 @@ class SafeLease:
                 # TODO: should raise
                 self.log.error(
                     "Could not release cluster lock for domain %s "
-                    "(rc=%d, out=%s, err=%s)" % (self._sdUUID, rc, out, err)
+                    "(rc=%d, out=%s, err=%s)",
+                    self._sdUUID,
+                    rc,
+                    out,
+                    err,
                 )
                 return
 

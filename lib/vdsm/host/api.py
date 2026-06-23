@@ -119,7 +119,7 @@ def _countVms(cif):
             elif status == vmstatus.MIGRATION_SOURCE:
                 outgoing += 1
         except:
-            logging.error(vmId + ': Lost connection to VM')
+            logging.error("%s: Lost connection to VM", vmId)
     return count, active, incoming + outgoing, incoming, outgoing
 
 

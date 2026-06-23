@@ -346,7 +346,7 @@ def createBrick(
     blivetEnv.doIt()
 
     if fsType != DEFAULT_FS_TYPE:
-        log.error("fstype %s is currently unsupported" % fsType)
+        log.error("fstype %s is currently unsupported", fsType)
         raise ge.GlusterHostStorageDeviceMkfsFailedException(fsType)
 
     get_format = blivet.formats.get_format  # pylint: disable=no-member

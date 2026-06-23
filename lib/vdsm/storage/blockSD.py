@@ -466,7 +466,7 @@ class BlockStorageDomainManifest(sd.StorageDomainManifest):
             if not DMDK_PV_REGEX.match(key):
                 del meta[key]
 
-        self.log.info("META MAPPING: %s" % meta)
+        self.log.info("META MAPPING: %s", meta)
         return meta
 
     def supports_device_reduce(self):
@@ -559,7 +559,7 @@ class BlockStorageDomainManifest(sd.StorageDomainManifest):
 
         pvlist.remove(firstDev)
         pvlist.insert(0, firstDev)
-        cls.log.info("Create: SORT MAPPING: %s" % pvlist)
+        cls.log.info("Create: SORT MAPPING: %s", pvlist)
 
         mapping = {}
         devNum = len(oldMapping)

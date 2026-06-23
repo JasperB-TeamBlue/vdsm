@@ -314,7 +314,7 @@ class TerminatingFailure(Exception):
 def terminate(proc):
     try:
         if proc.poll() is None:
-            logging.debug('Terminating process pid=%d' % proc.pid)
+            logging.debug('Terminating process pid=%d', proc.pid)
             proc.kill()
             proc.wait()
     except Exception as e:

@@ -705,7 +705,9 @@ class Task:
                 value = str(getattr(obj, field))
             except AttributeError:
                 cls.log.warning(
-                    "object %s field %s not found" % (obj, field),
+                    "object %s field %s not found",
+                    obj,
+                    field,
                     exc_info=True,
                 )
             else:

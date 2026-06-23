@@ -1822,7 +1822,7 @@ def removeLVs(vgName, lvNames):
             # Fix me
             # Should not remove active LVs
             # raise se.CannotRemoveLogicalVolume(vgName, lvName)
-            log.warning("Removing active volume %s/%s" % (vgName, lvName))
+            log.warning("Removing active volume %s/%s", vgName, lvName)
 
     # LV exists or not in cache, attempting to remove it.
     # Removing Stales also. Active Stales should raise.

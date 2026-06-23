@@ -402,7 +402,7 @@ class BlockVolumeManifest(volume.VolumeManifest):
         If justme is false, the entire COW chain should be torn down.
         """
         cls.log.info(
-            "Tearing down volume %s/%s justme %s" % (sdUUID, volUUID, justme)
+            "Tearing down volume %s/%s justme %s", sdUUID, volUUID, justme
         )
         lvmActivationNamespace = rm.getNamespace(
             sc.LVM_ACTIVATION_NAMESPACE, sdUUID
@@ -500,7 +500,7 @@ class BlockVolume(volume.Volume):
     @classmethod
     def halfbakedVolumeRollback(cls, taskObj, sdUUID, volUUID, volPath):
         cls.log.info(
-            "sdUUID=%s volUUID=%s volPath=%s" % (sdUUID, volUUID, volPath)
+            "sdUUID=%s volUUID=%s volPath=%s", sdUUID, volUUID, volPath
         )
         try:
             # Fix me: assert resource lock.

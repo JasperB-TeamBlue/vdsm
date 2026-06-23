@@ -226,7 +226,7 @@ class Register:
         try:
             selinux.restorecon(path)
         except:
-            self.logger.error("restorecon %s failed" % path, exc_info=True)
+            self.logger.error("restorecon %s failed", path, exc_info=True)
 
     def _calculate_fingerprint(self, cert):
         """

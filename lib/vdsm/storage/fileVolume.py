@@ -113,7 +113,7 @@ class FileVolumeManifest(volume.VolumeManifest):
         the volume file and the volume md must exists after
         the image/volume is created.
         """
-        self.log.debug("validate path for %s" % self.volUUID)
+        self.log.debug("validate path for %s", self.volUUID)
         if not self.imagePath:
             self.validateImagePath()
         volPath = os.path.join(self.imagePath, self.volUUID)
@@ -424,7 +424,7 @@ class FileVolume(volume.Volume):
 
     @classmethod
     def createVolumeMetadataRollback(cls, taskObj, volPath):
-        cls.log.info("createVolumeMetadataRollback: volPath=%s" % (volPath))
+        cls.log.info("createVolumeMetadataRollback: volPath=%s", (volPath))
         metaPath = cls.manifestClass.metaVolumePath(volPath)
         sdUUID = getDomUuidFromVolumePath(volPath)
         if oop.getProcessPool(sdUUID).os.path.lexists(metaPath):
