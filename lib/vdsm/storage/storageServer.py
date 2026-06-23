@@ -117,21 +117,17 @@ class ExampleConnection(Connection):
     def __init__(self, arg1, arg2=None):
         """The connection should get all the information in the ctor.
         connection properties should not be modified after initialization"""
-        pass
 
     @property
     def id(self):
         """The ID of the connection"""
-        pass
 
     def connect(self):
         """Connect if not connected. If connected just return
         successfully"""
-        pass
 
     def disconnect(self):
         """Disconnect if connected. If already disconnected fail silently"""
-        pass
 
     def isConnected(self):
         """Is the connection active. This function should return quickly. Think
@@ -140,12 +136,10 @@ class ExampleConnection(Connection):
         appear to block.
 
         Don't use this to monitor connection health"""
-        pass
 
     def __eq__(self, other):
         """Implement this! It will be used to detect multiple connections to
         the same target"""
-        pass
 
     def __ne__(self, other):
         """Must be implemented otherwise != operator will return True for equal

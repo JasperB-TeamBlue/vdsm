@@ -747,7 +747,6 @@ class FileVolume(volume.Volume):
         """
         For file volumes we do not use any LV tags
         """
-        pass
 
     @classmethod
     def renameVolumeRollback(cls, taskObj, oldPath, newPath):

@@ -632,7 +632,7 @@ class VolumeManifest:
         Internal utility method used during the share process and by the
         domain V3 upgrade.
         """
-        pass  # Do not remove this method or the V3 upgrade will fail.
+        # Do not remove this method or the V3 upgrade will fail.
 
     def getParentVolume(self):
         """
@@ -716,7 +716,6 @@ class VolumeManifest:
         Teardown volume.
         If justme is false, the entire COW chain is teared down.
         """
-        pass
 
     @contextmanager
     def operation(self, requested_gen=None, set_illegal=True):
@@ -1257,7 +1256,6 @@ class Volume:
         # not a task by itself. In such cases when we will replace the list of
         # small rollbacks with the major one, we want to be able remove only
         # the relevant rollbacks from the rollback list.
-        pass
 
     @classmethod
     def createVolumeRollback(
@@ -1545,13 +1543,11 @@ class Volume:
         """
         Extend the apparent size of logical volume (thin provisioning)
         """
-        pass
 
     def reduce(self, new_size, allowActive=False):
         """
         reduce a logical volume
         """
-        pass
 
     def syncMetadata(self):
         volFormat = self.getFormat()

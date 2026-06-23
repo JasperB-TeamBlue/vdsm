@@ -54,7 +54,6 @@ class BondAPI:
         """
         Set bond options, overriding existing or default ones.
         """
-        pass
 
     @abc.abstractmethod
     def exists(self):
