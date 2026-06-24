@@ -411,7 +411,7 @@ class StoragePool(object):
                         ),
                     )
                     self.log.debug(
-                        "SPM mailbox ready for pool %s on master " "domain %s",
+                        "SPM mailbox ready for pool %s on master domain %s",
                         self.spUUID,
                         self.masterDomain.sdUUID,
                     )
@@ -583,7 +583,7 @@ class StoragePool(object):
                 eventInterval=config.getfloat("mailbox", "events_interval"),
             )
             self.log.debug(
-                "HSM mailbox ready for pool %s on master " "domain %s",
+                "HSM mailbox ready for pool %s on master domain %s",
                 self.spUUID,
                 self.masterDomain.sdUUID,
             )
@@ -1391,7 +1391,7 @@ class StoragePool(object):
                         m.umount()
                     except mount.MountError:
                         self.log.error(
-                            "Can't umount masterDir %s for domain " "%s",
+                            "Can't umount masterDir %s for domain %s",
                             masterDir,
                             dom,
                         )
@@ -1437,7 +1437,7 @@ class StoragePool(object):
         else:
             if currentLinkTarget == linkTarget:
                 self.log.debug(
-                    'link already present skipping creation ' 'for %s',
+                    'link already present skipping creation for %s',
                     linkName,
                 )
                 return  # Nothing to do
@@ -1549,7 +1549,7 @@ class StoragePool(object):
                     )
             except Exception as e:
                 self.log.warn(
-                    "Could not clean all trash from the pool dom" " `%s` (%s)",
+                    "Could not clean all trash from the pool dom `%s` (%s)",
                     oldie,
                     e,
                 )
@@ -1722,7 +1722,7 @@ class StoragePool(object):
 
         if not domain.isMaster():
             self.log.error(
-                "Requested master domain %s is not a master domain " "at all",
+                "Requested master domain %s is not a master domain at all",
                 msdUUID,
             )
             raise se.StoragePoolWrongMaster(self.spUUID, msdUUID)
@@ -1730,7 +1730,7 @@ class StoragePool(object):
         pools = domain.getPools()
         if self.spUUID not in pools:
             self.log.error(
-                "Requested master domain %s does not belong to pool" " %s",
+                "Requested master domain %s does not belong to pool %s",
                 msdUUID,
                 self.spUUID,
             )
@@ -2174,7 +2174,7 @@ class StoragePool(object):
                     with rm.acquireResource(img_ns, srcImgUUID, rm.EXCLUSIVE):
 
                         self.log.debug(
-                            "volume %s is not shared. " "Setting it as shared",
+                            "volume %s is not shared. Setting it as shared",
                             srcVolUUID,
                         )
                         srcVol.setShared()

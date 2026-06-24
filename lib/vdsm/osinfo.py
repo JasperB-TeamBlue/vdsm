@@ -354,7 +354,7 @@ def nested_virtualization():
                     '%s nested virtualization not detected', kvm_module
                 )
 
-    logging.debug('Could not determine status of nested ' 'virtualization')
+    logging.debug('Could not determine status of nested virtualization')
     return NestedVirtualization(False, None)
 
 

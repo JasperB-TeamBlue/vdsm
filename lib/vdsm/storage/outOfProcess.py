@@ -175,7 +175,7 @@ class _IOProcessFileUtils(object):
     def validateAccess(self, targetPath, perms=(os.R_OK | os.W_OK | os.X_OK)):
         if not self._iop.access(targetPath, perms):
             log.warning(
-                "Permission denied for directory: %s with permissions:" "%s",
+                "Permission denied for directory: %s with permissions:%s",
                 targetPath,
                 perms,
             )

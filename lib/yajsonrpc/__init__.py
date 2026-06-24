@@ -303,7 +303,7 @@ class JsonRpcServer(object):
             )
         elif duration > _SLOW_CALL_THRESHOLD:
             self.log.info(
-                "RPC call %s took more than %.2f seconds " "to succeed: %.2f",
+                "RPC call %s took more than %.2f seconds to succeed: %.2f",
                 req.method,
                 _SLOW_CALL_THRESHOLD,
                 duration,

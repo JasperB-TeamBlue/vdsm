@@ -240,7 +240,7 @@ class Drive(core.Base):
                     and dev['path'] != devPath
                 ):
                     vm.log.warning(
-                        'updating drive %s config path from %s ' 'to %s',
+                        'updating drive %s config path from %s to %s',
                         dev['alias'],
                         dev['path'],
                         devPath,

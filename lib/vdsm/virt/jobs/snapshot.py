@@ -289,7 +289,7 @@ class Snapshot(properties.Owner):
                     # and there's nothing we can do, we must to proceed anyway
                     # to report the live snapshot success.
                     self._vm.log.exception(
-                        "Failed to update drive information" " for '%s'", drive
+                        "Failed to update drive information for '%s'", drive
                     )
 
                 try:
@@ -309,13 +309,13 @@ class Snapshot(properties.Owner):
                 except errors.StorageUnavailableError as e:
                     # Will be recovered on the next monitoring cycle
                     self._vm.log.error(
-                        "Unable to update drive %r " "volume size: %s",
+                        "Unable to update drive %r volume size: %s",
                         drive["name"],
                         e,
                     )
         except Exception as e:
             self._vm.log.error(
-                "Snapshot teardown error: %s, " "trying to continue teardown",
+                "Snapshot teardown error: %s, trying to continue teardown",
                 e,
             )
         finally:
@@ -453,7 +453,7 @@ class Snapshot(properties.Owner):
                 )
             except Exception:
                 self._vm.log.exception(
-                    'unable to prepare the volume path for ' 'disk %s',
+                    'unable to prepare the volume path for disk %s',
                     vm_dev_name,
                 )
                 rollback_drives(prepared_drives)
@@ -539,7 +539,7 @@ class Snapshot(properties.Owner):
                     raise exception.SnapshotFailed()
 
             self._vm.log.info(
-                "Taking a live snapshot (drives=%s," "memory=%s)",
+                "Taking a live snapshot (drives=%s, memory=%s)",
                 ', '.join(drive["name"] for drive in new_drives.values()),
                 self._memory_params is not None,
             )
@@ -560,11 +560,11 @@ class Snapshot(properties.Owner):
                     )
                     if self_abort:
                         self._vm.log.info(
-                            "Snapshot timeout reached," " operation aborted"
+                            "Snapshot timeout reached, operation aborted"
                         )
                     else:
                         self._vm.log.warning(
-                            "Snapshot operation" " aborted by libvirt: %s",
+                            "Snapshot operation aborted by libvirt: %s",
                             e.get_error_message(),
                         )
                 self._vm.log.exception("Unable to take snapshot")
@@ -628,7 +628,7 @@ class LiveSnapshotRecovery(object):
             for drive in new_drives.values():
                 if not self._vm.volume_exists(drive['volumeID']):
                     self._vm.log.error(
-                        'New volume id: %s was not found in' ' the domain xml',
+                        'New volume id: %s was not found in the domain xml',
                         drive["volumeID"],
                     )
                     return False
@@ -782,7 +782,7 @@ class AbortSnapshot(object):
     def run(self):
         monitoring_interval = min(60, self._timeout // 10)
         self._vm.log.info(
-            "Starting snapshot abort job, " "with check interval %s",
+            "Starting snapshot abort job, with check interval %s",
             monitoring_interval,
         )
         # Waiting for the job to run on libvirt
@@ -826,7 +826,7 @@ class AbortSnapshot(object):
             # We might get this debug error even when the job is completed,
             # when the VM memory is very small. This isn't harmful.
             self._vm.log.debug(
-                "The snapshot job isn't running " "when trying to abort it"
+                "The snapshot job isn't running when trying to abort it"
             )
 
     def _job_completed(self):

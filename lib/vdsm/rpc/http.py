@@ -298,7 +298,7 @@ class ThreadedServer(HTTPServer):
             self.requestHandler(sock, addr, self)
         except Exception:
             self.log.exception(
-                "Unhandled exception in request handler for " "%s:%d",
+                "Unhandled exception in request handler for %s:%d",
                 addr[0],
                 addr[1],
             )

@@ -179,7 +179,7 @@ class Request(object):
             if not self._isActive:
                 self._log.warning("Tried to cancel a processed request")
                 raise RequestAlreadyProcessedError(
-                    "Cannot cancel a processed " "request"
+                    "Cannot cancel a processed request"
                 )
 
             self._isActive = False
@@ -211,7 +211,7 @@ class Request(object):
             if not self._isActive:
                 self._log.warning("Tried to grant a processed request")
                 raise RequestAlreadyProcessedError(
-                    "Cannot grant a processed " "request"
+                    "Cannot grant a processed request"
                 )
 
             self._isActive = False
@@ -297,7 +297,7 @@ class ResourceRef(object):
             self.__wrappedObject = None
             if not self._isValid:
                 self._log.warning(
-                    "Tried to re-release a resource. Request " "ignored."
+                    "Tried to re-release a resource. Request ignored."
                 )
                 return
 

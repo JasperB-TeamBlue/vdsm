@@ -530,7 +530,7 @@ class VM(APIBase):
             is_retry_error = response.is_error(result, 'migrateLimit')
             if is_old_source and is_retry_error:
                 self.log.debug(
-                    'Returning backwards compatible migration ' 'error code'
+                    'Returning backwards compatible migration error code'
                 )
                 return response.error('migrateErr')
             return result

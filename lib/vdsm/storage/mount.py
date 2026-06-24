@@ -24,7 +24,7 @@ from vdsm.storage import fileUtils
 VFS_EXT3 = "ext3"
 
 MountRecord = namedtuple(
-    "MountRecord", "fs_spec fs_file fs_vfstype " "fs_mntops fs_freq fs_passno"
+    "MountRecord", "fs_spec fs_file fs_vfstype fs_mntops fs_freq fs_passno"
 )
 
 _PROC_MOUNTS_PATH = '/proc/mounts'

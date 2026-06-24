@@ -299,7 +299,7 @@ class BlockVolumeManifest(volume.VolumeManifest):
     @classmethod
     def newVolumeLease(cls, metaId, sdUUID, volUUID):
         cls.log.debug(
-            "Initializing volume lease volUUID=%s sdUUID=%s, " "metaId=%s",
+            "Initializing volume lease volUUID=%s sdUUID=%s, metaId=%s",
             volUUID,
             sdUUID,
             metaId,
@@ -342,7 +342,7 @@ class BlockVolumeManifest(volume.VolumeManifest):
         """
         if initial_size and vol_format == sc.RAW_FORMAT:
             log.error(
-                "Initial size is not supported for raw preallocated " "volumes"
+                "Initial size is not supported for raw preallocated volumes"
             )
             raise se.InvalidParameterException("initial size", initial_size)
 
@@ -764,7 +764,7 @@ class BlockVolume(volume.Volume):
         'new_size' - new size in bytes
         """
         self.log.info(
-            "Request to extend LV %s of image %s in VG %s with " "size = %s",
+            "Request to extend LV %s of image %s in VG %s with size = %s",
             self.volUUID,
             self.imgUUID,
             self.sdUUID,

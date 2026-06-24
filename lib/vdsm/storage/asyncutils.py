@@ -140,7 +140,7 @@ class LoopingCall(object):
             missed = (now - self._deadline) // self._interval + 1
             self._deadline += missed * self._interval
             log.warning(
-                "Call %s missed %d deadlines, scheduling next call " "at %.2f",
+                "Call %s missed %d deadlines, scheduling next call at %.2f",
                 self._callback,
                 missed,
                 self._deadline,

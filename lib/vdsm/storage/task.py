@@ -603,7 +603,7 @@ class Task:
             self._updateState(State.failed)
         else:
             self.log.warn(
-                "State was change to 'raborting' " "when ref was not 1."
+                "State was change to 'raborting' when ref was not 1."
             )
 
     def __state_recovered(self, fromState):
@@ -642,7 +642,7 @@ class Task:
                 self.persist()
             except Exception:
                 self.log.warning(
-                    "Task._updateState: failed persisting task" " %s",
+                    "Task._updateState: failed persisting task %s",
                     self.id,
                     exc_info=True,
                 )
@@ -671,7 +671,7 @@ class Task:
                 parts = line.split(KEY_SEPARATOR)
                 if len(parts) != 2:
                     cls.log.warning(
-                        "Task._loadMetaFile: %s - ignoring line" " '%s'",
+                        "Task._loadMetaFile: %s - ignoring line '%s'",
                         filename,
                         line,
                     )
@@ -1008,7 +1008,7 @@ class Task:
                     force and not self.state.canAbortRecovery()
                 ):
                     self.log.warning(
-                        "Task._doAbort %s: ignoring - " "at state %s",
+                        "Task._doAbort %s: ignoring - at state %s",
                         self,
                         self.state,
                     )
@@ -1351,7 +1351,7 @@ class Task:
                 and (self.cleanPolicy == TaskCleanType.auto)
             ):
                 self.log.debug(
-                    "Task (%s) in recovery and force is false, " "ignoring",
+                    "Task (%s) in recovery and force is false, ignoring",
                     self.state,
                 )
                 return

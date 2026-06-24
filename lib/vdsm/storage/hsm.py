@@ -268,7 +268,7 @@ class HSM(object):
         """
 
         self.log.debug(
-            "Started cleaning storage " "repository at '%s'",
+            "Started cleaning storage repository at '%s'",
             sc.REPO_DATA_CENTER,
         )
 
@@ -335,7 +335,7 @@ class HSM(object):
                     os.unlink(os.path.join(base, fullPath))
                 except Exception:
                     self.log.warn(
-                        "Cold not delete file " "'%s'", fullPath, exc_info=True
+                        "Could not delete file '%s'", fullPath, exc_info=True
                     )
 
         for directory in rmDirList:
@@ -349,13 +349,13 @@ class HSM(object):
                     os.rmdir(directory)
             except Exception:
                 self.log.warn(
-                    "Cold not delete directory " "'%s'",
+                    "Cold not delete directory '%s'",
                     directory,
                     exc_info=True,
                 )
 
         self.log.debug(
-            "Finished cleaning storage " "repository at '%s'",
+            "Finished cleaning storage repository at '%s'",
             sc.REPO_DATA_CENTER,
         )
 

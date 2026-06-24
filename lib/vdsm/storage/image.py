@@ -113,9 +113,7 @@ class Image:
         allocation = min(required, max_size)
 
         # Return estimated size of allocation.
-        self.log.debug(
-            "Estimated allocation for qcow2 volume:" "%d", allocation
-        )
+        self.log.debug("Estimated allocation for qcow2 volume:%d", allocation)
         return allocation
 
     def estimateChainSize(self, sdUUID, imgUUID, volUUID, capacity):
@@ -271,13 +269,13 @@ class Image:
                     )
 
                     self.log.debug(
-                        "Succeeded to create fake image %s in " "domain %s",
+                        "Succeeded to create fake image %s in domain %s",
                         volParams['imgUUID'],
                         destDom.sdUUID,
                     )
                 except Exception:
                     self.log.error(
-                        "Failure to create fake image %s in domain " "%s",
+                        "Failure to create fake image %s in domain %s",
                         volParams['imgUUID'],
                         destDom.sdUUID,
                         exc_info=True,
@@ -798,7 +796,7 @@ class Image:
                 # command
                 if force:
                     self.log.info(
-                        "delete image %s on domain %s before " "overwriting",
+                        "delete image %s on domain %s before overwriting",
                         dstImgUUID,
                         dstSdUUID,
                     )

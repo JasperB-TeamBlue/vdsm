@@ -52,13 +52,13 @@ def validate_static_ipv4_config(net_attrs):
         if net_attrs.get('bootproto') == 'dhcp':
             raise ne.ConfigNetworkError(
                 ne.ERR_BAD_ADDR,
-                'mixing static ip configuration with ' 'dhcp is not allowed',
+                'mixing static ip configuration with dhcp is not allowed',
             )
     else:
         if 'gateway' in net_attrs or 'netmask' in net_attrs:
             raise ne.ConfigNetworkError(
                 ne.ERR_BAD_ADDR,
-                'gateway or netmask were given ' 'without ip address',
+                'gateway or netmask were given without ip address',
             )
 
 

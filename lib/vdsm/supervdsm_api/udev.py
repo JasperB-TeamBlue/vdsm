@@ -169,7 +169,7 @@ def _udevTrigger(*args, **kwargs):
     except cmdutils.Error as e:
         raise OSError(
             errno.EINVAL,
-            'Could not trigger change ' 'out %s\nerr %s' % (e.out, e.err),
+            'Could not trigger change out %s\nerr %s' % (e.out, e.err),
         )
 
 
@@ -202,6 +202,6 @@ def rmAppropriateHwrngDevice(vmId):
     # Check that there are no other hwrng rules in place
     if not glob.glob(_UDEV_RULE_FILE_NAME_HWRNG % ('*',)):
         _log.debug(
-            'Changing ownership (to root:root) of device ' '%s', _HWRNG_PATH
+            'Changing ownership (to root:root) of device %s', _HWRNG_PATH
         )
         os.chown(_HWRNG_PATH, 0, 0)

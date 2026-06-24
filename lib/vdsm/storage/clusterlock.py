@@ -515,7 +515,7 @@ class SANLock(object):
                     raise se.ReleaseHostIdFailure(self._sdUUID, e)
 
         self.log.info(
-            "Host id for domain %s released successfully " "(id: %s)",
+            "Host id for domain %s released successfully (id: %s)",
             self._sdUUID,
             hostId,
         )
@@ -673,7 +673,7 @@ class SANLock(object):
 
         if len(owners) > 1:
             self.log.error(
-                "Cluster lock is reported to have more than " "one owner: %s",
+                "Cluster lock is reported to have more than one owner: %s",
                 owners,
             )
             raise RuntimeError("Multiple owners for %s" % (lease,))
@@ -945,7 +945,7 @@ class LocalLock(object):
                 self._globalLockMap[self._sdUUID] = (hostId, lockFile)
 
         self.log.debug(
-            "Local lock for domain %s successfully acquired " "(id: %s)",
+            "Local lock for domain %s successfully acquired (id: %s)",
             self._sdUUID,
             hostId,
         )
