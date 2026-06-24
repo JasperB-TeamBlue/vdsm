@@ -32,8 +32,7 @@ def find_all(element, tag_):
     """
     if tag(element) == tag_:
         yield element
-    for elt in element.findall('.//' + tag_):
-        yield elt
+    yield from element.findall('.//' + tag_)
 
 
 def find_first(element, tag, default=_UNSPECIFIED):

@@ -240,8 +240,7 @@ class Metadata(object):
         """
         Namespace-aware wrapper for elem.findall()
         """
-        for elt in elem.findall(self._add_ns(tag)):
-            yield elt
+        yield from elem.findall(self._add_ns(tag))
 
     def dump_sequence(self, element_name, subelement_name, sequence):
         """
