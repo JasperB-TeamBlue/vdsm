@@ -40,7 +40,7 @@ extension-pkg-whitelist=
 
 # Only show warnings with the listed confidence levels. Leave empty to show
 # all. Valid levels: HIGH, INFERENCE, INFERENCE_FAILURE, UNDEFINED
-confidence=
+confidence=HIGH
 
 # The documentation of pylint is too terse, so we have to dig into the
 # pylint source code (!!), to get the longer aliases for the message
@@ -57,7 +57,7 @@ confidence=
 # multiple time. See also the "--disable" option for examples.
 #
 # Enable *E*rror and *F*atal categories only
-enable=E,F
+enable=E,F,W,R
 
 # Disable the message, report, category or checker with the given id(s). You
 # can either give multiple identifiers separated by comma (,) or put this
@@ -69,10 +69,15 @@ enable=E,F
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
 #
-# Disable *C*onvention, *I*info, *R*efactor, *W*arnings and individual faulty checks.
-# see https://github.com/PyCQA/pylint/issues/782
-# remove once we upgrade to pylint 2.0+
-disable=C,I,R,W,not-context-manager
+# Disable specific warnings that currently require too big of a refactor to fix.
+# W0707: Consider explicitly re-raising errors using the 'from' keyword
+# W0702: no exception type(s) specified
+# W0613: Unused argument
+# W1514: unspecified encoding
+# R1705, R1720, R1723, R1724: unneeded else or elif after return, break, continue or raise
+# R0917: Too many positional arguments
+# W0603: Using the global statement
+disable=C,I,W0707,W0702,W0613,W1514,W0603,R1705,R1720,R0917,R1723,R1724
 
 [REPORTS]
 
