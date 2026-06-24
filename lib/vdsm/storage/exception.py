@@ -2104,7 +2104,7 @@ class UnexpectedVolumeState(StorageException):
 
 class ManagedVolumeNotSupported(StorageException):
     code = 925
-    msg = "Managed Volume Not Supported. " "Missing package os-brick."
+    msg = "Managed Volume Not Supported. Missing package os-brick."
 
 
 class ManagedVolumeHelperFailed(StorageException):

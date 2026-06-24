@@ -94,7 +94,7 @@ class Listener(object):
             fileno = obj['create_cb']()
         except:
             self.log.exception(
-                "An error occurred in the create callback " "fileno: %d.",
+                "An error occurred in the create callback fileno: %d.",
                 fileno,
             )
         else:
@@ -199,7 +199,7 @@ class Listener(object):
                 self._wait_for_events()
         except:
             self.log.exception(
-                "Unhandled exception caught in vm channels " "listener thread"
+                "Unhandled exception caught in vm channels listener thread"
             )
         finally:
             self.log.debug("VM channels listener thread has ended.")

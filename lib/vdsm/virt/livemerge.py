@@ -449,7 +449,7 @@ class DriveMerger:
     def _base_needs_prune_bitmaps(self, job, base_info):
         if base_info['format'] != 'COW':
             log.debug(
-                "Base volume does not support bitmaps, " "job=%r base=%r",
+                "Base volume does not support bitmaps, job=%r base=%r",
                 job.id,
                 job.base,
             )
@@ -457,7 +457,7 @@ class DriveMerger:
 
         if job.active_commit:
             log.debug(
-                "Top volume is the active volume, " "job=%r top=%r",
+                "Top volume is the active volume, job=%r top=%r",
                 job.id,
                 job.top,
             )
@@ -1032,7 +1032,7 @@ class CleanupThread(object):
         self.vm.volume_monitor.disable()
 
         self.vm.log.info(
-            "Requesting pivot to complete active layer commit " "(job %s)",
+            "Requesting pivot to complete active layer commit (job %s)",
             self.job.id,
         )
         try:
@@ -1087,7 +1087,7 @@ class CleanupThread(object):
             if self.doPivot:
                 self.tryPivot()
             self.vm.log.info(
-                "Synchronizing volume chain after live merge " "(job %s)",
+                "Synchronizing volume chain after live merge (job %s)",
                 self.job.id,
             )
             self.vm.sync_volume_chain(self.drive)

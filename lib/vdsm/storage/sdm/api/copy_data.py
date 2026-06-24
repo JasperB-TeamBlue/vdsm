@@ -57,7 +57,7 @@ class Job(base.Job):
             dst_format,
         ):
             raise se.UnsupportedOperation(
-                "Cannot copy bitmaps from/to volumes with raw " "format",
+                "Cannot copy bitmaps from/to volumes with raw format",
                 src_vol=self._source.path,
                 dst_vol=self._dest.path,
             )

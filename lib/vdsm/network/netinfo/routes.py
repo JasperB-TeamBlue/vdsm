@@ -100,7 +100,7 @@ def get_gateway(
             # but, in general, there are also routing rules in the game so we
             # should probably ask the kernel somehow.
             logging.error(
-                'Multiple IPv%s gateways for the device %s in table ' '%s: %r',
+                'Multiple IPv%s gateways for the device %s in table %s: %r',
                 family,
                 dev,
                 table,

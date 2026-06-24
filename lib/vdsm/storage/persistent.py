@@ -244,7 +244,7 @@ class PersistentDict(object):
                 # method that creates the initial metadata. Then we can assume
                 # that empty metadata is always invalid.
                 log.warning(
-                    "data has no embedded checksum - " "trust it as it is"
+                    "data has no embedded checksum - trust it as it is"
                 )
                 self._isValid = True
                 self._metadata = newMD

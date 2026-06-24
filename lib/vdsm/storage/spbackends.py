@@ -490,7 +490,7 @@ class StoragePoolMemoryBackend(StoragePoolBackendInterface):
     @unsecured
     def updateVersionAndDomains(self, masterVersion, domainsMap):
         self.log.debug(
-            'updating domain version to %s and domains map ' 'to %s',
+            'updating domain version to %s and domains map to %s',
             masterVersion,
             domainsMap,
         )

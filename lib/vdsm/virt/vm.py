@@ -1116,7 +1116,7 @@ class Vm(object):
             if reason == libvirt.VIR_DOMAIN_RUNNING_POSTCOPY:
                 # post-copy migration on the destination
                 self.log.info(
-                    "Post-copy incoming migration detected " "in recovery"
+                    "Post-copy incoming migration detected in recovery"
                 )
                 self.set_last_status(
                     vmstatus.MIGRATION_DESTINATION, vmstatus.WAIT_FOR_LAUNCH
@@ -1513,7 +1513,7 @@ class Vm(object):
 
     def refresh_volume(self, volInfo):
         self.log.debug(
-            "Refreshing drive volume for %s (domainID: %s, " "volumeID: %s)",
+            "Refreshing drive volume for %s (domainID: %s, volumeID: %s)",
             volInfo['name'],
             volInfo['domainID'],
             volInfo['volumeID'],
@@ -2404,7 +2404,7 @@ class Vm(object):
                 self.destroy()
         else:
             self.log.warning(
-                "Unhandled state after a recovered migration: " "%s, %s",
+                "Unhandled state after a recovered migration: %s, %s",
                 state,
                 reason,
             )
@@ -2777,7 +2777,7 @@ class Vm(object):
         attrs, data = get_metadata(dev_class, dev_obj)
         if not attrs:
             self.log.error(
-                "No attrs trying to save metadata for " "hotplugged device %s",
+                "No attrs trying to save metadata for hotplugged device %s",
                 dev_obj,
             )
         else:
@@ -4091,7 +4091,7 @@ class Vm(object):
             self.log.info("Unlinking transient disk volume %r", transientPath)
             os.unlink(transientPath)  # Closing after deletion is correct
             self.log.exception(
-                "Failed to create the transient disk for " "volume %s",
+                "Failed to create the transient disk for volume %s",
                 diskParams['volumeID'],
             )
         finally:
@@ -4556,7 +4556,7 @@ class Vm(object):
             conf = self._findDriveConfigByName(driveParams["name"])
         except LookupError:
             self.log.error(
-                "Unable to update the device configuration " "for disk %s",
+                "Unable to update the device configuration for disk %s",
                 driveParams["name"],
             )
         else:
@@ -4880,7 +4880,7 @@ class Vm(object):
             self._dom.blockJobAbort(drive.name, flags=blockJobFlags)
         except Exception:
             self.log.exception(
-                "Unable to stop the replication for" " the drive: %s",
+                "Unable to stop the replication for the drive: %s",
                 drive.name,
             )
             return response.error('changeDisk')  # Finally is evaluated
@@ -4892,7 +4892,7 @@ class Vm(object):
                     # There is nothing we can do at this point other
                     # than logging
                     self.log.exception(
-                        "Unable to teardown the previous chain:" " %s",
+                        "Unable to teardown the previous chain: %s",
                         diskToTeardown,
                     )
                 self.updateDriveParameters(dstDiskCopy)
@@ -4901,7 +4901,7 @@ class Vm(object):
                 except errors.StorageUnavailableError as e:
                     # Will be recovered on the next monitoring cycle
                     self.log.error(
-                        "Unable to update drive %r volume size: " "%s",
+                        "Unable to update drive %r volume size: %s",
                         drive.name,
                         e,
                     )
@@ -5198,7 +5198,7 @@ class Vm(object):
         self._watchdogEvent["time"] = time.time()
         self._watchdogEvent["action"] = actionEnum[action]
         self.log.info(
-            "Watchdog event comes from guest %s. " "Action: %s",
+            "Watchdog event comes from guest %s. Action: %s",
             self.name,
             actionToString(action),
         )
@@ -6047,7 +6047,7 @@ class Vm(object):
             # the VM was already shut off asynchronously,
             # so ignore error and quickly exit
             self.log.warning(
-                'failed to invoke acpiShutdown: ' 'domain not connected'
+                'failed to invoke acpiShutdown: domain not connected'
             )
             return response.error('down')
         else:
@@ -6060,7 +6060,7 @@ class Vm(object):
             # the VM was already shut off asynchronously,
             # so ignore error and quickly exit
             self.log.warning(
-                'failed to invoke acpiReboot: ' 'domain not connected'
+                'failed to invoke acpiReboot: domain not connected'
             )
             return response.error('down')
         else:
@@ -6160,7 +6160,7 @@ class Vm(object):
         # down on the destination to Engine and wait for destroy request from
         # it.
         self.log.warning(
-            "Migration failed in post-copy, " "the VM will be destroyed"
+            "Migration failed in post-copy, the VM will be destroyed"
         )
         self.setDownStatus(ERROR, vmexitreason.POSTCOPY_MIGRATION_FAILED)
         if clean_vm:
@@ -6369,7 +6369,7 @@ class Vm(object):
         self._vmCreationEvent.wait()
         prepare_timeout = self._migration_destination_prepare_timeout()
         self.log.debug(
-            'migration destination: waiting %ss ' 'for path preparation',
+            'migration destination: waiting %ss for path preparation',
             prepare_timeout,
         )
         self._incoming_migration_prepared.wait(prepare_timeout)
@@ -6595,7 +6595,7 @@ class Vm(object):
         )
         if res['status']['code'] != 0:
             self.log.error(
-                "Unable to get info of volume %s (domain: %s image:" " %s)",
+                "Unable to get info of volume %s (domain: %s image: %s)",
                 volumeID,
                 drive.domainID,
                 drive.imageID,
@@ -6681,7 +6681,7 @@ class Vm(object):
             return
 
         self.log.warning(
-            'monitor became unresponsive' ' (command timeout, age=%s)',
+            'monitor became unresponsive (command timeout, age=%s)',
             stats_age,
         )
         stats['monitorResponse'] = '-1'

@@ -24,7 +24,7 @@ class JsonRpcInvalidRequestError(JsonRpcErrorBase):
 
 class JsonRpcMethodNotFoundError(JsonRpcErrorBase):
     code = -32601
-    msg = "The method does not exist or is not " "available"
+    msg = "The method does not exist or is not available"
 
 
 class JsonRpcInvalidParamsError(JsonRpcErrorBase):

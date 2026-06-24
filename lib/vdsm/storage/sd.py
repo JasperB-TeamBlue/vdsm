@@ -1633,7 +1633,7 @@ class StorageDomain(object):
         No need to relink template for block domains.
         """
         self.log.debug(
-            "Skipping relink of template, domain %s is not file " "based",
+            "Skipping relink of template, domain %s is not file based",
             self.sdUUID,
         )
 

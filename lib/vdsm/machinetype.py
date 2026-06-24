@@ -100,7 +100,7 @@ def domain_cpu_models(conn, arch, cpu_mode):
     xmldomcaps = _get_domain_capabilities(conn, arch)
     if xmldomcaps is None:
         logging.error(
-            'Error while getting CPU models: ' 'no domain capabilities found'
+            'Error while getting CPU models: no domain capabilities found'
         )
         return {}
 
@@ -172,7 +172,7 @@ def cpu_features():
     xmldomcaps = _get_domain_capabilities(c, arch)
     if xmldomcaps is None:
         logging.error(
-            'Error while getting CPU features: ' 'no domain capabilities found'
+            'Error while getting CPU features: no domain capabilities found'
         )
         return []
 
@@ -234,7 +234,7 @@ def _emulated_machines_from_caps_domain(arch, caps):
     )
     if domain_tag is None:
         logging.error(
-            'Error while looking for kvm domain (%s) ' 'libvirt capabilities',
+            'Error while looking for kvm domain (%s) libvirt capabilities',
             arch,
         )
         return []

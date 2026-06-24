@@ -186,7 +186,7 @@ class Unreadable(namedtuple("_Unreadable", "name")):
 
     def __getattr__(self, attrName):
         log.warning(
-            "%s can't be reloaded, please check your storage " "connections.",
+            "%s can't be reloaded, please check your storage connections.",
             self.name,
         )
         raise AttributeError("Failed reload: %s" % self.name)

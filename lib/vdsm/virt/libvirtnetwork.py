@@ -156,7 +156,7 @@ def _netlookup_by_name(conn, netname):
         raise
 
 
-class NetworksUsersCache(object):
+class NetworksUsersCache:
     """
     Manages networks users reference.
     Note: The implementation is NOT thread safe.
@@ -180,7 +180,7 @@ class NetworksUsersCache(object):
     def remove(net, user_ref):
         if net not in NetworksUsersCache._nets_users:
             logging.warning(
-                'Attempting to remove a non existing network: ' '%s/%s',
+                'Attempting to remove a non existing network: %s/%s',
                 net,
                 user_ref,
             )
@@ -190,7 +190,7 @@ class NetworksUsersCache(object):
             net_users.remove(user_ref)
         except KeyError:
             logging.warning(
-                'Attempting to remove a non existing net user: ' '%s/%s',
+                'Attempting to remove a non existing net user: %s/%s',
                 net,
                 user_ref,
             )

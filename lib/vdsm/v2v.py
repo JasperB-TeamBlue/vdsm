@@ -425,7 +425,7 @@ class V2VCommand(object):
                 # Note: qcow2 is only a suggestion from the engine
                 # if virt-v2v doesn't support it we fall back to default
                 logging.info(
-                    'virt-v2v not supporting qcow2 compat version: ' '%r',
+                    'virt-v2v not supporting qcow2 compat version: %r',
                     qcow2_compat,
                 )
 
@@ -1411,7 +1411,7 @@ def _read_ovf_from_ova(ova_path):
     elif tarfile.is_tarfile(ova_path):
         return _read_ovf_from_tar_ova(ova_path)
     raise ClientError(
-        'Unknown ova format, supported formats:' ' tar, zip or a directory'
+        'Unknown ova format, supported formats: tar, zip or a directory'
     )
 
 
@@ -1570,7 +1570,7 @@ def _add_networks_ovf_info(vm, node, ns):
             net['dev'] = dev.text
         else:
             raise V2VError(
-                'Error parsing ovf information: ' 'network element name'
+                'Error parsing ovf information: network element name'
             )
 
         model = n.find('./rasd:ResourceSubType', ns)

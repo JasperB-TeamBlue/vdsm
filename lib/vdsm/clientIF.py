@@ -135,7 +135,7 @@ class clientIF(object):
             self._connectToBroker()
         except:
             self.log.error(
-                'failed to init clientIF, ' 'shutting down storage dispatcher'
+                'failed to init clientIF shutting down storage dispatcher'
             )
             if self.irs:
                 self.irs.prepareForShutdown()
@@ -792,7 +792,7 @@ class clientIF(object):
                 # Do not prepare volumes when system goes down
                 if self._enabled:
                     self.log.info(
-                        'recovery [%d/%d]: preparing paths for' ' domain %s',
+                        'recovery [%d/%d]: preparing paths for domain %s',
                         idx + 1,
                         num_vm_objects,
                         vm_obj.id,
