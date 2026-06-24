@@ -404,7 +404,6 @@ class Descriptor(object):
                 bool(self._values) or bool(self._devices) or bool(self._custom)
             )
 
-    # pylint: disable=nonzero-method
     def __nonzero__(self):  # TODO: drop when py2 is no longer needed
         return self.__bool__()
 
