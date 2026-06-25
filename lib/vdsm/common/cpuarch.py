@@ -63,7 +63,7 @@ def effective():
 
 
 def is_ppc(arch):
-    return arch == PPC64 or arch == PPC64LE
+    return arch in (PPC64, PPC64LE)
 
 
 def is_x86(arch):

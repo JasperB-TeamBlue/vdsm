@@ -495,8 +495,11 @@ class QemuGuestAgentPoller(object):
                     continue
                 after_hotplug = (
                     (
-                        command == VIR_DOMAIN_GUEST_INFO_FILESYSTEM
-                        or command == VIR_DOMAIN_GUEST_INFO_DISKS
+                        command
+                        in (
+                            VIR_DOMAIN_GUEST_INFO_FILESYSTEM,
+                            VIR_DOMAIN_GUEST_INFO_DISKS,
+                        )
                     )
                     and vm_obj.last_disk_hotplug() is not None
                     and (

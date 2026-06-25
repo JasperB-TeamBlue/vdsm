@@ -905,10 +905,7 @@ class Task:
                     self._updateState(State.racquiring)
                 elif self.state == State.blocked:
                     self._updateState(State.preparing)
-                elif (
-                    self.state == State.aborting
-                    or self.state == State.raborting
-                ):
+                elif self.state in (State.aborting, State.raborting):
                     self.log.debug(
                         "resource %s.%s acquired while in state %s",
                         namespace,
@@ -1384,10 +1381,7 @@ class Task:
             elif self.state == State.waitrecover:
                 pass
             # if we started the recovery - restart it
-            elif (
-                self.state == State.racquiring
-                or self.state == State.recovering
-            ):
+            elif self.state in (State.racquiring, State.recovering):
                 self._updateState(State.racquiring, force=True)
             # else we were during failed recovery - abort it
             else:

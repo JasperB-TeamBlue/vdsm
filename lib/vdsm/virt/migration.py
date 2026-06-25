@@ -1142,8 +1142,6 @@ def ongoing(stats):
 def __guess_defaults():
     global ADDRESS, PORT
     try:
-        from vdsm.config import config
-
         PORT = config.getint('addresses', 'management_port')
         ADDRESS = config.get('addresses', 'management_ip')
         if ADDRESS == '::':

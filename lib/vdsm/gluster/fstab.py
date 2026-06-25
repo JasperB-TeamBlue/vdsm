@@ -47,7 +47,7 @@ class FsTab(object):
     def _exists(self, device):
         uuid = "UUID=%s" % (self._getFsUuid(device))
         for dev in self._list():
-            if device == dev.device or uuid == dev.device:
+            if dev.device in (device, uuid):
                 return True
         return False
 

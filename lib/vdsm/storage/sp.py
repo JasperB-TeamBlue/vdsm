@@ -2164,8 +2164,7 @@ class StoragePool(object):
         :rtype: dict
         """
         img_ns = rm.getNamespace(sc.IMAGE_NAMESPACE, sdUUID)
-
-        if imgUUID != srcImgUUID and srcImgUUID != sc.BLANK_UUID:
+        if srcImgUUID not in (imgUUID, sc.BLANK_UUID):
             srcDom = sdCache.produce(sdUUID)
             srcVol = srcDom.produceVolume(srcImgUUID, srcVolUUID)
 

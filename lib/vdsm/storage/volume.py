@@ -1233,7 +1233,7 @@ class Volume(object):
             "parentVolumeRollback: sdUUID=%s pimgUUID=%s"
             " pvolUUID=%s" % (sdUUID, pimgUUID, pvolUUID)
         )
-        if pvolUUID != sc.BLANK_UUID and pimgUUID != sc.BLANK_UUID:
+        if sc.BLANK_UUID not in (pvolUUID, pimgUUID):
             pvol = sdCache.produce(sdUUID).produceVolume(pimgUUID, pvolUUID)
             pvol.prepare()
             try:

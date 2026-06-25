@@ -893,7 +893,7 @@ class Vm(object):
         This is done to avoid interfaces with same node name (sd*) from
         colliding.
         '''
-        if iface == 'sata' or iface == 'scsi':
+        if iface in ('sata', 'scsi'):
             return 'sd'
         return iface
 
