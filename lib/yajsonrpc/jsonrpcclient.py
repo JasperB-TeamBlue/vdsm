@@ -87,7 +87,7 @@ class JsonRpcClient(object):
                 except KeyError:
                     pass
                 else:
-                    raise ValueError("Request id already in use %s", rid)
+                    raise ValueError("Request id already in use %s" % rid)
 
                 self._runningRequests[rid] = ctx
 

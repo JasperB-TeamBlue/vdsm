@@ -839,7 +839,7 @@ class Drive(core.Base):
             else:
                 if os.path.realpath(vol['path']) == os.path.realpath(vol_path):
                     return vol['volumeID']
-        raise LookupError("Unable to find VolumeID for path '%s'", vol_path)
+        raise LookupError("Unable to find VolumeID for path '%s'" % vol_path)
 
     def parse_volume_chain(self, disk):
         """
@@ -1192,7 +1192,7 @@ def _getSourceXML(drive):
         if drive["device"] == 'cdrom' or drive["device"] == 'floppy':
             source.setAttrs(startupPolicy='optional')
     else:
-        raise RuntimeError("Unsupported diskType %r", drive["diskType"])
+        raise RuntimeError("Unsupported diskType %r" % drive["diskType"])
 
     if needs_seclabel:
         disable_dynamic_ownership(source)

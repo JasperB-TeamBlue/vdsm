@@ -28,5 +28,5 @@ def make(interface, index):
 def split(devname):
     prefix = devname[:2]
     if prefix not in _DEVIFACES:
-        raise ValueError('Unrecognized device name: %s', devname)
+        raise ValueError('Unrecognized device name: %s' % devname)
     return _DEVIFACES[prefix], base26.decode(devname[2:])

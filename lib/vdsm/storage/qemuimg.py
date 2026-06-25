@@ -569,7 +569,7 @@ def default_qcow2_compat():
 def _parse_qemuimg_json(output, expected_type=dict):
     obj = json.loads(output.decode("utf8"))
     if not isinstance(obj, expected_type):
-        raise ValueError("Not a %s", expected_type)
+        raise ValueError("Not a %s" % expected_type)
     return obj
 
 
