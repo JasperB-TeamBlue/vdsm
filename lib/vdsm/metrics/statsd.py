@@ -13,7 +13,6 @@ def start(address, port=8125):
 
 
 def stop():
-    global _client
     if _client is not None:
         _client.close()
 
