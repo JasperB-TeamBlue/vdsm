@@ -213,7 +213,7 @@ class DirectioChecker(object):
         Raises RuntimeError if the checker is running.
         """
         if self._state is not IDLE:
-            raise RuntimeError("Checker is %s", self._state)
+            raise RuntimeError("Checker is %s" % self._state)
         self._state = RUNNING
         _log.debug("Checker %r started", self._path)
         self._stopped.clear()

@@ -739,40 +739,38 @@ class IscsiConnection(Connection):
                 ip = socket.gethostbyname(host)
                 if ip != portal.hostname:
                     raise self.Mismatch(
-                        "target.portal.hostname mismatch: %r != %r",
-                        ip,
-                        portal.hostname,
+                        "target.portal.hostname mismatch: %r != %r"
+                        % (ip, portal.hostname)
                     )
 
             except socket.gaierror:
                 raise self.Mismatch(
-                    "target.portal.hostname mismatch: %r != %r",
-                    host,
-                    portal.hostname,
+                    "target.portal.hostname mismatch: %r != %r"
+                    % (host, portal.hostname)
                 )
 
         if self._target.portal.port != portal.port:
             raise self.Mismatch(
-                "target.portal.port mismatch: %r != %r",
-                self._target.portal.port,
-                portal.portal,
+                "target.portal.port mismatch: %r != %r"
+                % (self._target.portal.port, portal.portal)
             )
 
         if self._target.tpgt is not None and self._target.tpgt != target.tpgt:
             raise self.Mismatch(
-                "target.tpgt mismatch: %r != %r",
-                self._target.tpgt,
-                target.tpgt,
+                "target.tpgt mismatch: %r != %r"
+                % (self._target.tpgt, target.tpgt)
             )
 
         if self._target.iqn != target.iqn:
             raise self.Mismatch(
-                "target.iqn mismatch: %r != %r", self._target.iqn, target.iqn
+                "target.iqn mismatch: %r != %r"
+                % (self._target.iqn, target.iqn)
             )
 
         if self._iface.name != iface.name:
             raise self.Mismatch(
-                "iface.name mismatch: %r != %r", self._iface.name, iface.name
+                "iface.name mismatch: %r != %r"
+                % (self._iface.name, iface.name)
             )
 
         if self._cred != cred:

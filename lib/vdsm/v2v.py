@@ -208,7 +208,7 @@ def convert_external_vm(uri, username, password, vminfo, job_id, irs):
             )
         command = KVMCommand(uri, username, password, vminfo, job_id, irs)
     else:
-        raise ClientError('Unknown protocol for Libvirt uri: %s', uri)
+        raise ClientError('Unknown protocol for Libvirt uri: %s' % uri)
     job = ImportVm(job_id, command)
     job.start()
     _add_job(job_id, job)
@@ -488,7 +488,7 @@ class V2VCommand(object):
     def _prepare_volumes(self):
         if len(self._vminfo['disks']) < 1:
             raise InvalidInputError(
-                'Job %r cannot import vm with no disk', self._vmid
+                'Job %r cannot import vm with no disk' % self._vmid
             )
 
         for disk in self._vminfo['disks']:

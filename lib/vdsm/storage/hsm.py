@@ -2199,8 +2199,7 @@ class HSM(object):
                 else:
                     raise KeyError(
                         "pvcreate response foresight is "
-                        "can not be determined for %s",
-                        dev,
+                        "can not be determined for %s" % dev,
                     )
 
         return devices

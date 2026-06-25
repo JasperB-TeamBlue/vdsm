@@ -1587,7 +1587,7 @@ class Vm(object):
                 self.log.info("VM resumed")
         else:
             raise Exception(
-                "Unsupported resume behavior value: %s", (resume_behavior,)
+                "Unsupported resume behavior value: %s" % (resume_behavior,)
             )
 
     def _paused_long_enough_to_kill(self):
@@ -6638,12 +6638,14 @@ class Vm(object):
         if res['status']['code'] != 0:
             raise errors.StorageUnavailableError(
                 "Unable to sync volume chain for image %s in domain %s volume "
-                "%s requested chain %s: %s",
-                imageID,
-                domainID,
-                volumeID,
-                newVols,
-                res["status"]["message"],
+                "%s requested chain %s: %s"
+                % (
+                    imageID,
+                    domainID,
+                    volumeID,
+                    newVols,
+                    res["status"]["message"],
+                )
             )
 
     def getDiskDevices(self):
