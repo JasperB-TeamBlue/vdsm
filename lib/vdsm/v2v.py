@@ -1303,7 +1303,7 @@ def _add_disks(root, params):
         disktype = disk.get('type')
         device = disk.get('device')
         if device is not None:
-            if device == 'cdrom' or device == 'floppy':
+            if device in ('cdrom', 'floppy'):
                 # Skip CD-ROM drives and floppy
                 continue
             d['type'] = device

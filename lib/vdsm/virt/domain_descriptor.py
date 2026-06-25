@@ -187,10 +187,7 @@ class DomainDescriptor(MutableDomainDescriptor):
         self._xml = xmlStr
         self._xml_source = xml_source
         self._devices = super(DomainDescriptor, self).devices
-        if (
-            self._xml_source == XmlSource.INITIAL
-            or self._xml_source == XmlSource.MIGRATION_SOURCE
-        ):
+        if self._xml_source in (XmlSource.INITIAL, XmlSource.MIGRATION_SOURCE):
             self._devices_hash = None
         else:
             self._devices_hash = super(DomainDescriptor, self).devices_hash

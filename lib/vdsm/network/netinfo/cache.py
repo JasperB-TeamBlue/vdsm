@@ -344,7 +344,7 @@ def _getNetInfo(iface, bridged, routes, ipaddrs):
             }
         )
     except (IOError, OSError) as e:
-        if e.errno == errno.ENOENT or e.errno == errno.ENODEV:
+        if e.errno in (errno.ENOENT, errno.ENODEV):
             logging.info('Obtaining info for net %s.', iface, exc_info=True)
             raise NetworkIsMissing('Network %s was not found' % iface)
         else:

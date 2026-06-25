@@ -3052,9 +3052,7 @@ class HSM(object):
                     continue
                 if vgType is None:
                     vgType = dev["devtype"]
-                elif (
-                    vgType != multipath.DEV_MIXED and vgType != dev["devtype"]
-                ):
+                elif vgType not in (multipath.DEV_MIXED, dev["devtype"]):
                     vgType = multipath.DEV_MIXED
 
                 pvInfo = lvm.getPV(pv)

@@ -2165,7 +2165,7 @@ class StoragePool(object):
         """
         img_ns = rm.getNamespace(sc.IMAGE_NAMESPACE, sdUUID)
 
-        if imgUUID != srcImgUUID and srcImgUUID != sc.BLANK_UUID:
+        if imgUUID not in (srcImgUUID, sc.BLANK_UUID):
             srcDom = sdCache.produce(sdUUID)
             srcVol = srcDom.produceVolume(srcImgUUID, srcVolUUID)
 

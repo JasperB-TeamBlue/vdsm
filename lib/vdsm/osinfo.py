@@ -201,7 +201,7 @@ def version():
     osname = _release_name()
     pretty_name = _get_pretty_name()
     try:
-        if osname == OSName.RHEVH or osname == OSName.OVIRT:
+        if osname in (OSName.RHEVH, OSName.OVIRT):
             version, release_name = _parse_node_version('/etc/default/version')
         elif osname == OSName.DEBIAN:
             version = linecache.getline('/etc/debian_version', 1).strip("\n")

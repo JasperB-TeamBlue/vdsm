@@ -1509,7 +1509,7 @@ class BlockStorageDomain(sd.StorageDomain):
         # 16   - Usage or syntax error
         # 32   - E2fsck canceled by user request
         # 128  - Shared library error
-        if rc == 1 or rc == 2:
+        if rc in (1, 2):
             # rc is a number
             self.log.info("fsck corrected fs errors (%s)", rc)
         if rc >= 4:
