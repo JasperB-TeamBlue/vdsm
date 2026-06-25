@@ -21,11 +21,11 @@ OVIRT_VMCONSOLE_GROUP = '@OVIRTVMCONSOLEGROUP@'
 
 
 # Sanlock definitions
-SANLOCK_ENABLED = '@ENABLE_LIBVIRT_SANLOCK@' == 'yes'
+SANLOCK_ENABLED = '@ENABLE_LIBVIRT_SANLOCK@' == 'yes'  # pylint: disable=comparison-of-constants
 SANLOCK_USER = '@SNLKUSER@'
 
 # Libvirt selinux
-LIBVIRT_SELINUX = '@ENABLE_LIBVIRT_SELINUX@' == 'yes'
+LIBVIRT_SELINUX = '@ENABLE_LIBVIRT_SELINUX@' == 'yes'  # pylint: disable=comparison-of-constants
 
 #
 # Path definitions
