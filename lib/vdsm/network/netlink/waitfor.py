@@ -19,11 +19,10 @@ def waitfor_linkup(iface, oper_blocking=True, timeout=10):
         try:
             yield
         finally:
-            if iface_up_check(iface):
-                return
-            for event in (e for e in mon if e.get('name') == iface):
-                if is_link_up(event.get('flags', 0), oper_blocking):
-                    return
+            if not iface_up_check(iface):
+                for event in (e for e in mon if e.get('name') == iface):
+                    if is_link_up(event.get('flags', 0), oper_blocking):
+                        break
 
 
 @contextmanager
@@ -85,7 +84,7 @@ def wait_for_event(
                     if _is_subdict(expected_event, event) and check_event(
                         event
                     ):
-                        return
+                        break
             except monitor.MonitorError as e:
                 if e.args[0] == monitor.E_TIMEOUT:
                     logging.warning(

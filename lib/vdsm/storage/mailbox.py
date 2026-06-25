@@ -188,7 +188,7 @@ class SPM_Extend_Message:
                 msg = SPM_Extend_Message(volume, 0)
         finally:
             pool.spmMailer.sendReply(msgID, msg)
-            return {'status': {'code': 0, 'message': 'Done'}}
+        return {'status': {'code': 0, 'message': 'Done'}}
 
 
 class HSM_Mailbox:
