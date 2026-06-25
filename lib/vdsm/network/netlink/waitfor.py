@@ -19,11 +19,19 @@ def waitfor_linkup(iface, oper_blocking=True, timeout=10):
         try:
             yield
         finally:
-            if iface_up_check(iface):
-                return
-            for event in (e for e in mon if e.get('name') == iface):
-                if is_link_up(event.get('flags', 0), oper_blocking):
-                    return
+            if not iface_up_check(iface):
+                _linkup_event_seen(mon, iface, oper_blocking)
+
+
+def _linkup_event_seen(mon, iface, oper_blocking):
+    """Scan the events collected by the monitor, looking for a link-up
+    event of the iface.
+    """
+    for event in mon:
+        if event.get('name') != iface:
+            continue
+        if is_link_up(event.get('flags', 0), oper_blocking):
+            return
 
 
 @contextmanager
@@ -78,27 +86,31 @@ def wait_for_event(
         try:
             yield
         finally:
-            caught_events = []
-            try:
-                for event in mon:
-                    caught_events.append(event)
-                    if _is_subdict(expected_event, event) and check_event(
-                        event
-                    ):
-                        return
-            except monitor.MonitorError as e:
-                if e.args[0] == monitor.E_TIMEOUT:
-                    logging.warning(
-                        'Expected event "%s" of interface "%s" '
-                        'was not caught within %ssec. '
-                        'Caught events: %s',
-                        expected_event,
-                        iface,
-                        timeout,
-                        caught_events,
-                    )
-                else:
-                    raise
+            _await_event(mon, iface, expected_event, timeout, check_event)
+
+
+def _await_event(mon, iface, expected_event, timeout, check_event):
+    """Consume the events collected by the monitor, waiting for the
+    expected event of the iface.
+    """
+    caught_events = []
+    try:
+        for event in mon:
+            caught_events.append(event)
+            if _is_subdict(expected_event, event) and check_event(event):
+                return
+    except monitor.MonitorError as e:
+        if e.args[0] != monitor.E_TIMEOUT:
+            raise
+        logging.warning(
+            'Expected event "%s" of interface "%s" '
+            'was not caught within %ssec. '
+            'Caught events: %s',
+            expected_event,
+            iface,
+            timeout,
+            caught_events,
+        )
 
 
 def _is_subdict(subdict, superdict):

@@ -5031,7 +5031,8 @@ class Vm(object):
                 self.log.exception(
                     "Cannot get disk %s new size: %s", drive.name, e
                 )
-                return response.error('resizeErr')
+                newVirtualSize = None
+        if newVirtualSize is not None:
             self._setVolumeSize(
                 drive.domainID,
                 drive.poolID,
@@ -5039,8 +5040,9 @@ class Vm(object):
                 drive.volumeID,
                 newVirtualSize,
             )
-
-        return {'status': doneCode, 'size': str(newVirtualSize)}
+            return {'status': doneCode, 'size': str(newVirtualSize)}
+        else:
+            return response.error('resizeErr')
 
     def _diskSizeExtendRaw(self, drive, newSizeBytes):
         # Picking up the drive size extension.
