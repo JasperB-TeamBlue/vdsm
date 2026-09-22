@@ -4,6 +4,7 @@
 
 import logging
 import socket
+import threading
 from collections import deque
 
 from vdsm.common import api
@@ -362,6 +363,8 @@ class AsyncDispatcher(object):
         self.connection = connection
         self._bufferSize = bufferSize
         self._parser = Parser()
+        # Protects handle_read() from running concurrently in two threads
+        self._read_lock = threading.RLock()
         self._outbuf = None
         self._incoming_heartbeat_in_milis = 0
         self._outgoing_heartbeat_in_milis = 0
@@ -400,29 +403,34 @@ class AsyncDispatcher(object):
         self._frame_handler.handle_connect()
 
     def handle_read(self, dispatcher):
-        parser = self._parser
-        pending = getattr(dispatcher.socket, 'pending', lambda: 0)
-        todo = self._bufferSize
+        # May be called from the reactor thread or, during connection
+        # setup, from a foreign thread (see set_message_handler()); the
+        # lock ensures a single thread reads and parses the stream at
+        # any time.
+        with self._read_lock:
+            parser = self._parser
+            pending = getattr(dispatcher.socket, 'pending', lambda: 0)
+            todo = self._bufferSize
 
-        while todo:
-            try:
-                data = dispatcher.recv(todo)
-            except socket.error:
-                dispatcher.handle_error()
-                return
+            while todo:
+                try:
+                    data = dispatcher.recv(todo)
+                except socket.error:
+                    dispatcher.handle_error()
+                    return
 
-            # When a socket is closed data is not available so we do not
-            # need to parse it.
-            if not data:
-                return
-            parser.parse(data)
-            todo = pending()
+                # When a socket is closed data is not available so we do not
+                # need to parse it.
+                if not data:
+                    return
+                parser.parse(data)
+                todo = pending()
 
-        while parser.pending > 0:
-            self._frame_handler.handle_frame(self, parser.pop_frame())
+            while parser.pending > 0:
+                self._frame_handler.handle_frame(self, parser.pop_frame())
 
-        if self._incoming_heartbeat_in_milis:
-            self._update_incoming_heartbeat()
+            if self._incoming_heartbeat_in_milis:
+                self._update_incoming_heartbeat()
 
     def handle_error(self, dispatcher):
         self.log.debug("Communication error occurred.")
