@@ -403,9 +403,6 @@ class Descriptor(object):
                 bool(self._values) or bool(self._devices) or bool(self._custom)
             )
 
-    def __nonzero__(self):  # TODO: drop when py2 is no longer needed
-        return self.__bool__()
-
     @classmethod
     def from_xml(
         cls,

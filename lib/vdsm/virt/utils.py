@@ -105,9 +105,6 @@ class ExpiringCache(object):
 
             return bool(self._items)
 
-    def __nonzero__(self):  # TODO: drop when py2 is no longer needed
-        return self.__bool__()
-
     # private
 
     def _get_live(self, key):
