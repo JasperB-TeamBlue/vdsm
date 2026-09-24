@@ -40,7 +40,7 @@ extension-pkg-whitelist=
 
 # Only show warnings with the listed confidence levels. Leave empty to show
 # all. Valid levels: HIGH, INFERENCE, INFERENCE_FAILURE, UNDEFINED
-confidence=HIGH
+confidence=
 
 # The documentation of pylint is too terse, so we have to dig into the
 # pylint source code (!!), to get the longer aliases for the message
