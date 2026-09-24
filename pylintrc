@@ -62,8 +62,7 @@ confidence=HIGH
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
 #
-# This line is the operative one: C and I are too noisy for our codebase, and
-# the specific messages below currently require too big of a refactor to fix.
+# Disable specific warnings that currently require too big of a refactor to fix.
 # W0707: Consider explicitly re-raising errors using the 'from' keyword
 # W0702: no exception type(s) specified
 # W0613: Unused argument
