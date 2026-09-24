@@ -869,7 +869,7 @@ class StorageDomainManifest(object):
             try:
                 self.acquire_external_lease(lease_id, host_id)
             except se.AcquireLockFailure:
-                self.log.warn("Could not acquire lease %s", lease_id)
+                self.log.warning("Could not acquire lease %s", lease_id)
                 # lease is currently held, return lease info without lvb
             else:
                 try:
@@ -1378,7 +1378,7 @@ class StorageDomain(object):
         self.invalidateMetadata()
         pools = self.getPools()
         if spUUID in pools:
-            self.log.warn(
+            self.log.warning(
                 "domain `%s` is already attached to pool `%s`",
                 self.sdUUID,
                 spUUID,

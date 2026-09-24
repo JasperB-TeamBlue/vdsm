@@ -226,7 +226,9 @@ class HSM(object):
             # misc.walk, this sync call won't delay hsm initialization.
             self.__cleanStorageRepository()
         except Exception:
-            self.log.warn("Failed to clean Storage Repository.", exc_info=True)
+            self.log.warning(
+                "Failed to clean Storage Repository.", exc_info=True
+            )
 
         monitorInterval = config.getint('irs', 'sd_health_check_delay')
         self.mpathhealth_monitor = mpathhealth.Monitor(monitorInterval)
@@ -334,7 +336,7 @@ class HSM(object):
                 try:
                     os.unlink(os.path.join(base, fullPath))
                 except Exception:
-                    self.log.warn(
+                    self.log.warning(
                         "Could not delete file '%s'", fullPath, exc_info=True
                     )
 
@@ -348,7 +350,7 @@ class HSM(object):
                     self.log.info("Removing directory %r", directory)
                     os.rmdir(directory)
             except Exception:
-                self.log.warn(
+                self.log.warning(
                     "Cold not delete directory '%s'",
                     directory,
                     exc_info=True,
@@ -680,7 +682,7 @@ class HSM(object):
             host_id = self._pool.id
         except se.StoragePoolNotConnected:
             host_id = dom.getReservedId()
-            self.log.warn(
+            self.log.warning(
                 "Host not connected to pool, using reserved host id: %d",
                 host_id,
             )
@@ -2517,7 +2519,7 @@ class HSM(object):
             )
         else:
             uuids = tuple()
-            self.log.warn("domType %s does not support prefetch")
+            self.log.warning("domType %s does not support prefetch")
 
         self.log.debug("Found SD uuids: %s", uuids)
         findMethod = self._getSDTypeFindMethod(domType)
@@ -2779,7 +2781,7 @@ class HSM(object):
             try:
                 sdCache.manuallyRemoveDomain(sdUUID)
             except KeyError:
-                self.log.warn(
+                self.log.warning(
                     "Storage domain %s doesn't exist in cache. "
                     "Leftovers are recycled.",
                     sdUUID,
@@ -2831,7 +2833,7 @@ class HSM(object):
             se.MiscBlockReadException,
             se.MiscBlockReadIncomplete,
         ) as e:
-            self.log.warn(
+            self.log.warning(
                 "Domain %s has problem with metadata. Continue "
                 "formatting... (%s)",
                 sdUUID,
@@ -3046,7 +3048,7 @@ class HSM(object):
             for pv in lvm.listPVNames(vgInfo['name']):
                 dev = pathDict.get(getGuid(pv))
                 if dev is None:
-                    self.log.warn(
+                    self.log.warning(
                         "dev %s was not found %s", getGuid(pv), pathDict
                     )
                     continue

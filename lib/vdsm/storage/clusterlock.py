@@ -162,7 +162,9 @@ class SafeLease(object):
         initCommand = [lockUtil, "release", "-f", lease.path, "0"]
         rc, out, err = misc.execCmd(initCommand, cwd=self.lockUtilPath)
         if rc != 0:
-            self.log.warn("could not initialise spm lease (%s): %s", rc, out)
+            self.log.warning(
+                "could not initialise spm lease (%s): %s", rc, out
+            )
             raise se.ClusterLockInitError()
 
     def setParams(

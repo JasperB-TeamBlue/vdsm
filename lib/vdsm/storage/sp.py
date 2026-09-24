@@ -239,7 +239,7 @@ class StoragePool(object):
                                     domain, str(targetDomVersion)
                                 )
                             except:
-                                self.log.warn(
+                                self.log.warning(
                                     "Could not upgrade domain `%s`",
                                     sdUUID,
                                     exc_info=True,
@@ -1180,7 +1180,7 @@ class StoragePool(object):
         self.updateMonitoringThreads()
 
     def forcedDetachSD(self, sdUUID):
-        self.log.warn("Force detaching domain `%s`", sdUUID)
+        self.log.warning("Force detaching domain `%s`", sdUUID)
         domains = self.getDomains()
 
         if sdUUID not in domains:
@@ -1356,7 +1356,7 @@ class StoragePool(object):
             dom = sdCache.produce(sdUUID)
         except (se.StorageException, AttributeError):
             # AttributeError: Unreloadable blockSD
-            self.log.warn(
+            self.log.warning(
                 "deactivating missing domain %s", sdUUID, exc_info=True
             )
             if newMsdUUID != sd.BLANK_UUID:
@@ -1541,14 +1541,14 @@ class StoragePool(object):
                 os.remove(oldie)
             except OSError as e:
                 if e.errno != errno.ENOENT:
-                    self.log.warn(
+                    self.log.warning(
                         "Could not clean all trash from the pool dom"
                         " `%s` (%s)",
                         oldie,
                         e,
                     )
             except Exception as e:
-                self.log.warn(
+                self.log.warning(
                     "Could not clean all trash from the pool dom `%s` (%s)",
                     oldie,
                     e,
@@ -1699,7 +1699,7 @@ class StoragePool(object):
             try:
                 dom = sdCache.produce(item)
             except se.StorageDomainDoesNotExist:
-                self.log.warn("Storage domain %s does not exist", item)
+                self.log.warning("Storage domain %s does not exist", item)
                 continue
 
             if dom.isISO():
