@@ -70,7 +70,8 @@ confidence=
 # R1705, R1720, R1723, R1724: unneeded else or elif after return, break, continue or raise
 # R0917: Too many positional arguments
 # W0603: Using the global statement
-disable=C,I,W0707,W0702,W0613,W1514,W0603,R1705,R1720,R0917,R1723,R1724
+# W0511: TODO/FIXME comments
+disable=C,I,W0707,W0702,W0613,W1514,W0603,R1705,R1720,R0917,R1723,R1724,W0511
 
 [REPORTS]
 
