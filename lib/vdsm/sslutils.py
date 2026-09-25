@@ -252,16 +252,14 @@ class SSLHandshakeDispatcher:
                 self.want_write = True
             else:
                 self.log.error(
-                    "ssl handshake: SSLError, address: {}".format(
-                        dispatcher.socket.getpeername()[0]
-                    )
+                    "ssl handshake: SSLError, address: %s",
+                    dispatcher.socket.getpeername()[0],
                 )
                 dispatcher.close()
         except socket.error:
             self.log.error(
-                "ssl handshake: socket error, address: {}".format(
-                    dispatcher.socket.getpeername()[0]
-                )
+                "ssl handshake: socket error, address: %s",
+                dispatcher.socket.getpeername()[0],
             )
             dispatcher.close()
         else:

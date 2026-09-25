@@ -403,7 +403,7 @@ class BlockVolumeManifest(volume.VolumeManifest):
         If justme is false, the entire COW chain should be torn down.
         """
         cls.log.info(
-            "Tearing down volume %s/%s justme %s" % (sdUUID, volUUID, justme)
+            "Tearing down volume %s/%s justme %s", sdUUID, volUUID, justme
         )
         lvmActivationNamespace = rm.getNamespace(
             sc.LVM_ACTIVATION_NAMESPACE, sdUUID
@@ -418,8 +418,10 @@ class BlockVolumeManifest(volume.VolumeManifest):
                 # We can live with it and still succeed in volume's teardown.
                 pvolUUID = sc.BLANK_UUID
                 cls.log.warning(
-                    "Failure to get parent of volume %s/%s (%s)"
-                    % (sdUUID, volUUID, e)
+                    "Failure to get parent of volume %s/%s (%s)",
+                    sdUUID,
+                    volUUID,
+                    e,
                 )
 
             if pvolUUID != sc.BLANK_UUID:
@@ -500,7 +502,7 @@ class BlockVolume(volume.Volume):
     @classmethod
     def halfbakedVolumeRollback(cls, taskObj, sdUUID, volUUID, volPath):
         cls.log.info(
-            "sdUUID=%s volUUID=%s volPath=%s" % (sdUUID, volUUID, volPath)
+            "sdUUID=%s volUUID=%s volPath=%s", sdUUID, volUUID, volPath
         )
         try:
             # Fix me: assert resource lock.

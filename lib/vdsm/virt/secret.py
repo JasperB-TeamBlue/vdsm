@@ -42,9 +42,7 @@ def unregister(uuids):
     try:
         uuids = [str(uuid.UUID(s)) for s in uuids]
     except ValueError as e:
-        logging.warning(
-            "Attempt to unregister invalid uuid %s: %s" % (uuids, e)
-        )
+        logging.warning("Attempt to unregister invalid uuid %s: %s", uuids, e)
         return response.error("secretBadRequestErr")
 
     con = libvirtconnection.get()

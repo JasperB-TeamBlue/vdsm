@@ -115,7 +115,7 @@ class LVMConfig:
             if t is None:
                 raise
             # Caller has failed, do not hide the original error.
-            log.exception("Error closing %s: %s" % (self, e))
+            log.exception("Error closing %s: %s", self, e)
 
     # Accessing list of strings
 

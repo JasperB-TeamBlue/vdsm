@@ -39,7 +39,8 @@ class Dispatcher:
                 if hasattr(self, funcName):
                     self.log.error(
                         "StorageDispatcher: init - multiple public"
-                        " functions with same name: %s" % funcName
+                        " functions with same name: %s",
+                        funcName,
                     )
                     continue
                 # Create a new entry in instance's "dict" that will mask the

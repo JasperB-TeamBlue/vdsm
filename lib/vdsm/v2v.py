@@ -379,8 +379,10 @@ class SSHAgent:
         rc, out, err = execCmd([_SSH_ADD.cmd, '-d'], env=self._auth)
         if rc != 0:
             logging.error(
-                'Error deleting ssh-add, exit code: %r'
-                ', out: %r, err: %r' % (rc, out, err)
+                'Error deleting ssh-add, exit code: %r' ', out: %r, err: %r',
+                rc,
+                out,
+                err,
             )
 
         self._kill_agent()
@@ -392,7 +394,11 @@ class SSHAgent:
         if rc != 0:
             logging.error(
                 'Error killing ssh-agent (PID=%r), exit code: %r'
-                ', out: %r, err: %r' % (self._agent_pid, rc, out, err)
+                ', out: %r, err: %r',
+                self._agent_pid,
+                rc,
+                out,
+                err,
             )
 
     @property
@@ -413,7 +419,7 @@ class V2VCommand:
         if 'qcow2_compat' in vminfo:
             qcow2_compat = vminfo['qcow2_compat']
             if qcow2_compat not in _QCOW2_COMPAT_SUPPORTED:
-                logging.error('Invalid QCOW2 compat version %r' % qcow2_compat)
+                logging.error('Invalid QCOW2 compat version %r', qcow2_compat)
                 raise ValueError(
                     'Invalid QCOW2 compat version %r' % qcow2_compat
                 )

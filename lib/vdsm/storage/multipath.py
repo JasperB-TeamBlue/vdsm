@@ -245,7 +245,7 @@ def _resize_if_needed(guid):
     ]
 
     if len(slaves) == 0:
-        log.warning("Map %r has no slaves" % guid)
+        log.warning("Map %r has no slaves", guid)
         return False
 
     if len(set(size for slave, size in slaves)) != 1:
@@ -420,7 +420,7 @@ def pathListIter(filterGuids=()):
 
         for slave in devicemapper.getSlaves(dmId):
             if not devicemapper.isBlockDevice(slave):
-                log.warning("No such physdev '%s' is ignored" % slave)
+                log.warning("No such physdev '%s' is ignored", slave)
                 continue
 
             if not devInfo["vendor"]:

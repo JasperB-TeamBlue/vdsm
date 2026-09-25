@@ -613,12 +613,12 @@ def setRpFilterIfNeeded(netIfaceName, hostname, loose_mode):
     if not any(sessions) and netIfaceName != getRouteDeviceTo(hostname):
         if loose_mode:
             log.info(
-                "Setting loose mode rp_filter for device %r." % netIfaceName
+                "Setting loose mode rp_filter for device %r.", netIfaceName
             )
             supervdsm.getProxy().set_rp_filter_loose(netIfaceName)
         else:
             log.info(
-                "Setting strict mode rp_filter for device %r." % netIfaceName
+                "Setting strict mode rp_filter for device %r.", netIfaceName
             )
             supervdsm.getProxy().set_rp_filter_strict(netIfaceName)
 
@@ -650,8 +650,10 @@ def resolveIscsiIface(ifaceName, initiatorName, netIfaceName):
                     'iSCSI netIfaceName coming from engine [%s] '
                     'is different from iface.net_ifacename '
                     'present on the system [%s]. Aborting iscsi '
-                    'iface [%s] configuration.'
-                    % (netIfaceName, iface.netIfaceName, iface.name)
+                    'iface [%s] configuration.',
+                    netIfaceName,
+                    iface.netIfaceName,
+                    iface.name,
                 )
 
                 raise se.iSCSIifaceError()

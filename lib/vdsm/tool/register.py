@@ -59,7 +59,7 @@ class Register:
         self.logger.debug("Received the following attributes:")
 
         self.engine_fqdn = engine_fqdn
-        self.logger.debug("Engine FQDN: {fqdn}".format(fqdn=self.engine_fqdn))
+        self.logger.debug("Engine FQDN: %s", self.engine_fqdn)
 
         self.engine_url = "https://{e}".format(e=engine_fqdn)
         if engine_https_port is None:
@@ -70,52 +70,48 @@ class Register:
                 e=self.engine_fqdn, p=self.engine_port
             )
 
-        self.logger.debug("Engine URL: {url}".format(url=self.engine_url))
-        self.logger.debug(
-            "Engine https port: {hp}".format(hp=self.engine_port)
-        )
+        self.logger.debug("Engine URL: %s", self.engine_url)
+        self.logger.debug("Engine https port: %s", self.engine_port)
 
         if check_fqdn is None:
             self.check_fqdn = True
         else:
             self.check_fqdn = tobool(check_fqdn)
-        self.logger.debug("Check FQDN: {v}".format(v=self.check_fqdn))
+        self.logger.debug("Check FQDN: %s", self.check_fqdn)
 
         self.fprint = fingerprint
-        self.logger.debug("Fingerprint: {fp}".format(fp=self.fprint))
+        self.logger.debug("Fingerprint: %s", self.fprint)
 
         self.node_address = node_address
-        self.logger.debug("Node address: {nf}".format(nf=self.node_address))
+        self.logger.debug("Node address: %s", self.node_address)
 
         self.node_name = node_name
-        self.logger.debug("Node name: {na}".format(na=self.node_name))
+        self.logger.debug("Node name: %s", self.node_name)
 
         if ssh_user is None:
             self.ssh_user = getpass.getuser()
         else:
             self.ssh_user = ssh_user
-        self.logger.debug("SSH User: {su}".format(su=self.ssh_user))
+        self.logger.debug("SSH User: %s", self.ssh_user)
 
         if ssh_port is None:
             self.ssh_port = "22"
         else:
             self.ssh_port = ssh_port
-        self.logger.debug("SSH Port: {sp}".format(sp=self.ssh_port))
+        self.logger.debug("SSH Port: %s", self.ssh_port)
 
         if vdsm_port is None:
             self.vdsm_port = "54321"
         else:
             self.vdsm_port = vdsm_port
-        self.logger.debug("VDSM Port: {sp}".format(sp=self.vdsm_port))
+        self.logger.debug("VDSM Port: %s", self.vdsm_port)
 
         self.vdsm_uuid = vdsm_uuid
-        self.logger.debug(
-            "VDSM UUID: {uuid_provided}".format(uuid_provided=self.vdsm_uuid)
-        )
+        self.logger.debug("VDSM UUID: %s", self.vdsm_uuid)
 
         self.ca_dir = "/etc/pki/ovirt-engine/"
         self.ca_engine = "{d}{f}".format(d=self.ca_dir, f="ca.pem")
-        self.logger.debug("Engine CA: {ca}".format(ca=self.ca_engine))
+        self.logger.debug("Engine CA: %s", self.ca_engine)
 
     def handshake(self):
         """
@@ -162,8 +158,8 @@ class Register:
 
         self.url_reg = "{e}{u}".format(e=self.engine_url, u=ureg)
 
-        self.logger.debug("Download CA via: {u}".format(u=self.url_CA))
-        self.logger.debug("Download SSH via: {u}".format(u=self.url_ssh_key))
+        self.logger.debug("Download CA via: %s", self.url_CA)
+        self.logger.debug("Download SSH via: %s", self.url_ssh_key)
 
     def _set_logger(self):
         """
@@ -226,7 +222,7 @@ class Register:
         try:
             selinux.restorecon(path)
         except:
-            self.logger.error("restorecon %s failed" % path, exc_info=True)
+            self.logger.error("restorecon %s failed", path, exc_info=True)
 
     def _calculate_fingerprint(self, cert):
         """
@@ -260,7 +256,7 @@ class Register:
 
         self.url_reg += "&uniqueId={u}".format(u=self.uuid)
 
-        self.logger.debug("Registration via: {u}".format(u=self.url_reg))
+        self.logger.debug("Registration via: %s", self.url_reg)
 
         __VDSM_ID = "/etc/vdsm/vdsm.id"
 
@@ -271,7 +267,7 @@ class Register:
             with open(__VDSM_ID, 'w') as f:
                 f.write(self.uuid)
 
-        self.logger.info("Host UUID: {u}".format(u=self.uuid))
+        self.logger.info("Host UUID: %s", self.uuid)
 
     def download_ca(self):
         """
@@ -317,7 +313,7 @@ class Register:
             os.rename(f.name, self.ca_engine)
 
         self.fprint = calculated_fprint
-        self.logger.info("Calculated fingerprint: {f}".format(f=self.fprint))
+        self.logger.info("Calculated fingerprint: %s", self.fprint)
 
     def download_ssh(self):
         """
@@ -327,7 +323,7 @@ class Register:
         _uid = pwd.getpwnam(self.ssh_user).pw_uid
         _auth_keys_dir = pwd.getpwuid(_uid).pw_dir + "/.ssh"
         _auth_keys = _auth_keys_dir + "/authorized_keys"
-        self.logger.debug("auth_key is located {f}".format(f=_auth_keys))
+        self.logger.debug("auth_key is located %s", _auth_keys)
 
         if not os.path.exists(_auth_keys_dir):
             os.makedirs(_auth_keys_dir, 0o700)
@@ -359,7 +355,8 @@ class Register:
         self._execute_http_request(self.url_reg)
         self.logger.info(
             "Registration completed, host is pending approval"
-            " on Engine: {e}".format(e=self.engine_fqdn)
+            " on Engine: %s",
+            self.engine_fqdn,
         )
 
 
@@ -464,8 +461,8 @@ def main(*args):
         reg.execute_registration()
     except:
         reg.logger.exception(
-            "Cannot connect to engine. {f} matches "
-            "the FQDN of Engine?".format(f=parsed_args.engine_fqdn)
+            "Cannot connect to engine. %s matches " "the FQDN of Engine?",
+            parsed_args.engine_fqdn,
         )
         return 1
 

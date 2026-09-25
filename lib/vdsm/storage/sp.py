@@ -330,8 +330,11 @@ class StoragePool:
                 if int(oldlver) != int(prevLVER) or int(oldid) != int(prevID):
                     self.log.info(
                         "expected previd:%s lver:%s got request for "
-                        "previd:%s lver:%s"
-                        % (oldid, oldlver, prevID, prevLVER)
+                        "previd:%s lver:%s",
+                        oldid,
+                        oldlver,
+                        prevID,
+                        prevLVER,
                     )
 
             self.spmRole = SPM_CONTEND
@@ -426,7 +429,7 @@ class StoragePool:
 
             except Exception as e:
                 self.log.error("Unexpected error", exc_info=True)
-                self.log.error("failed: %s" % str(e))
+                self.log.error("failed: %s", str(e))
                 # __securityOverride is added by the @secured decorator
                 # pylint: disable=unexpected-keyword-arg
                 self.stopSpm(force=True, __securityOverride=True)
@@ -778,8 +781,11 @@ class StoragePool:
         """
         self.log.info(
             "Connect host #%s to the storage pool %s with master "
-            "domain: %s (ver = %s)"
-            % (hostID, self.spUUID, msdUUID, masterVersion)
+            "domain: %s (ver = %s)",
+            hostID,
+            self.spUUID,
+            msdUUID,
+            masterVersion,
         )
 
         self.id = hostID

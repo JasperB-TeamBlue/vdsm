@@ -166,7 +166,10 @@ def setupNetworks(networks, bondings, options):
 
     logging.info(
         'Setting up network according to configuration: '
-        'networks:%r, bondings:%r, options:%r' % (networks, bondings, options)
+        'networks:%r, bondings:%r, options:%r',
+        networks,
+        bondings,
+        options,
     )
     try:
         canonicalize.canonicalize_networks(networks)
