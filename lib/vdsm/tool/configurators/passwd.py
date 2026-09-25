@@ -77,10 +77,10 @@ def removeConf():
 
 def configure_libvirt_sasl():
     with io.open(_SASL2_CONF, 'w', encoding='utf8') as f:
-        f.writelines([u'## start vdsm-4.50.0 configuration\n',
-                      u'mech_list: scram-sha-256\n',
-                      u'sasldb_path: %s\n' % (_LIBVIRT_SASLDB),
-                      u'## end vdsm configuration']
+        f.writelines(['## start vdsm-4.50.0 configuration\n',
+                      'mech_list: scram-sha-256\n',
+                      'sasldb_path: %s\n' % (_LIBVIRT_SASLDB),
+                      '## end vdsm configuration']
                      )
 
 

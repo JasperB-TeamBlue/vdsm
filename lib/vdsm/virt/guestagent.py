@@ -23,7 +23,7 @@ _REPLY_CAP_MIN_VERSION = 3
 
 _MESSAGE_API_VERSION_LOOKUP = {'set-number-of-cpus': 1, 'lifecycle-event': 3}
 
-_REPLACEMENT_CHAR = u'\ufffd'
+_REPLACEMENT_CHAR = '\ufffd'
 
 # The set of characters allowed in XML documents is described in
 # http://www.w3.org/TR/xml11/#charsets
@@ -46,16 +46,16 @@ _REPLACEMENT_CHAR = u'\ufffd'
 # so we don't need to filter anything above this value.
 
 _FILTERED_CHARS = (
-    u"\u0000-\u0008"
-    u"\u000b-\u000c"
-    u"\u000e-\u001f"
-    u"\u007f-\u0084"
-    u"\u0086-\u009f"
-    u"\ud800-\udfff"
-    u"\ufffe-\uffff"
+    "\u0000-\u0008"
+    "\u000b-\u000c"
+    "\u000e-\u001f"
+    "\u007f-\u0084"
+    "\u0086-\u009f"
+    "\ud800-\udfff"
+    "\ufffe-\uffff"
 )
 
-_filter_chars_re = re.compile(u'[%s]' % _FILTERED_CHARS)
+_filter_chars_re = re.compile('[%s]' % _FILTERED_CHARS)
 _apps_duplicates_re = re.compile(
     r'(\bqemu[ -](guest[ -]agent|ga)\b)' + r'|' + r'(\bkernel-)', re.IGNORECASE
 )
