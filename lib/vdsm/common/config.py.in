@@ -747,7 +747,7 @@ parameters = [
 def set_defaults(config):
     for section, keylist in parameters:
         config.add_section(section)
-        for key, value, comment in keylist:
+        for key, value, _ in keylist:
             config.set(section, key, value)
 
 

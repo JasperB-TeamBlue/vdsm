@@ -140,7 +140,7 @@ class OvsNetInfo:
         self._current_routes_state = current_state.routes_state
 
     def create_netinfo(self):
-        for sb, bridge in self._ovs_info.bridge_by_sb.items():
+        for sb, _ in self._ovs_info.bridge_by_sb.items():
             for nb in self._ovs_info.nb_by_sb[sb]:
                 net = self._create_network_info(nb, sb)
 

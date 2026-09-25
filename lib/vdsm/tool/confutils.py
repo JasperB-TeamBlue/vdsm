@@ -35,7 +35,7 @@ def remove_conf(files, version):
     """
     calling removeConf func for all files in dict with conf version to remove
     """
-    for cfile, content in files.items():
+    for _, content in files.items():
         content['removeConf'](content['path'], version)
 
 

@@ -238,7 +238,7 @@ class OwnerType(type):
     def __call__(self, *args, **kw):
         # Check properties after  object is initialized
         instance = super().__call__(*args, **kw)
-        for name, obj in instance.__class__.__dict__.items():
+        for _, obj in instance.__class__.__dict__.items():
             if isinstance(obj, Property):
                 obj.check(instance)
         return instance

@@ -105,7 +105,7 @@ class Dispatcher(asyncore.dispatcher):
     ):
         addrinfo = socket.getaddrinfo(addr[0], addr[1], family, type)
         self.family_and_type = family, type
-        family, socktype, proto, _, sockaddr = addrinfo[0]
+        family, socktype, proto, _, _ = addrinfo[0]
         sock = socket.socket(family, socktype, proto)
         if sslctx:
             sock = sslctx.wrapSocket(sock)

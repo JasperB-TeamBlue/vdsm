@@ -112,7 +112,7 @@ def _convert_to_blocking_dhcp(networks):
     missing IP address on interfaces that had been restored right before it was
     started.
     """
-    for net, net_attr in networks.items():
+    for _, net_attr in networks.items():
         if net_attr.get('bootproto') == 'dhcp':
             net_attr['blockingdhcp'] = True
 
@@ -149,7 +149,7 @@ def _classify_nets_bonds_config(persistent_config):
         desired_config.networks, current_config.networks
     )
 
-    changed_bonds_names, extra_bonds_names = _classify_entities_difference(
+    changed_bonds_names, _ = _classify_entities_difference(
         desired_config.bonds, current_config.bonds
     )
 

@@ -219,7 +219,6 @@ class MountConnection(Connection):
         try:
             self._mount.mount(self.options, self._vfsType, cgroup=self.CGROUP)
         except MountError as me:
-            t, v, tb = sys.exc_info()
             try:
                 os.rmdir(self._getLocalPath())
             except OSError as e:

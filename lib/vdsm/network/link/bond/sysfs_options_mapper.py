@@ -91,7 +91,7 @@ def _bond_device(bond_name, mode=None):
 
 
 def _create_bond_retry(bond_name):
-    for i in range(10):
+    for _ in range(10):
         _bonding_masters_write(f'+{bond_name}')
         if os.path.exists(sysfs_options.BONDING_OPT % (bond_name, 'mode')):
             break

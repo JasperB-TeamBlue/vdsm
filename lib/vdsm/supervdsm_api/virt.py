@@ -195,7 +195,7 @@ def write_tpm_data(vm_id, tpm_data):
     with tempfile.TemporaryDirectory() as d:
         accessor = filedata.DirectoryData(os.path.join(d, 'check'))
         accessor.store(tpm_data)
-        for root, dirs, files in os.walk(d):
+        for root, _, files in os.walk(d):
             for f in files:
                 path = os.path.join(root, f)
                 if not os.path.isfile(path):
