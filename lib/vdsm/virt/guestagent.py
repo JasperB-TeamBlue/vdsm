@@ -149,7 +149,7 @@ class GuestAgent:
         username='Unknown',
         ips='',
         guestFQDN='',
-        netIfaces=[],
+        netIfaces=None,
     ):
         self.effectiveApiVersion = min(
             api_version or _IMPLICIT_API_VERSION_ZERO,
@@ -172,7 +172,7 @@ class GuestAgent:
             'session': 'Unknown',
             'appsList': (),
             'disksUsage': [],
-            'netIfaces': netIfaces,
+            'netIfaces': netIfaces if netIfaces is not None else [],
             'memoryStats': {},
         }
         self._agentTimestamp = 0
@@ -319,13 +319,15 @@ class GuestAgent:
             self.log.debug("Connection attempt failed: %s", err)
         return ret
 
-    def _forward(self, cmd, args={}):
+    def _forward(self, cmd, args=None):
         ver = _MESSAGE_API_VERSION_LOOKUP.get(cmd, _IMPLICIT_API_VERSION_ZERO)
         if ver > self.effectiveApiVersion:
             raise GuestAgentUnsupportedMessage(
                 cmd, ver, self.effectiveApiVersion
             )
         self._first_connect.wait(self._channelListener.timeout())
+        if args is None:
+            args = {}
         args['__name__'] = cmd
         # TODO: encoding is required only on Python 3. Replace with wrapper
         # hiding this difference.

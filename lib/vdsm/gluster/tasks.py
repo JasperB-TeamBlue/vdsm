@@ -32,7 +32,9 @@ def _getTasksData(value):
 
 
 @gluster_mgmt_api
-def tasksList(taskIds=[]):
+def tasksList(taskIds=None):
+    if taskIds is None:
+        taskIds = []
     details = {}
     tasks = cli.volumeTasks()
     for tid in tasks:

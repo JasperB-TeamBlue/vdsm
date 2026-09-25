@@ -39,7 +39,7 @@ def remove_conf(files, version):
         content['removeConf'](content['path'], version)
 
 
-def add_section(content, version, vdsmConfiguration={}):
+def add_section(content, version, vdsmConfiguration=None):
     """
     Add a 'configuration section by vdsm' part to a config file.
     This section contains only keys not originally defined
@@ -47,7 +47,7 @@ def add_section(content, version, vdsmConfiguration={}):
     """
     configuration = {}
     for fragment in content['fragments']:
-        if vdsmConfiguration:
+        if vdsmConfiguration is not None:
             if is_applicable(fragment, vdsmConfiguration):
                 configuration.update(fragment['content'])
         else:

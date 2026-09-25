@@ -167,8 +167,11 @@ def storageDevicesList():
 
 @gluster_mgmt_api
 def createBrick(
-    brickName, mountPoint, devNameList, fsType=DEFAULT_FS_TYPE, raidParams={}
+    brickName, mountPoint, devNameList, fsType=DEFAULT_FS_TYPE, raidParams=None
 ):
+    if raidParams is None:
+        raidParams = {}
+
     def _getDeviceList(devNameList):
         return [
             blivetEnv.devicetree.getDeviceByName(devName.split("/")[-1])

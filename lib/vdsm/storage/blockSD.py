@@ -547,7 +547,9 @@ class BlockStorageDomainManifest(sd.StorageDomainManifest):
                 )
 
     @classmethod
-    def getMetaDataMapping(cls, vgName, oldMapping={}):
+    def getMetaDataMapping(cls, vgName, oldMapping=None):
+        if oldMapping is None:
+            oldMapping = {}
         firstDev, firstExtent = lvm.getFirstExt(vgName, sd.METADATA)
         firstExtent = int(firstExtent)
         if firstExtent != 0:
@@ -1254,7 +1256,7 @@ class BlockStorageDomain(sd.StorageDomain):
         return bsd
 
     @classmethod
-    def getMetaDataMapping(cls, vgName, oldMapping={}):
+    def getMetaDataMapping(cls, vgName, oldMapping=None):
         return cls.manifestClass.getMetaDataMapping(vgName, oldMapping)
 
     @classmethod

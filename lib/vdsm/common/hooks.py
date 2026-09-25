@@ -48,14 +48,18 @@ _JSON_HOOK = 2
 def _runHooksDir(
     data,
     dir,
-    vmconf={},
+    vmconf=None,
     raiseError=True,
     errors=None,
-    params={},
+    params=None,
     hookType=_DOMXML_HOOK,
 ):
     if errors is None:
         errors = []
+    if vmconf is None:
+        vmconf = {}
+    if params is None:
+        params = {}
 
     scripts = _scriptsPerDir(dir)
     scripts.sort()
@@ -129,7 +133,7 @@ def _runHooksDir(
         return json.loads(final_data)
 
 
-def before_device_create(devicexml, vmconf={}, customProperties={}):
+def before_device_create(devicexml, vmconf=None, customProperties=None):
     return _runHooksDir(
         devicexml,
         'before_device_create',
@@ -138,7 +142,7 @@ def before_device_create(devicexml, vmconf={}, customProperties={}):
     )
 
 
-def after_device_create(devicexml, vmconf={}, customProperties={}):
+def after_device_create(devicexml, vmconf=None, customProperties=None):
     return _runHooksDir(
         devicexml,
         'after_device_create',
@@ -148,7 +152,7 @@ def after_device_create(devicexml, vmconf={}, customProperties={}):
     )
 
 
-def before_device_destroy(devicexml, vmconf={}, customProperties={}):
+def before_device_destroy(devicexml, vmconf=None, customProperties=None):
     return _runHooksDir(
         devicexml,
         'before_device_destroy',
@@ -157,7 +161,7 @@ def before_device_destroy(devicexml, vmconf={}, customProperties={}):
     )
 
 
-def after_device_destroy(devicexml, vmconf={}, customProperties={}):
+def after_device_destroy(devicexml, vmconf=None, customProperties=None):
     return _runHooksDir(
         devicexml,
         'after_device_destroy',
@@ -167,7 +171,7 @@ def after_device_destroy(devicexml, vmconf={}, customProperties={}):
     )
 
 
-def before_vm_start(domxml, vmconf={}, final_callback=None):
+def before_vm_start(domxml, vmconf=None, final_callback=None):
     errors = []
     final_xml = _runHooksDir(
         domxml,
@@ -183,33 +187,35 @@ def before_vm_start(domxml, vmconf={}, final_callback=None):
     return final_xml
 
 
-def after_vm_start(domxml, vmconf={}):
+def after_vm_start(domxml, vmconf=None):
     return _runHooksDir(
         domxml, 'after_vm_start', vmconf=vmconf, raiseError=False
     )
 
 
-def before_vm_cont(domxml, vmconf={}):
+def before_vm_cont(domxml, vmconf=None):
     return _runHooksDir(domxml, 'before_vm_cont', vmconf=vmconf)
 
 
-def after_vm_cont(domxml, vmconf={}):
+def after_vm_cont(domxml, vmconf=None):
     return _runHooksDir(
         domxml, 'after_vm_cont', vmconf=vmconf, raiseError=False
     )
 
 
-def before_vm_pause(domxml, vmconf={}):
+def before_vm_pause(domxml, vmconf=None):
     return _runHooksDir(domxml, 'before_vm_pause', vmconf=vmconf)
 
 
-def after_vm_pause(domxml, vmconf={}):
+def after_vm_pause(domxml, vmconf=None):
     return _runHooksDir(
         domxml, 'after_vm_pause', vmconf=vmconf, raiseError=False
     )
 
 
-def before_device_migrate_source(devicexml, vmconf={}, customProperties={}):
+def before_device_migrate_source(
+    devicexml, vmconf=None, customProperties=None
+):
     return _runHooksDir(
         devicexml,
         'before_device_migrate_source',
@@ -218,7 +224,7 @@ def before_device_migrate_source(devicexml, vmconf={}, customProperties={}):
     )
 
 
-def after_device_migrate_source(devicexml, vmconf={}, customProperties={}):
+def after_device_migrate_source(devicexml, vmconf=None, customProperties=None):
     return _runHooksDir(
         devicexml,
         'after_device_migrate_source',
@@ -229,7 +235,7 @@ def after_device_migrate_source(devicexml, vmconf={}, customProperties={}):
 
 
 def before_device_migrate_destination(
-    devicexml, vmconf={}, customProperties={}
+    devicexml, vmconf=None, customProperties=None
 ):
     return _runHooksDir(
         devicexml,
@@ -240,7 +246,7 @@ def before_device_migrate_destination(
 
 
 def after_device_migrate_destination(
-    devicexml, vmconf={}, customProperties={}
+    devicexml, vmconf=None, customProperties=None
 ):
     return _runHooksDir(
         devicexml,
@@ -251,43 +257,43 @@ def after_device_migrate_destination(
     )
 
 
-def before_vm_migrate_source(domxml, vmconf={}):
+def before_vm_migrate_source(domxml, vmconf=None):
     return _runHooksDir(domxml, 'before_vm_migrate_source', vmconf=vmconf)
 
 
-def after_vm_migrate_source(domxml, vmconf={}):
+def after_vm_migrate_source(domxml, vmconf=None):
     return _runHooksDir(
         domxml, 'after_vm_migrate_source', vmconf=vmconf, raiseError=False
     )
 
 
-def before_vm_migrate_destination(domxml, vmconf={}):
+def before_vm_migrate_destination(domxml, vmconf=None):
     return _runHooksDir(domxml, 'before_vm_migrate_destination', vmconf=vmconf)
 
 
-def after_vm_migrate_destination(domxml, vmconf={}):
+def after_vm_migrate_destination(domxml, vmconf=None):
     return _runHooksDir(
         domxml, 'after_vm_migrate_destination', vmconf=vmconf, raiseError=False
     )
 
 
-def before_vm_hibernate(domxml, vmconf={}):
+def before_vm_hibernate(domxml, vmconf=None):
     return _runHooksDir(domxml, 'before_vm_hibernate', vmconf=vmconf)
 
 
-def after_vm_hibernate(domxml, vmconf={}):
+def after_vm_hibernate(domxml, vmconf=None):
     return _runHooksDir(
         domxml, 'after_vm_hibernate', vmconf=vmconf, raiseError=False
     )
 
 
-def before_vm_dehibernate(domxml, vmconf={}, params={}):
+def before_vm_dehibernate(domxml, vmconf=None, params=None):
     return _runHooksDir(
         domxml, 'before_vm_dehibernate', vmconf=vmconf, params=params
     )
 
 
-def after_vm_dehibernate(domxml, vmconf={}, params={}):
+def after_vm_dehibernate(domxml, vmconf=None, params=None):
     return _runHooksDir(
         domxml,
         'after_vm_dehibernate',
@@ -297,19 +303,19 @@ def after_vm_dehibernate(domxml, vmconf={}, params={}):
     )
 
 
-def before_vm_destroy(domxml, vmconf={}):
+def before_vm_destroy(domxml, vmconf=None):
     return _runHooksDir(
         None, 'before_vm_destroy', vmconf=vmconf, raiseError=False
     )
 
 
-def after_vm_destroy(domxml, vmconf={}):
+def after_vm_destroy(domxml, vmconf=None):
     return _runHooksDir(
         domxml, 'after_vm_destroy', vmconf=vmconf, raiseError=False
     )
 
 
-def before_vm_set_ticket(domxml, vmconf={}, params={}):
+def before_vm_set_ticket(domxml, vmconf=None, params=None):
     return _runHooksDir(
         domxml,
         'before_vm_set_ticket',
@@ -319,7 +325,7 @@ def before_vm_set_ticket(domxml, vmconf={}, params={}):
     )
 
 
-def after_vm_set_ticket(domxml, vmconf={}, params={}):
+def after_vm_set_ticket(domxml, vmconf=None, params=None):
     return _runHooksDir(
         domxml,
         'after_vm_set_ticket',
@@ -329,13 +335,13 @@ def after_vm_set_ticket(domxml, vmconf={}, params={}):
     )
 
 
-def before_update_device(devxml, vmconf={}, params={}):
+def before_update_device(devxml, vmconf=None, params=None):
     return _runHooksDir(
         devxml, 'before_update_device', vmconf=vmconf, params=params
     )
 
 
-def after_update_device(devxml, vmconf={}, params={}):
+def after_update_device(devxml, vmconf=None, params=None):
     return _runHooksDir(
         devxml,
         'after_update_device',
@@ -345,7 +351,7 @@ def after_update_device(devxml, vmconf={}, params={}):
     )
 
 
-def after_update_device_fail(devxml, vmconf={}, params={}):
+def after_update_device_fail(devxml, vmconf=None, params=None):
     return _runHooksDir(
         devxml,
         'after_update_device_fail',
@@ -355,13 +361,13 @@ def after_update_device_fail(devxml, vmconf={}, params={}):
     )
 
 
-def before_nic_hotplug(nicxml, vmconf={}, params={}):
+def before_nic_hotplug(nicxml, vmconf=None, params=None):
     return _runHooksDir(
         nicxml, 'before_nic_hotplug', vmconf=vmconf, params=params
     )
 
 
-def after_nic_hotplug(nicxml, vmconf={}, params={}):
+def after_nic_hotplug(nicxml, vmconf=None, params=None):
     return _runHooksDir(
         nicxml,
         'after_nic_hotplug',
@@ -371,13 +377,13 @@ def after_nic_hotplug(nicxml, vmconf={}, params={}):
     )
 
 
-def before_nic_hotunplug(nicxml, vmconf={}, params={}):
+def before_nic_hotunplug(nicxml, vmconf=None, params=None):
     return _runHooksDir(
         nicxml, 'before_nic_hotunplug', vmconf=vmconf, params=params
     )
 
 
-def after_nic_hotunplug(nicxml, vmconf={}, params={}):
+def after_nic_hotunplug(nicxml, vmconf=None, params=None):
     return _runHooksDir(
         nicxml,
         'after_nic_hotunplug',
@@ -387,7 +393,7 @@ def after_nic_hotunplug(nicxml, vmconf={}, params={}):
     )
 
 
-def after_nic_hotplug_fail(nicxml, vmconf={}, params={}):
+def after_nic_hotplug_fail(nicxml, vmconf=None, params=None):
     return _runHooksDir(
         nicxml,
         'after_nic_hotplug_fail',
@@ -397,7 +403,7 @@ def after_nic_hotplug_fail(nicxml, vmconf={}, params={}):
     )
 
 
-def after_nic_hotunplug_fail(nicxml, vmconf={}, params={}):
+def after_nic_hotunplug_fail(nicxml, vmconf=None, params=None):
     return _runHooksDir(
         nicxml,
         'after_nic_hotunplug_fail',
@@ -407,7 +413,7 @@ def after_nic_hotunplug_fail(nicxml, vmconf={}, params={}):
     )
 
 
-def after_disk_prepare(disk_dict, vmconf={}):
+def after_disk_prepare(disk_dict, vmconf=None):
     return _runHooksDir(
         disk_dict,
         'after_disk_prepare',
@@ -417,13 +423,13 @@ def after_disk_prepare(disk_dict, vmconf={}):
     )
 
 
-def before_disk_hotplug(domxml, vmconf={}, params={}):
+def before_disk_hotplug(domxml, vmconf=None, params=None):
     return _runHooksDir(
         domxml, 'before_disk_hotplug', vmconf=vmconf, params=params
     )
 
 
-def after_disk_hotplug(domxml, vmconf={}, params={}):
+def after_disk_hotplug(domxml, vmconf=None, params=None):
     return _runHooksDir(
         domxml,
         'after_disk_hotplug',
@@ -433,13 +439,13 @@ def after_disk_hotplug(domxml, vmconf={}, params={}):
     )
 
 
-def before_disk_hotunplug(domxml, vmconf={}, params={}):
+def before_disk_hotunplug(domxml, vmconf=None, params=None):
     return _runHooksDir(
         domxml, 'before_disk_hotunplug', vmconf=vmconf, params=params
     )
 
 
-def after_disk_hotunplug(domxml, vmconf={}, params={}):
+def after_disk_hotunplug(domxml, vmconf=None, params=None):
     return _runHooksDir(
         domxml,
         'after_disk_hotunplug',
@@ -449,7 +455,7 @@ def after_disk_hotunplug(domxml, vmconf={}, params={}):
     )
 
 
-def before_set_num_of_cpus(vmconf={}, params={}):
+def before_set_num_of_cpus(vmconf=None, params=None):
     return _runHooksDir(
         None,
         'before_set_num_of_cpus',
@@ -459,7 +465,7 @@ def before_set_num_of_cpus(vmconf={}, params={}):
     )
 
 
-def after_set_num_of_cpus(vmconf={}, params={}):
+def after_set_num_of_cpus(vmconf=None, params=None):
     return _runHooksDir(
         None,
         'after_set_num_of_cpus',
@@ -469,13 +475,13 @@ def after_set_num_of_cpus(vmconf={}, params={}):
     )
 
 
-def before_memory_hotplug(domxml, vmconf={}, params={}):
+def before_memory_hotplug(domxml, vmconf=None, params=None):
     return _runHooksDir(
         domxml, 'before_memory_hotplug', vmconf=vmconf, params=params
     )
 
 
-def after_memory_hotplug(domxml, vmconf={}, params={}):
+def after_memory_hotplug(domxml, vmconf=None, params=None):
     return _runHooksDir(
         domxml,
         'after_memory_hotplug',

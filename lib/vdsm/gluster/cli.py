@@ -597,7 +597,7 @@ def volumeCreate(
     brickList,
     replicaCount=0,
     stripeCount=0,
-    transportList=[],
+    transportList=None,
     force=False,
     arbiter=False,
 ):
@@ -608,7 +608,7 @@ def volumeCreate(
         command += ["replica", "%s" % replicaCount]
     if arbiter:
         command += ["arbiter", "1"]
-    if transportList:
+    if transportList is not None:
         command += ["transport", ','.join(transportList)]
     command += brickList
 

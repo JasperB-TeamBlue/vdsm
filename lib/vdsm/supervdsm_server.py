@@ -127,7 +127,10 @@ class _SuperVdsm:
     def readSessionInfo(self, sessionID):
         return _readSessionInfo(sessionID)
 
-    def _runAs(self, user, groups, func, args=(), kwargs={}):
+    def _runAs(self, user, groups, func, args=(), kwargs=None):
+        if kwargs is None:
+            kwargs = {}
+
         def child(writer):
             try:
                 uid = resolveUid(user)

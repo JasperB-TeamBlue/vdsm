@@ -81,8 +81,10 @@ class GlusterHost(GlusterApiBase):
         return self._gluster.vdoVolumeList()
 
     def createBrick(
-        self, name, mountPoint, devList, fsType=None, raidParams={}
+        self, name, mountPoint, devList, fsType=None, raidParams=None
     ):
+        if raidParams is None:
+            raidParams = {}
         return self._gluster.createBrick(
             name, mountPoint, devList, fsType, raidParams
         )
@@ -106,7 +108,9 @@ class GlusterTask(GlusterApiBase):
     def __init__(self):
         GlusterApiBase.__init__(self)
 
-    def list(self, taskIds=[]):
+    def list(self, taskIds=None):
+        if taskIds is None:
+            taskIds = []
         return self._gluster.tasksList(taskIds)
 
 
@@ -129,7 +133,7 @@ class GlusterVolume(GlusterApiBase):
         brickList,
         replicaCount=0,
         stripeCount=0,
-        transportList=[],
+        transportList=None,
         force=False,
         arbiter=False,
     ):
@@ -138,7 +142,7 @@ class GlusterVolume(GlusterApiBase):
             brickList,
             replicaCount,
             stripeCount,
-            transportList,
+            transportList if transportList is not None else [],
             force,
             arbiter,
         )

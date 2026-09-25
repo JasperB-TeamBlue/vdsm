@@ -29,8 +29,10 @@ def funcName(func):
     return func.__name__
 
 
-def call2str(func, args, kwargs, printers={}):
+def call2str(func, args, kwargs, printers=None):
     kwargs = kwargs.copy()
+    if printers is None:
+        printers = {}
     varnames = func.__code__.co_varnames[: func.__code__.co_argcount]
     if ismethod(func):
         args = [func.__self__] + list(args)

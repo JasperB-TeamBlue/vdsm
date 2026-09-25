@@ -311,7 +311,7 @@ class GlusterApi:
         brickList,
         replicaCount=0,
         stripeCount=0,
-        transportList=[],
+        transportList=None,
         force=False,
         arbiter=False,
         options=None,
@@ -321,7 +321,7 @@ class GlusterApi:
             brickList,
             replicaCount,
             stripeCount,
-            transportList,
+            transportList if transportList is not None else [],
             force,
             arbiter,
         )
@@ -556,7 +556,9 @@ class GlusterApi:
         return {'services': status}
 
     @exportAsVerb
-    def tasksList(self, taskIds=[], options=None):
+    def tasksList(self, taskIds=None, options=None):
+        if taskIds is None:
+            taskIds = []
         status = self.svdsmProxy.glusterTasksList(taskIds)
         return {'tasks': status}
 
@@ -806,9 +808,11 @@ class GlusterApi:
         mountPoint,
         devList,
         fsType=None,
-        raidParams={},
+        raidParams=None,
         options=None,
     ):
+        if raidParams is None:
+            raidParams = {}
         status = self.svdsmProxy.glusterCreateBrick(
             name, mountPoint, devList, fsType, raidParams
         )

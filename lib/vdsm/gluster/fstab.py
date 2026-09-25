@@ -56,10 +56,12 @@ class FsTab:
         device,
         mountPoint,
         fsType,
-        mntOpts=['defaults'],
+        mntOpts=None,
         fsDump=0,
         fsPass=0,
     ):
+        if mntOpts is None:
+            mntOpts = ['defaults']
         if self._exists(device):
             raise ge.GlusterHostStorageDeviceFsTabFoundException(device)
         uuid = self._getFsUuid(device)

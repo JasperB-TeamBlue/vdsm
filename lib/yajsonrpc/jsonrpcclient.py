@@ -56,7 +56,9 @@ class JsonRpcClient:
         self._lock = Lock()
         self._event_queues = {}
 
-    def callMethod(self, methodName, params=[], rid=None):
+    def callMethod(self, methodName, params=None, rid=None):
+        if params is None:
+            params = []
         responses = self.call(JsonRpcRequest(methodName, params, rid))
         if responses is None:
             raise exception.JsonRpcNoResponseError(method=methodName)

@@ -103,7 +103,7 @@ class DB:
 
         raise NotFound(vol_id)
 
-    def iter_volumes(self, vol_ids=[]):
+    def iter_volumes(self, vol_ids=None):
         """
         Lookup volumes info in managed volume database for all volume IDs in
         the vol_ids list and returns a list with volume information for each
@@ -122,7 +122,8 @@ class DB:
                 multipath_id
             FROM volumes
         """
-
+        if vol_ids is None:
+            vol_ids = []
         if vol_ids:
             sql += "WHERE vol_id IN ({ids})\n".format(
                 ids=",".join("?" for _ in vol_ids)
