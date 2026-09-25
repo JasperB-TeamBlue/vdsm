@@ -1534,7 +1534,7 @@ def verify_volume_file(
         assert 'backing-filename' not in qemu_info
 
 
-class Config(object):
+class Config:
     """
     Wrap a userstorage.Path implementation, adding a block_size, max_hosts and
     domain_version to simplify fixtures using storage for creating mounts

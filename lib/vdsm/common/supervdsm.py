@@ -21,7 +21,7 @@ class _SuperVdsmManager(BaseManager):
     pass
 
 
-class ProxyCaller(object):
+class ProxyCaller:
 
     def __init__(self, supervdsmProxy, funcName):
         self._funcName = funcName
@@ -41,7 +41,7 @@ class ProxyCaller(object):
             )
 
 
-class SuperVdsmProxy(object):
+class SuperVdsmProxy:
     """
     A wrapper around all the supervdsm init stuff
     """

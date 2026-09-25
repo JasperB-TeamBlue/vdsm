@@ -54,7 +54,7 @@ SP_MD_FIELDS = {
 
 
 @secured
-class StoragePoolBackendInterface(object):
+class StoragePoolBackendInterface:
     """StoragePool Backend Interface Definition"""
 
     def __is_secure__(self):

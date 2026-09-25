@@ -5,7 +5,7 @@ import functools
 import os
 
 
-class expose(object):
+class expose:
     def __init__(self, name):
         self.name = name
 

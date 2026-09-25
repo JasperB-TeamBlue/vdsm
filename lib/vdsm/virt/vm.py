@@ -238,7 +238,7 @@ _MIGRATION_ORIGIN = '_MIGRATION_ORIGIN'
 _FILE_ORIGIN = '_FILE_ORIGIN'
 
 
-class _AlteredState(object):
+class _AlteredState:
 
     def __init__(
         self, origin=None, path=None, destination=None, from_snapshot=False
@@ -307,7 +307,7 @@ def _undefine_stale_domain(vm, connection):
                 raise
 
 
-class Vm(object):
+class Vm:
     """
     Used for abstracting communication between various parts of the
     system and Qemu.

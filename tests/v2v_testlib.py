@@ -109,7 +109,7 @@ def _mac_from_uuid(vm_uuid):
     )
 
 
-class FakeVolume(object):
+class FakeVolume:
     def __init__(self):
         self._bytes = BytesIO(b'x' * 1024)
 
@@ -134,7 +134,7 @@ class FakeVolume(object):
         return "abcd12345"
 
 
-class FakeStream(object):
+class FakeStream:
     def __init__(self):
         self.volume = None
 
@@ -145,7 +145,7 @@ class FakeStream(object):
         self.volume = None
 
 
-class MockVirDomain(object):
+class MockVirDomain:
 
     def __init__(
         self,
@@ -277,7 +277,7 @@ class MockVirDomain(object):
 
 
 # FIXME: extend vmfakelib allowing to set predefined domain in Connection class
-class MockVirConnect(object):
+class MockVirConnect:
 
     def __init__(self, vms):
         self._vms = vms

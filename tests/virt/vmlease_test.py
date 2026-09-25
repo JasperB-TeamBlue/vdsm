@@ -182,7 +182,7 @@ class TestFindConf(VdsmTestCase):
         return {"devices": LEASE_DEVICES}
 
 
-class FakeStorage(object):
+class FakeStorage:
     """
     An object implementing the lease_info interface.
     """

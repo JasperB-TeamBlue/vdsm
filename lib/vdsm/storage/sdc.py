@@ -16,7 +16,7 @@ from vdsm.storage import misc
 from vdsm.storage import multipath
 
 
-class DomainProxy(object):
+class DomainProxy:
     """
     Keeps domain references valid even when underlying domain object changes
     (due to format conversion for example).

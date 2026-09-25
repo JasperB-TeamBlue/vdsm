@@ -40,7 +40,7 @@ SPM_ID_FREE = -1
 LVER_INVALID = -1
 
 
-class DisconnectedPool(object):
+class DisconnectedPool:
     """
     Dummy storage pool used when we are not connected to a storage pool.
 
@@ -67,7 +67,7 @@ class DisconnectedPool(object):
 
 
 @secured
-class StoragePool(object):
+class StoragePool:
     '''
     StoragePool object should be relatively cheap to construct. It should defer
     any heavy lifting activities until the time it is really needed.

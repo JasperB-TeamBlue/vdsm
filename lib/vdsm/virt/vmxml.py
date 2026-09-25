@@ -261,7 +261,7 @@ def parse_address_element(address_element):
     }
 
 
-class Device(object):
+class Device:
     # since we're inheriting all VM devices from this class, __slots__ must
     # be initialized here in order to avoid __dict__ creation
     __slots__ = ()
@@ -300,7 +300,7 @@ class Device(object):
         return element
 
 
-class Element(object):
+class Element:
 
     def __init__(
         self, tagName, text=None, namespace=None, namespace_uri=None, **attrs

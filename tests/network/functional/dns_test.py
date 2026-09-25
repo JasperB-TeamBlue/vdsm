@@ -30,7 +30,7 @@ def nic0():
 
 
 @nftestlib.parametrize_switch
-class TestNetworkDNS(object):
+class TestNetworkDNS:
     def test_set_host_nameservers(self, adapter, switch, nic0):
         original_nameservers = adapter.netinfo.nameservers
         assert (

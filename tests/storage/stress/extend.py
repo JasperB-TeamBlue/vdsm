@@ -117,7 +117,7 @@ class CommandError(Exception):
         return self.msg.format(self=self)
 
 
-class LVM(object):
+class LVM:
     """
     LVM helper, performing lvm operations using the same configuration used by
     vdsm.
@@ -331,7 +331,7 @@ backup {
                 delay *= self.RETRY_BACKUP_OFF
 
 
-class ManagerClient(object):
+class ManagerClient:
 
     def __init__(self, options):
         self.sock = socket.socket()

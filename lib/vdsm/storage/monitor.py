@@ -18,7 +18,7 @@ from vdsm.storage.sdc import sdCache
 log = logging.getLogger('storage.monitor')
 
 
-class Status(object):
+class Status:
 
     def __init__(self, path_status, domain_status):
         self._path_status = path_status
@@ -96,7 +96,7 @@ class Status(object):
         return self._domain_status.version
 
 
-class PathStatus(object):
+class PathStatus:
 
     def __init__(self, readDelay=0, error=None, actual=True):
         self.readDelay = readDelay
@@ -104,7 +104,7 @@ class PathStatus(object):
         self.actual = actual
 
 
-class DomainStatus(object):
+class DomainStatus:
 
     def __init__(self, error=None, actual=True):
         self.error = error
@@ -120,7 +120,7 @@ class DomainStatus(object):
         self.version = -1
 
 
-class DomainMonitor(object):
+class DomainMonitor:
 
     def __init__(self, interval):
         self._lock = threading.Lock()
@@ -274,7 +274,7 @@ class DomainMonitor(object):
                 )
 
 
-class MonitorThread(object):
+class MonitorThread:
 
     def __init__(self, sdUUID, hostId, interval, changeEvent, checker):
         self.thread = concurrent.thread(

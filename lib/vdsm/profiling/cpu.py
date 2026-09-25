@@ -22,7 +22,7 @@ _lock = threading.Lock()
 _profiler = None
 
 
-class Profiler(object):
+class Profiler:
 
     def __init__(
         self,

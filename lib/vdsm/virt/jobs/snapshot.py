@@ -604,7 +604,7 @@ class Snapshot(properties.Owner):
             )
 
 
-class LiveSnapshotRecovery(object):
+class LiveSnapshotRecovery:
     def __init__(self, vm, abort, completed, snapshot_job, lock):
         self._vm = vm
         self._job_stats = None
@@ -748,7 +748,7 @@ class LiveSnapshotRecovery(object):
             )
 
 
-class AbortSnapshot(object):
+class AbortSnapshot:
     def __init__(
         self,
         vm,

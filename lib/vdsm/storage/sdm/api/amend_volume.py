@@ -57,7 +57,7 @@ class Job(base.Job):
                     qemuimg.amend(self._vol_info.path, self._qcow2_attr.compat)
 
 
-class Qcow2Attributes(object):
+class Qcow2Attributes:
 
     def __init__(self, params):
         compat = params.get("compat")

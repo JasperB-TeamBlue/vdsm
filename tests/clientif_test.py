@@ -362,7 +362,7 @@ class NotSoFakeClientIF(clientIF.clientIF):
         pass
 
 
-class FakeVm(object):
+class FakeVm:
 
     def __init__(self, cif, vmParams, vmRecover=False):
         dom = etree.fromstring(vmParams['xml'])

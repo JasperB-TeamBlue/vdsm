@@ -711,7 +711,7 @@ class FakeVM(Vm):
         return raw_stats
 
 
-class FakeDomain(object):
+class FakeDomain:
 
     def __init__(self):
         self._devices = etree.Element('devices')
@@ -777,7 +777,7 @@ class FakeClientIF(fake.ClientIF):
         pass
 
 
-class FakeIRS(object):
+class FakeIRS:
 
     def __init__(self):
         self.extensions = []

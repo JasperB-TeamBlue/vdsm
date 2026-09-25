@@ -11,7 +11,7 @@ PCI2 = '0000.1234.1.2'
 NUMVFS = 2
 
 
-class TestSriov(object):
+class TestSriov:
     @mock.patch.object(sriov.netconfpersistence, 'RunningConfig')
     def test_persist_config(self, mock_rconfig):
         sriov.persist_numvfs(PCI1, NUMVFS)

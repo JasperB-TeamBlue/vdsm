@@ -15,7 +15,7 @@ from vdsm.common import udevadm
 log = logging.getLogger("loopback")
 
 
-class Device(object):
+class Device:
 
     def __init__(self, backing_file, sector_size=None):
         self._backing_file = backing_file

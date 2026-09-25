@@ -938,7 +938,7 @@ class DriveMerger:
         return all(finished)
 
 
-class CleanupThread(object):
+class CleanupThread:
 
     # Cleanup states:
     # Starting state for a fresh cleanup thread.

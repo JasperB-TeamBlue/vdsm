@@ -28,7 +28,7 @@ def _vol_path(base, domainId, poolId, imageId, ext='.img'):
     return os.path.join(base, '-'.join((poolId, domainId, imageId)) + ext)
 
 
-class FakeIRS(object):
+class FakeIRS:
     def __init__(self, image_path_base):
         self._image_path_base = image_path_base
 
@@ -54,7 +54,7 @@ class FakeIRS(object):
         return response.success()
 
 
-class FakeNotifier(object):
+class FakeNotifier:
     def notify(self, *args, **kwargs):
         pass
 

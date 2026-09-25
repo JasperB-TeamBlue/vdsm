@@ -20,7 +20,7 @@ from .storagetestlib import Callable
 WAIT_TIMEOUT = 5  # Used for task done or hang timeout
 
 
-class TaskManager(object):
+class TaskManager:
 
     def __init__(self):
         self._task = None

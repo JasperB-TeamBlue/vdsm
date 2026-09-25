@@ -76,7 +76,7 @@ class TestResponse(TestCaseBase):
         self.assertEqual(res, response.success(foo=foo))
 
 
-class FakeVM(object):
+class FakeVM:
 
     @api.method
     def fail(self, exc):
@@ -184,13 +184,13 @@ def run_with_vars(context, task, func, *args, **kwargs):
     return value
 
 
-class Task(object):
+class Task:
 
     def __init__(self, id):
         self.id = id
 
 
-class Logged(object):
+class Logged:
 
     @api.logged("test")
     def succeed(self, *args, **kwargs):

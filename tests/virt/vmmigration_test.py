@@ -295,7 +295,7 @@ class TestMigrationTimeout:
             assert timeout == 5
 
 
-class FakeServer(object):
+class FakeServer:
 
     def __init__(self, initial_failures=0, exc=None):
         self._initial_failures = initial_failures
@@ -309,7 +309,7 @@ class FakeServer(object):
         return self._exc.response()
 
 
-class FakeMigratingDomain(object):
+class FakeMigratingDomain:
 
     def __init__(self):
         self.migrations = 0
@@ -327,7 +327,7 @@ class FakeMigratingDomain(object):
         return True
 
 
-class FakeEvents(object):
+class FakeEvents:
 
     def before_hibernation(*args, **kwargs):
         pass
@@ -336,7 +336,7 @@ class FakeEvents(object):
         pass
 
 
-class FakeGuestAgent(object):
+class FakeGuestAgent:
 
     def __init__(self):
         self.events = FakeEvents()
@@ -348,7 +348,7 @@ class FakeGuestAgent(object):
         pass
 
 
-class FakeVM(object):
+class FakeVM:
 
     def __init__(self, dom=None):
         self._dom = dom
@@ -418,13 +418,13 @@ class FakeVM(object):
         return '<domain/>'
 
 
-class FakeProgress(object):
+class FakeProgress:
 
     def __init__(self):
         self.percentage = 0
 
 
-class FakeMonitorThread(object):
+class FakeMonitorThread:
 
     def __init__(self, prog):
         self.progress = prog

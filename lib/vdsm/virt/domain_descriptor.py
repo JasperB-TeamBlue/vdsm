@@ -17,7 +17,7 @@ class XmlSource(enum.Enum):
     LIBVIRT = enum.auto()
 
 
-class MutableDomainDescriptor(object):
+class MutableDomainDescriptor:
 
     def __init__(self, xmlStr):
         self._dom = xmlutils.fromstring(xmlStr)

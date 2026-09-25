@@ -41,7 +41,7 @@ class FileStorageDomain(fileSD.FileStorageDomain):
         self._manifest = FileStorageDomainManifest(domainpath, oop)
 
 
-class FakeGlob(object):
+class FakeGlob:
 
     def __init__(self, files):
         self.files = files
@@ -50,7 +50,7 @@ class FakeGlob(object):
         return fnmatch.filter(self.files, pattern)
 
 
-class FakeOOP(object):
+class FakeOOP:
 
     def __init__(self, glob=None):
         self.glob = glob

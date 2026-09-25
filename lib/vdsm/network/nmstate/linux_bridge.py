@@ -20,7 +20,7 @@ from .schema import Vlan
 from .state import NetworkingState
 
 
-class LinuxBridgeNetwork(object):
+class LinuxBridgeNetwork:
     def __init__(self, netconf, runconf, current_state):
         """
         netconf: NetworkConfig object, representing a requested network setup.

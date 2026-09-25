@@ -18,7 +18,7 @@ BOND0 = 'bond00'
 BOND0_SLAVES = ['eth5', 'eth6']
 
 
-class TestConfigNetwork(object):
+class TestConfigNetwork:
     def _validate_network_with_err(self, netName, opts, errCode):
         with pytest.raises(errors.ConfigNetworkError) as cneContext:
             canonicalize_networks({netName: opts})

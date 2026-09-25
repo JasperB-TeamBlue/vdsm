@@ -96,7 +96,7 @@ class State(enum.IntEnum):
     "state",
     "migrateSetMaxDowntime",
 )
-class DomainAdapter(object):
+class DomainAdapter:
     """
     VM wrapper class that exposes only
     libvirt migration related operations.
@@ -106,7 +106,7 @@ class DomainAdapter(object):
         self._vm = vm
 
 
-class SourceThread(object):
+class SourceThread:
     """
     A thread that takes care of migration on the source vdsm.
     """
@@ -879,7 +879,7 @@ def exponential_downtime(downtime, steps):
         yield downtime
 
 
-class MonitorThread(object):
+class MonitorThread:
     _MIGRATION_MONITOR_INTERVAL = config.getint(
         'vars', 'migration_monitor_interval'
     )  # seconds

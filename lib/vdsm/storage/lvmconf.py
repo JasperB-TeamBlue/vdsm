@@ -75,7 +75,7 @@ class UnexpectedLvmConfigOutput(Exception):
         return "%s: %s" % (self.msg, repr(self.value))
 
 
-class LVMConfig(object):
+class LVMConfig:
 
     def __init__(self, path="/etc/lvm/lvm.conf"):
         self.path = path

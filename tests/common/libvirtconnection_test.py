@@ -13,7 +13,7 @@ class TerminationException(Exception):
     pass
 
 
-class LibvirtMock(object):
+class LibvirtMock:
     (
         VIR_CRED_AUTHNAME,
         VIR_CRED_PASSPHRASE,
@@ -40,7 +40,7 @@ class LibvirtMock(object):
         def get_error_message(self):
             return ''
 
-    class virConnect(object):
+    class virConnect:
         failGetLibVersion = False
         failNodeDeviceLookupByName = False
 
@@ -60,13 +60,13 @@ class LibvirtMock(object):
         def close(self):
             pass
 
-    class virDomain(object):
+    class virDomain:
         pass
 
     def openAuth(self, *args):
         return LibvirtMock.virConnect()
 
-    class virEventRegisterDefaultImpl(object):
+    class virEventRegisterDefaultImpl:
         pass
 
     def virEventRunDefaultImpl(*args, **kwargs):

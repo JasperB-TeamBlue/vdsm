@@ -26,7 +26,7 @@ EFD_CLOEXEC = 0o2000000
 EFD_NONBLOCK = 0o0004000
 
 
-class EventFD(object):
+class EventFD:
     """
     Creates an "eventfd object" that can be used as an event wait/notify
     mechanism by user-space applications, and by the kernel to notify

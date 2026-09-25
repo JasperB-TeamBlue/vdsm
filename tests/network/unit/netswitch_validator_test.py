@@ -51,7 +51,7 @@ def net_info():
     )
 
 
-class TestValidation(object):
+class TestValidation:
     def test_adding_a_new_single_untagged_net(self, net_info):
         nets = {NET2: {'nic': NICS[0], 'switch': 'ovs'}}
         valid = validator.Validator(nets, {}, net_info)

@@ -27,7 +27,7 @@ def _getLibvirtConnStubFromFile(file):
     return ConnStub()
 
 
-class FakeClientIF(object):
+class FakeClientIF:
     def __init__(self, vmContainer):
         self.vmContainer = vmContainer
 
@@ -35,7 +35,7 @@ class FakeClientIF(object):
         return self.vmContainer
 
 
-class FakeVM(object):
+class FakeVM:
     def __init__(self, cpu_policy, pinned_cpus):
         self._cpu_policy = cpu_policy
         self._pinned_cpus = pinned_cpus

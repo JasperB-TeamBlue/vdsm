@@ -7,7 +7,7 @@ from vdsm.network import errors as ne
 from vdsm.network.ip import validator
 
 
-class TestIPNameserverValidator(object):
+class TestIPNameserverValidator:
     def test_ignore_remove_networks(self):
         validator.validate(
             {
@@ -61,7 +61,7 @@ class TestIPNameserverValidator(object):
         )
 
 
-class TestStaticIpv4ConfigValidator(object):
+class TestStaticIpv4ConfigValidator:
     def test_ip_address_without_netmask_fails(self):
         self._test_ip_config_fails(ipaddr='10.10.10.10')
 

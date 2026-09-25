@@ -12,7 +12,7 @@ MONITOR_INTERVAL = 0.001
 CYCLE_TIMEOUT = 5
 
 
-class FakeMultipathStatus(object):
+class FakeMultipathStatus:
 
     def __init__(self):
         self.out = {}
@@ -21,7 +21,7 @@ class FakeMultipathStatus(object):
         return self.out
 
 
-class MonitorCallback(object):
+class MonitorCallback:
     """
     Callable callback class used for synchronization of the health monitor
     thread with tests.

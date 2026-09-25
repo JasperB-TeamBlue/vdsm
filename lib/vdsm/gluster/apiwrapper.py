@@ -4,7 +4,7 @@
 from vdsm.gluster.api import GlusterApi, META_VOLUME
 
 
-class GlusterApiBase(object):
+class GlusterApiBase:
     ctorArgs = []
 
     def __init__(self):

@@ -8,7 +8,7 @@ from unittest import mock
 from vdsm.network import dns
 
 
-class TestNetworkDnsUnit(object):
+class TestNetworkDnsUnit:
     @mock.patch.object(dns, 'open', create=True)
     def test_get_host_nameservers(self, mock_open):
         RESOLV_CONF = (

@@ -21,7 +21,7 @@ from vdsm.common import fileutils
 _start = None
 
 
-class _Adapter(object):
+class _Adapter:
     def readinto(self, b):
         # This method is required for `io` module compatibility.
         temp = self.read(len(b))
@@ -60,7 +60,7 @@ class StreamAdapter(_Adapter):
         self._stream.finish()
 
 
-class Sparseness(object):
+class Sparseness:
     def __init__(self, opaque, estimated_size):
         self.done = 0
         self.opaque = opaque

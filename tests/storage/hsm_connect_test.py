@@ -44,7 +44,7 @@ class FakeConnectionTypes(dict):
         return FakeConnection
 
 
-class FakeConnectionFactory(object):
+class FakeConnectionFactory:
 
     registeredConnectionTypes = FakeConnectionTypes()
 

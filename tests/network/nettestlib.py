@@ -36,7 +36,7 @@ from . import dhcp
 from . import firewall
 
 
-class IpFamily(object):
+class IpFamily:
     IPv4 = 4
     IPv6 = 6
 
@@ -48,7 +48,7 @@ parametrize_ip_families = pytest.mark.parametrize(
 )
 
 
-class Interface(object):
+class Interface:
     def __init__(self, prefix='vdsm-', max_length=11):
         self.dev_name = random_iface_name(prefix, max_length)
 
@@ -216,7 +216,7 @@ class Bridge(Interface):
         linkSet(dev, ['master', self.dev_name])
 
 
-class VethPair(object):
+class VethPair:
     def __init__(self, prefix='veth_', max_length=15):
         self.left_side = Interface(prefix, max_length)
         self.right_side = Interface(prefix, max_length)
@@ -451,7 +451,7 @@ def has_sysfs_bond_permission():
     return True
 
 
-class KernelModule(object):
+class KernelModule:
     SYSFS_MODULE_PATH = '/sys/module'
     CMD_MODPROBE = 'modprobe'
 

@@ -55,7 +55,7 @@ class OSName:
     DEBIAN = 'Debian'
 
 
-class KdumpStatus(object):
+class KdumpStatus:
     UNKNOWN = -1
     DISABLED = 0
     ENABLED = 1

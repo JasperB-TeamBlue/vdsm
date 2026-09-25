@@ -26,7 +26,7 @@ _STATE_ONESHOT = 4
 _SLOW_CALL_THRESHOLD = 1.0
 
 
-class JsonRpcRequest(object):
+class JsonRpcRequest:
     def __init__(self, method, params=(), reqId=None):
         self.method = method
         self.params = params
@@ -84,7 +84,7 @@ class JsonRpcRequest(object):
         return self.id is None
 
 
-class JsonRpcResponse(object):
+class JsonRpcResponse:
     def __init__(self, result=None, error=None, reqId=None):
         self.result = unprotect_passwords(result)
         self.error = error
@@ -135,7 +135,7 @@ class JsonRpcResponse(object):
         return JsonRpcResponse(result, error, reqId)
 
 
-class Notification(object):
+class Notification:
     """
     Represents jsonrpc notification message. It builds proper jsonrpc
     notification and pass it a callback which is responsible for
@@ -171,7 +171,7 @@ class Notification(object):
         body['notify_time'] = event_time()
 
 
-class _JsonRpcServeRequestContext(object):
+class _JsonRpcServeRequestContext:
     def __init__(self, client, server_address, context):
         self._requests = []
         self._client = client
@@ -237,7 +237,7 @@ class _JsonRpcServeRequestContext(object):
         self.sendReply()
 
 
-class JsonRpcTask(object):
+class JsonRpcTask:
 
     def __init__(self, handler, ctx, req):
         self._handler = handler
@@ -251,7 +251,7 @@ class JsonRpcTask(object):
         return '<JsonRpcTask %s at 0x%x>' % (self._req, id(self))
 
 
-class JsonRpcServer(object):
+class JsonRpcServer:
     log = logging.getLogger("jsonrpc.JsonRpcServer")
 
     """

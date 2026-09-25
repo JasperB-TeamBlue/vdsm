@@ -48,7 +48,7 @@ import time
 from vdsm.common import concurrent
 
 
-class Scheduler(object):
+class Scheduler:
     """
     Schedule calls for future execution in a background thread.
 
@@ -165,7 +165,7 @@ class Scheduler(object):
                 call.cancel()
 
 
-class ScheduledCall(object):
+class ScheduledCall:
     """
     Returned when a callable is scheduled. The caller may cancel the call if it
     was not called yet.

@@ -31,7 +31,7 @@ def upgrade_vdsm():
     commands.run(['yum', 'update', '-y', 'vdsm'])
 
 
-class TestUpgrade(object):
+class TestUpgrade:
 
     def setup_method(self, test_method):
         commands.run(['yum-config-manager', '--disable', 'localsync'])

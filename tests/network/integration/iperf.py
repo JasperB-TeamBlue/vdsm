@@ -14,7 +14,7 @@ from vdsm.network.ipwrapper import netns_exec
 _IPERF3_BINARY = 'iperf3'
 
 
-class IperfServer(object):
+class IperfServer:
     """Starts iperf as an async process"""
 
     def __init__(self, host, network_ns):
@@ -34,7 +34,7 @@ class IperfServer(object):
         self._popen.wait()
 
 
-class IperfClient(object):
+class IperfClient:
     def __init__(self, server_ip, bind_to, test_time, threads=1):
         """The client generates a machine readable json output that is set in
         _raw_output upon completion, and can be read using the 'out' property.

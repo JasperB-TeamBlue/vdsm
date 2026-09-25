@@ -30,7 +30,7 @@ EVENT_TIMEOUT = 3
 EVENT_TOPIC = "test.events"
 
 
-class _Bridge(object):
+class _Bridge:
     log = logging.getLogger("tests._TestBridge")
     cif = None
 
@@ -68,11 +68,11 @@ class _Bridge(object):
         raise exception.GeneralException("Test failure")
 
 
-class _FakeSchema(object):
+class _FakeSchema:
     get_methods = ["Test.echo", "Test.slowCall", "Test.sendEvent"]
 
 
-class _FakeEventSchema(object):
+class _FakeEventSchema:
     def verify_event_params(self, *args, **kwargs):
         pass
 

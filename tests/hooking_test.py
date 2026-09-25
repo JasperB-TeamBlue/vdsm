@@ -12,7 +12,7 @@ from vdsm.hook import hooking
 from testlib import temporaryPath
 
 
-class TestHooking(object):
+class TestHooking:
 
     _EXPECTED_XML = u"""<?xml version="1.0"?>
 <domain type="kvm" xmlns:ovirt="http://ovirt.org/vm/tune/1.0">

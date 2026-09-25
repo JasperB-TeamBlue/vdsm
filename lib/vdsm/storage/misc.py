@@ -234,7 +234,7 @@ def parseHumanReadableSize(size):
     return 0
 
 
-class DynamicBarrier(object):
+class DynamicBarrier:
     def __init__(self):
         self._cond = threading.Condition()
         self._busy = False
@@ -289,7 +289,7 @@ class DynamicBarrier(object):
             self._cond.notifyAll()
 
 
-class SamplingMethod(object):
+class SamplingMethod:
     """
     This class is meant to be used as a decorator. Concurrent calls to the
     decorated function will be evaluated only once, and will share the same
@@ -362,7 +362,7 @@ def getfds():
     return [int(fd) for fd in os.listdir("/proc/self/fd")]
 
 
-class Event(object):
+class Event:
 
     _count = itertools.count()
 

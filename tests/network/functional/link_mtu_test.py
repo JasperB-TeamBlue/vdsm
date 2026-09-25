@@ -40,7 +40,7 @@ def nic1():
 
 
 @nftestlib.parametrize_switch
-class TestNetworkMtu(object):
+class TestNetworkMtu:
     @nftestlib.parametrize_bridged
     def test_add_net_with_mtu(self, adapter, switch, bridged, nic0):
         NETCREATE = {

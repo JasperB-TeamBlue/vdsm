@@ -10,12 +10,12 @@ from vdsm.common import cache
 from vdsm.network import ipwrapper
 
 
-class Flags(object):
+class Flags:
     PERMANENT = 'permanent'
     SECONDARY = 'secondary'
 
 
-class IPAddressData(object):
+class IPAddressData:
     def __init__(self, address, device, scope=None, flags=None):
         try:
             self._address = ipaddress.ip_interface(str(address))

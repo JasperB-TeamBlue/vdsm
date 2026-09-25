@@ -220,7 +220,7 @@ class ServerError(Error):
         self.resp_msg = message
 
 
-class Namespace(object):
+class Namespace:
     def __init__(self, name, call):
         self._name = name
         self._call = call
@@ -230,7 +230,7 @@ class Namespace(object):
         return functools.partial(self._call, self._name, method_name)
 
 
-class _Client(object):
+class _Client:
     """
     A wrapper class for client class. Encapulates client run and responsible
     for closing client connection in the end of its run.

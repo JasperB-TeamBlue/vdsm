@@ -19,7 +19,7 @@ MOM_CONF = "/dev/null"
 MOM_SOCK = "test_mom_vdsm.sock"
 
 
-class DummyMomApi(object):
+class DummyMomApi:
     def __init__(self):
         self.last_policy_name = None
         self.last_policy_content = None
@@ -47,7 +47,7 @@ class DummyMomApi(object):
         }
 
 
-class BrokenMomApi(object):
+class BrokenMomApi:
     def ping(self):
         return False
 

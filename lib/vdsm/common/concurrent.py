@@ -24,7 +24,7 @@ class InvalidEvent(Exception):
     """
 
 
-class Barrier(object):
+class Barrier:
     """
     A barrier is synchronizing number of threads specified when the barrier
     was created.
@@ -255,7 +255,7 @@ def thread(func, args=(), kwargs=None, name=None, daemon=True, log=None):
     return thread
 
 
-class ValidatingEvent(object):
+class ValidatingEvent:
     """
     Event that can be invalidated.
 

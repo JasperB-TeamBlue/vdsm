@@ -6,7 +6,7 @@ import logging
 from vdsm.virt.externaldata import ExternalData
 
 
-class TestExternalData(object):
+class TestExternalData:
 
     def test_hash(self):
         """Make sure secure_hash() is not just plain hash()"""

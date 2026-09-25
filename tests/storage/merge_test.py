@@ -115,7 +115,7 @@ def make_env(env_type, base, top):
             yield env
 
 
-class FakeImage(object):
+class FakeImage:
 
     def __init__(self, repoPath):
         pass
@@ -384,7 +384,7 @@ class TestPrepareMerge:
     #    template)
 
 
-class FakeSyncVolumeChain(object):
+class FakeSyncVolumeChain:
 
     def __call__(self, sd_id, img_id, vol_id, actual_chain):
         self.sd_id = sd_id

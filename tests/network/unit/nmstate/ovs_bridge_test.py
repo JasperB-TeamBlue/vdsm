@@ -64,7 +64,7 @@ def bridge_name_mock():
         yield
 
 
-class TestBasicNetWithoutIp(object):
+class TestBasicNetWithoutIp:
     @parametrize_bridged
     @pytest.mark.parametrize(
         'vlan', [VLAN0, VLAN101, None], ids=['vlan0', 'vlan101', 'non-vlan']
@@ -393,7 +393,7 @@ class TestBasicNetWithoutIp(object):
         assert expected_state == state
 
 
-class TestBasicNetWithIp(object):
+class TestBasicNetWithIp:
     @parametrize_ip
     def test_dynamic_ip(self, families):
         dhcpv4 = IPv4_FAMILY in families
@@ -491,7 +491,7 @@ class TestBasicNetWithIp(object):
         assert expected_state == state
 
 
-class TestEnforceMacAddress(object):
+class TestEnforceMacAddress:
     @parametrize_bridged
     @parametrize_vlanned
     @pytest.mark.parametrize(
@@ -549,7 +549,7 @@ class TestEnforceMacAddress(object):
         assert expected_state == state
 
 
-class TestMtu(object):
+class TestMtu:
     @parametrize_bridged
     @parametrize_mtu
     @pytest.mark.parametrize(

@@ -30,7 +30,7 @@ def current_state_mock():
         yield state.return_value
 
 
-class TestNetinfo(object):
+class TestNetinfo:
     def test_netmask_conversions(self):
         path = os.path.join(os.path.dirname(__file__), "netmaskconversions")
         with open(path) as netmaskFile:

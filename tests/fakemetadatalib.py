@@ -33,7 +33,7 @@ def setup_vm(vm):
     vm._init_from_metadata()
 
 
-class FakeDomain(object):
+class FakeDomain:
 
     @classmethod
     def with_metadata(

@@ -16,7 +16,7 @@ from vdsm.storage import constants as sc
 LVB_POISON = b"x"
 
 
-class FakeSanlock(object):
+class FakeSanlock:
     """
     With fake sanlock, you can use code depending on sanlock, without
     running a sanlock daemon, and waiting for slow sanlock operations

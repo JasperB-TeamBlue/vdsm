@@ -524,7 +524,7 @@ def _mem_committed(mem_size_mb):
     return memory * MiB
 
 
-class ChangingSchedulerDomain(object):
+class ChangingSchedulerDomain:
 
     def __init__(self, offset=10):
         self._offset = offset

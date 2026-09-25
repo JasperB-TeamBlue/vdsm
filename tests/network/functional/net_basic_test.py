@@ -39,7 +39,7 @@ def hidden_nic():
 
 
 @nftestlib.parametrize_switch
-class TestNetworkBasic(object):
+class TestNetworkBasic:
     def test_add_net_based_on_nic(self, adapter, switch, nic0):
         NETCREATE = {NETWORK_NAME: {'nic': nic0, 'switch': switch}}
         with adapter.setupNetworks(NETCREATE, {}, NOCHK):
@@ -312,7 +312,7 @@ class TestNetworkBasic(object):
 
 
 @pytest.mark.legacy_switch
-class TestNetworkBasicLegacy(object):
+class TestNetworkBasicLegacy:
     @pytest.mark.parametrize(
         "net_name", ['a' * 16, 'a b', 'a\tb', 'a.b', 'a:b']
     )

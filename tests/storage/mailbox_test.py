@@ -118,7 +118,7 @@ def make_spm_mailbox(mboxfiles):
             raise RuntimeError('Timemout waiting for spm mailbox')
 
 
-class FakeSPMMailer(object):
+class FakeSPMMailer:
     """
     Fake SPM mailer class for sending reply message when
     pool extend volume request handling is done.
@@ -133,7 +133,7 @@ class FakeSPMMailer(object):
         self.msg = msg
 
 
-class FakePool(object):
+class FakePool:
     """
     Fake storage pool class implementing the extend volume interface used by
     storage mailbox code.

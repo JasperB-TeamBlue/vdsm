@@ -148,19 +148,19 @@ class TestExpose:
 
 
 @virdomain.expose("fsFreeze", "fsThaw")
-class VMFreezer(object):
+class VMFreezer:
 
     def __init__(self, vm):
         self._vm = vm
 
 
-class FakeVM(object):
+class FakeVM:
 
     def __init__(self, dom):
         self._dom = dom
 
 
-class FakeDom(object):
+class FakeDom:
 
     def __init__(self):
         self.calls = []

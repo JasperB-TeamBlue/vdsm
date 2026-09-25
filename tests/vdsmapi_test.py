@@ -36,7 +36,7 @@ _schema = vdsmapi.Schema.vdsm_api(
 )
 
 
-class FakeSchema(object):
+class FakeSchema:
 
     METHOD_NAME = "Namespace.Method"
     METHOD_REP = vdsmapi.MethodRep("Namespace", "Method")

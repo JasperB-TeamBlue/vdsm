@@ -108,7 +108,7 @@ class ThreadPool:
                 del self.__threads[:]
 
 
-class WorkerThread(object):
+class WorkerThread:
     """Pooled thread class."""
 
     log = logging.getLogger('storage.threadpool.workerthread')

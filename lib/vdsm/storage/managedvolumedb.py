@@ -87,7 +87,7 @@ def create_db():
         conn.executescript(create_table % VERSION)
 
 
-class DB(object):
+class DB:
 
     def __init__(self, conn):
         self._conn = conn
@@ -237,7 +237,7 @@ class DB(object):
 # Private
 
 
-class _closed_connection(object):
+class _closed_connection:
 
     def __getattr__(self, name):
         raise Closed

@@ -20,7 +20,7 @@ def _mock_os_stat_with_zeroed_time(unused):
     return namedtuple('st', ['st_mtime'])(0)
 
 
-class TestConnectivity(object):
+class TestConnectivity:
     def test_check_disabled(self):
         connectivity.check({'connectivityCheck': False})
 

@@ -301,7 +301,7 @@ ResourceInfo = namedtuple(
 )
 
 
-class IndexMetadata(object):
+class IndexMetadata:
 
     @classmethod
     def fromebytes(cls, data):
@@ -412,7 +412,7 @@ class IndexMetadata(object):
         ).format(self=self, addr=id(self))
 
 
-class Record(object):
+class Record:
 
     @classmethod
     def frombytes(cls, record):
@@ -497,7 +497,7 @@ class Record(object):
 EMPTY_RECORD = Record("", 0)
 
 
-class LeasesVolume(object):
+class LeasesVolume:
     """
     Volume holding sanlock leases.
 
@@ -1060,7 +1060,7 @@ def lease_offset(recnum, alignment):
     return (RESERVED_SLOTS + recnum) * alignment
 
 
-class VolumeIndex(object):
+class VolumeIndex:
     """
     Index maintaining volume metadata and the mapping from lease id to lease
     offset.
@@ -1205,7 +1205,7 @@ class VolumeIndex(object):
         return (offset - RECORD_BASE) // RECORD_SIZE
 
 
-class ChangeBlock(object):
+class ChangeBlock:
     """
     A block sized buffer for writing changes atomically to storage.
 
@@ -1261,7 +1261,7 @@ class ChangeBlock(object):
         return offset
 
 
-class DirectFile(object):
+class DirectFile:
     """
     File performing directio to/from mmap objects.
     """
@@ -1312,7 +1312,7 @@ class DirectFile(object):
         self._file.close()
 
 
-class InterruptibleDirectFile(object):
+class InterruptibleDirectFile:
     """
     This implementation performs all syscalls in a child process, preventing
     the current process from becoming uninterruptible (D state).
@@ -1405,7 +1405,7 @@ class InterruptibleDirectFile(object):
         return out
 
 
-class MemoryBackend(object):
+class MemoryBackend:
     """
     For testing purposes only.
     """

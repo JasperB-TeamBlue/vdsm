@@ -16,7 +16,7 @@ _NL_SOCKET_BUFF_SIZE = 1024 * 512
 _tls = threading.local()
 
 
-class NLSocketPool(object):
+class NLSocketPool:
     """Pool of netlink sockets."""
 
     def __init__(self, size):

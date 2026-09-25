@@ -14,6 +14,6 @@ def bridge():
         yield br
 
 
-class TestEthtoolDeviceInfo(object):
+class TestEthtoolDeviceInfo:
     def test_detect_device_driver(self, bridge):
         assert ethtool.driver_name(bridge) == 'bridge'

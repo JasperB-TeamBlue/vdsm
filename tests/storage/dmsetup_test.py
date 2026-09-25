@@ -29,7 +29,7 @@ NO_DEVICE_MAPPER_DEVICES = b"No devices found\n"
 NO_MULTIPATH_DEVICE = b""
 
 
-class FakeDmSetupStatus(object):
+class FakeDmSetupStatus:
 
     def __init__(self):
         self.out = {}

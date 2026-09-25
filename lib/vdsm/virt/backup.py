@@ -41,7 +41,7 @@ class BackupDisk:
     "checkpointCreateXML",
     "blockInfo",
 )
-class DomainAdapter(object):
+class DomainAdapter:
     """
     VM wrapper class that exposes only
     libvirt backup related operations.

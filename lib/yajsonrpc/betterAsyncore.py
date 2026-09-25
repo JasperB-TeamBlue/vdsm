@@ -215,7 +215,7 @@ class AsyncoreEvent(asyncore.file_dispatcher):
         asyncore.file_dispatcher.close(self)
 
 
-class Reactor(object):
+class Reactor:
     """
     map dictionary maps sock.fileno() to channels to watch. We add channels to
     it by running add_dispatcher and removing by remove_dispatcher.

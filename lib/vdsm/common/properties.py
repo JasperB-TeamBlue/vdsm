@@ -71,7 +71,7 @@ import uuid
 from vdsm.common.password import ProtectedPassword
 
 
-class Property(object):
+class Property:
 
     def __init__(self, required=False, default=None, doc=None):
         self.name = None

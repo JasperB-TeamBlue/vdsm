@@ -23,7 +23,7 @@ class TestEvent(TestCaseBase):
         self.assertFalse(event.closing)
 
 
-class TestingImpl(object):
+class TestingImpl:
 
     def readable(self, dispatcher):
         return True

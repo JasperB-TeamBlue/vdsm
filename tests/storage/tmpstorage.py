@@ -14,7 +14,7 @@ from . import loopback
 log = logging.getLogger("test")
 
 
-class TemporaryStorage(object):
+class TemporaryStorage:
 
     def __init__(self, tmpdir):
         self._tmpdir = tmpdir

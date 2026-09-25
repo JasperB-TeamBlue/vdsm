@@ -162,7 +162,7 @@ class SchedulerTests(VdsmTestCase):
         self.scheduler.start()
 
 
-class Task(object):
+class Task:
 
     def __init__(self, clock):
         self.clock = clock
@@ -180,7 +180,7 @@ class Task(object):
                 self.cond.wait(timeout)
 
 
-class Ticker(object):
+class Ticker:
 
     def __init__(self, scheduler, interval, clock):
         self.scheduler = scheduler
@@ -202,7 +202,7 @@ class Ticker(object):
             self.scheduler.schedule(self.interval, self.tick)
 
 
-class FailingTask(object):
+class FailingTask:
 
     def __call__(self):
         raise Exception("This task is broken")

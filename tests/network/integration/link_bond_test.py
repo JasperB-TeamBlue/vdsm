@@ -63,7 +63,7 @@ def bond_with_slaves(bond0, nics):
     yield bond0
 
 
-class TestLinkBond(object):
+class TestLinkBond:
     def test_bond_without_slaves(self, bond0):
         assert not iface(bond0.master).is_up()
 
@@ -216,7 +216,7 @@ def _wait_until(condition, timeout=1, interval=0.1):
         time.sleep(interval)
 
 
-class TestLinkBondSysFS(object):
+class TestLinkBondSysFS:
     def test_do_not_detach_slaves_while_changing_options(
         self, bond_with_slaves
     ):
@@ -243,7 +243,7 @@ class TestLinkBondSysFS(object):
         assert len(properties) > 1
 
 
-class TestBondingSysfsOptionsMapper(object):
+class TestBondingSysfsOptionsMapper:
     def test_dump_bonding_name2numeric(self):
         BOND_MODE = '0'
         OPT_NAME = 'arp_validate'

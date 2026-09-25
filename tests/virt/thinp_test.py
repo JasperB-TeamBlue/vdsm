@@ -173,7 +173,7 @@ def test_monitoring_needed():
     assert not mon.monitoring_needed()
 
 
-class FakeVM(object):
+class FakeVM:
 
     log = logging.getLogger('test')
 
@@ -195,7 +195,7 @@ class FakeDispatch:
         self.calls.append((func, dict(timeout=timeout, discard=discard)))
 
 
-class FakeDomain(object):
+class FakeDomain:
     def __init__(self):
         self.thresholds = []
 

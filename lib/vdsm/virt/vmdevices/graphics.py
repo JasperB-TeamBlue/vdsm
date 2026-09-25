@@ -87,7 +87,7 @@ def reset_password(dev_xml):
     attrs['passwdValidTo'] = '1970-01-01T00:00:01'
 
 
-class Graphics(object):
+class Graphics:
 
     def __init__(self, device_dom, vm_id):
         self._dom = device_dom

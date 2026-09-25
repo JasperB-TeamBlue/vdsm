@@ -30,7 +30,7 @@ def monotonic_time():
     return time.monotonic()
 
 
-class Clock(object):
+class Clock:
     """
     Measure time for complex flows.
 

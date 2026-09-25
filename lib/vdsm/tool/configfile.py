@@ -25,7 +25,7 @@ def context(func):
     return inner
 
 
-class ConfigFile(object):
+class ConfigFile:
     """
     During installation vdsm is responsible for editing configuration files of
     its dependencies - libvirtd.conf, qemu.conf and others.
@@ -225,7 +225,7 @@ class ConfigFile(object):
         return False
 
 
-class ParserWrapper(object):
+class ParserWrapper:
     """
     configparser is for parsing of ini files. Use this
     class for files with no sections.

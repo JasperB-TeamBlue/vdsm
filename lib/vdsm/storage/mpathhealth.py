@@ -10,7 +10,7 @@ from vdsm.storage import devicemapper
 log = logging.getLogger("storage.mpathhealth")
 
 
-class MultipathStatus(object):
+class MultipathStatus:
 
     def __init__(self, failed_paths, valid_paths):
         self.failed_paths = set(failed_paths)
@@ -23,7 +23,7 @@ class MultipathStatus(object):
         }
 
 
-class Monitor(object):
+class Monitor:
 
     def __init__(self, interval=10):
         self._lock = threading.Lock()

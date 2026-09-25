@@ -68,7 +68,7 @@ class ExpiringCacheOperationTests(TestCaseBase):
         assert self.cache
 
 
-class FakeClock(object):
+class FakeClock:
     def __init__(self, now):
         self.now = now
 
@@ -248,7 +248,7 @@ class TestTimedAcquireLock(TestCaseBase):
         assert exc.flow == 'external'
 
 
-class TestRunLogging(object):
+class TestRunLogging:
 
     def test_success(self, tmp_path):
         with MonkeyPatchScope([(utils, '_COMMANDS_LOG_DIR', str(tmp_path))]):

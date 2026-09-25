@@ -23,7 +23,7 @@ IPV6_INVALID_ADDRESS = '2001::99::1'
 IPV6_INVALID_WITH_PREFIXLEN = '{}/{}'.format(IPV6_INVALID_ADDRESS, IPV6_PREFIX)
 
 
-class TestIPAddressData(object):
+class TestIPAddressData:
     def test_ipv4_init(self):
         ip_data = address.IPAddressData(
             IPV4_A_WITH_PREFIXLEN, device=DEVICE_NAME

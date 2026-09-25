@@ -18,7 +18,7 @@ from vdsm.common.units import KiB
 log = logging.getLogger("storage.asyncevent")
 
 
-class EventLoop(object):
+class EventLoop:
     """
     Simple event loop implementing a subset of asyncio.BaseEventLoop from
     Python 3.
@@ -391,7 +391,7 @@ def poll(timeout=0.0, map=None):
     return [(fd, map[fd], flags) for fd, flags in r]  # NOQA: F812
 
 
-class Handle(object):
+class Handle:
     """
     Simplified version of Python 3.4 asyncio.events.Handle.
 
@@ -578,7 +578,7 @@ class BufferedReader(asyncore.file_dispatcher):
         return False
 
 
-class Reaper(object):
+class Reaper:
     """
     Wait for process and notify when it has terminated.
     """

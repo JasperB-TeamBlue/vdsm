@@ -56,7 +56,7 @@ def user_storage(request):
         yield backend
 
 
-class TemporaryVolume(object):
+class TemporaryVolume:
     """
     Temporary xleases volume.
     """

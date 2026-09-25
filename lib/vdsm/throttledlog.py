@@ -12,7 +12,7 @@ _logger = logging.getLogger('throttled')
 _periodic = {}
 
 
-class _Periodic(object):
+class _Periodic:
 
     def __init__(self, interval, timeout):
         self._interval = interval

@@ -11,7 +11,7 @@ from .schema import InterfaceState
 from .schema import InterfaceType
 
 
-class Bond(object):
+class Bond:
     def __init__(self, name, attrs):
         self._name = name
         self._attrs = attrs

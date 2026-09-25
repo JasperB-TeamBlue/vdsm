@@ -52,7 +52,7 @@ def lookupByIDFailure(id):
     raise fake.Error(libvirt.VIR_ERR_NO_DOMAIN, 'Domain not exists')
 
 
-class FakeIRS(object):
+class FakeIRS:
     @recorded
     def prepareImage(self, domainId, poolId, imageId, volumeId):
         return {
@@ -593,7 +593,7 @@ class v2vTests(TestCaseBase):
 
     def test_v2v_error(self):
 
-        class FakeProc(object):
+        class FakeProc:
             def __init__(self):
                 self.returncode = 1
                 self.stdout = io.FileIO('/dev/null')
@@ -604,7 +604,7 @@ class v2vTests(TestCaseBase):
             def wait(self):
                 return
 
-        class FakeV2VCommand(object):
+        class FakeV2VCommand:
             @contextmanager
             def execute(self):
                 yield FakeProc()

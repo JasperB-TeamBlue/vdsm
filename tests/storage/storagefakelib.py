@@ -30,7 +30,7 @@ VG = collections.namedtuple(
 )
 
 
-class FakeLVM(object):
+class FakeLVM:
     # We pretend all PVs are 10G in size
     _PV_SIZE = 10 * GiB
     # Found via inspection of real environment
@@ -340,7 +340,7 @@ def fake_lvm_uuid():
     return '-'.join(part(size) for size in [6, 4, 4, 4, 4, 6])
 
 
-class FakeResourceManager(object):
+class FakeResourceManager:
 
     SHARED = rm.SHARED
     EXCLUSIVE = rm.EXCLUSIVE
@@ -362,7 +362,7 @@ class FakeResourceManager(object):
         return "_".join(args)
 
 
-class FakeFileSD(object):
+class FakeFileSD:
     def __init__(self, sd_manifest):
         self._manifest = sd_manifest
 
@@ -378,7 +378,7 @@ class FakeFileSD(object):
         return False
 
 
-class FakeBlockSD(object):
+class FakeBlockSD:
     def __init__(self, sd_manifest):
         self._manifest = sd_manifest
 
@@ -394,7 +394,7 @@ class FakeBlockSD(object):
         return True
 
 
-class FakeStorageDomainCache(object):
+class FakeStorageDomainCache:
 
     def __init__(self):
         self.domains = {}
@@ -421,7 +421,7 @@ class FakeStorageDomainCache(object):
         pass
 
 
-class fake_guarded_context(object):
+class fake_guarded_context:
 
     def __init__(self):
         self.locks = None
@@ -437,7 +437,7 @@ class fake_guarded_context(object):
         pass
 
 
-class MonitorEvent(object):
+class MonitorEvent:
 
     def __init__(self):
         self.callbacks = set()
@@ -449,7 +449,7 @@ class MonitorEvent(object):
         self.callbacks.remove(callback)
 
 
-class FakeDomainMonitor(object):
+class FakeDomainMonitor:
     """
     Test class implementing mock methods for a domain monitor,
     originally used for testing SPM in blocksd_test.
@@ -476,7 +476,7 @@ class FakeDomainMonitor(object):
         return sdUUID in self.monitors
 
 
-class FakeTaskManager(object):
+class FakeTaskManager:
     """
     Test class implementing mock methods for a task manager,
     originally used for testing SPM in blocksd_test.

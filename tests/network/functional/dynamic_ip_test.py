@@ -40,7 +40,7 @@ DHCPv6_RANGE_TO = 'fdb3:84e5:4ff4:55e3::64'
 IPv4_DNS = ['1.1.1.1', '2.2.2.2']
 
 
-class NetworkIPConfig(object):
+class NetworkIPConfig:
     def __init__(
         self,
         name,
@@ -56,7 +56,7 @@ class NetworkIPConfig(object):
         self.ipv6_prefix_length = ipv6_prefix_length
 
 
-class DhcpConfig(object):
+class DhcpConfig:
     def __init__(
         self,
         ipv4_range_from,
@@ -190,7 +190,7 @@ class FakeNotifier:
 
 
 @nftestlib.parametrize_switch
-class TestNetworkDhcpBasic(object):
+class TestNetworkDhcpBasic:
     @parametrize_ip_families
     @nftestlib.parametrize_bridged
     @parametrize_def_route

@@ -10,7 +10,7 @@ from . import commands
 SYSTEMD_RUN = "/usr/bin/systemd-run"
 
 
-class Accounting(object):
+class Accounting:
     CPU = 'CPU'
     Memory = 'Memory'
     BlockIO = 'BlockIO'

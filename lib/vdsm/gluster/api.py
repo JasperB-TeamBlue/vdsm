@@ -286,7 +286,7 @@ def processesStop():
         raise ge.GlusterProcessesStopFailedException(e.rc)
 
 
-class GlusterApi(object):
+class GlusterApi:
     """
     The gluster interface of vdsm.
 

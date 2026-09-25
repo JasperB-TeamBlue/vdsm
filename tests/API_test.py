@@ -133,7 +133,7 @@ class TestVMCreate(TestCaseBase):
         self.assertEqual(expected_memory_conf, memory_conf)
 
 
-class FakeClientIF(object):
+class FakeClientIF:
 
     def __init__(self):
         self.vmContainer = {}
@@ -154,7 +154,7 @@ class FakeClientIF(object):
         pass
 
 
-class FakeVM(object):
+class FakeVM:
 
     def __init__(self, cif, params, recover=False):
         self.recovering = recover

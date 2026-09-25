@@ -69,7 +69,7 @@ def Error(code, msg="fake error"):
     return e
 
 
-class Connection(object):
+class Connection:
 
     def __init__(self, *args):
         self.secrets = {}
@@ -166,7 +166,7 @@ class Connection(object):
         return {numa_index: self.free_pages}
 
 
-class Secret(object):
+class Secret:
 
     def __init__(self, con, uuid, usage_type, usage_id, description):
         self.con = con
@@ -189,7 +189,7 @@ class Secret(object):
         self.value = value
 
 
-class VirNodeDeviceStub(object):
+class VirNodeDeviceStub:
 
     def __init__(self, xml=None):
         self.xml = xml
@@ -231,7 +231,7 @@ class VirNodeDeviceStub(object):
         return result
 
 
-class FakeRunningVm(object):
+class FakeRunningVm:
 
     def __init__(self, uuid):
         self.uuid = uuid

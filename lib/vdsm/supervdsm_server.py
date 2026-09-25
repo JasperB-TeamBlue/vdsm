@@ -105,7 +105,7 @@ class PopenAdapter:
         return self._proc.exitcode
 
 
-class _SuperVdsm(object):
+class _SuperVdsm:
 
     log = logging.getLogger("SuperVdsm.ServerCallback")
 

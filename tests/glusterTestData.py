@@ -615,7 +615,7 @@ GLUSTER_STORAGE_DEVICES = [
 
 
 def glusterStorageDevData():
-    class TestStorageDev(object):
+    class TestStorageDev:
         {}
 
     devices = []

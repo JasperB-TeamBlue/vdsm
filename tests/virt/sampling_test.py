@@ -287,7 +287,7 @@ class HostStatsMonitorTests(TestCaseBase):
 
         samples = sampling.SampleWindow(sampling.HOST_STATS_AVERAGING_WINDOW)
 
-        class FakeHostSample(object):
+        class FakeHostSample:
 
             counter = 0
 
@@ -312,7 +312,7 @@ class HostStatsMonitorTests(TestCaseBase):
             assert last.id == FakeHostSample.counter - 1
 
 
-class FakeClock(object):
+class FakeClock:
 
     STEP = 1
 

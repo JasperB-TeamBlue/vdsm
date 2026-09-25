@@ -146,7 +146,7 @@ class TestVMBulkSampling(TestCaseBase):
         assert len(actual_calls) == len(expected_calls)
 
 
-class FakeStatsCache(object):
+class FakeStatsCache:
     def __init__(self, clock=monotonic_time):
         self.data = []
         self.clock = clock
@@ -184,7 +184,7 @@ class FakeStatsCache(object):
             assert self.sync.wait(timeout)
 
 
-class FakeDomain(object):
+class FakeDomain:
     def __init__(self, name):
         self._name = name
 
@@ -198,7 +198,7 @@ class FakeDomain(object):
         return self._name
 
 
-class FakeVM(object):
+class FakeVM:
     def __init__(self, vmid):
         self.id = vmid
         self._dom = FakeDomain(vmid)
@@ -216,7 +216,7 @@ def make_vms(num=1):
     return vms
 
 
-class FakeConnection(object):
+class FakeConnection:
     def __init__(self, vms):
         self.vms = vms
         self._delay = 0

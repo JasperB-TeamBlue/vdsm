@@ -16,7 +16,7 @@ from testlib import recorded
 import uuid
 
 
-class FakeDomainManifest(object):
+class FakeDomainManifest:
     def __init__(self):
         self.sdUUID = 'a6ecac0a-5c6b-46d7-9ba5-df8b34df2d01'
         self.domaindir = '/a/b/c'
@@ -296,7 +296,7 @@ class FakeFileStorageDomain(fileSD.FileStorageDomain):
         self._manifest = self.manifestClass()
 
 
-class FakeVolumeManifest(object):
+class FakeVolumeManifest:
     def __init__(self):
         self.sdUUID = 'b4502284-2101-4c5c-ada0-6a196fb30315'
         self.imgUUID = 'e2a325e4-62be-4939-8145-72277c270e8e'
@@ -620,7 +620,7 @@ class FakeBlockVolume(blockVolume.BlockVolume):
         self._manifest = self.manifestClass()
 
 
-class RedirectionChecker(object):
+class RedirectionChecker:
     """
     Checks whether a source class redirects method calls to a target class
     instance accessible via the 'target_name" attribute.  The target class
@@ -656,7 +656,7 @@ class RedirectionChecker(object):
 
 
 @expandPermutations
-class DomainTestMixin(object):
+class DomainTestMixin:
 
     @permutations(
         [
@@ -809,7 +809,7 @@ class TestFileDomain(DomainTestMixin, VdsmTestCase):
 
 
 @expandPermutations
-class VolumeTestMixin(object):
+class VolumeTestMixin:
 
     @permutations(
         [

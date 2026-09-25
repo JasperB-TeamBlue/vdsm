@@ -38,7 +38,7 @@ def nics():
         yield nics
 
 
-class TestLinks(object):
+class TestLinks:
     def test_get_link(self, bridge0):
         link = ipwrapper.getLink(bridge0)
         assert link.isBRIDGE()
@@ -64,7 +64,7 @@ class TestLinks(object):
         assert devices[vlan0].isVLAN()
 
 
-class TestDrvinfo(object):
+class TestDrvinfo:
     def test_bridge_ethtool_drvinfo(self, bridge0):
         assert ethtool.driver_name(bridge0) == ipwrapper.LinkType.BRIDGE
 

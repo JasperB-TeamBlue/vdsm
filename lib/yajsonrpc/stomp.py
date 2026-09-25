@@ -45,7 +45,7 @@ _EC_ENCODE_MAP = {
 }
 
 
-class Command(object):
+class Command:
     MESSAGE = "MESSAGE"
     SEND = "SEND"
     SUBSCRIBE = "SUBSCRIBE"
@@ -57,7 +57,7 @@ class Command(object):
     DISCONNECT = "DISCONNECT"
 
 
-class Headers(object):
+class Headers:
     CONTENT_LENGTH = "content-length"
     CONTENT_TYPE = "content-type"
     FLOW_ID = "ovirtCorrelationId"
@@ -77,7 +77,7 @@ COMMANDS = tuple(
 )
 
 
-class AckMode(object):
+class AckMode:
     AUTO = "auto"
 
 
@@ -90,7 +90,7 @@ class StompError(RuntimeError):
         return "Error in frame %s: %s" % (self.frame, self.msg)
 
 
-class _HeartbeatFrame(object):
+class _HeartbeatFrame:
     def encode(self):
         return b"\n"
 
@@ -99,7 +99,7 @@ class _HeartbeatFrame(object):
 _heartbeat_frame = _HeartbeatFrame()
 
 
-class Frame(object):
+class Frame:
     __slots__ = ("headers", "command", "body")
 
     def __init__(self, command, headers=None, body=None):
@@ -182,7 +182,7 @@ def encode_value(s):
     return _RE_ENCODE_CHARS.sub(lambda m: _EC_ENCODE_MAP[m.group(0)], s)
 
 
-class Parser(object):
+class Parser:
     _STATE_CMD = "Parsing command"
     _STATE_HEADER = "Parsing headers"
     _STATE_BODY = "Receiving body"
@@ -320,7 +320,7 @@ class Parser(object):
             return None
 
 
-class AsyncDispatcher(object):
+class AsyncDispatcher:
     log = logging.getLogger("stomp.AsyncDispatcher")
 
     """
@@ -328,7 +328,7 @@ class AsyncDispatcher(object):
     It accepts frame handler which abstracts message processing and a
     connection. Abstract frame handler should look like:
 
-    class abstract_frame_handler(object):
+    class abstract_frame_handler:
 
         Performs any required action after a connection is established
         def handle_connect(self)
@@ -542,7 +542,7 @@ class AsyncDispatcher(object):
             self._frame_handler.handle_close(self)
 
 
-class Subscription(object):
+class Subscription:
 
     def __init__(self, client, destination, subid, ack, message_handler):
         self._ack = ack
@@ -586,7 +586,7 @@ class Subscription(object):
         self._valid = False
 
 
-class StompConnection(object):
+class StompConnection:
 
     def __init__(self, server, aclient, sock, reactor):
         self._reactor = reactor

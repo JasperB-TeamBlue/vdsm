@@ -39,7 +39,7 @@ def getBackingVolumePath(imgUUID, volUUID):
     return volUUID
 
 
-class VolumeManifest(object):
+class VolumeManifest:
     log = logging.getLogger('storage.volumemanifest')
 
     # How this volume is presented to a vm.  Must be overriden in derived
@@ -936,7 +936,7 @@ class VolumeManifest(object):
         return False
 
 
-class Volume(object):
+class Volume:
     log = logging.getLogger('storage.volume')
     manifestClass = VolumeManifest
 

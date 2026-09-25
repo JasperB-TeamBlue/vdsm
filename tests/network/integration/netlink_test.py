@@ -45,7 +45,7 @@ def bond_in_mode_1(slaves):
     bond.remove()
 
 
-class TestNetlinkEventMonitor(object):
+class TestNetlinkEventMonitor:
 
     TIMEOUT = 5
 
@@ -250,7 +250,7 @@ class TestNetlinkEventMonitor(object):
                     break
 
 
-class TestSocketPool(object):
+class TestSocketPool:
     def test_reuse_socket_per_thread(self):
         # The same thread should always get the same socket. Otherwise any
         # recusion in the code will lead to a deadlock.

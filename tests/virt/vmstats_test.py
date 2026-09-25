@@ -659,7 +659,7 @@ def _ensure_delta(stats_before, stats_after, key, delta):
     stats_after[key] = abs(delta)
 
 
-class FakeNic(object):
+class FakeNic:
 
     def __init__(self, name, model, mac_addr, is_hostdevice):
         self.name = name
@@ -668,7 +668,7 @@ class FakeNic(object):
         self.is_hostdevice = is_hostdevice
 
 
-class FakeDrive(object):
+class FakeDrive:
 
     def __init__(self, name, size):
         self.name = name
@@ -685,7 +685,7 @@ class FakeDrive(object):
         return item in ('imageID', 'domainID', 'poolID', 'volumeID')
 
 
-class FakeVM(object):
+class FakeVM:
 
     def __init__(self, nics=None, drives=None):
         self.id = str(uuid.uuid4())

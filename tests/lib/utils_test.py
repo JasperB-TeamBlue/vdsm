@@ -30,7 +30,7 @@ from testValidation import brokentest
 EXT_SLEEP = "/usr/bin/sleep"
 
 
-class FakeMonotonicTime(object):
+class FakeMonotonicTime:
 
     def __init__(self, now):
         self.now = now

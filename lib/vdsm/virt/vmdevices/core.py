@@ -206,7 +206,7 @@ def cleanup_console(dom, vmid):
         cleanup_guest_socket(path)
 
 
-class HotpluggedDevice(object):
+class HotpluggedDevice:
 
     def __init__(self, dom, meta, log):
         self._dom = dom

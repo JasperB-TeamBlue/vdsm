@@ -105,7 +105,7 @@ def dump(lines):
     return md
 
 
-class VolumeMetadata(object):
+class VolumeMetadata:
 
     log = logging.getLogger('storage.volumemetadata')
 

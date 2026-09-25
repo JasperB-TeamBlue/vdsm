@@ -19,7 +19,7 @@ from vdsm.storage import fileVolume
 from vdsm.storage import qemuimg
 
 
-class TestGetDomUuidFromVolumePath(object):
+class TestGetDomUuidFromVolumePath:
     def test(self):
         testPath = os.path.join(
             sc.REPO_DATA_CENTER, "spUUID/sdUUID/images/imgUUID/volUUID"
@@ -27,7 +27,7 @@ class TestGetDomUuidFromVolumePath(object):
         assert fileVolume.getDomUuidFromVolumePath(testPath) == "sdUUID"
 
 
-class TestFileVolumeManifest(object):
+class TestFileVolumeManifest:
 
     @contextmanager
     def make_volume(self, size, storage_type='file', format=sc.RAW_FORMAT):

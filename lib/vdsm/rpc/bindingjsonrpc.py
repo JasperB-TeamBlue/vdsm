@@ -19,7 +19,7 @@ _TASK_PER_WORKER = config.getint('rpc', 'tasks_per_worker')
 _TASKS = _THREADS * _TASK_PER_WORKER
 
 
-class BindingJsonRpc(object):
+class BindingJsonRpc:
     log = logging.getLogger('BindingJsonRpc')
 
     def __init__(self, bridge, subs, timeout, scheduler, cif):

@@ -15,7 +15,7 @@ FstabRecord = namedtuple(
 )
 
 
-class FsTab(object):
+class FsTab:
     def __init__(self, fileName="/etc/fstab"):
         self.fileName = fileName
 

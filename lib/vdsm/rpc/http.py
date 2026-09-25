@@ -29,7 +29,7 @@ class RequestException(Exception):
         self.errorMessage = errorMessage
 
 
-class Server(object):
+class Server:
     def __init__(self, cif, log):
         self.cif = cif
         self.log = log

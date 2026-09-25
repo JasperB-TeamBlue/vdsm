@@ -116,7 +116,7 @@ def tmp_manager(monkeypatch):
     monkeypatch.setattr(rm, "_manager", manager)
 
 
-class OwnerObject(object):
+class OwnerObject:
 
     def __init__(self):
         self.actions = []

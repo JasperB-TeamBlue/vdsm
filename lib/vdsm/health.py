@@ -32,7 +32,7 @@ def stop():
         _monitor = None
 
 
-class Monitor(object):
+class Monitor:
 
     log = logging.getLogger("health")
 
@@ -132,7 +132,7 @@ class Monitor(object):
         metrics.send(report)
 
 
-class ProcStat(object):
+class ProcStat:
 
     _TICKS_PER_SEC = os.sysconf("SC_CLK_TCK")
     _PATH = "/proc/self/stat"

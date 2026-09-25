@@ -54,7 +54,7 @@ def has_py_gdb_support():
     return pkg_dbg_ver != "" and pkg_dbg_ver == pkg_ver
 
 
-class TestPyWatch(object):
+class TestPyWatch:
 
     def test_short_success(self):
         commands.run([sys.executable, 'py-watch', '0.2', 'true'])

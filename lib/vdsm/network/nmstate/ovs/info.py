@@ -47,7 +47,7 @@ SHARED_NETWORK_ATTRIBUTES = (
 )
 
 
-class OvsInfo(object):
+class OvsInfo:
     def __init__(self, running_networks, current_state):
         self._running_networks = running_networks
         self._current_ifaces_state = current_state.interfaces_state
@@ -129,7 +129,7 @@ class OvsInfo(object):
         )
 
 
-class OvsNetInfo(object):
+class OvsNetInfo:
     def __init__(
         self, ovs_info, base_netinfo, running_networks, current_state
     ):

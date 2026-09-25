@@ -67,7 +67,7 @@ def temp_dir(base="/var/tmp", path=None):
         shutil.rmtree(path)
 
 
-class FakeFileEnv(object):
+class FakeFileEnv:
     def __init__(self, tmpdir, sd_manifest, sdcache):
         self.tmpdir = tmpdir
         self.sd_manifest = sd_manifest
@@ -103,7 +103,7 @@ class FakeFileEnv(object):
         )
 
 
-class FakeBlockEnv(object):
+class FakeBlockEnv:
     def __init__(self, tmpdir, sd_manifest, sdcache, lvm):
         self.tmpdir = tmpdir
         self.sd_manifest = sd_manifest
@@ -234,7 +234,7 @@ class FakeMetadata(dict):
         yield
 
 
-class FakeVolume(object):
+class FakeVolume:
 
     def __init__(self):
         # Test may set errors here to make method calls raise expected or
@@ -247,7 +247,7 @@ class FakeVolume(object):
         pass
 
 
-class FakeSD(object):
+class FakeSD:
     def __init__(self, sd_manifest, lvm=None):
         self._manifest = sd_manifest
         self.lvm = lvm
@@ -629,7 +629,7 @@ class FakeGuardedLock(guarded.AbstractLock):
         self._log.append(entry)
 
 
-class Aborting(object):
+class Aborting:
     def __init__(self, count=1):
         self.count = count
 
@@ -638,7 +638,7 @@ class Aborting(object):
         return self.count < 0
 
 
-class Callable(object):
+class Callable:
 
     def __init__(self, hang_timeout=0, result=None):
         self._hang_timeout = hang_timeout

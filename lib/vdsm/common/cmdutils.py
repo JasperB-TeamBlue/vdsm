@@ -29,7 +29,7 @@ _SUDO_NON_INTERACTIVE_FLAG = "-n"
 _USING_CPU_AFFINITY = config.get('vars', 'cpu_affinity') != ""
 
 
-class CommandPath(object):
+class CommandPath:
     def __init__(self, name, *args, **kwargs):
         self.name = name
         self.paths = args

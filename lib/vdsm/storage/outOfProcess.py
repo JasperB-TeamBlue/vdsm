@@ -81,7 +81,7 @@ def getProcessPool(clientName):
         return proc
 
 
-class _IOProcessGlob(object):
+class _IOProcessGlob:
     def __init__(self, iop):
         self._iop = iop
 
@@ -89,7 +89,7 @@ class _IOProcessGlob(object):
         return self._iop.glob(pattern)
 
 
-class _IOProcessFileUtils(object):
+class _IOProcessFileUtils:
     def __init__(self, iop):
         self._iop = iop
 
@@ -201,7 +201,7 @@ class _IOProcessFileUtils(object):
             raise OSError(errno.EACCES, os.strerror(errno.EACCES))
 
 
-class _IOProcessOs(object):
+class _IOProcessOs:
     def __init__(self, iop):
         self._iop = iop
         self.path = _IOProcessOs.Path(iop)
@@ -239,7 +239,7 @@ class _IOProcessOs(object):
     def unlink(self, path):
         return self._iop.unlink(path)
 
-    class Path(object):
+    class Path:
         def __init__(self, iop):
             self._iop = iop
 
@@ -274,7 +274,7 @@ class _IOProcessOs(object):
             return self._iop.pathExists(path, False)
 
 
-class _IOProcessUtils(object):
+class _IOProcessUtils:
     def __init__(self, iop):
         self._iop = iop
 

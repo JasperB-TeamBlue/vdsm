@@ -23,14 +23,14 @@ def get_connector_properties(*args, **kwargs):
         return fake_error(res)
 
 
-class InitiatorConnector(object):
+class InitiatorConnector:
 
     @staticmethod
     def factory(*args, **kwargs):
         return FakeConnector()
 
 
-class FakeConnector(object):
+class FakeConnector:
 
     def connect_volume(self, connection_properties):
         log_action("connect_volume", connection_properties)

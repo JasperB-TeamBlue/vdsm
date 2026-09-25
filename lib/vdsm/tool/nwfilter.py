@@ -22,7 +22,7 @@ def main(*args):
     NoMacSpoofingFilter(conn).define()
 
 
-class NwFilter(object):
+class NwFilter:
     """
     Base class for custom network filters
     """

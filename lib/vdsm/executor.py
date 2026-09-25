@@ -22,7 +22,7 @@ class AlreadyStarted(Exception):
     """Executor started multiple times."""
 
 
-class Executor(object):
+class Executor:
     """
     Executes potentially blocking task into background
     threads. Can replace stuck threads with fresh ones.
@@ -260,7 +260,7 @@ class _WorkerDiscarded(Exception):
     """Raised if worker was discarded during execution of a task"""
 
 
-class _Worker(object):
+class _Worker:
 
     _log = logging.getLogger('Executor')
 
@@ -372,7 +372,7 @@ class _Worker(object):
         )
 
 
-class Task(object):
+class Task:
 
     def __init__(self, callable, timeout, discard=True):
         self._callable = callable
@@ -400,7 +400,7 @@ class Task(object):
         )
 
 
-class TaskQueue(object):
+class TaskQueue:
     """
     Replacement for Queue.Queue, with two important changes:
 

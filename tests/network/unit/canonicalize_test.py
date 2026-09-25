@@ -17,7 +17,7 @@ NET2_SETUP = {'NET2': {'nic': 'eth0', 'switch': 'legacy'}}
 
 
 @mock.patch.object(canonicalize, 'RunningConfig')
-class TestDefaultRouteCanonicalization(object):
+class TestDefaultRouteCanonicalization:
     def test_request_one_defroute_no_existing_defroute(self, mockRConfig):
         running_config = self._nets_config(NET1_SETUP, default_route=False)
         requested_nets = self._nets_config(NET0_SETUP, default_route=True)

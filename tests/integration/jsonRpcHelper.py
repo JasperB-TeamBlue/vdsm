@@ -26,7 +26,7 @@ from testlib import ipv6_enabled
 TIMEOUT = 3
 
 
-class FakeClientIf(object):
+class FakeClientIf:
     log = logging.getLogger("FakeClientIf")
 
     def __init__(self, dest):

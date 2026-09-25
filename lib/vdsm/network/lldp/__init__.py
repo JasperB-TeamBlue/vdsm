@@ -18,7 +18,7 @@ class TlvReportLldpError(Exception):
     pass
 
 
-class LldpAPI(object):
+class LldpAPI:
     """LLDP driver interface"""
 
     __metaclass__ = abc.ABCMeta
@@ -48,7 +48,7 @@ class LldpAPI(object):
         raise NotImplementedError
 
 
-class Drivers(object):
+class Drivers:
     LLDPAD = 'lldpad'
 
 

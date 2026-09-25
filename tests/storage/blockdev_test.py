@@ -160,7 +160,7 @@ class TestDiscard:
         assert stat.st_blocks == 0
 
 
-class AbortingTask(object):
+class AbortingTask:
 
     @contextmanager
     def abort_callback(self, cb):

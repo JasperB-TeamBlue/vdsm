@@ -30,7 +30,7 @@ from yajsonrpc import CALL_TIMEOUT
 from .betterAsyncore import Reactor
 
 
-class AsyncClient(object):
+class AsyncClient:
     log = logging.getLogger("yajsonrpc.protocols.stomp.AsyncClient")
 
     def __init__(
@@ -225,7 +225,7 @@ class AsyncClient(object):
             )
 
 
-class StompClient(object):
+class StompClient:
     log = logging.getLogger("jsonrpc.AsyncoreClient")
 
     """
@@ -303,7 +303,7 @@ class StompClient(object):
             self._reactor.stop()
 
 
-class ClientRpcTransportAdapter(object):
+class ClientRpcTransportAdapter:
     def __init__(self, request_queue, response_queue, client):
         self._client = client
         self._message_handler = lambda arg: None

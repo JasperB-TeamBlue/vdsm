@@ -34,7 +34,7 @@ broken_on_ci = broken_on_ci.with_args(
 )
 
 
-class FakeDmSetupStatus(object):
+class FakeDmSetupStatus:
 
     def __init__(self):
         self.lines = []

@@ -7,7 +7,7 @@ from .schema import InterfaceIP
 from .schema import InterfaceIPv6
 
 
-class IpAddress(object):
+class IpAddress:
     IPV4 = 4
     IPV6 = 6
 

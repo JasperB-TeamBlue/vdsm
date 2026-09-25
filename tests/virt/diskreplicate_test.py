@@ -180,7 +180,7 @@ class FakeVm(vm.Vm):
             setattr(vmDrive, 'domainID', self.dst_drive['domainID'])
 
 
-class FakeDomain(object):
+class FakeDomain:
 
     def __init__(self, block_job_info={}):
         self.block_job_info = block_job_info
@@ -198,7 +198,7 @@ class FakeClientIF(clientIF):
         self.log = log
 
 
-class FakeVolumeMonitor(object):
+class FakeVolumeMonitor:
 
     def __init__(self):
         self.enabled = False

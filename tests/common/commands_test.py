@@ -378,7 +378,7 @@ class TestExecCmdStress:
         return out
 
 
-class Worker(object):
+class Worker:
 
     def __init__(self, resume, func, func_calls, func_delay):
         self.exc_info = None

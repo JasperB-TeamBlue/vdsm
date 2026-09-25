@@ -31,7 +31,7 @@ ABORTED = "aborted"
 log = logging.getLogger("storage.operation")
 
 
-class Command(object):
+class Command:
     """
     Simple storage command that does not support progress.
     """

@@ -110,7 +110,7 @@ def dispatch(callable, timeout=None, discard=True):
     _executor.dispatch(callable, timeout=timeout, discard=discard)
 
 
-class Operation(object):
+class Operation:
     """
     Operation runs a callable with a given period until
     someone stops it.
@@ -234,7 +234,7 @@ class Operation(object):
         return '<Operation action=%s at 0x%x>' % (self._func, id(self))
 
 
-class VmDispatcher(object):
+class VmDispatcher:
     """
     Adapter class. Dispatch an Operation to all VMs, to improve
     isolation among them.
@@ -295,7 +295,7 @@ class VmDispatcher(object):
         return '<VmDispatcher operation=%s at 0x%x>' % (self._create, id(self))
 
 
-class _RunnableOnVm(object):
+class _RunnableOnVm:
     def __init__(self, vm):
         self._vm = vm
 

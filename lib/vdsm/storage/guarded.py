@@ -22,7 +22,7 @@ class Deadlock(Exception):
         return self.msg.format(self=self)
 
 
-class context(object):
+class context:
     """
     A context manager to lock groups of storage entities for an operation.
 
@@ -103,7 +103,7 @@ class context(object):
             raise ReleaseError(errors)
 
 
-class AbstractLock(object):
+class AbstractLock:
     @property
     def ns(self):
         raise NotImplementedError
