@@ -71,7 +71,8 @@ confidence=
 # R0917: Too many positional arguments
 # W0603: Using the global statement
 # W0511: TODO/FIXME comments
-disable=C,I,W0707,W0702,W0613,W1514,W0603,R1705,R1720,R0917,R1723,R1724,W0511
+# R0801: Similar lines in multiple files
+disable=C,I,W0707,W0702,W0613,W1514,W0603,R1705,R1720,R0917,R1723,R1724,W0511,R0801
 
 [REPORTS]
 
