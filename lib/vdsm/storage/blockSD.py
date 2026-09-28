@@ -20,7 +20,7 @@ import sanlock
 from vdsm.common import concurrent
 from vdsm.common import exception
 from vdsm.common import proc
-from vdsm.common.threadlocal import vars
+from vdsm.common.threadlocal import thread_vars
 from vdsm.common.units import KiB, MiB
 from vdsm.config import config
 from vdsm import constants
@@ -311,8 +311,8 @@ def deleteVolumes(sdUUID, vols):
 
 
 def zeroImgVolumes(sdUUID, imgUUID, volUUIDs, discard):
-    taskid = vars.task.id
-    task = vars.task
+    taskid = thread_vars.task.id
+    task = thread_vars.task
 
     try:
         lvm.changelv(sdUUID, volUUIDs, ("--permission", "rw"))
@@ -737,7 +737,7 @@ class BlockStorageDomainManifest(sd.StorageDomainManifest):
         self.markForDelVols(sdUUID, imgUUID, toDel, sc.REMOVED_IMAGE_PREFIX)
 
     def purgeImage(self, sdUUID, imgUUID, volsImgs, discard):
-        taskid = vars.task.id
+        taskid = thread_vars.task.id
 
         def purge_volume(volUUID):
             self.log.debug(
@@ -986,7 +986,7 @@ class BlockStorageDomainManifest(sd.StorageDomainManifest):
         storage block size.
         """
         metavol = self.metadata_volume_path()
-        with directio.open(metavol, "r+") as f:
+        with directio.open_file(metavol, "r+") as f:
             f.seek(self.metadata_offset(slot))
             f.write(data)
 

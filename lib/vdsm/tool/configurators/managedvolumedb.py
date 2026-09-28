@@ -88,7 +88,7 @@ def _db_owned_by_vdsm():
 
 
 def _db_version_correct():
-    db = mvdb.open()
+    db = mvdb.open_db()
     with closing(db):
         version = db.version_info()
 

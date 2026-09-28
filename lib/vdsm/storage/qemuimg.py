@@ -194,7 +194,7 @@ def measure(
 def create(
     image,
     size=None,
-    format=None,
+    disk_format=None,
     qcow2Compat=None,
     backing=None,
     backingFormat=None,
@@ -204,9 +204,9 @@ def create(
     cmd = [_qemuimg.cmd, "create"]
     cwdPath = None
 
-    if format:
-        cmd.extend(("-f", format))
-        if format == FORMAT.QCOW2:
+    if disk_format:
+        cmd.extend(("-f", disk_format))
+        if disk_format == FORMAT.QCOW2:
             qcow2Compat = _validate_qcow2_compat(qcow2Compat)
             cmd.extend(('-o', 'compat=' + qcow2Compat))
 
@@ -222,7 +222,8 @@ def create(
         cmd.extend(
             (
                 "-o",
-                "preallocation=" + _get_preallocation(preallocation, format),
+                "preallocation="
+                + _get_preallocation(preallocation, disk_format),
             )
         )
 
@@ -371,7 +372,8 @@ def commit(top, topFormat, base=None):
     return ProgressCommand(cmd, cwd=workdir)
 
 
-def map(image):
+# TODO: orphaned, could be removed
+def qemu_map(image):
     cmd = [_qemuimg.cmd, "map", "--output", "json", image]
     # For simplicity, we always run commit in the image directory.
     workdir = os.path.dirname(image)
@@ -581,7 +583,7 @@ def _validate_qcow2_compat(value):
     return value
 
 
-def _get_preallocation(value, format):
+def _get_preallocation(value, disk_format):
     if value not in (
         PREALLOCATION.OFF,
         PREALLOCATION.FALLOC,
@@ -589,12 +591,13 @@ def _get_preallocation(value, format):
         PREALLOCATION.METADATA,
     ):
         raise ValueError("Invalid preallocation type %r" % value)
-    if value == PREALLOCATION.METADATA and format not in (
+    if value == PREALLOCATION.METADATA and disk_format not in (
         FORMAT.QCOW2,
         FORMAT.QCOW,
     ):
         raise ValueError(
-            "Unsupported preallocation mode %r for format %r" % (value, format)
+            "Unsupported preallocation mode %r for format %r"
+            % (value, disk_format)
         )
     return value
 

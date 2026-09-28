@@ -390,9 +390,9 @@ class HSM_MailMonitor:
                 msg.checkReply(newMsg)
                 if msg.callback:
                     try:
-                        id = str(uuid.uuid4())
+                        str_uuid = str(uuid.uuid4())
                         if not self.tp.queueTask(
-                            id, runTask, (msg.callback, msg.volumeData)
+                            str_uuid, runTask, (msg.callback, msg.volumeData)
                         ):
                             raise Exception()
                     except:
@@ -848,13 +848,13 @@ class SPM_MailMonitor:
                     if msgType in self._messageTypes:
                         # Use message class to process request according to
                         # message specific logic
-                        id = str(uuid.uuid4())
+                        str_uuid = str(uuid.uuid4())
                         self.log.debug(
                             "SPM_MailMonitor: processing request: " "%s",
                             repr(newMail[msgStart : msgStart + MESSAGE_SIZE]),
                         )
                         res = self.tp.queueTask(
-                            id,
+                            str_uuid,
                             runTask,
                             (
                                 self._messageTypes[msgType],

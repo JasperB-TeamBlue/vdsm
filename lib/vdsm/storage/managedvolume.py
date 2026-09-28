@@ -82,7 +82,7 @@ def attach_volume(sd_id, vol_id, connection_info):
     """
     Attach volume with os-brick.
     """
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         _add_volume(db, vol_id, connection_info)
 
@@ -136,7 +136,7 @@ def detach_volume(sd_id, vol_id):
     """
     Detach volume with os-brick.
     """
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         try:
             vol_info = db.get_volume(vol_id)
@@ -174,7 +174,7 @@ def volumes_info(vol_ids=()):
     Returns:
             List of managed volumes information.
     """
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         result = []
         for vol_info in db.iter_volumes(vol_ids):

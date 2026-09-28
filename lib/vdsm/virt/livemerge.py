@@ -87,7 +87,7 @@ class Job:
 
     def __init__(
         self,
-        id,
+        job_id,
         drive,
         disk,
         top,
@@ -98,7 +98,7 @@ class Job:
         pivot=None,
     ):
         # Read only attributes.
-        self._id = id
+        self._id = job_id
         self._drive = drive
         self._disk = disk
         self._top = top

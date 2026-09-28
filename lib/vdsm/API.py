@@ -1901,9 +1901,9 @@ class Global(APIBase):
     def echo(self, message):
         return {'status': doneCode, 'logged': message}
 
-    def getLldp(self, filter):
+    def getLldp(self, device_filter):
         return response.success(
-            info=supervdsm.getProxy().get_lldp_info(filter)
+            info=supervdsm.getProxy().get_lldp_info(device_filter)
         )
 
     # Top-level storage functions

@@ -222,21 +222,23 @@ class OvsNetInfo:
 
     def _fake_bridgeless(self, net):
         iface = net[NetInfoIfaceSchema.IFACE]
-        type = next(
+        iface_type = next(
             (
-                type
-                for type in (
+                type_name
+                for type_name in (
                     NetInfoSchema.VLANS,
                     NetInfoSchema.BONDS,
                     NetInfoSchema.NICS,
                 )
-                if iface in self._base_netinfo[type]
+                if iface in self._base_netinfo[type_name]
             ),
             None,
         )
 
-        if type:
-            self._base_netinfo[type][iface].update(_shared_net_attrs(net))
+        if iface_type:
+            self._base_netinfo[iface_type][iface].update(
+                _shared_net_attrs(net)
+            )
 
     @staticmethod
     def _fake_vlan(net, sb):

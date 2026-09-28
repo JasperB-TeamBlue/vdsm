@@ -234,11 +234,11 @@ def validate_bridge_name(bridge_name):
         )
 
 
-def _validate_vlan_id(id):
+def _validate_vlan_id(new_id):
     MAX_ID = 4094
 
     try:
-        vlan_id = int(id)
+        vlan_id = int(new_id)
     except ValueError:
         raise ne.ConfigNetworkError(
             ne.ERR_BAD_VLAN,
@@ -248,7 +248,7 @@ def _validate_vlan_id(id):
     if not 0 <= vlan_id <= MAX_ID:
         raise ne.ConfigNetworkError(
             ne.ERR_BAD_VLAN,
-            'VLAN id out of range: %r, must be 0..%s' % (id, MAX_ID),
+            'VLAN id out of range: %r, must be 0..%s' % (new_id, MAX_ID),
         )
 
 

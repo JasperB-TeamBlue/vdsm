@@ -12,7 +12,7 @@ class NotConnectedError(Exception):
     """
 
 
-class TimeoutError(libvirt.libvirtError):
+class OperationTimeoutError(libvirt.libvirtError):
     pass
 
 
@@ -105,7 +105,7 @@ class Notifying:
             except libvirt.libvirtError as e:
                 if e.get_error_code() == libvirt.VIR_ERR_OPERATION_TIMEOUT:
                     self._cb(True)
-                    toe = TimeoutError(e.get_error_message())
+                    toe = OperationTimeoutError(e.get_error_message())
                     toe.err = e.err
                     raise toe
                 raise

@@ -70,7 +70,7 @@ class AffinityTests(VdsmTestCase):
         if not self.running.wait(0.5):
             raise RuntimeError("helper child process not running!")
 
-        taskset.set(self.proc.pid, cpu_set)
+        taskset.set_affinity(self.proc.pid, cpu_set)
         self.assertEqual(taskset.get(self.proc.pid), cpu_set)
 
     @permutations(_CPU_COMBINATIONS)
@@ -97,7 +97,7 @@ class AffinityTests(VdsmTestCase):
 
     def _run_child(self, cpu_set=None):
         if cpu_set:
-            taskset.set(os.getpid(), cpu_set)
+            taskset.set_affinity(os.getpid(), cpu_set)
         self.running.set()
         self.stop.wait()
 

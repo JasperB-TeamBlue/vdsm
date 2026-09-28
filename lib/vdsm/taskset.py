@@ -26,7 +26,7 @@ def get(pid):
     return _cpu_set_from_output(out[-1])
 
 
-def set(pid, cpu_set, all_tasks=False):
+def set_affinity(pid, cpu_set, all_tasks=False):
     """
     Set the affinity of a process, by its <pid>, using taskset command.
     if all_tasks evaluates to True, set the affinity for all threads of

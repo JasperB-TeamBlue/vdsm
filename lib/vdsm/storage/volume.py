@@ -9,7 +9,7 @@ from contextlib import contextmanager
 from vdsm import utils
 from vdsm.common import exception
 from vdsm.common.marks import deprecated
-from vdsm.common.threadlocal import vars
+from vdsm.common.threadlocal import thread_vars
 
 from vdsm.storage import bitmaps
 from vdsm.storage import clusterlock
@@ -382,12 +382,12 @@ class VolumeManifest:
         if self.isShared():
             return False
 
-        type = self.getVolType()
+        vol_type = self.getVolType()
         childrenNum = len(self.getChildren())
 
-        if childrenNum == 0 and type != sc.LEAF_VOL:
+        if childrenNum == 0 and vol_type != sc.LEAF_VOL:
             self.setLeaf()
-        elif childrenNum > 0 and type != sc.INTERNAL_VOL:
+        elif childrenNum > 0 and vol_type != sc.INTERNAL_VOL:
             self.setInternal()
 
         return self.isLeaf()
@@ -1090,7 +1090,7 @@ class Volume:
         self.log.debug("Renaming volume lease %s to %s", self.volUUID, newUUID)
         if recovery:
             clsModule, clsName = self._getModuleAndClass()
-            vars.task.pushRecovery(
+            thread_vars.task.pushRecovery(
                 task.Recovery(
                     "Rename lease rollback: " + newUUID,
                     clsModule,
@@ -1109,7 +1109,7 @@ class Volume:
         """
         wasleaf = False
         taskName = "parent volume rollback: " + self.volUUID
-        vars.task.pushRecovery(
+        thread_vars.task.pushRecovery(
             task.Recovery(
                 taskName,
                 "volume",
@@ -1132,7 +1132,7 @@ class Volume:
                 dstPath,
                 size=capacity,
                 backing=parent,
-                format=sc.fmt2str(volFormat),
+                disk_format=sc.fmt2str(volFormat),
                 qcow2Compat=domain.qcow2_compat(),
                 backingFormat=sc.fmt2str(self.getFormat()),
                 unsafe=True,
@@ -1421,7 +1421,7 @@ class Volume:
             cls.log.info("Creating volume %s", volUUID)
 
             # Rollback sentinel to mark the start of the task
-            vars.task.pushRecovery(
+            thread_vars.task.pushRecovery(
                 task.Recovery(
                     task.ROLLBACK_SENTINEL,
                     clsModule,
@@ -1432,7 +1432,7 @@ class Volume:
             )
 
             # Create volume rollback
-            vars.task.pushRecovery(
+            thread_vars.task.pushRecovery(
                 task.Recovery(
                     "Halfbaked volume rollback",
                     clsModule,
@@ -1466,7 +1466,7 @@ class Volume:
                 se.InvalidParameterException,
             ) as e:
                 cls.log.error("Failed to create volume %s: %s", volPath, e)
-                vars.task.popRecovery()
+                thread_vars.task.popRecovery()
                 raise
             # When the volume format is raw what the guest sees is the apparent
             # size of the file/device therefore if the requested size doesn't
@@ -1496,7 +1496,7 @@ class Volume:
                     )
                     capacity = apparent_size
 
-            vars.task.pushRecovery(
+            thread_vars.task.pushRecovery(
                 task.Recovery(
                     "Create volume metadata rollback",
                     clsModule,
@@ -1535,7 +1535,7 @@ class Volume:
             )
 
         # Remove the rollback for the halfbaked volume
-        vars.task.replaceRecoveries(
+        thread_vars.task.replaceRecoveries(
             task.Recovery(
                 "Create volume rollback",
                 clsModule,
@@ -1656,7 +1656,7 @@ class Volume:
                 cur_raw_capacity,
                 new_capacity,
             )
-            vars.task.pushRecovery(
+            thread_vars.task.pushRecovery(
                 task.Recovery(
                     "Extend size for volume: " + self.volUUID,
                     "volume",

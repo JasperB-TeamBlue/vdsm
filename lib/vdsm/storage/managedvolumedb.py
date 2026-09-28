@@ -45,7 +45,7 @@ class Closed(errors.Base):
     msg = "Operation on closed database connection"
 
 
-def open():
+def open_db():
     conn = sqlite3.connect(DB_FILE)
     conn.row_factory = sqlite3.Row
     return DB(conn)

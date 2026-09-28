@@ -82,9 +82,9 @@ class NoDeviceMapperMajorNumber(errors.Base):
 class UnsupportedSubsystemType(errors.Base):
     msg = "{self.device!r} has unsupported subsystem type {self.type!r}"
 
-    def __init__(self, device, type):
+    def __init__(self, device, device_type):
         self.device = device
-        self.type = type
+        self.type = device_type
 
 
 def dm_major_number():

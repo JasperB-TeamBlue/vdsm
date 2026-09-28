@@ -211,11 +211,11 @@ class VolumeMetadata:
         self._sequence = self._validate_integer("sequence", value)
 
     @classmethod
-    def _validate_integer(cls, property, value):
+    def _validate_integer(cls, prop, value):
         if not isinstance(value, int):
             raise AssertionError(
                 "Invalid value for metadata property {!r}: {!r}".format(
-                    property, value
+                    prop, value
                 )
             )
         return value

@@ -33,7 +33,7 @@ def vol_chain(tmp_mount):
     op = qemuimg.create(
         base_vol,
         size=virtual_size,
-        format=qemuimg.FORMAT.QCOW2,
+        disk_format=qemuimg.FORMAT.QCOW2,
         qcow2Compat='1.1',
     )
     op.run()
@@ -43,7 +43,7 @@ def vol_chain(tmp_mount):
     op = qemuimg.create(
         top_vol,
         size=virtual_size,
-        format=qemuimg.FORMAT.QCOW2,
+        disk_format=qemuimg.FORMAT.QCOW2,
         qcow2Compat='1.1',
         backing=base_vol,
         backingFormat='qcow2',
@@ -171,7 +171,7 @@ def test_skip_holes_during_merge_bitmaps(tmp_mount, vol_chain):
     op = qemuimg.create(
         base_parent_vol,
         size=virtual_size,
-        format=qemuimg.FORMAT.QCOW2,
+        disk_format=qemuimg.FORMAT.QCOW2,
         qcow2Compat='1.1',
     )
     op.run()

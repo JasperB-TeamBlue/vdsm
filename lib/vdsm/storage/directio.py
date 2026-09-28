@@ -20,7 +20,7 @@ _PC_REC_XFER_ALIGN = 17
 _PC_REC_MIN_XFER_SIZE = 16
 
 
-def open(path, mode="r"):
+def open_file(path, mode="r"):
     return DirectFile(path, mode)
 
 

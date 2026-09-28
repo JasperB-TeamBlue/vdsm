@@ -54,8 +54,8 @@ class TaskManager:
 
         return task.id
 
-    def scheduleJob(self, type, store, task, jobName, func, *args):
-        task.setTag(type)
+    def scheduleJob(self, tag, store, task, jobName, func, *args):
+        task.setTag(tag)
         if store is not None:
             task.setPersistence(store, cleanPolicy=TaskCleanType.manual)
         task.setManager(self)

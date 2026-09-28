@@ -7,7 +7,7 @@ from collections import namedtuple
 
 from decorator import decorator
 
-from vdsm.common.threadlocal import vars
+from vdsm.common.threadlocal import thread_vars
 
 from . import exception
 from . import logutils
@@ -39,10 +39,10 @@ def logged(on=""):
 def context_string(api_object):
     items = []
 
-    # Internal threads never set vars.context, so we will not have a context
-    # attribute. RPC threads set context before calling the api, and set
-    # context to None after that.
-    ctx = getattr(vars, "context", None)
+    # Internal threads never set thread_vars.context, so we will not have
+    # a context attribute. RPC threads set context before calling the api,
+    # and set context to None after that.
+    ctx = getattr(thread_vars, "context", None)
     if not ctx:
         items.append(("from", "internal"))
     else:
@@ -51,7 +51,7 @@ def context_string(api_object):
             items.append(("flow_id", ctx.flow_id))
 
     # Task exists only for storage verbs
-    task = getattr(vars, "task", None)
+    task = getattr(thread_vars, "task", None)
     if task:
         items.append(("task_id", task.id))
 

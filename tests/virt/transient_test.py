@@ -101,7 +101,7 @@ class TestTransient(VdsmTestCase):
             op = qemuimg.create(
                 img_path,
                 size=VIRTUAL_SIZE,
-                format=qemuimg.FORMAT.QCOW2,
+                disk_format=qemuimg.FORMAT.QCOW2,
                 qcow2Compat=QCOW2_COMPAT,
             )
             op.run()

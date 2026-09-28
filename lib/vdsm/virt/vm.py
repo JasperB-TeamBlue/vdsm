@@ -4079,7 +4079,7 @@ class Vm:
             sdDom = sdc.sdCache.produce_manifest(diskParams['domainID'])
             operation = qemuimg.create(
                 transientPath,
-                format=qemuimg.FORMAT.QCOW2,
+                disk_format=qemuimg.FORMAT.QCOW2,
                 qcow2Compat=sdDom.qcow2_compat(),
                 backing=diskParams['path'],
                 backingFormat=driveFormat,
@@ -5611,7 +5611,7 @@ class Vm:
             self._console_disconnect_action_delay = (
                 consoleDisconnectActionDelay or 0
             )
-        except virdomain.TimeoutError as tmo:
+        except virdomain.OperationTimeoutError as tmo:
             raise exception.SpiceTicketError(str(tmo))
 
         else:

@@ -5,7 +5,7 @@ from vdsm.common import api
 from vdsm.common import concurrent
 from vdsm.common import exception
 from vdsm.common import response
-from vdsm.common.threadlocal import vars
+from vdsm.common.threadlocal import thread_vars
 
 from testlib import Sigargs
 from testlib import VdsmTestCase as TestCaseBase
@@ -166,9 +166,9 @@ def run_with_vars(context, task, func, *args, **kwargs):
 
     def run():
         if context:
-            vars.context = context
+            thread_vars.context = context
         if task:
-            vars.task = task
+            thread_vars.task = task
         try:
             result[0] = (True, func(*args, **kwargs))
         except Exception as exc:

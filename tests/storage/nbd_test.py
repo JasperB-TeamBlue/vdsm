@@ -104,7 +104,10 @@ def nbd_env(monkeypatch):
         # Create source image with some data. Using qcow2 format to make it
         # easier to test with different file systems.
         op = qemuimg.create(
-            env.src, size=env.virtual_size, format="qcow2", qcow2Compat="1.1"
+            env.src,
+            size=env.virtual_size,
+            disk_format="qcow2",
+            qcow2Compat="1.1",
         )
         op.run()
         qemuio.write_pattern(

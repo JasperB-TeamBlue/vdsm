@@ -1288,5 +1288,7 @@ def scratch_disk_path(vm, backup_id, drive_name):
 
 def create_scratch_disk(tmpdir, name):
     path = str(tmpdir.join(name))
-    qemuimg.create(path, size=GiB, format="qcow2", qcow2Compat='1.1').run()
+    qemuimg.create(
+        path, size=GiB, disk_format="qcow2", qcow2Compat='1.1'
+    ).run()
     return path

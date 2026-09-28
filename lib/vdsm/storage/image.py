@@ -11,7 +11,7 @@ from vdsm.config import config
 from vdsm.common import cmdutils
 from vdsm.common import logutils
 from vdsm.common.marks import deprecated
-from vdsm.common.threadlocal import vars
+from vdsm.common.threadlocal import thread_vars
 from vdsm.common.units import MiB
 from vdsm.storage import constants as sc
 from vdsm.storage import exception as se
@@ -75,7 +75,7 @@ class Image:
 
     def _run_qemuimg_operation(self, operation):
         self.log.debug('running qemu-img operation')
-        with vars.task.abort_callback(operation.abort):
+        with thread_vars.task.abort_callback(operation.abort):
             operation.run()
         self.log.debug('qemu-img operation has completed')
 
@@ -577,7 +577,7 @@ class Image:
 
         # At this point we successfully finished the 'copy' part of the
         # operation and we can clear all recoveries.
-        vars.task.clearRecoveries()
+        thread_vars.task.clearRecoveries()
         # If it's 'move' operation, we should delete src image after copying
         if op == MOVE_OP:
             # TODO: Should raise here.

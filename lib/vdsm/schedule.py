@@ -97,20 +97,20 @@ class Scheduler:
         if wait:
             self._thread.join()
 
-    def schedule(self, delay, callable):
+    def schedule(self, delay, schedule_callable):
         """
         Schedule callable to be called after delay seconds on the scheduler
         thread.
 
-        Callable must not block or take excessive time to complete. If it does
-        not finish quickly, it may delay other scheduled calls on the scheduler
-        thread.
+        schedule_callable must not block or take excessive time to complete.
+        If it does not finish quickly, it may delay other scheduled calls
+        on the scheduler thread.
 
         Returns a ScheduledCall that may be canceled if callable was not called
         yet.
         """
         deadline = self._clock() + delay
-        call = ScheduledCall(deadline, callable)
+        call = ScheduledCall(deadline, schedule_callable)
         with self._cond:
             if not self._running:
                 raise AssertionError("Scheduler not running")
@@ -181,9 +181,9 @@ class ScheduledCall:
 
     _log = logging.getLogger("Scheduler")
 
-    def __init__(self, deadline, callable):
+    def __init__(self, deadline, scheduled_callable):
         self._deadline = deadline
-        self._callable = callable
+        self._callable = scheduled_callable
 
     def cancel(self):
         self._callable = _INVALID

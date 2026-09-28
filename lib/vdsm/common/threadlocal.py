@@ -3,6 +3,6 @@
 
 import threading
 
-vars = threading.local()
-vars.task = None
-vars.context = None
+thread_vars = threading.local()
+thread_vars.task = None
+thread_vars.context = None

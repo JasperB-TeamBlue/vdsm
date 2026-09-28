@@ -1289,12 +1289,12 @@ def _get_disk_info(conn, disk, vm):
     return {}
 
 
-def _convert_disk_format(format):
+def _convert_disk_format(disk_format):
     # TODO: move to volume format when storage/volume.py
     #       will be accessible for /lib/vdsm/v2v.py
-    if format == 'qcow2':
+    if disk_format == 'qcow2':
         return 'COW'
-    elif format == 'raw':
+    elif disk_format == 'raw':
         return 'RAW'
     raise KeyError
 

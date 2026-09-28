@@ -133,7 +133,7 @@ class Executor:
         for worker in workers:
             worker.join()
 
-    def dispatch(self, callable, timeout=None, discard=True):
+    def dispatch(self, dispatch_callable, timeout=None, discard=True):
         """
         Dispatches a new task to the executor.
 
@@ -157,7 +157,7 @@ class Executor:
         """
         if not self._running:
             raise NotRunning()
-        self._tasks.put(Task(callable, timeout, discard))
+        self._tasks.put(Task(dispatch_callable, timeout, discard))
 
     # Serving workers
 
@@ -374,8 +374,8 @@ class _Worker:
 
 class Task:
 
-    def __init__(self, callable, timeout, discard=True):
-        self._callable = callable
+    def __init__(self, task_callable, timeout, discard=True):
+        self._callable = task_callable
         self.timeout = timeout
         self.discard = discard
         self._start = None

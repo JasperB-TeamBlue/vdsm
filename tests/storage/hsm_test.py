@@ -37,7 +37,7 @@ class TestVerifyUntrustedVolume:
         with self.fake_volume(vol_fmt) as vol:
             qemu_fmt = sc.fmt2str(vol_fmt)
             op = qemuimg.create(
-                vol.volumePath, size=self.SIZE, format=qemu_fmt
+                vol.volumePath, size=self.SIZE, disk_format=qemu_fmt
             )
             op.run()
             h = FakeHSM()
@@ -55,7 +55,7 @@ class TestVerifyUntrustedVolume:
     def test_wrong_format_raises(self, vol_fmt, qemu_fmt):
         with self.fake_volume(vol_fmt) as vol:
             op = qemuimg.create(
-                vol.volumePath, size=self.SIZE, format=qemu_fmt
+                vol.volumePath, size=self.SIZE, disk_format=qemu_fmt
             )
             op.run()
             h = FakeHSM()
@@ -76,7 +76,7 @@ class TestVerifyUntrustedVolume:
             op = qemuimg.create(
                 vol.volumePath,
                 size=self.SIZE + sc.BLOCK_SIZE_4K,
-                format=qemu_fmt,
+                disk_format=qemu_fmt,
             )
             op.run()
             h = FakeHSM()
@@ -100,7 +100,7 @@ class TestVerifyUntrustedVolume:
             op = qemuimg.create(
                 vol.volumePath,
                 size=self.SIZE - sc.BLOCK_SIZE_4K,
-                format=qemu_fmt,
+                disk_format=qemu_fmt,
             )
             op.run()
             h = FakeHSM()
@@ -174,7 +174,9 @@ class TestVerifyUntrustedVolume:
             vol = make_qemu_chain(env, self.SIZE, sc.COW_FORMAT, 2)[1]
             # Simulate upload of image without backing file to a a snapshot
             op = qemuimg.create(
-                vol.volumePath, size=self.SIZE, format=qemuimg.FORMAT.QCOW2
+                vol.volumePath,
+                size=self.SIZE,
+                disk_format=qemuimg.FORMAT.QCOW2,
             )
             op.run()
             h = FakeHSM()
@@ -203,7 +205,7 @@ class TestVerifyUntrustedVolume:
                 op = qemuimg.create(
                     vol.volumePath,
                     size=self.SIZE,
-                    format=qemuimg.FORMAT.QCOW2,
+                    disk_format=qemuimg.FORMAT.QCOW2,
                     qcow2Compat=hsm_compat,
                 )
                 op.run()
@@ -229,7 +231,7 @@ class TestVerifyUntrustedVolume:
                 op = qemuimg.create(
                     vol.volumePath,
                     size=self.SIZE,
-                    format=qemuimg.FORMAT.QCOW2,
+                    disk_format=qemuimg.FORMAT.QCOW2,
                     qcow2Compat=hsm_compat,
                 )
                 op.run()

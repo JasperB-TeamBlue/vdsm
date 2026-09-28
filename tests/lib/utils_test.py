@@ -543,7 +543,7 @@ class TestExecCmdAffinity(TestCaseBase):
     @forked
     @MonkeyPatch(cmdutils, '_USING_CPU_AFFINITY', True)
     def testResetAffinityWhenConfigured(self):
-        taskset.set(os.getpid(), self.CPU_SET)
+        taskset.set_affinity(os.getpid(), self.CPU_SET)
         self.assertEqual(taskset.get(os.getpid()), self.CPU_SET)
 
         proc = commands.start((EXT_SLEEP, '30s'))
@@ -561,7 +561,7 @@ class TestExecCmdAffinity(TestCaseBase):
     @forked
     @MonkeyPatch(cmdutils, '_USING_CPU_AFFINITY', True)
     def testKeepAffinity(self):
-        taskset.set(os.getpid(), self.CPU_SET)
+        taskset.set_affinity(os.getpid(), self.CPU_SET)
         self.assertEqual(taskset.get(os.getpid()), self.CPU_SET)
 
         proc = commands.start((EXT_SLEEP, '30s'), reset_cpu_affinity=False)

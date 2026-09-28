@@ -13,7 +13,7 @@ from vdsm import host
 from vdsm import utils
 from vdsm.common import exception
 from vdsm.common.marks import deprecated
-from vdsm.common.threadlocal import vars
+from vdsm.common.threadlocal import thread_vars
 from vdsm.common.units import MiB, GiB
 from vdsm.config import config
 from vdsm.storage import clusterlock
@@ -1845,7 +1845,7 @@ class StorageDomain:
                 "create_image_rollback",
                 [image_dir],
             )
-            vars.task.pushRecovery(recovery)
+            thread_vars.task.pushRecovery(recovery)
             os.mkdir(image_dir)
         return image_dir
 

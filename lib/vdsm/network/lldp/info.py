@@ -7,11 +7,11 @@ from vdsm.network.link.iface import iface
 Lldp = lldp.driver()
 
 
-def get_info(filter):
+def get_info(device_filter):
     """
     Get LLDP information for all devices.
     """
-    return {device: _get_info(device) for device in filter['devices']}
+    return {device: _get_info(device) for device in device_filter['devices']}
 
 
 def _get_info(device):

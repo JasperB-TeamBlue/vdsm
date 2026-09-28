@@ -37,7 +37,7 @@ def add_bitmaps(src_path, dst_path):
         src_path (string): Path to the source image
         dst_path (string): Path to the destination image
     """
-    for name, bitmap in _query_bitmaps(src_path, filter=_valid).items():
+    for name, bitmap in _query_bitmaps(src_path, predicate=_valid).items():
         _add_bitmap(dst_path, name, granularity=bitmap['granularity'])
 
 
@@ -59,7 +59,7 @@ def merge_bitmaps(base_path, top_path, base_parent_path=None):
 
     Returns:
     """
-    valid_top_bitmaps = _query_bitmaps(top_path, filter=_valid)
+    valid_top_bitmaps = _query_bitmaps(top_path, predicate=_valid)
     base_bitmaps = _query_bitmaps(base_path)
     if base_parent_path:
         parent_bitmaps = _query_bitmaps(base_parent_path)
@@ -143,7 +143,7 @@ def prune_bitmaps(base_path, top_path):
         top_path (str): Path to the top volume
     """
     base_bitmaps = _query_bitmaps(base_path)
-    valid_top_bitmaps = _query_bitmaps(top_path, filter=_valid)
+    valid_top_bitmaps = _query_bitmaps(top_path, predicate=_valid)
 
     stale_bitmaps = [
         name for name in base_bitmaps if name not in valid_top_bitmaps
@@ -213,7 +213,7 @@ def _merge_bitmap(src_path, dst_path, bitmap):
         )
 
 
-def _query_bitmaps(vol_path, filter=None):
+def _query_bitmaps(vol_path, predicate=None):
     vol_info = qemuimg.info(vol_path)
 
     # For raw format there is no format specific data.
@@ -224,7 +224,7 @@ def _query_bitmaps(vol_path, filter=None):
     # bitmaps.
     bitmaps = vol_info["format-specific"]["data"].get("bitmaps", [])
 
-    return {b["name"]: b for b in bitmaps if filter is None or filter(b)}
+    return {b["name"]: b for b in bitmaps if predicate is None or predicate(b)}
 
 
 def _valid(bitmap):

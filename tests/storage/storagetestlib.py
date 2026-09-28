@@ -387,7 +387,7 @@ def make_file_volume(
         op = qemuimg.create(
             volpath,
             size=size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat=qcow2_compat,
             backing=backing,
             backingFormat=backing_format,
@@ -402,7 +402,7 @@ def make_file_volume(
         op = qemuimg.create(
             volpath,
             size=size,
-            format=qemuimg.FORMAT.RAW,
+            disk_format=qemuimg.FORMAT.RAW,
             preallocation=preallocation,
         )
         op.run()
@@ -474,7 +474,7 @@ def make_block_volume(
         op = qemuimg.create(
             volpath,
             size=size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat=qcow2_compat,
             backing=backing,
             backingFormat=backing_format,

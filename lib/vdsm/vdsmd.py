@@ -169,7 +169,7 @@ def run():
     log.info("Exiting")
 
 
-def install_manhole(locals):
+def install_manhole(manhole_locals):
     if not config.getboolean('devel', 'manhole_enable'):
         return
 
@@ -189,7 +189,7 @@ def install_manhole(locals):
 
     path = os.path.join(constants.P_VDSM_RUN, 'vdsmd.manhole')
     manhole.install(
-        locals=locals,
+        locals=manhole_locals,
         socket_path=path,
         daemon_connection=True,
         patch_fork=False,
@@ -281,7 +281,7 @@ def __set_cpu_affinity():
         )
 
     log.info('VDSM will run with cpu affinity: %s', cpu_set)
-    taskset.set(os.getpid(), cpu_set, all_tasks=True)
+    taskset.set_affinity(os.getpid(), cpu_set, all_tasks=True)
 
 
 def run_stop_hook():

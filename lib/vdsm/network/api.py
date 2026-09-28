@@ -270,16 +270,18 @@ def confirm_connectivity():
     connectivity.confirm()
 
 
-def get_lldp_info(filter):
+def get_lldp_info(device_filter):
     """
     If filter is empty, all NICs are returned. If key 'devices' in filter
     contains a list of devices, the list is restricted to this devices.
     An empty list is interpreted as no restriction.
     """
-    if not filter.get('devices', []):
+    if not device_filter.get('devices', []):
         # TODO OVS nics
-        filter['devices'] = netswitch.configurator.netinfo()['nics'].keys()
-    return lldp_info.get_info(filter)
+        device_filter['devices'] = netswitch.configurator.netinfo()[
+            'nics'
+        ].keys()
+    return lldp_info.get_info(device_filter)
 
 
 def is_ovn_configured():

@@ -198,20 +198,20 @@ class CurrentState:
     def rules_state(self):
         return self._rules_state
 
-    def filtered_interfaces(self, filter=None):
+    def filtered_interfaces(self, filter_list=None):
         """
         Get filtered interfaces specified by filter.
 
         If the filter is None or empty list the return value contains all
         available interfaces.
 
-        :param filter: List of interface names to filter
-        :type filter: list
+        :param filter_list: List of interface names to filter
+        :type filter_list: list
         :returns: Dict in format {IFNAME: IFSTATE}
         :rtype: dict
         """
-        filter_set = set(filter) if filter else set()
-        if filter:
+        filter_set = set(filter_list) if filter_list else set()
+        if filter_list:
             return {
                 ifname: ifstate
                 for ifname, ifstate in self._interfaces_state.items()

@@ -548,7 +548,7 @@ def getMPDevsIter():
 
     Return the list of device identifiers w/o "/dev/mapper" prefix
     """
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         for dmInfoDir in glob(SYS_BLOCK + "/dm-*/dm/"):
             uuidFile = os.path.join(dmInfoDir, "uuid")

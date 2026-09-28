@@ -11,7 +11,7 @@ from vdsm.network.link import vlan
 
 def report():
     stats = {}
-    for iface_properties in iface.list():
+    for iface_properties in iface.populate_list():
         try:
             interface = iface.iface(iface_properties['name'])
             stats[interface.device] = _generate_iface_stats(interface)

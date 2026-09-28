@@ -9,11 +9,11 @@ def parse_bond_options(options):
     Parse bonding options into a dictionary.
     """
 
-    def _string_to_dict(str, div, eq):
+    def _string_to_dict(str_val, div, eq):
         if options == '':
             return {}
         return dict(
-            option.split(eq, 1) for option in str.strip(div).split(div)
+            option.split(eq, 1) for option in str_val.strip(div).split(div)
         )
 
     if options:

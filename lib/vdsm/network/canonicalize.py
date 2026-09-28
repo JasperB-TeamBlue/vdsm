@@ -254,17 +254,17 @@ def _canonicalize_nameservers(data):
             data['nameservers'] = []
 
 
-def _rget(dict, keys, default=None):
+def _rget(dictionary, keys, default=None):
     """Recursive dictionary.get()
 
     >>> _rget({'a': {'b': 'hello'}}, ('a', 'b'))
     'hello'
     """
-    if dict is None:
+    if dictionary is None:
         return default
     elif len(keys) == 0:
-        return dict
-    return _rget(dict.get(keys[0]), keys[1:], default)
+        return dictionary
+    return _rget(dictionary.get(keys[0]), keys[1:], default)
 
 
 def _canonicalize_bond_hwaddress(bondname, bondattrs):

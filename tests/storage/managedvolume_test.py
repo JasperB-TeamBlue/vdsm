@@ -20,7 +20,7 @@ def tmp_db(tmpdir, monkeypatch):
     db_file = str(tmpdir.join("managedvolumes.db"))
     monkeypatch.setattr(managedvolumedb, "DB_FILE", db_file)
     managedvolumedb.create_db()
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         yield db
 
@@ -516,7 +516,7 @@ def test_volume_info_all(tmp_db):
         },
     ]
 
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         for vol in expected:
             db.add_volume(vol["vol_id"], vol["connection_info"])

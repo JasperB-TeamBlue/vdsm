@@ -28,7 +28,6 @@ from testValidation import brokentest
 from . import vmfakelib as fake
 import pytest
 
-
 _VM_PARAMS = {
     'displayPort': -1,
     'displaySecurePort': -1,
@@ -468,7 +467,7 @@ class TestVmOperations(XMLTestCase):
             )
 
             def _fail(*args):
-                raise virdomain.TimeoutError(defmsg=message)
+                raise virdomain.OperationTimeoutError(defmsg=message)
 
             domain = fake.Domain(domXml)
             domain.updateDeviceFlags = _fail

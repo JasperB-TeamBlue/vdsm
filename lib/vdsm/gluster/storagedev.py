@@ -355,16 +355,22 @@ def createBrick(
 
     get_format = blivet.formats.get_format  # pylint: disable=no-member
 
-    format = get_format(
+    device_format = get_format(
         DEFAULT_FS_TYPE, device=thinlv.path, mountopts=DEFAULT_MOUNT_OPTIONS
     )
-    format._defaultFormatOptions = ["-f", "-i", "size=512", "-n", "size=8192"]
+    device_format._defaultFormatOptions = [
+        "-f",
+        "-i",
+        "size=512",
+        "-n",
+        "size=8192",
+    ]
     if raidParams.get('type') == '6':
-        format._defaultFormatOptions += [
+        device_format._defaultFormatOptions += [
             "-d",
             "sw=%s,su=%sk" % (count, raidParams.get('stripeSize')),
         ]
-    blivetEnv.formatDevice(thinlv, format)
+    blivetEnv.formatDevice(thinlv, device_format)
     blivetEnv.doIt()
 
     try:

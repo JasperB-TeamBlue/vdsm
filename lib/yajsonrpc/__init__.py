@@ -9,7 +9,7 @@ import queue
 from vdsm.common import exception as vdsmexception
 
 from vdsm.common.logutils import Suppressed, traceback
-from vdsm.common.threadlocal import vars
+from vdsm.common.threadlocal import thread_vars
 from vdsm.common.time import monotonic_time, event_time
 from vdsm.common.password import protect_passwords, unprotect_passwords
 
@@ -338,7 +338,7 @@ class JsonRpcServer:
 
             return JsonRpcResponse(None, e, req.id)
 
-        vars.context = ctx.context
+        thread_vars.context = ctx.context
         try:
             params = req.params
             self._bridge.register_server_address(ctx.server_address)
@@ -363,7 +363,7 @@ class JsonRpcServer:
                 res = res.value
             return JsonRpcResponse(res, None, req.id)
         finally:
-            vars.context = None
+            thread_vars.context = None
 
     @traceback(log=log)
     def serve_requests(self):

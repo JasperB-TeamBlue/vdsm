@@ -32,7 +32,7 @@ def test_create_db(db_path):
     managedvolumedb.create_db()
     # Now try some select from database. If we get NotFound, it means db file
     # and volumes db were created, which is what we want to test
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         with pytest.raises(managedvolumedb.NotFound):
             db.get_volume("something")
@@ -44,7 +44,7 @@ def test_version_info(db_path):
     start = datetime.utcnow().replace(microsecond=0)
 
     managedvolumedb.create_db()
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         curr_version = db.version_info()
 
@@ -56,7 +56,7 @@ def test_version_info(db_path):
 
 
 def test_close(tmp_db):
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     db.close()
 
     # tests that the connection is really close and no other operations
@@ -66,14 +66,14 @@ def test_close(tmp_db):
 
 
 def test_close_twice(tmp_db):
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     db.close()
     # Closing twice does nothing.
     db.close()
 
 
 def test_insert_select(tmp_db):
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         connection_info = {"key": "value"}
         test_id = str(uuid.uuid4())
@@ -88,7 +88,7 @@ def test_insert_existing(tmp_db):
     connection_info = {"key": "value"}
     test_id = str(uuid.uuid4())
 
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         db.add_volume(test_id, connection_info)
 
@@ -98,7 +98,7 @@ def test_insert_existing(tmp_db):
 
 
 def test_get_non_existing(tmp_db):
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         with pytest.raises(managedvolumedb.NotFound):
             db.get_volume("this doesn't exists")
@@ -108,7 +108,7 @@ def test_update(tmp_db):
     connection_info = {"key": "value"}
     test_id = str(uuid.uuid4())
 
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         db.add_volume(test_id, connection_info)
 
@@ -132,7 +132,7 @@ def test_delete(tmp_db):
     connection_info = {"key": "value"}
     test_id = str(uuid.uuid4())
 
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         db.add_volume(test_id, connection_info)
         res = db.get_volume(test_id)
@@ -151,7 +151,7 @@ def test_owns_multipath(tmp_db):
     path = "/dev/mapper/36001405376e34ea70384de7a34a2854d"
     multipath_id = "36001405376e34ea70384de7a34a2854d"
 
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         # Empty db does not own any device.
         assert not db.owns_multipath(multipath_id)
@@ -181,7 +181,7 @@ def test_get_all_volumes(tmp_db):
         },
     ]
 
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         for vol in expected:
             db.add_volume(vol["vol_id"], vol["connection_info"])
@@ -209,7 +209,7 @@ def test_get_volumes_by_id(tmp_db):
     vol3 = {"vol_id": "vol-id-3", "connection_info": {"connection": 3}}
     expected = [vol1, vol2, vol3]
 
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         for vol in expected:
             db.add_volume(vol["vol_id"], vol["connection_info"])
@@ -229,7 +229,7 @@ def test_get_volumes_by_id(tmp_db):
 
 
 def test_partial_iteration(tmp_db):
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         db.add_volume("vol-1", {})
         db.add_volume("vol-2", {})
@@ -259,7 +259,7 @@ def test_concurrency(tmp_db):
         for i in range(iterations):
             vol_id = vol_id_tmp % (worker_id, i)
 
-            db = managedvolumedb.open()
+            db = managedvolumedb.open_db()
             with closing(db):
                 # Simulate attach volume flow.
 
@@ -301,7 +301,7 @@ def test_concurrency(tmp_db):
         % (volumes, concurrency, elapsed, elapsed / volumes)
     )
 
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         for i in range(concurrency):
             for j in range(iterations):
@@ -333,7 +333,7 @@ def test_lookup_benchmark(tmp_db):
             attachment = json.dumps({"attachment": multipath_id})
             yield vol_id, path, connection_info, attachment, multipath_id
 
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         # Access db._conn directly for faster import with single transaction.
         insert_volume = """
@@ -354,7 +354,7 @@ def test_lookup_benchmark(tmp_db):
 
     start = time.time()
 
-    db = managedvolumedb.open()
+    db = managedvolumedb.open_db()
     with closing(db):
         for _, multipath_id in volumes:
             db.owns_multipath(multipath_id)

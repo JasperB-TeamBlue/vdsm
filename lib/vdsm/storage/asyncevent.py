@@ -101,7 +101,7 @@ class EventLoop:
             when = self._scheduled[0]._when
             timeout = max(0, when - self.time())
 
-        events = poll(timeout, map=self._channels)
+        events = poll(timeout, event_map=self._channels)
         self._process_events(events)
 
         # Handle 'later' callbacks that are ready.
@@ -328,7 +328,7 @@ def _raise_stop_error():
     raise _StopError
 
 
-def poll(timeout=0.0, map=None):
+def poll(timeout=0.0, event_map=None):
     """
     Wait for events on readable or writable dispatchers in map, returning list
     of tuples (fd, dispatcher, flags) if any of the file descriptor is ready
@@ -357,7 +357,7 @@ def poll(timeout=0.0, map=None):
     # Keeping compatibility with asyncore.poll2 when using with empty map. This
     # is not relevant to the event loop since we always have a Waker channel,
     # but may needed by other code that use its own possibly empty map.
-    if not map:
+    if not event_map:
         return []
 
     if timeout is not None:
@@ -367,7 +367,7 @@ def poll(timeout=0.0, map=None):
 
     # No need to copy the map during iteration, nobody can access the map
     # during the iteration, fixes http://bugs.python.org/issue30994.
-    for fd, obj in map.items():
+    for fd, obj in event_map.items():
         flags = 0
         if obj.readable():
             flags |= select.POLLIN | select.POLLPRI
@@ -388,7 +388,7 @@ def poll(timeout=0.0, map=None):
 
     # Fetch the dispatchers from map before invoking any I/O callback fixes
     # http://bugs.python.org/issue30931.
-    return [(fd, map[fd], flags) for fd, flags in r]  # NOQA: F812
+    return [(fd, event_map[fd], flags) for fd, flags in r]  # NOQA: F812
 
 
 class Handle:
@@ -489,9 +489,9 @@ class Waker(asyncore.file_dispatcher):
     Based on twisted.internet.posixbase._UnixWaker.
     """
 
-    def __init__(self, map):
+    def __init__(self, waker_map):
         rfd, wfd = os.pipe()
-        asyncore.file_dispatcher.__init__(self, rfd, map=map)
+        asyncore.file_dispatcher.__init__(self, rfd, map=waker_map)
         os.close(rfd)  # file_dispatcher duped it
         filecontrol.set_close_on_exec(self._fileno)
         filecontrol.set_close_on_exec(wfd)
@@ -538,8 +538,8 @@ class BufferedReader(asyncore.file_dispatcher):
     Read from file until file is close and notify when read was completed.
     """
 
-    def __init__(self, fd, complete, bufsize=4096, map=None):
-        asyncore.file_dispatcher.__init__(self, fd, map=map)
+    def __init__(self, fd, complete, bufsize=4096, buffer_map=None):
+        asyncore.file_dispatcher.__init__(self, fd, map=buffer_map)
         filecontrol.set_close_on_exec(self._fileno)
         self._complete = complete
         self._bufsize = bufsize

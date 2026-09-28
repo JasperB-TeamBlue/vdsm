@@ -47,7 +47,7 @@ def create_disk(
         operation = qemuimg.create(
             path,
             size=size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
             backing=backing,
             backingFormat=backing_format,

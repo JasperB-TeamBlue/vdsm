@@ -5,6 +5,7 @@ import itertools
 import libvirt
 import logging
 import xml.etree.ElementTree as ET
+import enum
 
 from vdsm.common import cache
 from vdsm.common import cpuarch
@@ -12,7 +13,7 @@ from vdsm.common import libvirtconnection
 from vdsm.common.config import config
 
 
-class _CpuMode:
+class _CpuMode(enum.Enum):
     HOST_MODEL = 'host-model'
     CUSTOM = 'custom'
 

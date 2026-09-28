@@ -203,7 +203,7 @@ def iface(device, vfid=None) -> IfaceHybrid:
     return interface
 
 
-def list():
+def populate_list():
     for properties in link.iter_links():
         if 'type' not in properties:
             properties['type'] = get_alternative_type(properties['name'])

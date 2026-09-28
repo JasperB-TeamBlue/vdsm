@@ -7,7 +7,7 @@ import logging
 from vdsm import utils
 from vdsm.common import fileutils
 from vdsm.common.marks import deprecated
-from vdsm.common.threadlocal import vars
+from vdsm.common.threadlocal import thread_vars
 from vdsm.common.units import MiB
 from vdsm.config import config
 from vdsm.storage import blockdev
@@ -581,7 +581,7 @@ class BlockVolume(volume.Volume):
                 operation = qemuimg.create(
                     volPath,
                     size=capacity,
-                    format=sc.fmt2str(volFormat),
+                    disk_format=sc.fmt2str(volFormat),
                     qcow2Compat=dom.qcow2_compat(),
                 )
                 operation.run()
@@ -698,7 +698,7 @@ class BlockVolume(volume.Volume):
             )
             try:
                 if postZero:
-                    blockdev.zero(vol_path, task=vars.task)
+                    blockdev.zero(vol_path, task=thread_vars.task)
 
                 if discard:
                     blockdev.discard(vol_path)

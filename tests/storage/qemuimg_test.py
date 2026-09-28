@@ -86,12 +86,12 @@ class TestInfo:
             leaf_fmt = qemuimg.FORMAT.QCOW2
             with MonkeyPatchScope([(qemuimg, 'config', CONFIG)]):
                 op = qemuimg.create(
-                    base_path, size=size, format=qemuimg.FORMAT.RAW
+                    base_path, size=size, disk_format=qemuimg.FORMAT.RAW
                 )
                 op.run()
                 op = qemuimg.create(
                     leaf_path,
-                    format=leaf_fmt,
+                    disk_format=leaf_fmt,
                     backing=base_path,
                     backingFormat="raw",
                 )
@@ -138,7 +138,9 @@ class TestInfo:
         with namedTemporaryDir() as tmpdir:
             img = os.path.join(tmpdir, 'untrusted.img')
             size = 500 * GiB
-            op = qemuimg.create(img, size=size, format=qemuimg.FORMAT.QCOW2)
+            op = qemuimg.create(
+                img, size=size, disk_format=qemuimg.FORMAT.QCOW2
+            )
             op.run()
             info = qemuimg.info(img, trusted_image=False)
             assert size == info['virtual-size']
@@ -163,13 +165,15 @@ class TestInfo:
     def test_backing_chain(self, tmpdir):
         virtual_size = 10 * MiB
         base = str(tmpdir.join('base.raw'))
-        op = qemuimg.create(base, size=virtual_size, format=qemuimg.FORMAT.RAW)
+        op = qemuimg.create(
+            base, size=virtual_size, disk_format=qemuimg.FORMAT.RAW
+        )
         op.run()
 
         mid = str(tmpdir.join('mid.qcow2'))
         op = qemuimg.create(
             mid,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat="1.1",
             backing=base,
             backingFormat="raw",
@@ -182,7 +186,7 @@ class TestInfo:
         top = str(tmpdir.join('top.qcow2'))
         op = qemuimg.create(
             top,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat="1.1",
             backing=mid,
             backingFormat="qcow2",
@@ -242,7 +246,7 @@ class TestInfo:
         op = qemuimg.create(
             img,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat="1.1",
         )
         op.run()
@@ -277,7 +281,7 @@ class TestCreate:
             op = qemuimg.create(
                 image,
                 size=virtual_size,
-                format=qemuimg.FORMAT.RAW,
+                disk_format=qemuimg.FORMAT.RAW,
                 preallocation=preallocation,
             )
             op.run()
@@ -292,7 +296,7 @@ class TestCreate:
             op = qemuimg.create(
                 image,
                 size=virtual_size,
-                format=qemuimg.FORMAT.RAW,
+                disk_format=qemuimg.FORMAT.RAW,
                 preallocation=preallocation,
             )
             op.run()
@@ -323,7 +327,7 @@ class TestCreate:
         with namedTemporaryDir() as tmpdir:
             image = os.path.join(tmpdir, "image")
             size = 10 * GiB
-            op = qemuimg.create(image, format='qcow2', size=size)
+            op = qemuimg.create(image, disk_format='qcow2', size=size)
             op.run()
 
             info = qemuimg.info(image)
@@ -336,7 +340,7 @@ class TestCreate:
             image = os.path.join(tmpdir, "image")
             size = 10 * GiB
             op = qemuimg.create(
-                image, format='qcow2', qcow2Compat='1.1', size=size
+                image, disk_format='qcow2', qcow2Compat='1.1', size=size
             )
             op.run()
 
@@ -347,7 +351,7 @@ class TestCreate:
 
     def test_qcow2_compat_invalid(self):
         with pytest.raises(ValueError):
-            qemuimg.create('image', format='qcow2', qcow2Compat='1.11')
+            qemuimg.create('image', disk_format='qcow2', qcow2Compat='1.11')
 
     def test_invalid_config(self):
         config = make_config([('irs', 'qcow2_compat', '1.2')])
@@ -607,7 +611,7 @@ class TestConvert:
         op = qemuimg.create(
             src_base,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -616,7 +620,7 @@ class TestConvert:
         op = qemuimg.create(
             src_top,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
             backing=src_base,
             backingFormat='qcow2',
@@ -628,7 +632,7 @@ class TestConvert:
         op = qemuimg.create(
             dst_base,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat=dst_compat,
         )
         op.run()
@@ -637,7 +641,7 @@ class TestConvert:
         op = qemuimg.create(
             dst_top,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat=dst_compat,
             backing=dst_base,
             backingFormat='qcow2',
@@ -712,7 +716,7 @@ class TestConvert:
         op = qemuimg.create(
             src_base,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -721,7 +725,7 @@ class TestConvert:
         op = qemuimg.create(
             src_top,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
             backing=src_base,
             backingFormat='qcow2',
@@ -739,7 +743,7 @@ class TestConvert:
         op = qemuimg.create(
             dst,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat=dst_compat,
         )
         op.run()
@@ -773,7 +777,7 @@ class TestConvert:
         op = qemuimg.create(
             src,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -788,7 +792,7 @@ class TestConvert:
         op = qemuimg.create(
             dst,
             size=virtual_size,
-            format=qemuimg.FORMAT.RAW,
+            disk_format=qemuimg.FORMAT.RAW,
             preallocation=qemuimg.PREALLOCATION.FALLOC,
         )
         op.run()
@@ -829,7 +833,7 @@ class TestConvert:
         op = qemuimg.create(
             src_base,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -843,7 +847,7 @@ class TestConvert:
         op = qemuimg.create(
             src_top,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
             backing=src_base,
             backingFormat='qcow2',
@@ -860,7 +864,7 @@ class TestConvert:
         op = qemuimg.create(
             dst_base,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -869,7 +873,7 @@ class TestConvert:
         op = qemuimg.create(
             dst_top,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
             backing=dst_base,
             backingFormat='qcow2',
@@ -914,7 +918,7 @@ class TestConvert:
         op = qemuimg.create(
             src,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -927,7 +931,7 @@ class TestConvert:
         op = qemuimg.create(
             dst,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -955,7 +959,7 @@ class TestConvert:
         op = qemuimg.create(
             src,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -969,7 +973,7 @@ class TestConvert:
         op = qemuimg.create(
             dst,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -1001,7 +1005,7 @@ class TestConvert:
         op = qemuimg.create(
             src_vol,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -1018,7 +1022,7 @@ class TestConvert:
         op = qemuimg.create(
             dst_vol,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -1069,7 +1073,7 @@ class TestConvertCompressed:
         dst_file = str(tmpdir.join("test_dst.qcow2"))
 
         op = qemuimg.create(
-            src_file, size=1 * GiB, format=qemuimg.FORMAT.QCOW2
+            src_file, size=1 * GiB, disk_format=qemuimg.FORMAT.QCOW2
         )
         op.run()
         qemuio.write_pattern(
@@ -1105,7 +1109,7 @@ class TestConvertUnorderedWrites:
         offset = 4 * 64 * KiB
 
         op = qemuimg.create(
-            src, size=10 * 64 * KiB, format=format, qcow2Compat="1.1"
+            src, size=10 * 64 * KiB, disk_format=format, qcow2Compat="1.1"
         )
         op.run()
         qemuio.write_pattern(src, format, offset=offset)
@@ -1131,7 +1135,7 @@ class TestConvertUnorderedWrites:
 
         # Create base image with pattern.
         op = qemuimg.create(
-            base, size=10 * 64 * KiB, format=qemuimg.FORMAT.RAW
+            base, size=10 * 64 * KiB, disk_format=qemuimg.FORMAT.RAW
         )
         op.run()
         qemuio.write_pattern(base, qemuimg.FORMAT.RAW, offset=base_offset)
@@ -1139,7 +1143,7 @@ class TestConvertUnorderedWrites:
         # Create top image with pattern.
         op = qemuimg.create(
             top,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat="1.1",
             backing=base,
             backingFormat=qemuimg.FORMAT.RAW,
@@ -1225,7 +1229,7 @@ class TestConvertPreallocation:
             src = os.path.join(tmpdir, 'src')
             dst = os.path.join(tmpdir, 'dst')
 
-            op = qemuimg.create(src, size=virtual_size, format="qcow2")
+            op = qemuimg.create(src, size=virtual_size, disk_format="qcow2")
             op.run()
 
             op = qemuimg.convert(
@@ -1247,7 +1251,7 @@ class TestConvertPreallocation:
             src = os.path.join(tmpdir, 'src')
             dst = os.path.join(tmpdir, 'dst')
 
-            op = qemuimg.create(src, size=virtual_size, format="qcow2")
+            op = qemuimg.create(src, size=virtual_size, disk_format="qcow2")
             op.run()
 
             op = qemuimg.convert(
@@ -1275,7 +1279,7 @@ class TestConvertPreallocation:
             src = os.path.join(tmpdir, 'src')
             dst = os.path.join(tmpdir, 'dst')
 
-            op = qemuimg.create(src, size=virtual_size, format="raw")
+            op = qemuimg.create(src, size=virtual_size, disk_format="raw")
             op.run()
 
             op = qemuimg.convert(
@@ -1288,7 +1292,7 @@ class TestConvertPreallocation:
             op.run()
 
             actual_size = os.stat(dst).st_size
-            disk_size = qemuimg.info(dst, format="qcow2")["actual-size"]
+            disk_size = qemuimg.info(dst, disk_format="qcow2")["actual-size"]
 
             assert actual_size > virtual_size
             assert disk_size < virtual_size
@@ -1321,7 +1325,9 @@ class TestCheck:
     def test_check(self):
         with namedTemporaryDir() as tmpdir:
             path = os.path.join(tmpdir, 'test.qcow2')
-            op = qemuimg.create(path, size=MiB, format=qemuimg.FORMAT.QCOW2)
+            op = qemuimg.create(
+                path, size=MiB, disk_format=qemuimg.FORMAT.QCOW2
+            )
             op.run()
             info = qemuimg.check(path)
             # The exact value depends on qcow2 internals
@@ -1513,7 +1519,10 @@ class TestMap:
             size = MiB
             image = os.path.join(tmpdir, "base.img")
             op = qemuimg.create(
-                image, size=size, format=self.FORMAT, qcow2Compat=qcow2_compat
+                image,
+                size=size,
+                disk_format=self.FORMAT,
+                qcow2Compat=qcow2_compat,
             )
             op.run()
 
@@ -1527,7 +1536,7 @@ class TestMap:
                 },
             ]
 
-            self.check_map(qemuimg.map(image), expected)
+            self.check_map(qemuimg.qemu_map(image), expected)
 
     @pytest.mark.parametrize("qcow2_compat", ["0.10", "1.1"])
     def test_one_cluster(self, qcow2_compat):
@@ -1540,7 +1549,10 @@ class TestMap:
 
             image = os.path.join(tmpdir, "base.img")
             op = qemuimg.create(
-                image, size=size, format=self.FORMAT, qcow2Compat=qcow2_compat
+                image,
+                size=size,
+                disk_format=self.FORMAT,
+                qcow2Compat=qcow2_compat,
             )
             op.run()
 
@@ -1572,7 +1584,7 @@ class TestMap:
                 },
             ]
 
-            self.check_map(qemuimg.map(image), expected)
+            self.check_map(qemuimg.qemu_map(image), expected)
 
     def check_map(self, actual, expected):
         if len(expected) != len(actual):
@@ -1607,12 +1619,12 @@ class TestAmend:
             leaf_path = os.path.join(tmpdir, 'leaf.img')
             size = MiB
             op_base = qemuimg.create(
-                base_path, size=size, format=qemuimg.FORMAT.RAW
+                base_path, size=size, disk_format=qemuimg.FORMAT.RAW
             )
             op_base.run()
             op_leaf = qemuimg.create(
                 leaf_path,
-                format=qemuimg.FORMAT.QCOW2,
+                disk_format=qemuimg.FORMAT.QCOW2,
                 backing=base_path,
                 backingFormat=qemuimg.FORMAT.RAW,
             )
@@ -1633,7 +1645,7 @@ def file_chain(tmpdir, request):
     # Create base parent volume
     parent = str(tmpdir.join("parent"))
     op = qemuimg.create(
-        parent, size=size, format=qemuimg.FORMAT.RAW, qcow2Compat=compat
+        parent, size=size, disk_format=qemuimg.FORMAT.RAW, qcow2Compat=compat
     )
     op.run()
 
@@ -1651,7 +1663,7 @@ def file_chain(tmpdir, request):
     op = qemuimg.create(
         base,
         size=size,
-        format=qemuimg.FORMAT.QCOW2,
+        disk_format=qemuimg.FORMAT.QCOW2,
         qcow2Compat=compat,
         backing=parent,
         backingFormat=qemuimg.FORMAT.RAW,
@@ -1672,7 +1684,7 @@ def file_chain(tmpdir, request):
     op = qemuimg.create(
         top,
         size=size,
-        format=qemuimg.FORMAT.QCOW2,
+        disk_format=qemuimg.FORMAT.QCOW2,
         qcow2Compat=compat,
         backing=base,
         backingFormat=qemuimg.FORMAT.QCOW2,
@@ -1698,7 +1710,7 @@ def block_chain(tmp_storage, request):
 
     # Create raw parent volume
     parent = tmp_storage.create_device(dev_size)
-    op = qemuimg.create(parent, size=dev_size, format=qemuimg.FORMAT.RAW)
+    op = qemuimg.create(parent, size=dev_size, disk_format=qemuimg.FORMAT.RAW)
     op.run()
 
     # Create base volume over parent
@@ -1706,7 +1718,7 @@ def block_chain(tmp_storage, request):
     op = qemuimg.create(
         base,
         size=dev_size,
-        format=qemuimg.FORMAT.QCOW2,
+        disk_format=qemuimg.FORMAT.QCOW2,
         qcow2Compat=compat,
         backing=parent,
         backingFormat=qemuimg.FORMAT.RAW,
@@ -1727,7 +1739,7 @@ def block_chain(tmp_storage, request):
     op = qemuimg.create(
         top,
         size=dev_size,
-        format=qemuimg.FORMAT.QCOW2,
+        disk_format=qemuimg.FORMAT.QCOW2,
         qcow2Compat=compat,
         backing=base,
         backingFormat=qemuimg.FORMAT.QCOW2,
@@ -2035,7 +2047,7 @@ class TestBitmaps:
         op = qemuimg.create(
             src_path,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -2068,7 +2080,7 @@ class TestBitmaps:
         op = qemuimg.create(
             src_path,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -2090,7 +2102,7 @@ class TestBitmaps:
         op = qemuimg.create(
             src_path,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -2130,7 +2142,7 @@ class TestBitmaps:
         op = qemuimg.create(
             base_path,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
         )
         op.run()
@@ -2147,7 +2159,7 @@ class TestBitmaps:
         op = qemuimg.create(
             top_path,
             size=virtual_size,
-            format=qemuimg.FORMAT.QCOW2,
+            disk_format=qemuimg.FORMAT.QCOW2,
             qcow2Compat='1.1',
             backing=base_path,
             backingFormat='qcow2',
@@ -2202,7 +2214,7 @@ def make_image(
     op = qemuimg.create(
         path,
         size=size,
-        format=format,
+        disk_format=format,
         qcow2Compat=qcow2_compat,
         backing=backing,
         backingFormat=backing_format,

@@ -41,7 +41,9 @@ def test_add_transient_disk(tmp_basedir):
 
 def test_add_transient_disk_with_backing(tmp_basedir, tmpdir):
     src = str(tmpdir.join("src.qcow2"))
-    qemuimg.create(src, size=10 * MiB, format="qcow2", qcow2Compat="1.1").run()
+    qemuimg.create(
+        src, size=10 * MiB, disk_format="qcow2", qcow2Compat="1.1"
+    ).run()
 
     res = transientdisk.create_disk(
         "backup-id", "overlay.qcow2", backing=src, backing_format="qcow2"

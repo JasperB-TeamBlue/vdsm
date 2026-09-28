@@ -39,7 +39,7 @@ from weakref import proxy
 
 from vdsm.common import concurrent
 from vdsm.common.logutils import SimpleLogAdapter
-from vdsm.common.threadlocal import vars
+from vdsm.common.threadlocal import thread_vars
 from vdsm.config import config
 from vdsm.storage import exception as se
 from vdsm.storage import constants as sc
@@ -84,11 +84,11 @@ def threadlocal_task(m):
 
     @wraps(m)
     def wrapper(self, *a, **kw):
-        vars.task = self
+        thread_vars.task = self
         try:
             return m(self, *a, **kw)
         finally:
-            vars.task = None
+            thread_vars.task = None
 
     return wrapper
 

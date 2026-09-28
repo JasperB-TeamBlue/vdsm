@@ -13,7 +13,7 @@ from vdsm import utils
 from vdsm.common import cmdutils
 from vdsm.common import commands
 from vdsm.common.marks import deprecated
-from vdsm.common.threadlocal import vars
+from vdsm.common.threadlocal import thread_vars
 from vdsm.common.units import KiB, MiB
 from vdsm.storage import constants as sc
 from vdsm.storage import exception as se
@@ -568,11 +568,11 @@ class FileVolume(volume.Volume):
                 capacity,
             )
 
-            format = sc.fmt2str(sc.COW_FORMAT)
+            disk_format = sc.fmt2str(sc.COW_FORMAT)
             cls._create_image(
                 vol_path,
                 capacity,
-                format=format,
+                disk_format=disk_format,
                 qcow2_compat=dom.qcow2_compat(),
             )
             if preallocate == sc.PREALLOCATED_VOL:
@@ -622,15 +622,18 @@ class FileVolume(volume.Volume):
             raise
 
     @classmethod
-    def _create_image(cls, vol_path, size, format, qcow2_compat=None):
+    def _create_image(cls, vol_path, size, disk_format, qcow2_compat=None):
         # Always create sparse image, since qemu-img create uses
         # posix_fallocate() which is inefficient and harmful.
         op = qemuimg.create(
-            vol_path, size=size, format=format, qcow2Compat=qcow2_compat
+            vol_path,
+            size=size,
+            disk_format=disk_format,
+            qcow2Compat=qcow2_compat,
         )
 
         # This is fast but it can get stuck if storage is inaccessible.
-        with vars.task.abort_callback(op.abort):
+        with thread_vars.task.abort_callback(op.abort):
             with utils.stopwatch(
                 "Creating image {}".format(vol_path),
                 level=logging.INFO,
@@ -648,7 +651,7 @@ class FileVolume(volume.Volume):
 
         # This is fast on NFS 4.2, GlusterFS, XFS and ext4, but can be
         # extremely slow on NFS < 4.2, writing zeroes to entire image.
-        with vars.task.abort_callback(op.abort):
+        with thread_vars.task.abort_callback(op.abort):
             with utils.stopwatch(
                 "Preallocating volume {}".format(vol_path),
                 level=logging.INFO,
@@ -783,7 +786,7 @@ class FileVolume(volume.Volume):
 
         if recovery:
             name = "Rename volume rollback: " + volPath
-            vars.task.pushRecovery(
+            thread_vars.task.pushRecovery(
                 task.Recovery(
                     name,
                     "fileVolume",
@@ -796,7 +799,7 @@ class FileVolume(volume.Volume):
         self.oop.os.rename(self.volumePath, volPath)
         if recovery:
             name = "Rename meta-volume rollback: " + metaPath
-            vars.task.pushRecovery(
+            thread_vars.task.pushRecovery(
                 task.Recovery(
                     name,
                     "fileVolume",
@@ -809,7 +812,7 @@ class FileVolume(volume.Volume):
         self.oop.os.rename(prevMetaPath, metaPath)
         if recovery:
             name = "Rename lease-volume rollback: " + leasePath
-            vars.task.pushRecovery(
+            thread_vars.task.pushRecovery(
                 task.Recovery(
                     name,
                     "fileVolume",
@@ -863,7 +866,7 @@ class FileVolume(volume.Volume):
             op = fallocate.allocate(
                 volPath, new_capacity - cur_capacity, offset=cur_capacity
             )
-            with vars.task.abort_callback(op.abort):
+            with thread_vars.task.abort_callback(op.abort):
                 with utils.stopwatch(
                     "Preallocating volume {}".format(volPath),
                     level=logging.INFO,

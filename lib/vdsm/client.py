@@ -80,9 +80,9 @@ log file:
      INFO  (jsonrpc/1) [vdsm.api] START getVMList() flow_id=myflowid, ...
      INFO  (jsonrpc/1) [vdsm.api] FINISH getVMList() flow_id=myflowid, ...
 
-ConnectionError: client can't connect to vdsm::
+HostConnectionError: client can't connect to vdsm::
 
-    vdsm.client.ConnectionError: Connection to localhost:54321 with
+    vdsm.client.HostConnectionError: Connection to localhost:54321 with
     use_tls=True, timeout=60 failed: [Errno 111] Connection refused
 
 MissingSchemaError: there was an error parsing the schema::
@@ -95,11 +95,11 @@ ClientError will be raised when we cannot send a request to the server::
     vdsm.client.ClientError: Error sending request: [Errno 111]
     Connection refused
 
-TimeoutError: the request was received by vdsm, but a response hasn't been
-received within the specified timeout. The caller is responsible to check the
-status of the request in vdsm::
+RequestTimeoutError: the request was received by vdsm,
+but a response hasn't been received within the specified timeout.
+The caller is responsible to check the status of the request in vdsm::
 
-    vdsm.client.TimeoutError: timeout waiting for a response
+    vdsm.client.RequestTimeoutError: timeout waiting for a response
 
 ServerError: the request was received by vdsm, and execution of the request has
 failed::
@@ -144,7 +144,7 @@ def connect(
         )
 
     except Exception as e:
-        raise ConnectionError(host, port, use_tls, timeout, e)
+        raise HostConnectionError(host, port, use_tls, timeout, e)
 
     return _Client(client, timeout, gluster_enabled)
 
@@ -165,7 +165,7 @@ class Error(Exception):
         return self.msg.format(self=self)
 
 
-class ConnectionError(Error):
+class HostConnectionError(Error):
     msg = (
         "Connection to {self.host}:{self.port} with use_tls={self.use_tls},"
         " timeout={self.timeout} failed: {self.reason}"
@@ -186,7 +186,7 @@ class MissingSchemaError(Error):
         self.reason = reason
 
 
-class TimeoutError(Error):
+class RequestTimeoutError(Error):
     msg = (
         "Request {self.cmd} with args {self.params} timed out "
         "after {self.timeout} seconds"
@@ -274,7 +274,7 @@ class _Client:
 
         Raises:
             ClientError: in case of an error in the protocol.
-            TimeoutError: if there is no response after a pre configured time.
+            RequestTimeoutError: no response after a pre configured time.
             ServerError: in case of an error while executing the command
         """
         method = namespace + "." + method_name
@@ -290,7 +290,7 @@ class _Client:
             raise ClientError(method, kwargs, e)
 
         if not responses:
-            raise TimeoutError(method, kwargs, timeout)
+            raise RequestTimeoutError(method, kwargs, timeout)
 
         # jsonrpc can handle batch requests so it sends a list of responses,
         # but we call only one verb at a time so responses contains only one

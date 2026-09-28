@@ -126,11 +126,11 @@ def start_server(server_id, config):
         path = _create_overlay(
             server_id, vol.volumePath, cfg.bitmap, bitmap_chain
         )
-        format = "qcow2"
+        disk_format = "qcow2"
         is_block = False
     else:
         path = vol.volumePath
-        format = sc.fmt2str(vol.getFormat())
+        disk_format = sc.fmt2str(vol.getFormat())
         is_block = vol.is_block()
     try:
         sock = _socket_path(server_id)
@@ -143,7 +143,7 @@ def start_server(server_id, config):
         )
 
         qemu_nbd_config = QemuNBDConfig(
-            format=format,
+            format=disk_format,
             readonly=cfg.readonly,
             discard=cfg.discard,
             detect_zeroes=cfg.detect_zeroes,
