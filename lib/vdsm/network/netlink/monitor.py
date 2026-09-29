@@ -42,7 +42,7 @@ class Event:
         self.data = data or {}
 
 
-class MonitorError:
+class MonitorError(RuntimeError):
     pass
 
 
