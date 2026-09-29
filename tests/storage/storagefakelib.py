@@ -96,7 +96,7 @@ class FakeLVM:
     def _size_param_to_bytes(self, size_mb):
         # Size is received in MiB. We need to convert it to bytes
         # and round it up to a multiple of the VG extent size.
-        return utils.round(size_mb * MiB, sc.VG_EXTENT_SIZE)
+        return utils.round_up(size_mb * MiB, sc.VG_EXTENT_SIZE)
 
     def _create_lv_file(self, vgName, lvName, active, size):
         # Create an LV as a regular file so we have a place to write data

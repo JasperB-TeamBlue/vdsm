@@ -198,7 +198,7 @@ class TestFakeLVMSimpleVG(VdsmTestCase):
             extent_size_mb = int(vg.extent_size) // MiB
             odd_size_mb = extent_size_mb - 1
             lvm.createLV(self.VG_NAME, self.LV_NAME, odd_size_mb)
-            rounded_up_size_mb = utils.round(odd_size_mb, extent_size_mb)
+            rounded_up_size_mb = utils.round_up(odd_size_mb, extent_size_mb)
             lv = lvm.getLV(self.VG_NAME, self.LV_NAME)
             self.assertEqual(int(lv.size), rounded_up_size_mb * MiB)
 

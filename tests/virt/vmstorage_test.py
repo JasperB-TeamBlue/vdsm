@@ -762,7 +762,7 @@ class DriveVolumeSizeTests(VdsmTestCase):
     def test_max_size(self):
         conf = drive_config(format='cow', diskType=DISK_TYPE.BLOCK)
         drive = Drive(self.log, **conf)
-        size = utils.round(self.CAPACITY * drive.VOLWM_COW_OVERHEAD, MiB)
+        size = utils.round_up(self.CAPACITY * drive.VOLWM_COW_OVERHEAD, MiB)
         assert drive.getMaxVolumeSize(self.CAPACITY) == size
 
 

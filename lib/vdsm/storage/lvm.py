@@ -1863,7 +1863,9 @@ def extendLV(vgName, lvName, size_mb, refresh=True):
 
     # Convert sizes to extents to match lvm behavior.
     lv_extents = int(lv.size) // extent_size
-    requested_extents = utils.round(size_mb * MiB, extent_size) // extent_size
+    requested_extents = (
+        utils.round_up(size_mb * MiB, extent_size) // extent_size
+    )
 
     # Check if lv is large enough before trying to extend it to avoid warnings,
     # filter invalidation and pointless retries if the lv is already large
@@ -1947,7 +1949,7 @@ def reduceLV(vgName, lvName, size_mb, force=False):
         extent_size = int(vg.extent_size)
         lv_extents = int(lv.size) // extent_size
         requested_extents = (
-            utils.round(size_mb * MiB, extent_size) // extent_size
+            utils.round_up(size_mb * MiB, extent_size) // extent_size
         )
 
         if lv_extents <= requested_extents:

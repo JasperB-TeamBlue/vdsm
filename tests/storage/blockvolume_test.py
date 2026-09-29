@@ -154,7 +154,7 @@ class TestBlockVolumeManifest(VdsmTestCase):
         with self.make_volume(size=2 * GiB, format=sc.COW_FORMAT) as vol:
             chunk_size = GiB
             check = qemuimg.check(vol.getVolumePath(), qemuimg.FORMAT.QCOW2)
-            optimal_size = utils.round(
+            optimal_size = utils.round_up(
                 check['offset'] + chunk_size, vol.align_size
             )
             self.assertEqual(vol.optimal_size(), optimal_size)

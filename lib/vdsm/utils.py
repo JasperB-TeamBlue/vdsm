@@ -353,8 +353,7 @@ def picklecopy(obj):
     return pickle.loads(pickle.dumps(obj, pickle.HIGHEST_PROTOCOL))
 
 
-# Define difference between this function and built-in one
-def round(n, size):
+def round_up(n, size):
     """
     Round number n to the next multiple of size
     """

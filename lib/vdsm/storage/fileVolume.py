@@ -581,7 +581,7 @@ class FileVolume(volume.Volume):
                 # qemu-img offset is usually not aligned to 4k, and fallocate
                 # uses direct I/O requiring alignment to logical block size.
                 # Using 4k alignment ensures this works for any storage.
-                offset = utils.round(offset, 4 * KiB)
+                offset = utils.round_up(offset, 4 * KiB)
                 cls._preallocate_volume(vol_path, capacity, offset=offset)
         else:
             # Create hardlink to template and its meta file

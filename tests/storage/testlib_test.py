@@ -204,7 +204,7 @@ def test_volume_size_alignment(size_param):
         make_block_volume(env.lvm, env.sd_manifest, size_param, img_id, vol_id)
         vol = env.sd_manifest.produceVolume(img_id, vol_id)
 
-        expected_size = utils.round(size_param, sc.VG_EXTENT_SIZE)
+        expected_size = utils.round_up(size_param, sc.VG_EXTENT_SIZE)
         assert expected_size == vol.getCapacity()
         assert expected_size == int(env.lvm.getLV(sd_id, vol_id).size)
         lv_file_size = os.stat(env.lvm.lvPath(sd_id, vol_id)).st_size

@@ -486,7 +486,7 @@ class Snapshot(properties.Owner):
                     # Ensure that the volume is aligned; qemu-img may segfault
                     # when converting unligned images.
                     # https://bugzilla.redhat.com/1649788
-                    aligned_length = utils.round(len(data), 4096)
+                    aligned_length = utils.round_up(len(data), 4096)
                     data = data.ljust(aligned_length, b"\0")
 
                     f.write(data)

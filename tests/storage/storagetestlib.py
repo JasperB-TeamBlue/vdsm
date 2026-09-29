@@ -451,7 +451,7 @@ def make_block_volume(
     lv_size = sd_manifest.getVolumeClass().calculate_volume_alloc_size(
         prealloc, vol_format, size, None
     )
-    lv_size_mb = utils.round(lv_size, MiB) // MiB
+    lv_size_mb = utils.round_up(lv_size, MiB) // MiB
     lvm.createLV(sduuid, voluuid, lv_size_mb)
 
     # LVM may create the volume with a larger size due to extent granularity

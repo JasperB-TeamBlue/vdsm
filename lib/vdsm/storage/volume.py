@@ -804,7 +804,7 @@ class VolumeManifest:
             return virtual_size
 
         # TODO: use qemu-img measure instead of sc.COW_OVERHEAD.
-        return utils.round(virtual_size * sc.COW_OVERHEAD, cls.align_size)
+        return utils.round_up(virtual_size * sc.COW_OVERHEAD, cls.align_size)
 
     def removeMetadata(self, metaId=None):
         raise NotImplementedError
@@ -1337,9 +1337,9 @@ class Volume:
         # always round to 4k.
         # TODO: round the value to cls.align_size so that we can remove
         # block updating capacity for RAW volume type bellow.
-        capacity = utils.round(capacity, sc.BLOCK_SIZE_4K)
+        capacity = utils.round_up(capacity, sc.BLOCK_SIZE_4K)
         if initial_size is not None:
-            initial_size = utils.round(initial_size, sc.BLOCK_SIZE_4K)
+            initial_size = utils.round_up(initial_size, sc.BLOCK_SIZE_4K)
 
         dom = sdCache.produce(sdUUID)
         dom.validateCreateVolumeParams(

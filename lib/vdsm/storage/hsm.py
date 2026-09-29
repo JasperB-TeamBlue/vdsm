@@ -518,7 +518,7 @@ class HSM:
         )
         size = misc.validateN(size, "size")
         # ExtendVolume expects size in MiB.
-        size_mb = utils.round(size, MiB) // MiB
+        size_mb = utils.round_up(size, MiB) // MiB
 
         pool = self.getPool(spUUID)
         # TODO: extendVolume should use bytes, not MiB.
@@ -564,7 +564,7 @@ class HSM:
     def extendVolumeSize(self, spUUID, sdUUID, imgUUID, volUUID, newSize):
         pool = self.getPool(spUUID)
         new_capacity = misc.validateN(newSize, "newSize")
-        new_capacity = utils.round(new_capacity, sc.BLOCK_SIZE_4K)
+        new_capacity = utils.round_up(new_capacity, sc.BLOCK_SIZE_4K)
         thread_vars.task.getSharedLock(STORAGE, sdUUID)
         self._spmSchedule(
             spUUID,
@@ -771,7 +771,7 @@ class HSM:
 
         """
         newSize = misc.validateN(newSize, "newSize")
-        newSize_mb = utils.round(newSize, MiB) // MiB
+        newSize_mb = utils.round_up(newSize, MiB) // MiB
         try:
             pool = self.getPool(spUUID)
         except se.StoragePoolUnknown:
@@ -3218,7 +3218,7 @@ class HSM:
     def setVolumeSize(self, sdUUID, spUUID, imgUUID, volUUID, capacity):
         capacity = int(capacity)
         vol = sdCache.produce(sdUUID).produceVolume(imgUUID, volUUID)
-        capacity = utils.round(capacity, sc.BLOCK_SIZE_4K)
+        capacity = utils.round_up(capacity, sc.BLOCK_SIZE_4K)
         vol.setCapacity(capacity)
 
     @public

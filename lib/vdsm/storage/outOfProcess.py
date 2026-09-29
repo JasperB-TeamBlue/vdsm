@@ -168,7 +168,7 @@ class _IOProcessFileUtils:
 
     def padToBlockSize(self, path):
         size = _IOProcessOs(self._iop).stat(path).st_size
-        newSize = utils.round(size, sc.BLOCK_SIZE_4K)
+        newSize = utils.round_up(size, sc.BLOCK_SIZE_4K)
         log.debug("Truncating file %s to %d bytes", path, newSize)
         truncateFile(self._iop, path, newSize)
 

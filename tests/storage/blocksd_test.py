@@ -933,7 +933,7 @@ def test_cow_small_volume(domain_factory, fake_task, fake_sanlock):
 
         vol = dom.produceVolume(img_uuid, vol_uuid)
         assert vol.getCapacity() == capacity
-        initial_size = utils.round(capacity, sc.VG_EXTENT_SIZE)
+        initial_size = utils.round_up(capacity, sc.VG_EXTENT_SIZE)
         assert vol.getVolumeSize() == initial_size
 
 

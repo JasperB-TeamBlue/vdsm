@@ -453,7 +453,7 @@ class BlockVolumeManifest(volume.VolumeManifest):
 
         # Align to align_size (lvm extent size) so callers can compare optimal
         # size with the actual size of the logical volume.
-        optimal_size = utils.round(optimal_size, cls.align_size)
+        optimal_size = utils.round_up(optimal_size, cls.align_size)
 
         # Limit by maximum size.
         max_size = cls.max_size(capacity, sc.COW_FORMAT)
@@ -555,7 +555,7 @@ class BlockVolume(volume.Volume):
         lv_size = cls.calculate_volume_alloc_size(
             preallocate, volFormat, capacity, initial_size
         )
-        lv_size_mb = utils.round(lv_size, MiB) // MiB
+        lv_size_mb = utils.round_up(lv_size, MiB) // MiB
 
         lvm.createLV(
             dom.sdUUID,
@@ -774,7 +774,7 @@ class BlockVolume(volume.Volume):
         )
         # we should return: Success/Failure
         # Backend APIs:
-        sizemb = utils.round(new_size, MiB) // MiB
+        sizemb = utils.round_up(new_size, MiB) // MiB
         lvm.extendLV(self.sdUUID, self.volUUID, sizemb)
 
     def reduce(self, new_size, allowActive=False):
@@ -794,7 +794,7 @@ class BlockVolume(volume.Volume):
             new_size,
             allowActive,
         )
-        sizemb = utils.round(new_size, MiB) // MiB
+        sizemb = utils.round_up(new_size, MiB) // MiB
         lvm.reduceLV(self.sdUUID, self.volUUID, sizemb, force=allowActive)
 
     def getDevPath(self):
@@ -830,7 +830,7 @@ class BlockVolume(volume.Volume):
         # Since this method relies on lvm.extendLV (lvextend) when the
         # requested size is equal or smaller than the current size, the
         # request is siliently ignored.
-        new_capacity_mb = utils.round(new_capacity, MiB) // MiB
+        new_capacity_mb = utils.round_up(new_capacity, MiB) // MiB
         lvm.extendLV(self.sdUUID, self.volUUID, new_capacity_mb)
 
 

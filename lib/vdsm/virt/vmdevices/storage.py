@@ -416,7 +416,7 @@ class Drive(core.Base):
         capacity is the maximum size of the volume. It can be discovered using
         libvirt.virDomain.blockInfo() or qemuimg.info().
         """
-        nextSize = utils.round(curSize + self.volExtensionChunk, MiB)
+        nextSize = utils.round_up(curSize + self.volExtensionChunk, MiB)
         return min(nextSize, self.getMaxVolumeSize(capacity))
 
     def getMaxVolumeSize(self, capacity):
@@ -426,7 +426,7 @@ class Drive(core.Base):
         data. The actual lv size may be larger due to rounding to next lvm
         extent.
         """
-        return utils.round(capacity * self.VOLWM_COW_OVERHEAD, MiB)
+        return utils.round_up(capacity * self.VOLWM_COW_OVERHEAD, MiB)
 
     @property
     def chunked(self):

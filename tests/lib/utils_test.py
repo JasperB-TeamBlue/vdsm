@@ -641,8 +641,8 @@ class TestRound(TestCaseBase):
             (1025, 1024, 2048),
         ]
     )
-    def test_round(self, n, size, result):
-        self.assertEqual(utils.round(n, size), result)
+    def test_round_up(self, n, size, result):
+        self.assertEqual(utils.round_up(n, size), result)
 
 
 @expandPermutations
