@@ -57,6 +57,7 @@ class JsonRpcServerError(JsonRpcErrorBase):
     """
 
     def __init__(self, code, message):
+        super().__init__()
         self.code = code
         self.msg = message
 

@@ -114,7 +114,7 @@ class SimpleLogAdapter(logging.LoggerAdapter):
 
             "(task='xxxyyy', res='foo.bar.baz') Message"
         """
-        self.logger = logger
+        super().__init__(logger)
         items = ", ".join("%s='%s'" % (k, v) for k, v in context.items())
         self.prefix = "(%s) " % items
 

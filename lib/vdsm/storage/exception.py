@@ -47,9 +47,9 @@ class InvalidParameterException(GeneralException):
 
     def __init__(self, name, value, reason=None):
         if reason is None:
-            self.value = "%s=%s" % (name, value)
+            super().__init__("%s=%s" % (name, value))
         else:
-            self.value = "%s=%s (%s)" % (name, value, reason)
+            super().__init__("%s=%s (%s)" % (name, value, reason))
 
 
 class InvalidDefaultExceptionException(GeneralException):
@@ -66,13 +66,16 @@ class StorageException(GeneralException):
     code = 200
     msg = "General Storage Exception"
 
+    def __init__(self, value=None):
+        super().__init__(value)
+
 
 class ResourceException(GeneralException):
     code = 3000
     msg = "Resource operation failed"
 
     def __init__(self, UUID):
-        self.value = "UUID={}".format(UUID)
+        super().__init__("UUID={}".format(UUID))
 
 
 class ShuttingDownError(GeneralException):
@@ -89,12 +92,12 @@ class VolumeGeneralException(GeneralException):
             sdUUID = "sdUUID: %s" % volume.sdUUID
             imgUUID = "imgUUID: %s" % volume.imgUUID
             volUUID = "volUUID: %s" % volume.volUUID
-            self.value = [sdUUID, imgUUID, volUUID]
+            super().__init__([sdUUID, imgUUID, volUUID])
         except:
-            self.value = [repr(volume)]
+            super().__init__([repr(volume)])
 
         if len(args):
-            self.value += list(args)
+            super().__init__(list(args))
 
 
 class UnicodeArgumentException(GeneralException):
@@ -124,7 +127,7 @@ class MiscFileWriteException(StorageException):
 
 class MiscBlockReadException(StorageException):
     def __init__(self, name, offset, size):
-        self.value = "name=%s, offset=%s, size=%s" % (name, offset, size)
+        super().__init__("name=%s, offset=%s, size=%s" % (name, offset, size))
 
     code = 2003
     msg = "Internal block device read failure"
@@ -132,7 +135,7 @@ class MiscBlockReadException(StorageException):
 
 class MiscBlockWriteException(StorageException):
     def __init__(self, name, offset, size):
-        self.value = "name=%s, offset=%s, size=%s" % (name, offset, size)
+        super().__init__("name=%s, offset=%s, size=%s" % (name, offset, size))
 
     code = 2004
     msg = "Internal block device write failure"
@@ -164,7 +167,7 @@ class UnsupportedOperation(StorageException):
     expected = True
 
     def __init__(self, reason, **context):
-        self.value = "reason={}, context={}".format(reason, context)
+        super().__init__("reason={}, context={}".format(reason, context))
 
 
 #################################################
@@ -254,7 +257,7 @@ class VolumeCannotGetParent(StorageException):
 
 class CannotCloneVolume(VolumeGeneralException):
     def __init__(self, src, dst, msg):
-        self.value = "src=%s, dst=%s: %s" % (src, dst, msg)
+        super().__init__("src=%s, dst=%s: %s" % (src, dst, msg))
 
     code = 217
     msg = "Cannot clone volume"
@@ -262,7 +265,7 @@ class CannotCloneVolume(VolumeGeneralException):
 
 class CannotShareVolume(VolumeGeneralException):
     def __init__(self, src, dst, msg):
-        self.value = "src=%s, dst=%s: %s" % (src, dst, msg)
+        super().__init__("src=%s, dst=%s: %s" % (src, dst, msg))
 
     code = 218
     msg = "Cannot share volume"
@@ -353,7 +356,7 @@ class InvalidVolumeUpdate(StorageException):
     msg = "Cannot update volume attributes"
 
     def __init__(self, vol_id, reason):
-        self.value = "vol_id=%s, reason=%s" % (vol_id, reason)
+        super().__init__("vol_id=%s, reason=%s" % (vol_id, reason))
 
 
 #################################################
@@ -407,7 +410,7 @@ class ImageDeleteError(StorageException):
 
 class ImageIsEmpty_deprecated_vdsm23(StorageException):
     def __init__(self, imgUUID, sdUUID):
-        self.value = "image=%s, domain=%s" % (imgUUID, sdUUID)
+        super().__init__("image=%s, domain=%s" % (imgUUID, sdUUID))
 
     code = 258
     msg = "Image is empty. Deprecated in vdsm2.3"
@@ -415,7 +418,9 @@ class ImageIsEmpty_deprecated_vdsm23(StorageException):
 
 class SourceImageActionError(StorageException):
     def __init__(self, imgUUID, sdUUID, msg=""):
-        self.value = "image=%s, source domain=%s: %s" % (imgUUID, sdUUID, msg)
+        super().__init__(
+            "image=%s, source domain=%s: %s" % (imgUUID, sdUUID, msg)
+        )
 
     code = 259
     msg = "Error during source image manipulation"
@@ -423,10 +428,8 @@ class SourceImageActionError(StorageException):
 
 class DestImageActionError(StorageException):
     def __init__(self, imgUUID, sdUUID, msg=""):
-        self.value = "image=%s, dest domain=%s: " "msg=%s" % (
-            imgUUID,
-            sdUUID,
-            msg,
+        super().__init__(
+            "image=%s, dest domain=%s: %s" % (imgUUID, sdUUID, msg)
         )
 
     code = 260
@@ -455,7 +458,7 @@ class MultipleMoveImageError(StorageException):
 
 class OverwriteImageError(StorageException):
     def __init__(self, imgUUID, sdUUID):
-        self.value = "image=%s, domain=%s" % (imgUUID, sdUUID)
+        super().__init__("image=%s, domain=%s" % (imgUUID, sdUUID))
 
     code = 265
     msg = "Can't overwrite image"
@@ -476,7 +479,7 @@ class ImageDoesNotExistInSD(StorageException):
     msg = "Image does not exist in domain"
 
     def __init__(self, imgUUID, sdUUID, tmpImgUUID=None, tmpVolUUID=None):
-        self.value = "image=%s, domain=%s" % (imgUUID, sdUUID)
+        super().__init__("image=%s, domain=%s" % (imgUUID, sdUUID))
         self.tmpImgUUID = tmpImgUUID
         self.tmpVolUUID = tmpVolUUID
 
@@ -508,7 +511,7 @@ class StoragePoolDisconnectionError(StorageException):
 
 class StoragePoolMasterNotFound(StorageException):
     def __init__(self, spUUID, msdUUID=None):
-        self.value = "spUUID=%s, msdUUID=%s" % (spUUID, msdUUID)
+        super().__init__("spUUID=%s, msdUUID=%s" % (spUUID, msdUUID))
 
     code = 304
     msg = "Cannot find master domain"
@@ -551,7 +554,7 @@ class StoragePoolInternalError(StorageException):
 
 class ImageMissingFromVm(StorageException):
     def __init__(self, imgUUID, vmUUID):
-        self.value = "image=%s, VM=%s" % (imgUUID, vmUUID)
+        super().__init__("image=%s, VM=%s" % (imgUUID, vmUUID))
 
     code = 312
     msg = "Image missing from VM"
@@ -593,7 +596,7 @@ class MissingOvfFileFromVM(StorageException):
 
 class ImageNotOnTargetDomain(StorageException):
     def __init__(self, imgUUID, vmUUID, sdUUID):
-        self.value = "SD=%s, image=%s, VM=%s" % (sdUUID, imgUUID, vmUUID)
+        super().__init__("SD=%s, image=%s, VM=%s" % (sdUUID, imgUUID, vmUUID))
 
     code = 321
     msg = "Image cannot be found on the specified domain"
@@ -611,7 +614,7 @@ class CannotConnectMultiplePools(StorageException):
 
 class StoragePoolWrongMaster(StorageException):
     def __init__(self, spUUID, sdUUID):
-        self.value = "SD=%s, pool=%s" % (sdUUID, spUUID)
+        super().__init__("SD=%s, pool=%s" % (sdUUID, spUUID))
 
     code = 324
     msg = "Wrong Master domain or its version"
@@ -662,10 +665,13 @@ class StorageDomainIllegalStateError(StorageException):
     msg = "Storage domain is in illegal state"
 
     def __init__(self, sdUUID, expected_state, actual_state):
-        self.value = "sdUUID=%s, expected state=%s, actual state=%s" % (
-            sdUUID,
-            expected_state,
-            actual_state,
+        super().__init__(
+            "sdUUID=%s, expected state=%s, actual state=%s"
+            % (
+                sdUUID,
+                expected_state,
+                actual_state,
+            )
         )
 
 
@@ -674,9 +680,12 @@ class StorageDomainBlockSizeMismatch(StorageException):
     msg = "Block size does not match storage block size"
 
     def __init__(self, block_size, storage_block_size):
-        self.value = "block_size=%s, storage_block_size=%s" % (
-            block_size,
-            storage_block_size,
+        super().__init__(
+            "block_size=%s, storage_block_size=%s"
+            % (
+                block_size,
+                storage_block_size,
+            )
         )
 
 
@@ -685,7 +694,7 @@ class DiscardIsNotSupported(StorageException):
     msg = "Discard is not supported by storage domain"
 
     def __init__(self, sdUUID, reason):
-        self.value = "sdUUID=%s, reason=%s" % (sdUUID, reason)
+        super().__init__("sdUUID=%s, reason=%s" % (sdUUID, reason))
 
 
 class StorageDomainActionError(StorageException):
@@ -705,7 +714,7 @@ class StorageDomainFormatError(StorageException):
 
 class StorageDomainNotInPool(StorageException):
     def __init__(self, spUUID, sdUUID):
-        self.value = "domain=%s, pool=%s" % (sdUUID, spUUID)
+        super().__init__("domain=%s, pool=%s" % (sdUUID, spUUID))
 
     code = 353
     msg = "Storage domain not in pool"
@@ -763,7 +772,7 @@ class StorageDomainMetadataFileMissing(ResourceException):
 
 class StorageDomainMetadataNotFound(StorageException):
     def __init__(self, sdUUID, path):
-        self.value = "sdUUID=%s, metafile path=%s" % (sdUUID, path)
+        super().__init__("sdUUID=%s, metafile path=%s" % (sdUUID, path))
 
     code = 364
     msg = "Storage domain invalid, metadata not found"
@@ -776,7 +785,7 @@ class StorageDomainAlreadyExists(StorageException):
 
 class StorageDomainMasterUnmountError(StorageException):
     def __init__(self, masterdir, rc):
-        self.value = "masterdir=%s, rc=%s" % (masterdir, rc)
+        super().__init__("masterdir=%s, rc=%s" % (masterdir, rc))
 
     code = 366
     msg = "Error unmounting master storage domain"
@@ -784,7 +793,7 @@ class StorageDomainMasterUnmountError(StorageException):
 
 class BlockStorageDomainMasterFSCKError(StorageException):
     def __init__(self, masterfsdev, rc):
-        self.value = "masterfsdev=%s, rc=%s" % (masterfsdev, rc)
+        super().__init__("masterfsdev=%s, rc=%s" % (masterfsdev, rc))
 
     code = 367
     msg = "BlockSD master file system FSCK error"
@@ -795,8 +804,10 @@ class BlockStorageDomainMasterMountError(StorageException):
     msg = "BlockSD master file system mount error"
 
     def __init__(self, masterfsdev, rc, out, err):
-        self.value = "masterfsdev={}, rc={}, out={!r}, err={!r}".format(
-            masterfsdev, rc, out, err
+        super().__init__(
+            "masterfsdev={}, rc={}, out={!r}, err={!r}".format(
+                masterfsdev, rc, out, err
+            )
         )
 
 
@@ -832,7 +843,7 @@ class VolumesZeroingError(StorageException):
 
 class StorageDomainNotMemberOfPool(StorageException):
     def __init__(self, spUUID, sdUUID):
-        self.value = "pool=%s, domain=%s" % (spUUID, sdUUID)
+        super().__init__("pool=%s, domain=%s" % (spUUID, sdUUID))
 
     code = 375
     msg = "Domain is not member in pool"
@@ -855,9 +866,9 @@ class StorageDomainTypeNotBackup(StorageException):
 
 class StorageDomainAccessError(StorageException):
     def __init__(self, sdUUID, reason=None):
-        self.value = "domain=%s" % sdUUID
-        if reason:
-            self.value += " reason=%s" % reason
+        super().__init__(
+            "domain=%s" % sdUUID + (" reason=%s" % reason if reason else "")
+        )
 
     code = 379
     msg = "Domain is either partially accessible or entirely inaccessible"
@@ -865,7 +876,7 @@ class StorageDomainAccessError(StorageException):
 
 class StorageDomainAlreadyAttached(StorageException):
     def __init__(self, spUUID, sdUUID):
-        self.value = "domain=%s, pool=%s" % (sdUUID, spUUID)
+        super().__init__("domain=%s, pool=%s" % (sdUUID, spUUID))
 
     code = 380
     msg = "Storage domain already attached to pool"
@@ -874,7 +885,7 @@ class StorageDomainAlreadyAttached(StorageException):
 # DEPRECATED. Should be removed.
 class StorageDomainStateTransitionIllegal(StorageException):
     def __init__(self, sdUUID, currState, nextState):
-        self.value = [sdUUID, currState, nextState]
+        super().__init__([sdUUID, currState, nextState])
 
     code = 381
     msg = "Domain state change illegal"
@@ -943,6 +954,7 @@ class StorageDomainRefreshError(StorageException):
 
 class UnsupportedDomainVersion(StorageException):
     def __init__(self, version="unspecified"):
+        super().__init__()
         self.value = ""
         self.version = version
         self.msg = (
@@ -955,6 +967,7 @@ class UnsupportedDomainVersion(StorageException):
 
 class CurrentVersionTooAdvancedError(StorageException):
     def __init__(self, sdUUID, curVer, expVer):
+        super().__init__()
         self.value = ""
         self.msg = (
             "Current domain `%s` version is too advanced, "
@@ -966,6 +979,7 @@ class CurrentVersionTooAdvancedError(StorageException):
 
 class PoolUpgradeInProgress(StorageException):
     def __init__(self, spUUID):
+        super().__init__()
         self.value = ""
         self.msg = (
             "Upgrading a pool while an upgrade is in process is "
@@ -977,6 +991,7 @@ class PoolUpgradeInProgress(StorageException):
 
 class NoSpaceLeftOnDomain(StorageException):
     def __init__(self, sdUUID):
+        super().__init__()
         self.value = sdUUID
         self.msg = "No space left on domain %s" % (sdUUID,)
 
@@ -985,6 +1000,7 @@ class NoSpaceLeftOnDomain(StorageException):
 
 class MixedSDVersionError(StorageException):
     def __init__(self, sdUUID, domVersion, msdUUID, msdVersion):
+        super().__init__()
         self.value = ""
         self.msg = (
             "Domain `%s` version (%d) is different from "
@@ -1067,7 +1083,7 @@ class TaskAborted(GeneralException):
     msg = "Task is aborted"
 
     def __init__(self, value, abortedcode=code):
-        self.value = "value={} abortedcode={}".format(value, abortedcode)
+        super().__init__("value={} abortedcode={}".format(value, abortedcode))
         self.abortedcode = abortedcode
 
 
@@ -1135,7 +1151,7 @@ class StorageServerValidationError(StorageException):
     )
 
     def __init__(self, targetPath=''):
-        self.value = "path = %s" % targetPath
+        super().__init__("path = %s" % targetPath)
 
 
 class StorageServeriSCSIError(StorageException):
@@ -1222,7 +1238,7 @@ class StorageServerAccessPermissionError(StorageException):
     )
 
     def __init__(self, targetPath):
-        self.value = "path = %s" % targetPath
+        super().__init__("path = %s" % targetPath)
 
 
 class MountTypeError(StorageException):
@@ -1240,7 +1256,7 @@ class InvalidIpAddress(StorageException):
     msg = "Invalid IP address"
 
     def __init__(self, ip):
-        self.value = "IP = %s" % (ip)
+        super().__init__("IP = %s" % (ip))
 
 
 class iSCSIifaceError(StorageServeriSCSIError):
@@ -1258,7 +1274,7 @@ class iSCSIDiscoveryError(StorageServeriSCSIError):
     msg = "Failed discovery of iSCSI targets"
 
     def __init__(self, portal, err):
-        self.value = "portal=%s, err=%s" % (portal, err)
+        super().__init__("portal=%s, err=%s" % (portal, err))
 
 
 class iSCSILoginAuthError(StorageServeriSCSIError):
@@ -1286,7 +1302,7 @@ class UnsupportedGlusterVolumeReplicaCountError(StorageException):
     msg = "Gluster volume replica count is not supported"
 
     def __init__(self, replicaCount):
-        self.value = "replica count = %s" % replicaCount
+        super().__init__("replica count = %s" % replicaCount)
 
 
 class ImageTicketsError(StorageException):
@@ -1294,7 +1310,7 @@ class ImageTicketsError(StorageException):
     msg = "Cannot communicate with image daemon"
 
     def __init__(self, reason):
-        self.value = "reason=%s" % reason
+        super().__init__("reason=%s" % reason)
 
 
 class ImageDaemonError(StorageException):
@@ -1302,8 +1318,8 @@ class ImageDaemonError(StorageException):
     msg = "Image daemon request failed"
 
     def __init__(self, status, reason, error_info):
-        self.value = "status={}, reason={}, error={}".format(
-            status, reason, error_info
+        super().__init__(
+            "status={}, reason={}, error={}".format(status, reason, error_info)
         )
 
 
@@ -1317,7 +1333,7 @@ class ImageVerificationError(StorageException):
     msg = "Image verification failed"
 
     def __init__(self, reason):
-        self.value = "reason=%s" % reason
+        super().__init__("reason=%s" % reason)
 
 
 #################################################
@@ -1330,6 +1346,7 @@ class LVMCommandError(StorageException):
     msg = "LVM command failed"
 
     def __init__(self, cmd, rc, out, err):
+        super().__init__()
         self.cmd = cmd
         self.rc = rc
         self.out = out
@@ -1352,6 +1369,7 @@ class LVMCommandError(StorageException):
 
 class _HoldingLVMCommandError(StorageException):
     def __init__(self, error=None):
+        super().__init__()
         if error is not None and not isinstance(error, LVMCommandError):
             raise TypeError(
                 f"Expecting instance of LVMCommandError, got {type(error)}"
@@ -1458,7 +1476,7 @@ class VolumeGroupReplaceTagError(LVMCommandError):
 
 class VolumeGroupBlockSizeError(StorageException):
     def __init__(self, domsizes, devsizes):
-        self.value = (
+        super().__init__(
             "domlogblksize=%s domphyblksize=%s "
             "devlogblksize=%s devphyblksize=%s"
             % (domsizes[0], domsizes[1], devsizes[0], devsizes[1])
@@ -1470,7 +1488,9 @@ class VolumeGroupBlockSizeError(StorageException):
 
 class DeviceBlockSizeError(StorageException):
     def __init__(self, devsizes):
-        self.value = "logblksize=%s phyblksize=%s" % (devsizes[0], devsizes[1])
+        super().__init__(
+            "logblksize=%s phyblksize=%s" % (devsizes[0], devsizes[1])
+        )
 
     code = 518
     msg = "Device block size is not supported"
@@ -1518,7 +1538,7 @@ class LogicalVolumeRefreshError(LVMCommandError):
 
 class LogicalVolumeScanError(StorageException):
     def __init__(self, vgname, lvname):
-        self.value = "vgname=%s lvname=%s" % (vgname, lvname)
+        super().__init__("vgname=%s lvname=%s" % (vgname, lvname))
 
     code = 557
     msg = "Logical volume scanning error"
@@ -1571,7 +1591,7 @@ class LogicalVolumeRenameError(LVMCommandError):
 
 class CannotWriteAccessLogialVolume(StorageException):
     def __init__(self, vgname, lvname):
-        self.value = "vgname=%s lvname=%s" % (vgname, lvname)
+        super().__init__("vgname=%s lvname=%s" % (vgname, lvname))
 
     code = 567
     msg = "Cannot access logical volume for write"
@@ -1584,7 +1604,7 @@ class CannotSetRWLogicalVolume(LVMCommandError):
 
 class LogicalVolumesScanError(StorageException):
     def __init__(self, vgname, lvs):
-        self.value = "vgname=%s, lvs=%s" % (vgname, lvs)
+        super().__init__("vgname=%s, lvs=%s" % (vgname, lvs))
 
     code = 569
     msg = "Logical volume scanning error"
@@ -1665,7 +1685,7 @@ class MkfsError(StorageException):
 
 class MissingTagOnLogicalVolume(StorageException):
     def __init__(self, lvname, tag):
-        self.value = "lvname=%s tag=%s" % (lvname, tag)
+        super().__init__("lvname=%s tag=%s" % (lvname, tag))
 
     code = 609
     msg = "Missing logical volume tag."
@@ -1697,10 +1717,8 @@ class LogicalVolumeWrongTagError(StorageException):
 
 class VgMetadataCriticallyFull(StorageException):
     def __init__(self, vgname, mdasize, mdafree):
-        self.value = "vgname=%s mdasize=%s " "mdafree=%s" % (
-            vgname,
-            mdasize,
-            mdafree,
+        super().__init__(
+            "vgname=%s mdasize=%s mdafree=%s" % (vgname, mdasize, mdafree)
         )
 
     code = 613
@@ -1714,10 +1732,8 @@ class VgMetadataCriticallyFull(StorageException):
 
 class SmallVgMetadata(StorageException):
     def __init__(self, vgname, mdasize, mdafree):
-        self.value = "vgname=%s mdasize=%s " "mdafree=%s" % (
-            vgname,
-            mdasize,
-            mdafree,
+        super().__init__(
+            "vgname=%s mdasize=%s mdafree=%s" % (vgname, mdasize, mdafree)
         )
 
     code = 614
@@ -1736,7 +1752,7 @@ class CouldNotResizePhysicalVolume(LVMCommandError):
 
 class UnexpectedVolumeGroupMetadata(StorageException):
     def __init__(self, reason):
-        self.value = "reason=%s" % reason
+        super().__init__("reason=%s" % reason)
 
     code = 616
     msg = "Volume Group metadata isn't as expected"
@@ -1747,7 +1763,7 @@ class ForbiddenPhysicalVolumeOperation(StorageException):
     msg = "The operation couldn't be performed on the provided pv"
 
     def __init__(self, reason):
-        self.value = "reason=%s" % reason
+        super().__init__("reason=%s" % reason)
 
 
 class CouldNotMovePVData(LVMCommandError):
@@ -1763,7 +1779,7 @@ class NoSuchPhysicalVolume(StorageException):
     msg = "No such PV"
 
     def __init__(self, pvname, vgname):
-        self.value = "pvname=%s vgname=%s" % (pvname, vgname)
+        super().__init__("pvname=%s vgname=%s" % (pvname, vgname))
 
 
 class NoSuchDestinationPhysicalVolumes(StorageException):
@@ -1771,7 +1787,7 @@ class NoSuchDestinationPhysicalVolumes(StorageException):
     msg = "No such destination PVs"
 
     def __init__(self, pvs, vgname):
-        self.value = "pvs=%s vgname=%s" % (pvs, vgname)
+        super().__init__("pvs=%s vgname=%s" % (pvs, vgname))
 
 
 # NOTE: code is 621 used by LVMCommandError above.
@@ -1789,7 +1805,7 @@ class SpmStartError(StorageException):
 
 class AcquireLockFailure(StorageException):
     def __init__(self, id, rc, out, err):
-        self.value = "id=%s, rc=%s, out=%s, err=%s" % (id, rc, out, err)
+        super().__init__("id=%s, rc=%s, out=%s, err=%s" % (id, rc, out, err))
 
     code = 651
     msg = "Cannot obtain lock"
@@ -1797,7 +1813,7 @@ class AcquireLockFailure(StorageException):
 
 class SpmParamsMismatch(StorageException):
     def __init__(self, oldlver, oldid, prevLVER, prevID):
-        self.value = (
+        super().__init__(
             "expected previd:%s lver:%s "
             "got request for previd:%s lver:%s"
             % (oldid, oldlver, prevID, prevLVER)
@@ -1809,7 +1825,7 @@ class SpmParamsMismatch(StorageException):
 
 class SpmStopError(StorageException):
     def __init__(self, spUUID, strRunningTask=None):
-        self.value = "spUUID=%s, task=%s" % (spUUID, strRunningTask)
+        super().__init__("spUUID=%s, task=%s" % (spUUID, strRunningTask))
 
     code = 653
     msg = "Error stopping SPM, SPM has unfinished task(s)"
@@ -1889,7 +1905,7 @@ class SanlockInquireError(StorageException):
 
     def __init__(self, errno, reason):
         self.errno = errno
-        self.value = reason
+        super().__init__(reason)
 
     def is_temporary(self):
         return self.errno == errno.EBUSY
@@ -1904,6 +1920,9 @@ class MetaDataGeneralError(StorageException):
     code = 749
     msg = "General Meta data error"
 
+    def __init__(self, value):
+        super().__init__(value)
+
 
 class MetaDataKeyError(MetaDataGeneralError):
     code = 750
@@ -1917,9 +1936,13 @@ class InvalidMetadata(MetaDataGeneralError):
 
 class MetaDataSealIsBroken(MetaDataGeneralError):
     def __init__(self, cksum, computed_cksum):
-        self.value = "cksum = %s, " "computed_cksum = %s" % (
-            cksum,
-            computed_cksum,
+        super().__init__(
+            "cksum = %s, "
+            "computed_cksum = %s"
+            % (
+                cksum,
+                computed_cksum,
+            )
         )
 
     code = 752
@@ -1947,7 +1970,7 @@ class MetadataOverflowError(MetaDataGeneralError):
     msg = "Metadata is too big. Cannot change Metadata"
 
     def __init__(self, data):
-        self.value = "data=%r" % data
+        super().__init__("data=%r" % data)
 
 
 class MetadataCleared(InvalidMetadata):
@@ -2005,7 +2028,7 @@ class InvalidResourceName(GeneralException):
     msg = "Invalid resource name"
 
     def __init__(self, name):
-        self.value = "name=%r" % name
+        super().__init__("name=%r" % name)
 
 
 class ResourceReferenceInvalid(GeneralException):
@@ -2035,7 +2058,7 @@ class StorageDomainIsMemberOfPool(StorageException):
     msg = "Storage domain is member of pool"
 
     def __init__(self, sdUUID):
-        self.value = "domain=%s" % (sdUUID,)
+        super().__init__("domain=%s" % (sdUUID,))
 
 
 #################################################
@@ -2049,7 +2072,7 @@ class DomainHasGarbage(StorageException):
     msg = "Operation failed because garbage was found"
 
     def __init__(self, reason):
-        self.value = reason
+        super().__init__(reason)
 
 
 class GenerationMismatch(StorageException):
@@ -2057,7 +2080,7 @@ class GenerationMismatch(StorageException):
     msg = "The provided generation does not match the actual generation"
 
     def __init__(self, requested, actual):
-        self.value = "requested=%s, actual=%s" % (requested, actual)
+        super().__init__("requested=%s, actual=%s" % (requested, actual))
 
 
 class JobStatusMismatch(StorageException):
@@ -2065,7 +2088,7 @@ class JobStatusMismatch(StorageException):
     msg = "The provided job status does not match the expected job status"
 
     def __init__(self, expected, actual):
-        self.value = "expected=%s, actual=%s" % (expected, actual)
+        super().__init__("expected=%s, actual=%s" % (expected, actual))
 
 
 class VolumeIsNotInChain(StorageException):
@@ -2073,7 +2096,9 @@ class VolumeIsNotInChain(StorageException):
     msg = "Volume is not part of the chain."
 
     def __init__(self, sd_id, img_id, vol_id):
-        self.value = "sd_id=%s, img_id=%s, vol_id=%s" % (vol_id, sd_id, img_id)
+        super().__init__(
+            "sd_id=%s, img_id=%s, vol_id=%s" % (vol_id, sd_id, img_id)
+        )
 
 
 class WrongParentVolume(StorageException):
@@ -2081,7 +2106,7 @@ class WrongParentVolume(StorageException):
     msg = "Wrong parent volume."
 
     def __init__(self, vol_id, parent_id):
-        self.value = "vol_id=%s, parent_id=%s" % (vol_id, parent_id)
+        super().__init__("vol_id=%s, parent_id=%s" % (vol_id, parent_id))
 
 
 class UnexpectedVolumeState(StorageException):
@@ -2089,10 +2114,13 @@ class UnexpectedVolumeState(StorageException):
     msg = "Unexpected volume state."
 
     def __init__(self, base_vol_id, expected, actual):
-        self.value = "vol_id=%s, expected=%s, actual=%s" % (
-            base_vol_id,
-            expected,
-            actual,
+        super().__init__(
+            "vol_id=%s, expected=%s, actual=%s"
+            % (
+                base_vol_id,
+                expected,
+                actual,
+            )
         )
 
 
@@ -2117,10 +2145,13 @@ class ManagedVolumeAlreadyAttached(StorageException):
     msg = "Managed Volume is already attached."
 
     def __init__(self, vol_id, path, attachment):
-        self.value = "vol_id=%s path=%s attachment=%s" % (
-            vol_id,
-            path,
-            attachment,
+        super().__init__(
+            "vol_id=%s path=%s attachment=%s"
+            % (
+                vol_id,
+                path,
+                attachment,
+            )
         )
 
 
@@ -2129,7 +2160,7 @@ class ManagedVolumeUnsupportedDevice(StorageException):
     msg = "Unsupported Device: missing multipath_id"
 
     def __init__(self, vol_id, attachment):
-        self.value = "vol_id=%s attachment=%s" % (vol_id, attachment)
+        super().__init__("vol_id=%s attachment=%s" % (vol_id, attachment))
 
 
 class ManagedVolumeConnectionMismatch(StorageException):
@@ -2137,10 +2168,13 @@ class ManagedVolumeConnectionMismatch(StorageException):
     msg = "Attach existing volume with different connection information"
 
     def __init__(self, vol_id, expected, actual):
-        self.value = "vol_id=%s expected=%s actual=%s" % (
-            vol_id,
-            expected,
-            actual,
+        super().__init__(
+            "vol_id=%s expected=%s actual=%s"
+            % (
+                vol_id,
+                expected,
+                actual,
+            )
         )
 
 
@@ -2156,7 +2190,7 @@ class NoSuchLease(StorageException):
     expected = True
 
     def __init__(self, lease_id):
-        self.value = "lease={}".format(lease_id)
+        super().__init__("lease={}".format(lease_id))
 
 
 #################################################
@@ -2171,7 +2205,7 @@ class TransientDiskAlreadyExists(StorageException):
     expected = True
 
     def __init__(self, disk_path):
-        self.value = "disk_path={}".format(disk_path)
+        super().__init__("disk_path={}".format(disk_path))
 
 
 #################################################
@@ -2186,7 +2220,7 @@ class InvalidBitmapChain(StorageException):
 
     def __init__(self, reason, **context):
         context["reason"] = reason
-        self.value = "{}".format(context)
+        super().__init__("{}".format(context))
 
 
 class BitmapDoesNotExist(StorageException):
@@ -2194,4 +2228,4 @@ class BitmapDoesNotExist(StorageException):
     msg = "Bitmap does not exist"
 
     def __init__(self, **context):
-        self.value = "{}".format(context)
+        super().__init__("{}".format(context))

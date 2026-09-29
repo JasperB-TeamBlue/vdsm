@@ -157,7 +157,6 @@ class Base(vmxml.Device):
         failed, only for the devices that were successfully setup before
         the failure.
         """
-        pass
 
     def teardown(self):
         """
@@ -166,7 +165,6 @@ class Base(vmxml.Device):
         The device can be destroyed either because the whole VM was destroyed
         or because the device was unplugged from the VM.
         """
-        pass
 
     def get_extra_xmls(self):
         """

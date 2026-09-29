@@ -1174,7 +1174,6 @@ class StorageDomain:
         The storage domain underlying storage must be visible (connected)
         at that point.
         """
-        pass
 
     @classmethod
     def _validate_block_size(cls, block_size, version):
@@ -1574,7 +1573,6 @@ class StorageDomain:
 
     def getStats(self):
         """ """
-        pass
 
     def validateMasterMount(self):
         raise NotImplementedError
@@ -1583,13 +1581,11 @@ class StorageDomain:
         """
         Mount the master metadata file system. Should be called only by SPM.
         """
-        pass
 
     def unmountMaster(self):
         """
         Unmount the master metadata file system. Should be called only by SPM.
         """
-        pass
 
     def extendVolume(self, volumeUUID, size, refresh=True):
         pass

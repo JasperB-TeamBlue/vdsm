@@ -14,8 +14,6 @@ class NotFound(Exception):
     Raised when vmxml helpers can't find some requested entity.
     """
 
-    pass
-
 
 def find_all(element, tag_):
     """

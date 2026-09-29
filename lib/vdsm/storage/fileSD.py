@@ -736,7 +736,6 @@ class FileStorageDomain(sd.StorageDomain):
         """
         Unmount the master metadata file system. Should be called only by SPM.
         """
-        pass
 
     def selftest(self):
         """

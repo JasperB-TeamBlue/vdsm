@@ -60,8 +60,7 @@ class InvalidOutput(cmdutils.Error):
     )
 
     def __init__(self, cmd, out, reason):
-        self.cmd = cmd
-        self.out = out
+        super().__init__(cmd, None, out, None)
         self.reason = reason
 
 

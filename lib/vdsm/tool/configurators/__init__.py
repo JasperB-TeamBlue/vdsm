@@ -6,12 +6,10 @@ from vdsm.tool import UsageError
 
 class InvalidConfig(UsageError):
     """ raise when invalid configuration passed """
-    pass
 
 
 class InvalidRun(UsageError):
     """ raise when the environment is not valid to run the command """
-    pass
 
 
 # Declare state of configuration

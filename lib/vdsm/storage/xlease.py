@@ -213,16 +213,25 @@ log = logging.getLogger("storage.xlease")
 
 
 class Error(errors.Base):
+    """
+    Base class for xlease errors.
+    """
+
+
+class LeaseError(Error):
+    """
+    Base class for errors about a specific lease.
+    """
 
     def __init__(self, lease_id):
         self.lease_id = lease_id
 
 
-class LeaseExists(Error):
+class LeaseExists(LeaseError):
     msg = "Lease {self.lease_id} exists"
 
 
-class NoSpace(Error):
+class NoSpace(LeaseError):
     msg = "No space to add lease {self.lease_id}"
 
 

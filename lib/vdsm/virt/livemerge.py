@@ -38,7 +38,7 @@ class JobPivotError(errors.Base):
         self.reason = reason
 
 
-class JobNotReadyError(JobPivotError):
+class JobNotReadyError(errors.Base):
     msg = "Job {self.job_id} is not ready for pivot"
 
     def __init__(self, job_id):

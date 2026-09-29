@@ -397,9 +397,7 @@ class GlusterHostStorageDevicePVCreateFailedException(GlusterHostException):
     code = 4413
 
     def __init__(self, device=None, alignment=None, rc=0, out=(), err=()):
-        self.rc = rc
-        self.out = out
-        self.err = err
+        super().__init__(rc, out, err)
         self.message = (
             "Failed to create LVM PV for device %s with "
             "data alignment %s" % (device, alignment)
@@ -410,9 +408,7 @@ class GlusterHostStorageDeviceLVConvertFailedException(GlusterHostException):
     code = 4414
 
     def __init__(self, device=None, alignment=None, rc=0, out=(), err=()):
-        self.rc = rc
-        self.out = out
-        self.err = err
+        super().__init__(rc, out, err)
         self.message = (
             "Failed to run lvconvert for device %s with "
             "data alignment %s" % (device, alignment)
@@ -423,9 +419,7 @@ class GlusterHostStorageDeviceLVChangeFailedException(GlusterHostException):
     code = 4415
 
     def __init__(self, poolName=None, rc=0, out=(), err=()):
-        self.rc = rc
-        self.out = out
-        self.err = err
+        super().__init__(rc, out, err)
         self.message = "Failed to run lvchange for the thin pool: %s" % (
             poolName
         )
@@ -450,9 +444,7 @@ class GlusterHostStorageDeviceVGCreateFailedException(GlusterHostException):
     def __init__(
         self, name=None, devices=None, stripeSize=None, rc=0, out=(), err=()
     ):
-        self.rc = rc
-        self.out = out
-        self.err = err
+        super().__init__(rc, out, err)
         self.message = (
             "Failed to create LVM VG:%s for devices %s with "
             "stripe size %s" % (name, devices, stripeSize)
@@ -468,9 +460,7 @@ class GlusterHostFailedToSetSelinuxContext(GlusterHostException):
     code = 4420
 
     def __init__(self, brickMountPoint=None, rc=0, out=(), err=()):
-        self.rc = rc
-        self.out = out
-        self.err = err
+        super().__init__(rc, out, err)
         self.message = (
             "Failed to set selinux context on the brick : %s" % brickMountPoint
         )
@@ -480,9 +470,7 @@ class GlusterHostFailedToRunRestorecon(GlusterHostException):
     code = 4421
 
     def __init__(self, brickMountPoint=None, rc=0, out=(), err=()):
-        self.rc = rc
-        self.out = out
-        self.err = err
+        super().__init__(rc, out, err)
         self.message = (
             "Failed to run restorecon on the brick : %s" % brickMountPoint
         )

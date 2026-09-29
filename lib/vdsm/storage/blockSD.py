@@ -1990,7 +1990,6 @@ def _removeVMSfs(dev):
     Destroy special VM data file system
     """
     # XXX Add at least minimal sanity check:. i.e. fs not mounted
-    pass
 
 
 def _isSD(vg):
