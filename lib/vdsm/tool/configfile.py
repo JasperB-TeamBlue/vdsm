@@ -80,14 +80,21 @@ class ConfigFile:
         # remove 'lineComment' at 4.0. see  'Backward compatibility'
         self._lineComment = lineComment
         self._version = version
+        self._prefixRemove = False
+        self._prefixAdd = False
+        self._entries = {}
+        self._section = None
+        self._oldmod = None
+        self._remove = False
+        self._rmstate = None
 
     def __enter__(self):
         if self._context:
             raise RuntimeError("can only enter once")
         self._entries = {}
         self._context = True
-        self._prefixRemove = None
-        self._prefixAdd = None
+        self._prefixRemove = False
+        self._prefixAdd = False
         self._section = None
         self._oldmod = os.stat(self._filename).st_mode
         self._remove = None

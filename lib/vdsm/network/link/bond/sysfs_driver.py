@@ -21,6 +21,9 @@ class BondSysFS(BondAPI):
 
     def __init__(self, name, slaves=(), options=None):
         super(BondSysFS, self).__init__(name, slaves, options)
+        self._init_exists = None
+        self._init_slaves = None
+        self._init_options = None
 
     def __enter__(self):
         self._init_exists = self.exists()

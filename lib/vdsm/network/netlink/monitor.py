@@ -108,6 +108,8 @@ class Monitor:
         self._c_callback_function = c_callback_function
         self._timeout = timeout
         self._silent_timeout = silent_timeout
+        self._end_time = None
+        self._pipetrick = None
         if groups:
             unknown_groups = frozenset(groups).difference(
                 frozenset(libnl.GROUPS)

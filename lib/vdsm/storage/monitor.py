@@ -183,8 +183,8 @@ class DomainMonitor:
                 self._interval,
                 self.onDomainStateChange,
                 self._checker,
+                poolDomain,
             )
-            monitor.poolDomain = poolDomain
             monitor.start()
             # The domain should be added only after it successfully started.
             self._monitors[sdUUID] = monitor
@@ -276,7 +276,9 @@ class DomainMonitor:
 
 class MonitorThread:
 
-    def __init__(self, sdUUID, hostId, interval, changeEvent, checker):
+    def __init__(
+        self, sdUUID, hostId, interval, changeEvent, checker, poolDomain
+    ):
         self.thread = concurrent.thread(
             self._run, log=log, name="monitor/" + sdUUID[:7]
         )
@@ -305,6 +307,7 @@ class MonitorThread:
         self.wasShutdown = False
         # Used for synchronizing during the tests
         self.cycleCallback = _NULL_CALLBACK
+        self.poolDomain = poolDomain
 
     def start(self):
         self.thread.start()

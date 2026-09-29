@@ -178,6 +178,8 @@ class GuestAgent:
         self._agentTimestamp = 0
         self._channelListener = channelListener
         self._messageState = MessageState.NORMAL
+        self._buffer = []
+        self._bufferSize = 0
         self.events = GuestAgentEvents(self)
         self._completion_lock = threading.Lock()
         self._completion_events = {}

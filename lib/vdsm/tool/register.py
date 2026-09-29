@@ -111,6 +111,9 @@ class Register:
 
         self.ca_dir = "/etc/pki/ovirt-engine/"
         self.ca_engine = "{d}{f}".format(d=self.ca_dir, f="ca.pem")
+        self.url_CA = None
+        self.url_ssh_key = None
+        self.url_reg = None
         self.logger.debug("Engine CA: %s", self.ca_engine)
 
     def handshake(self):
@@ -246,15 +249,15 @@ class Register:
     def host_uuid(self):
         """
         Determine host UUID and if there is no existing /etc/vdsm/vdsm.id
-        it will genereate UUID and save/persist in /etc/vdsm/vdsm.id
+        it will generate UUID and save/persist in /etc/vdsm/vdsm.id
         """
 
         if self.vdsm_uuid:
-            self.uuid = self.vdsm_uuid
+            host_uuid = self.vdsm_uuid
         else:
-            self.uuid = host.uuid()
+            host_uuid = host.uuid()
 
-        self.url_reg += "&uniqueId={u}".format(u=self.uuid)
+        self.url_reg += "&uniqueId={u}".format(u=host_uuid)
 
         self.logger.debug("Registration via: %s", self.url_reg)
 
@@ -265,9 +268,9 @@ class Register:
 
         if not os.path.exists(__VDSM_ID):
             with open(__VDSM_ID, 'w') as f:
-                f.write(self.uuid)
+                f.write(host_uuid)
 
-        self.logger.info("Host UUID: %s", self.uuid)
+        self.logger.info("Host UUID: %s", host_uuid)
 
     def download_ca(self):
         """
@@ -472,33 +475,32 @@ def main(*args):
 if __name__ == '__main__':
     sys.exit(main())
 
-"""
-Registration schema:
 
-UUID
-=========
-    - If there is UUID already generated for the system will be
-      available in /etc/vdsm/vdsm.id
+# Registration schema:
 
-    - In case, there is no UUID, use auxiliary function from VDSM
-      to generate it and store in /etc/vdsm/vdsm.id
+# UUID
+# =========
+#    - If there is UUID already generated for the system will be
+#      available in /etc/vdsm/vdsm.id
+#
+#    - In case, there is no UUID, use auxiliary function from VDSM
+#      to generate it and store in /etc/vdsm/vdsm.id
 
-Service reg:
-============
-    - REQUIRED_FOR: Engine >= 3.4
+# Service reg:
+# ============
+#    - REQUIRED_FOR: Engine >= 3.4
 
-    - Process UUID
+#    - Process UUID
 
-    - Download CA via get-pki-trust URL
-      https://ENGINE_FQDN/ovirt-engine/services/host-register?version=1
-      &command=get-pki-trust
+#    - Download CA via get-pki-trust URL
+#      https://ENGINE_FQDN/ovirt-engine/services/host-register?version=1
+#      &command=get-pki-trust
 
-    - Download ssh pub key via get-ssh-trust URL
-      https://ENGINE_FQDN/ovirt-engine/services/host-register?version=1
-      &command=get-ssh-trust
+#    - Download ssh pub key via get-ssh-trust URL
+#      https://ENGINE_FQDN/ovirt-engine/services/host-register?version=1
+#      &command=get-ssh-trust
 
-    - Register via URL:
-      https://ENGINE_FQDN/ovirt-engine/services/host-register?version=1
-      &command=register&name=NODE_NAME&address=NO_FQDN_OR_IP
-      &uniqueId=NODE_UUID&sshUser=SSH_USERNAME&sshPort=SSHD_PORT
-"""
+#    - Register via URL:
+#      https://ENGINE_FQDN/ovirt-engine/services/host-register?version=1
+#      &command=register&name=NODE_NAME&address=NO_FQDN_OR_IP
+#      &uniqueId=NODE_UUID&sshUser=SSH_USERNAME&sshPort=SSHD_PORT

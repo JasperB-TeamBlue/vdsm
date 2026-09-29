@@ -379,9 +379,11 @@ class StoragePoolMemoryBackend(StoragePoolBackendInterface):
 
     log = logging.getLogger('storage.storagepoolmemorybackend')
 
-    def __init__(self, pool, masterVersion, domainsMap):
+    def __init__(self, pool, masterVersion, domains):
+        self.masterVersion = None
         self.pool = weakref.proxy(pool)
-        self.updateVersionAndDomains(masterVersion, domainsMap)
+        self.updateVersionAndDomains(masterVersion, domains)
+        self.setDomainsMap(domains)
 
     # Read-Only StoragePool Object Accessors
 
@@ -419,9 +421,9 @@ class StoragePoolMemoryBackend(StoragePoolBackendInterface):
     def getDomainsMap(self):
         return self.domainsMap
 
-    def setDomainsMap(self, domainsMap):
+    def setDomainsMap(self, domains):
         self.domainsMap = dict(
-            ((k, v.capitalize()) for k, v in domainsMap.items())
+            ((k, v.capitalize()) for k, v in domains.items())
         )
         self.log.info(
             'new storage pool master version %s and domains map %s',
@@ -436,6 +438,10 @@ class StoragePoolMemoryBackend(StoragePoolBackendInterface):
     @unsecured
     def getMasterVersion(self):
         return self.masterVersion
+
+    @unsecured
+    def setMasterVersion(self, masterVersion):
+        self.masterVersion = masterVersion
 
     @unsecured
     def validateMasterDomainVersion(self, masterDomain, masterVersion):
@@ -472,7 +478,7 @@ class StoragePoolMemoryBackend(StoragePoolBackendInterface):
             newMasterDomain.sdUUID,
             newMasterVersion,
         )
-        self.masterVersion = newMasterVersion
+        self.setMasterVersion(newMasterVersion)
 
     @unsecured
     def getInfo(self):
@@ -494,6 +500,6 @@ class StoragePoolMemoryBackend(StoragePoolBackendInterface):
             masterVersion,
             domainsMap,
         )
-        self.masterVersion = masterVersion
+        self.setMasterVersion(masterVersion)
         # pylint: disable=unexpected-keyword-arg
         self.setDomainsMap(domainsMap, __securityOverride=True)

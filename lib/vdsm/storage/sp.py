@@ -350,10 +350,10 @@ class StoragePool:
             self.log.debug("spm lock acquired successfully")
 
             try:
-                self.lver = int(oldlver) + 1
+                lver = int(oldlver) + 1
 
                 self._backend.setSpmStatus(
-                    self.lver, self.id, __securityOverride=True
+                    lver, self.id, __securityOverride=True
                 )
 
                 # Upgrade the master domain now if needed
@@ -363,7 +363,7 @@ class StoragePool:
 
                 self.masterDomain.mountMaster()
                 self.masterDomain.createMasterTree()
-                self.tasksDir = os.path.join(
+                tasksDir = os.path.join(
                     self.poolPath,
                     sc.POOL_MASTER_DOMAIN,
                     sd.MASTER_FS_DIR,
@@ -380,7 +380,7 @@ class StoragePool:
                         "Backup domain validation failed", exc_info=True
                     )
 
-                self.taskMng.loadDumpedTasks(self.tasksDir)
+                self.taskMng.loadDumpedTasks(tasksDir)
 
                 self.spmRole = SPM_ACQUIRED
 
