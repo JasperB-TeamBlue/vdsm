@@ -75,7 +75,8 @@ confidence=
 # R0903: Too few public methods
 # R0913: Too many arguments in function / method definition
 # R0914: Too many local variables
-disable=C,I,W0707,W0702,W0613,W1514,W0603,R1705,R1720,R0917,R1723,R1724,W0511,R0801,R0903,R0913,R0914
+# W0718: Broad exception caught
+disable=C,I,W0707,W0702,W0613,W1514,W0603,R1705,R1720,R0917,R1723,R1724,W0511,R0801,R0903,R0913,R0914,W0718
 
 [REPORTS]
 
