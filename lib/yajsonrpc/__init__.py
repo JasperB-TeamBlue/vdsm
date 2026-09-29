@@ -272,13 +272,12 @@ class JsonRpcServer:
     def queueRequest(self, req):
         self._workQueue.put_nowait(req)
 
-    """
-    Aggregates number of requests received by vdsm. Each request from
-    a batch is added separately. After time defined by timeout we log
-    number of requests.
-    """
-
     def _attempt_log_stats(self):
+        """
+        Aggregates number of requests received by vdsm. Each request from
+        a batch is added separately. After time defined by timeout we log
+        number of requests.
+        """
         self._counter += 1
         if monotonic_time() > self._next_report:
             self.log.info(

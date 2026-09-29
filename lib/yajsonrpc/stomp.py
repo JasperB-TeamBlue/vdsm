@@ -555,14 +555,13 @@ class Subscription:
     def handle_message(self, frame):
         self._message_handler(self, frame)
 
-    """
-    In order to process message we need to set message
-    handler which is responsible for processing jsonrpc
-    content of the message. Currently there are 2 handlers:
-    JsonRpcClient and JsonRpcServer.
-    """
-
     def set_message_handler(self, handler):
+        """
+        In order to process message we need to set message
+        handler which is responsible for processing jsonrpc
+        content of the message. Currently there are 2 handlers:
+        JsonRpcClient and JsonRpcServer.
+        """
         self._message_handler = handler
 
     @property

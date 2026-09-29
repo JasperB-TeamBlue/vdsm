@@ -1,15 +1,6 @@
 # SPDX-FileCopyrightText: oVirt Developers
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-from collections import deque
-import argparse
-import sys
-import traceback
-
-from . import service, expose, UsageError, requiresRoot
-from . import configurators
-from vdsm import moduleloader
-
 """I handle vdsm's configuration life cycle.
 
 This is achieved by utilizing modules from configurators package to:
@@ -19,6 +10,15 @@ This is achieved by utilizing modules from configurators package to:
 
 configurators interface is described below.
 """
+
+from collections import deque
+import argparse
+import sys
+import traceback
+
+from . import service, expose, UsageError, requiresRoot
+from . import configurators
+from vdsm import moduleloader
 
 
 def _init_configurators():

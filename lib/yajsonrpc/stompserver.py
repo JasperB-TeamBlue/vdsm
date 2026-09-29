@@ -292,11 +292,10 @@ class StompServer:
         )
         return stomp.StompConnection(self, adapter, sock, self._reactor)
 
-    """
-    Sends message to all subscribes that subscribed to destination.
-    """
-
     def send(self, message, destination=stomp.SUBSCRIPTION_ID_RESPONSE):
+        """
+        Sends message to all subscribes that subscribed to destination.
+        """
         resp = json.loads(message)
         if not isinstance(resp, dict):
             raise ValueError(

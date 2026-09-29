@@ -1,6 +1,10 @@
 # SPDX-FileCopyrightText: oVirt Developers
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+"""
+Code to perform periodic maintenance and bookkeeping of the VMs.
+"""
+
 import libvirt
 import logging
 import threading
@@ -19,10 +23,6 @@ from vdsm.virt import virdomain
 from vdsm.virt import vmstatus
 from vdsm.virt.externaldata import ExternalDataKind
 from vdsm.virt.utils import vm_kill_paused_timeout
-
-"""
-Code to perform periodic maintenance and bookkeeping of the VMs.
-"""
 
 # Just a made up number. Maybe should be equal to number of cores?
 # TODO: make them tunable through private, unsupported configuration items

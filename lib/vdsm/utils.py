@@ -1,6 +1,15 @@
 # SPDX-FileCopyrightText: oVirt Developers
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+"""
+A module containing miscellaneous functions and classes that are used
+plentifuly around vdsm.
+
+.. attribute:: utils.symbolerror
+
+    Contains a reverse dictionary pointing from error string to its error code.
+"""
+
 from collections import namedtuple, deque, OrderedDict
 from contextlib import contextmanager
 import errno
@@ -15,15 +24,6 @@ import time
 
 from vdsm.common import time as vdsm_time
 from vdsm.common.proc import pidstat
-
-"""
-A module containing miscellaneous functions and classes that are used
-plentifuly around vdsm.
-
-.. attribute:: utils.symbolerror
-
-    Contains a reverse dictionary pointing from error string to its error code.
-"""
 
 _THP_STATE_PATH = '/sys/kernel/mm/transparent_hugepage/enabled'
 if not os.path.exists(_THP_STATE_PATH):

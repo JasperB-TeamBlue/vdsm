@@ -1,6 +1,10 @@
 # SPDX-FileCopyrightText: oVirt Developers
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+"""
+Support for VM and host statistics sampling.
+"""
+
 import libvirt
 
 from collections import defaultdict, deque, namedtuple
@@ -19,10 +23,6 @@ from vdsm.config import config
 from vdsm.constants import P_VDSM_RUN
 from vdsm.host import api as hostapi
 from vdsm.virt.utils import ExpiringCache
-
-"""
-Support for VM and host statistics sampling.
-"""
 
 
 _THP_STATE_PATH = '/sys/kernel/mm/transparent_hugepage/enabled'

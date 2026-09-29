@@ -1,21 +1,6 @@
 # SPDX-FileCopyrightText: oVirt Developers
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-from contextlib import contextmanager
-import logging
-import operator
-import threading
-import xml.etree.ElementTree as ET
-
-import libvirt
-
-from vdsm.common import conv
-from vdsm.common import errors
-from vdsm.common import xmlutils
-from vdsm.virt import vmxml
-from vdsm.virt import xmlconstants
-from vdsm import utils
-
 """
 This module allows to store and retrieve key/value pairs into the etree
 representation of a libvirt domain XML. Each set of key/value pairs will be
@@ -45,6 +30,21 @@ The flow is:
 2. update the data you need to work with
 3. send back the metadata using this module
 """
+
+from contextlib import contextmanager
+import logging
+import operator
+import threading
+import xml.etree.ElementTree as ET
+
+import libvirt
+
+from vdsm.common import conv
+from vdsm.common import errors
+from vdsm.common import xmlutils
+from vdsm.virt import vmxml
+from vdsm.virt import xmlconstants
+from vdsm import utils
 
 
 _CUSTOM = 'custom'

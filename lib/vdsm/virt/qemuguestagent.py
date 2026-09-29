@@ -1,6 +1,10 @@
 # SPDX-FileCopyrightText: oVirt Developers
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+"""
+Periodic scheduler that polls QEMU Guest Agent for information.
+"""
+
 from collections import defaultdict
 import copy
 import ipaddress
@@ -29,10 +33,6 @@ from libvirt import (
     VIR_DOMAIN_GUEST_INFO_FILESYSTEM,
     VIR_DOMAIN_GUEST_INFO_DISKS,
 )
-
-"""
-Periodic scheduler that polls QEMU Guest Agent for information.
-"""
 
 
 _QEMU_ACTIVE_USERS_COMMAND = 'guest-get-users'

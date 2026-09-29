@@ -1,6 +1,10 @@
 # SPDX-FileCopyrightText: oVirt Developers
 # SPDX-License-Identifier: GPL-2.0-or-later
 
+"""
+shared utilities and common code for the virt package
+"""
+
 import logging
 import os
 import random
@@ -20,9 +24,6 @@ from vdsm.common.time import monotonic_time
 from vdsm.config import config
 from vdsm.constants import P_VDSM_LOG
 
-"""
-shared utilities and common code for the virt package
-"""
 
 _COMMANDS_LOG_DIR = os.path.join(P_VDSM_LOG, 'commands')
 

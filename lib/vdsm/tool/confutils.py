@@ -1,12 +1,7 @@
 # SPDX-FileCopyrightText: oVirt Developers
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-import errno
-import os
-
-from vdsm.tool.configfile import ConfigFile
-
-'''
+"""
 The following function are being used for property conf file configuration
 For example, in libvirt and abrt configurators we use those helper functions
 to manage the files in the following way:
@@ -21,7 +16,12 @@ FILES = {
     }
 }
 
-'''
+"""
+
+import errno
+import os
+
+from vdsm.tool.configfile import ConfigFile
 
 
 def get_file_path(fname, files):
