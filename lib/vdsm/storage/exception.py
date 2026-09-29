@@ -66,9 +66,6 @@ class StorageException(GeneralException):
     code = 200
     msg = "General Storage Exception"
 
-    def __init__(self, value=None):
-        super().__init__(value)
-
 
 class ResourceException(GeneralException):
     code = 3000
