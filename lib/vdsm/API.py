@@ -346,10 +346,12 @@ class VM(APIBase):
             'mode': 'file',
             'hiberVolHandle': hibernationVolHandle,
         }
-        response = self.migrate(params)
-        if not response['status']['code']:
-            response['status']['message'] = 'Hibernation process starting'
-        return response
+        hibernation_response = self.migrate(params)
+        if not hibernation_response['status']['code']:
+            hibernation_response['status'][
+                'message'
+            ] = 'Hibernation process starting'
+        return hibernation_response
 
     @api.logged(on="api.virt")
     @api.method

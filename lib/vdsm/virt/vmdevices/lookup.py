@@ -18,7 +18,7 @@ def drive_from_element(disk_devices, disk_element):
     # REQUIRED_FOR: vdsm <= 4.2
     serial_elem = vmxml.find_first(disk_element, 'serial', None)
     if serial_elem is not None:
-        serial = vmxml.text(serial_elem)
+        serial = vmxml.get_text(serial_elem)
         try:
             return drive_by_serial(disk_devices, serial)
         except LookupError:

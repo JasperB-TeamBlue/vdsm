@@ -156,7 +156,7 @@ def run():
         if start_tag is not None:
             dom = vmxml.find_first(self._dom, 'topelement')
         elements = vmxml.find_all(dom, tag)
-        matches = [vmxml.tag(e) == tag for e in elements]
+        matches = [vmxml.get_tag(e) == tag for e in elements]
         assert all(matches)
         assert len(matches) == number
 
@@ -178,7 +178,7 @@ def run():
     @permutations([['hello', 'hello'], ['empty', '']])
     def test_text(self, tag, result):
         element = vmxml.find_first(self._dom, tag)
-        text = vmxml.text(element)
+        text = vmxml.get_text(element)
         assert text == result
 
     @permutations(

@@ -150,15 +150,15 @@ def write_error(e):
     write_output("ERROR: %s" % e)
 
 
-def write_progress(progress):
-    sys.stdout.write('    (%d/100%%)\r' % progress)
+def write_progress(progression):
+    sys.stdout.write('    (%d/100%%)\r' % progression)
     sys.stdout.flush()
 
 
 def volume_progress(op, done, estimated_size):
     while op.done < estimated_size:
-        progress = min(99, op.done * 100 // estimated_size)
-        write_progress(progress)
+        progression = min(99, op.done * 100 // estimated_size)
+        write_progress(progression)
         if done.wait(1):
             break
     write_progress(100)

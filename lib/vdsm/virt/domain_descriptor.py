@@ -60,7 +60,7 @@ class MutableDomainDescriptor:
     def get_device_elements_with_attrs(self, tag_name, **kwargs):
         for element in vmxml.find_all(self.devices, tag_name):
             if all(
-                vmxml.attr(element, key) == value
+                vmxml.get_attr(element, key) == value
                 for key, value in kwargs.items()
             ):
                 yield element
@@ -103,7 +103,7 @@ class MutableDomainDescriptor:
         vcpu = self._dom.find('./vcpu')
         if vcpu is None:
             raise LookupError('Element vcpu not found in domain XML')
-        cpus = vmxml.attr(vcpu, 'current')
+        cpus = vmxml.get_attr(vcpu, 'current')
         if cpus == '':
             # If attribute current is not present fall-back to element text
             cpus = vcpu.text
@@ -119,7 +119,9 @@ class MutableDomainDescriptor:
         """
         tag = 'currentMemory' if current else 'memory'
         memory = vmxml.find_first(self._dom, tag, None)
-        return int(vmxml.text(memory)) // 1024 if memory is not None else None
+        return (
+            int(vmxml.get_text(memory)) // 1024 if memory is not None else None
+        )
 
     def on_reboot_config(self):
         """

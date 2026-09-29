@@ -39,9 +39,9 @@ def collect_inner_elements(el, d):
     """
     for chel in vmxml.children(el):
         try:
-            d[vmxml.tag(chel)] = int(vmxml.text(chel))
+            d[vmxml.get_tag(chel)] = int(vmxml.get_text(chel))
         except (IndexError, ValueError):
-            log.exception("Invalid value for %s", vmxml.tag(chel))
+            log.exception("Invalid value for %s", vmxml.get_tag(chel))
 
 
 def io_tune_dom_to_values(dom):
@@ -54,11 +54,11 @@ def io_tune_dom_to_values(dom):
     """
     values = {}
 
-    if vmxml.attr(dom, "name"):
-        values["name"] = vmxml.attr(dom, "name")
+    if vmxml.get_attr(dom, "name"):
+        values["name"] = vmxml.get_attr(dom, "name")
 
-    if vmxml.attr(dom, "path"):
-        values["path"] = vmxml.attr(dom, "path")
+    if vmxml.get_attr(dom, "path"):
+        values["path"] = vmxml.get_attr(dom, "path")
 
     element = vmxml.find_first(dom, "guaranteed", None)
     if element is not None:

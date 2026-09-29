@@ -173,7 +173,7 @@ class Drive(core.Base):
             readonly = vmxml.find_first(x, 'readonly', None) is not None
             bootOrder = vmxml.find_attr(x, 'boot', 'order')
 
-            devType = vmxml.attr(x, 'device')
+            devType = vmxml.get_attr(x, 'device')
             if devType == 'disk':
                 # raw/qcow2
                 drv = vmxml.find_attr(x, 'driver', 'type')
@@ -1249,9 +1249,9 @@ def _get_drive_identification(dom):
     source = vmxml.find_first(dom, 'source', None)
     if source is not None:
         devPath = (
-            vmxml.attr(source, 'file')
-            or vmxml.attr(source, 'dev')
-            or vmxml.attr(source, 'name')
+            vmxml.get_attr(source, 'file')
+            or vmxml.get_attr(source, 'dev')
+            or vmxml.get_attr(source, 'name')
         )
     else:
         devPath = ''

@@ -126,7 +126,7 @@ class Device(core.Base):
     def get_identifying_attrs(cls, dev_elem):
         return {
             'devtype': core.dev_class_from_dev_elem(dev_elem),
-            'name': vmxml.text(vmxml.find_first(dev_elem, 'key')),
+            'name': vmxml.get_text(vmxml.find_first(dev_elem, 'key')),
         }
 
     @classmethod
@@ -204,8 +204,8 @@ def parse_xml(dev, meta):
     params = {
         'type': dev.tag,
         'device': core.find_device_type(dev),
-        'lease_id': vmxml.text(vmxml.find_first(dev, 'key')),
-        'sd_id': vmxml.text(vmxml.find_first(dev, 'lockspace')),
+        'lease_id': vmxml.get_text(vmxml.find_first(dev, 'key')),
+        'sd_id': vmxml.get_text(vmxml.find_first(dev, 'lockspace')),
         'path': vmxml.find_attr(dev, 'target', 'path'),
         'offset': vmxml.find_attr(dev, 'target', 'offset'),
     }

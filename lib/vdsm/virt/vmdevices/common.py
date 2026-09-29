@@ -41,9 +41,9 @@ def _update_unknown_device_info(vm):
             address = vmxml.device_address(x)
             # In general case we assume that device has attribute 'type',
             # if it hasn't dom_attribute returns ''.
-            device = vmxml.attr(x, 'type')
+            device = vmxml.get_attr(x, 'type')
             newDev = {
-                'type': vmxml.tag(x),
+                'type': vmxml.get_tag(x),
                 'alias': alias,
                 'device': device,
                 'address': address,

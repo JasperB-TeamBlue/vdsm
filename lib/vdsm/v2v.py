@@ -151,7 +151,7 @@ class InvalidInputError(ClientError):
     '''Invalid input received'''
 
 
-def get_external_vms(uri, username, password, vm_names=None):
+def get_external_vms(uri, username, passwd, vm_names=None):
     if vm_names is not None:
         if not vm_names:
             vm_names = None
@@ -160,7 +160,7 @@ def get_external_vms(uri, username, password, vm_names=None):
 
     try:
         conn = libvirtconnection.open_connection(
-            uri=uri, username=username, passwd=password
+            uri=uri, username=username, passwd=passwd
         )
     except libvirt.libvirtError as e:
         logging.exception('error connecting to hypervisor')
@@ -181,10 +181,10 @@ def get_external_vms(uri, username, password, vm_names=None):
         return {'status': doneCode, 'vmList': vms}
 
 
-def get_external_vm_names(uri, username, password):
+def get_external_vm_names(uri, username, passwd):
     try:
         conn = libvirtconnection.open_connection(
-            uri=uri, username=username, passwd=password
+            uri=uri, username=username, passwd=passwd
         )
     except libvirt.libvirtError as e:
         logging.exception('error connecting to hypervisor')
@@ -195,18 +195,18 @@ def get_external_vm_names(uri, username, password):
         return response.success(vmNames=vms)
 
 
-def convert_external_vm(uri, username, password, vminfo, job_id, irs):
+def convert_external_vm(uri, username, passwd, vminfo, job_id, irs):
     if uri.startswith(_XEN_SSH_PROTOCOL):
         command = XenCommand(uri, vminfo, job_id, irs)
     elif uri.startswith(_VMWARE_PROTOCOL):
-        command = LibvirtCommand(uri, username, password, vminfo, job_id, irs)
+        command = LibvirtCommand(uri, username, passwd, vminfo, job_id, irs)
     elif uri.startswith(_KVM_PROTOCOL):
         if ovirt_imageio is None:
             raise V2VError(
                 'Unsupported protocol KVM, ovirt_imageio '
                 'package is needed for importing KVM images'
             )
-        command = KVMCommand(uri, username, password, vminfo, job_id, irs)
+        command = KVMCommand(uri, username, passwd, vminfo, job_id, irs)
     else:
         raise ClientError('Unknown protocol for Libvirt uri: %s' % uri)
     job = ImportVm(job_id, command)
@@ -596,11 +596,11 @@ class V2VCommand:
 
 
 class LibvirtCommand(V2VCommand):
-    def __init__(self, uri, username, password, vminfo, vmid, irs):
+    def __init__(self, uri, username, passwd, vminfo, vmid, irs):
         super(LibvirtCommand, self).__init__(vminfo, vmid, irs)
         self._uri = uri
         self._username = username
-        self._password = password
+        self._password = passwd
 
     def _command(self):
         cmd = self._base_command
@@ -738,11 +738,11 @@ class XenCommand(V2VCommand):
 
 
 class KVMCommand(V2VCommand):
-    def __init__(self, uri, username, password, vminfo, vmid, irs):
+    def __init__(self, uri, username, passwd, vminfo, vmid, irs):
         super(KVMCommand, self).__init__(vminfo, vmid, irs)
         self._uri = uri
         self._username = username
-        self._password = password
+        self._password = passwd
 
     def _command(self):
         cmd = [
@@ -1113,16 +1113,16 @@ def _list_domains(conn):
         for name in conn.listDefinedDomains():
             try:
                 vm = conn.lookupByName(name)
-            except libvirt.libvirtError as e:
-                logging.error("Error looking up vm %r: %s", name, e)
+            except libvirt.libvirtError as le:
+                logging.error("Error looking up vm %r: %s", name, le)
             else:
                 seen.add(name)
                 yield vm
         for domainId in conn.listDomainsID():
             try:
                 vm = conn.lookupByID(domainId)
-            except libvirt.libvirtError as e:
-                logging.error("Error looking up vm by id %r: %s", domainId, e)
+            except libvirt.libvirtError as le:
+                logging.error("Error looking up vm by id %r: %s", domainId, le)
             else:
                 if vm.name() not in seen:
                     yield vm

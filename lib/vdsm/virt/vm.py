@@ -3128,7 +3128,7 @@ class Vm:
         devices = self._devices[hwclass.DISK]
 
         for element in domain.get_device_elements('disk'):
-            if vmxml.attr(element, 'device') == 'disk':
+            if vmxml.get_attr(element, 'device') == 'disk':
                 change_disk(element, devices, self.log)
                 self._remove_backingstore_configuration(element)
 
@@ -3155,7 +3155,7 @@ class Vm:
 
         with domain.metadata_descriptor() as domain_md:
             for element in domain.get_device_elements('disk'):
-                if vmxml.attr(element, 'device') == 'disk':
+                if vmxml.get_attr(element, 'device') == 'disk':
                     change_disk(element, devices, self.log)
                     self._remove_backingstore_configuration(element)
 
@@ -3183,13 +3183,13 @@ class Vm:
         :rtype boolean
         """
         for disk_element in self._domain.get_device_elements('disk'):
-            if vmxml.attr(disk_element, 'device') == 'disk':
+            if vmxml.get_attr(disk_element, 'device') == 'disk':
                 source = vmxml.find_first(disk_element, 'source', None)
                 if source is not None:
                     path = (
-                        vmxml.attr(source, 'file')
-                        or vmxml.attr(source, 'dev')
-                        or vmxml.attr(source, 'name')
+                        vmxml.get_attr(source, 'file')
+                        or vmxml.get_attr(source, 'dev')
+                        or vmxml.get_attr(source, 'name')
                     )
                 else:
                     path = ''
@@ -3734,7 +3734,7 @@ class Vm:
         if qos is not None:
             try:
                 vcpuLimit = vmxml.find_first(qos, "vcpuLimit")
-                self._vcpuLimit = vmxml.text(vcpuLimit)
+                self._vcpuLimit = vmxml.get_text(vcpuLimit)
             except vmxml.NotFound:
                 # missing vcpuLimit node
                 self._vcpuLimit = None
@@ -5583,7 +5583,7 @@ class Vm:
         consoleDisconnectActionDelay,
         params,
     ):
-        if vmxml.attr(graphics, 'type') == 'vnc':
+        if vmxml.get_attr(graphics, 'type') == 'vnc':
             self._check_fips_params_valid(params)
 
             vnc_username = params.get('vncUsername')
@@ -5600,7 +5600,7 @@ class Vm:
                 '%Y-%m-%dT%H:%M:%S', time.gmtime(time.time() + float(seconds))
             )
             vmxml.set_attr(graphics, 'passwdValidTo', validto)
-        if connAct is not None and vmxml.attr(graphics, 'type') == 'spice':
+        if connAct is not None and vmxml.get_attr(graphics, 'type') == 'spice':
             vmxml.set_attr(graphics, 'connected', connAct)
         hooks.before_vm_set_ticket(self._domain.xml, self._custom, params)
         try:
@@ -5626,7 +5626,7 @@ class Vm:
         graphics = self._findGraphicsDeviceXMLByType('spice')  # cannot fail
         validto = max(
             time.strptime(
-                vmxml.attr(graphics, 'passwdValidTo'), '%Y-%m-%dT%H:%M:%S'
+                vmxml.get_attr(graphics, 'passwdValidTo'), '%Y-%m-%dT%H:%M:%S'
             ),
             time.gmtime(time.time() + newlife),
         )

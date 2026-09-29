@@ -173,13 +173,13 @@ def update():
     if capabilities == _cache.capabilities:
         return
 
-    topology = defaultdict(dict)
-    distances = defaultdict(dict)
+    new_topology = defaultdict(dict)
+    new_distances = defaultdict(dict)
     sockets = set()
     siblings = set()
-    core_cpus = defaultdict(lambda: set())  # Sets of CPU IDs
+    new_core_cpus = defaultdict(lambda: set())  # Sets of CPU IDs
     online_cpus = []
-    cpu_info = []
+    new_cpu_info = []
 
     caps = ET.fromstring(capabilities)
     cells = caps.findall('.host//cells/cell')
@@ -192,14 +192,14 @@ def update():
         else:
             idx = int(cell_id)
         meminfo = memory_by_cell(idx)
-        topology[cell_id]['totalMemory'] = meminfo['total']
-        topology[cell_id]['hugepages'] = pages_by_cell(cell, idx)
-        topology[cell_id]['cpus'] = []
-        distances[cell_id] = []
+        new_topology[cell_id]['totalMemory'] = meminfo['total']
+        new_topology[cell_id]['hugepages'] = pages_by_cell(cell, idx)
+        new_topology[cell_id]['cpus'] = []
+        new_distances[cell_id] = []
 
         for cpu in cell.findall('cpus/cpu'):
             cpu_id = int(cpu.get('id'))
-            topology[cell_id]['cpus'].append(cpu_id)
+            new_topology[cell_id]['cpus'].append(cpu_id)
             if (
                 cpu.get('siblings')
                 and cpu.get('socket_id')
@@ -211,7 +211,7 @@ def update():
                 online_cpus.append(cpu_id)
                 sockets.add(socket_id)
                 siblings.add(cpu.get('siblings'))
-                cpu_info.append(
+                new_cpu_info.append(
                     CpuInfo(
                         cpu_id=cpu_id,
                         numa_cell_id=int(cell_id),
@@ -220,13 +220,13 @@ def update():
                         core_id=core_id,
                     )
                 )
-                core_cpus[(socket_id, die_id, core_id)].add(cpu_id)
+                new_core_cpus[(socket_id, die_id, core_id)].add(cpu_id)
 
         if cell.find('distances') is not None:
             for sibling in cell.find('distances').findall('sibling'):
-                distances[cell_id].append(int(sibling.get('value')))
+                new_distances[cell_id].append(int(sibling.get('value')))
 
-    cpu_topology = CpuTopology(
+    new_cpu_topology = CpuTopology(
         len(sockets), len(siblings), len(online_cpus), online_cpus
     )
 
@@ -240,11 +240,15 @@ def update():
 
             online_cpus = taskset.online_cpus()
 
-            cpu_topology = CpuTopology(
+            new_cpu_topology = CpuTopology(
                 socketnum, corenum, threadnum, online_cpus
             )
 
     _cache.numa = NumaTopology(
-        topology, distances, cpu_topology, cpu_info, core_cpus
+        new_topology,
+        new_distances,
+        new_cpu_topology,
+        new_cpu_info,
+        new_core_cpus,
     )
     _cache.capabilities = capabilities

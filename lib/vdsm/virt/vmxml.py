@@ -28,7 +28,7 @@ def find_all(element, tag_):
     :returns: all elements with given `tag`
     :rtype: sequence of DOM elements
     """
-    if tag(element) == tag_:
+    if get_tag(element) == tag_:
         yield element
     yield from element.findall('.//' + tag_)
 
@@ -79,10 +79,10 @@ def find_attr(element, tag, attribute):
         subelement = find_first(element, tag)
     except NotFound:
         return ''
-    return attr(subelement, attribute)
+    return get_attr(subelement, attribute)
 
 
-def tag(element):
+def get_tag(element):
     """
     Return tag of the given DOM element.
 
@@ -94,7 +94,7 @@ def tag(element):
     return element.tag
 
 
-def attr(element, attribute):
+def get_attr(element, attribute):
     """
     Return attribute values of `element`.
 
@@ -124,7 +124,7 @@ def set_attr(element, attribute, value):
     element.set(attribute, value)
 
 
-def text(element):
+def get_text(element):
     """
     Return text of the given DOM element.
 

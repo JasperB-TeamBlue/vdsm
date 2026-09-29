@@ -68,10 +68,6 @@ def _start_profiling():
     import cherrypy  # pylint: disable=import-error
     import dowser  # pylint: disable=import-error
 
-    # this nonsense makes pyflakes happy
-    cherrypy
-    dowser
-
     with _lock:
         if is_running():
             raise UsageError('Memory profiler is already running')

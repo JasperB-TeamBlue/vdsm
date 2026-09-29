@@ -207,7 +207,7 @@ def _update_boot_params(params, dev):
 def _update_serial_params(params, dev):
     serial = vmxml.find_first(dev, 'serial', None)
     if serial is not None:
-        params['serial'] = vmxml.text(serial)
+        params['serial'] = vmxml.get_text(serial)
 
 
 def _get_driver_params(driver):
@@ -248,7 +248,7 @@ def change_disk(disk_element, disk_devices, log):
     # Even more - we do not support snapshots on different types of drives
     # and have a special check for that in the snapshotting code,
     # so it should never happen.
-    diskType = vmxml.attr(disk_element, 'type')
+    diskType = vmxml.get_attr(disk_element, 'type')
     if diskType not in storage.SOURCE_ATTR:
         return
 

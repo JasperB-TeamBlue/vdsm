@@ -15,9 +15,9 @@ def display_info(domain):
         listen = vmxml.find_first(gxml, 'listen')
         display_ip = listen.attrib.get('address', '0')
         return {
-            'type': vmxml.attr(gxml, 'type'),
-            'port': vmxml.attr(gxml, 'port'),
-            'tlsPort': vmxml.attr(gxml, 'tlsPort'),
+            'type': vmxml.get_attr(gxml, 'type'),
+            'port': vmxml.get_attr(gxml, 'port'),
+            'tlsPort': vmxml.get_attr(gxml, 'tlsPort'),
             'ipAddress': display_ip,
         }
 
@@ -62,10 +62,10 @@ def is_vnc_secure(vmParams, log):
     parsed = xmlutils.fromstring(vmParams['xml'])
     graphics = vmxml.find_all(parsed, 'graphics')
     for g in graphics:
-        if vmxml.attr(g, 'type') == 'vnc':
+        if vmxml.get_attr(g, 'type') == 'vnc':
             # When the XML does not contain 'passwordValidTo' attribute
             # this is a way to say 'don't use password auth'.
-            no_password_auth = vmxml.attr(g, 'passwdValidTo') == ''
+            no_password_auth = vmxml.get_attr(g, 'passwdValidTo') == ''
             if no_password_auth and not utils.sasl_enabled():
                 log.warning(
                     "VNC not secure: passwdValidTo empty or missing"

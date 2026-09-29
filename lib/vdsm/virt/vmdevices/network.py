@@ -107,13 +107,13 @@ class Interface(core.Base):
             params['specParams']['vlanid'] = vmxml.find_attr(vlan, 'tag', 'id')
         mtu = vmxml.find_first(dev, "mtu", None)
         if mtu is not None:
-            params['mtu'] = int(vmxml.attr(mtu, 'size'))
+            params['mtu'] = int(vmxml.get_attr(mtu, 'size'))
         port = vmxml.find_first(dev, 'port', None)
         if port is not None:
-            params['port_isolated'] = vmxml.attr(port, 'isolated')
+            params['port_isolated'] = vmxml.get_attr(port, 'isolated')
         filterref = vmxml.find_first(dev, 'filterref', None)
         if filterref is not None:
-            params['filter'] = vmxml.attr(filterref, 'filter')
+            params['filter'] = vmxml.get_attr(filterref, 'filter')
             params['filterParameters'] = [
                 {
                     'name': param.attrib['name'],
@@ -131,7 +131,7 @@ class Interface(core.Base):
             params['teaming'] = True
         sndbuf = dev.find('./tune/sndbuf')
         if sndbuf is not None:
-            params['vm_custom']['sndbuf'] = vmxml.text(sndbuf)
+            params['vm_custom']['sndbuf'] = vmxml.get_text(sndbuf)
         bandwidth = vmxml.find_first(dev, 'bandwidth', None)
         if bandwidth is not None:
             for mode in ('inbound', 'outbound'):
@@ -364,7 +364,7 @@ class Interface(core.Base):
     @classmethod
     def update_device_info(cls, vm, device_conf):
         for x in vm.domain.get_device_elements('interface'):
-            devType = vmxml.attr(x, 'type')
+            devType = vmxml.get_attr(x, 'type')
             mac = vmxml.find_attr(x, 'mac', 'address')
             alias = core.find_device_alias(x)
             xdrivers = vmxml.find_first(x, 'driver', None)
@@ -398,10 +398,10 @@ class Interface(core.Base):
                 linkActive = True
             source = vmxml.find_first(x, 'source', None)
             if source is not None:
-                network = vmxml.attr(source, 'bridge')
+                network = vmxml.get_attr(source, 'bridge')
                 if not network:
                     network = libvirtnetwork.netname_l2o(
-                        vmxml.attr(source, 'network')
+                        vmxml.get_attr(source, 'network')
                     )
 
             address = core.find_device_guest_address(x)
