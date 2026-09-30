@@ -349,7 +349,7 @@ class UpdateVolumes(_RunnableOnVm):
     @property
     def required(self):
         return (
-            super(UpdateVolumes, self).required
+            super().required
             and
             # Avoid queries from storage during recovery process
             self._vm.volume_monitor.enabled()
@@ -372,7 +372,7 @@ class BlockjobMonitor(_RunnableOnVm):
         # though they will do nothing but a few checks and exit
         # early, as they do if a VM doesn't have Block Jobs to
         # monitor (most often true).
-        return super(BlockjobMonitor, self).required and self._vm.hasVmJobs
+        return super().required and self._vm.hasVmJobs
 
     def _execute(self):
         self._vm.updateVmJobs()
@@ -382,10 +382,7 @@ class VolumeWatermarkMonitor(_RunnableOnVm):
 
     @property
     def required(self):
-        return (
-            super(VolumeWatermarkMonitor, self).required
-            and self._vm.volume_monitor.monitoring_needed()
-        )
+        return super().required and self._vm.volume_monitor.monitoring_needed()
 
     def _execute(self):
         self._vm.volume_monitor.monitor_volumes()

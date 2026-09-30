@@ -155,7 +155,7 @@ class Device(core.Base):
         for key in self.__slots__:
             if key not in kwargs:
                 raise MissingArgument(key, kwargs)
-        super(Device, self).__init__(log, **kwargs)
+        super().__init__(log, **kwargs)
 
     def getXML(self):
         """

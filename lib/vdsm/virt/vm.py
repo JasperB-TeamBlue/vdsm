@@ -201,9 +201,7 @@ class HotunplugTimeout(Exception):
 
 class MissingLibvirtDomainError(Exception):
     def __init__(self, reason=vmexitreason.LIBVIRT_DOMAIN_MISSING):
-        super(MissingLibvirtDomainError, self).__init__(
-            vmexitreason.exitReasons.get(reason, 'Missing VM')
-        )
+        super().__init__(vmexitreason.exitReasons.get(reason, 'Missing VM'))
         self.reason = reason
 
 

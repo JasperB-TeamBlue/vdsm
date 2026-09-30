@@ -35,7 +35,7 @@ class Job(base.Job):
     def __init__(
         self, job_id, host_id, source, destination, copy_bitmaps=False
     ):
-        super(Job, self).__init__(job_id, 'copy_data', host_id)
+        super().__init__(job_id, 'copy_data', host_id)
         self._dest = _create_endpoint(destination, host_id, job_id=job_id)
         self._source = _create_endpoint(
             source, host_id, job_id=job_id, dest=self._dest

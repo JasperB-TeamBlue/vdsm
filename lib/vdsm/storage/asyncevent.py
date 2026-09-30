@@ -450,7 +450,7 @@ class Timer(Handle):
     """
 
     def __init__(self, when, callback, args):
-        super(Timer, self).__init__(callback, args)
+        super().__init__(callback, args)
         self._when = when
 
     # Comparing (rich comperision required for Python 3)
@@ -470,7 +470,7 @@ class Timer(Handle):
     # Debugging
 
     def _repr_info(self):
-        info = super(Timer, self)._repr_info()
+        info = super()._repr_info()
         info.insert(1, "when={:.6f}".format(self._when))
         return info
 

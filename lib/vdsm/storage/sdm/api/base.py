@@ -9,5 +9,5 @@ class Job(jobs.Job):
     autodelete = True
 
     def __init__(self, job_id, desc, host_id):
-        super(Job, self).__init__(job_id, desc)
+        super().__init__(job_id, desc)
         self.host_id = host_id

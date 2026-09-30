@@ -165,7 +165,7 @@ class Interface(core.Base):
         self.mtu = None
         self.port_isolated = None
         self.teaming = False
-        super(Interface, self).__init__(log, **kwargs)
+        super().__init__(log, **kwargs)
         self.sndbufParam = False
         self.is_hostdevice = self.device == hwclass.HOSTDEV
         self.vlanId = self.specParams.get('vlanid')
@@ -452,7 +452,7 @@ class Interface(core.Base):
                 vm.conf['devices'].append(nicDev)
 
     def config(self):
-        return compat.interface_config(super(Interface, self).config())
+        return compat.interface_config(super().config())
 
     def __repr__(self):
         s = (

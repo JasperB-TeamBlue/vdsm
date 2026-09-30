@@ -25,7 +25,7 @@ class Error(errors.Base):
 class Job(base.Job):
 
     def __init__(self, job_id, host_id, vol_info, bitmap):
-        super(Job, self).__init__(job_id, 'remove_bitmap', host_id)
+        super().__init__(job_id, 'remove_bitmap', host_id)
         self._vol_info = VolumeInfo(vol_info, host_id)
         self.bitmap = bitmap
 

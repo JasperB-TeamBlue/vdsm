@@ -20,7 +20,7 @@ class BondSysFS(BondAPI):
     BONDING_ACTIVE_SLAVE = BONDING_PATH + '/active_slave'
 
     def __init__(self, name, slaves=(), options=None):
-        super(BondSysFS, self).__init__(name, slaves, options)
+        super().__init__(name, slaves, options)
         self._init_exists = None
         self._init_slaves = None
         self._init_options = None

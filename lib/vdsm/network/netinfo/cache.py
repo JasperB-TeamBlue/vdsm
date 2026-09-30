@@ -402,4 +402,4 @@ class CachingNetInfo(NetInfo):
     def __init__(self, _netinfo=None):
         if _netinfo is None:
             _netinfo = get()
-        super(CachingNetInfo, self).__init__(_netinfo)
+        super().__init__(_netinfo)

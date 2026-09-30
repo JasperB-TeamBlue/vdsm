@@ -16,7 +16,7 @@ class Job(base.Job):
     """
 
     def __init__(self, job_id, host_id, reduce_params):
-        super(Job, self).__init__(job_id, 'reduce_domain', host_id)
+        super().__init__(job_id, 'reduce_domain', host_id)
         self.params = StorageDomainReduceParams(reduce_params)
 
     def _run(self):

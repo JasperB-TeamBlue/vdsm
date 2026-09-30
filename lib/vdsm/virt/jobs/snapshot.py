@@ -81,7 +81,7 @@ class Job(vdsm.virt.jobs.Job):
         timeout=30,
         freeze_timeout=8,
     ):
-        super(Job, self).__init__(job_uuid, 'snapshot_vm')
+        super().__init__(job_uuid, 'snapshot_vm')
         self._vm = vm
         self._snap_drives = snap_drives
         self._memory_params = memory_params

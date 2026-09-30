@@ -42,7 +42,7 @@ class ImageTearingDownError(Exception):
 class Job(vdsm.virt.jobs.Job):
 
     def __init__(self, vm_id, job_id, sp_id, images, irs):
-        super(Job, self).__init__(job_id, 'seal_vm')
+        super().__init__(job_id, 'seal_vm')
         self._vm_id = vm_id
         self._images = [SealImageInfo(image, sp_id, irs) for image in images]
 
