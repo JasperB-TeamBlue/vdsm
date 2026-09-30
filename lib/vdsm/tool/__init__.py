@@ -30,7 +30,7 @@ class UsageError(RuntimeError):
 
 class NotRootError(UsageError):
     def __init__(self):
-        super(NotRootError, self).__init__("Must run as root")
+        super().__init__("Must run as root")
 
 
 class ExtraArgsError(UsageError):
@@ -42,4 +42,4 @@ class ExtraArgsError(UsageError):
                 n,
                 's' if n != 1 else '',
             )
-        super(ExtraArgsError, self).__init__(message)
+        super().__init__(message)

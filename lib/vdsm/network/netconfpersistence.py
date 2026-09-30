@@ -137,7 +137,7 @@ class Config(BaseConfig):
             _filter_out_volatile_net_attrs(net_attrs)
         bonds = self._getConfigs(self.bondingsPath)
         devices = self._getConfigs(self.devicesPath)
-        super(Config, self).__init__(nets, bonds, devices)
+        super().__init__(nets, bonds, devices)
 
     def delete(self):
         self.networks = {}
@@ -228,7 +228,7 @@ class Config(BaseConfig):
 
 class RunningConfig(Config):
     def __init__(self):
-        super(RunningConfig, self).__init__(CONF_RUN_DIR)
+        super().__init__(CONF_RUN_DIR)
 
     @staticmethod
     def store():
@@ -244,7 +244,7 @@ class RunningConfig(Config):
 
 class PersistentConfig(Config):
     def __init__(self):
-        super(PersistentConfig, self).__init__(CONF_PERSIST_DIR)
+        super().__init__(CONF_PERSIST_DIR)
 
 
 class Transaction:
