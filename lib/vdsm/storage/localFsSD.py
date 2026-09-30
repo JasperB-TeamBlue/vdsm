@@ -141,8 +141,7 @@ class LocalFsStorageDomain(fileSD.FileStorageDomain):
         for tmpSdUUID, domainPath in fileSD.scanDomains("_*"):
             if tmpSdUUID == sdUUID:
                 return domainPath
-        else:
-            raise se.StorageDomainDoesNotExist(sdUUID)
+        raise se.StorageDomainDoesNotExist(sdUUID)
 
     def getRealPath(self):
         return os.readlink(self.mountpoint)

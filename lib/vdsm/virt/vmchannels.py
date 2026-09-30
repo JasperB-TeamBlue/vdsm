@@ -183,12 +183,11 @@ class Listener:
         events = uninterruptible_poll(self._epoll.poll, 1)
         for fileno, event in events:
             self._handle_event(fileno, event)
-        else:
-            self._update_channels()
-            if (self._timeout is not None) and (self._timeout > 0):
-                self._handle_timeouts()
-            with self._update_lock:
-                self._handle_unconnected()
+        self._update_channels()
+        if (self._timeout is not None) and (self._timeout > 0):
+            self._handle_timeouts()
+        with self._update_lock:
+            self._handle_unconnected()
 
     def run(self):
         """The listener thread's function."""

@@ -709,8 +709,7 @@ class Vm:
         for tpm in self._domain.get_device_elements('tpm'):
             if tpm.find("backend[@type='emulator']") is not None:
                 return True
-        else:
-            return False
+        return False
 
     def _read_tpm_data(self, last_modified):
         proxy = supervdsm.getProxy()
