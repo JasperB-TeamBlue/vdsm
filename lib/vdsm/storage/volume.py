@@ -1229,7 +1229,7 @@ class Volume:
     @classmethod
     def parentVolumeRollback(cls, taskObj, sdUUID, pimgUUID, pvolUUID):
         cls.log.info(
-            "parentVolumeRollback: sdUUID=%s pimgUUID=%s" " pvolUUID=%s",
+            "parentVolumeRollback: sdUUID=%s pimgUUID=%s pvolUUID=%s",
             sdUUID,
             pimgUUID,
             pvolUUID,
@@ -1247,7 +1247,7 @@ class Volume:
     @classmethod
     def startCreateVolumeRollback(cls, taskObj, sdUUID, imgUUID, volUUID):
         cls.log.info(
-            "startCreateVolumeRollback: sdUUID=%s imgUUID=%s " "volUUID=%s ",
+            "startCreateVolumeRollback: sdUUID=%s imgUUID=%s volUUID=%s ",
             sdUUID,
             imgUUID,
             volUUID,

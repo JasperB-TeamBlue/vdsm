@@ -379,7 +379,7 @@ class SSHAgent:
         rc, out, err = execCmd([_SSH_ADD.cmd, '-d'], env=self._auth)
         if rc != 0:
             logging.error(
-                'Error deleting ssh-add, exit code: %r' ', out: %r, err: %r',
+                'Error deleting ssh-add, exit code: %r, out: %r, err: %r',
                 rc,
                 out,
                 err,

@@ -212,7 +212,7 @@ class HSM_Mailbox:
         self._inbox = inbox
         if not os.path.exists(self._inbox):
             self.log.error(
-                "HSM_Mailbox create failed - inbox %s does not " "exist",
+                "HSM_Mailbox create failed - inbox %s does not exist",
                 repr(self._inbox),
             )
             raise RuntimeError(
@@ -222,7 +222,7 @@ class HSM_Mailbox:
         self._outbox = outbox
         if not os.path.exists(self._outbox):
             self.log.error(
-                "HSM_Mailbox create failed - outbox %s does not " "exist",
+                "HSM_Mailbox create failed - outbox %s does not exist",
                 repr(self._outbox),
             )
             raise RuntimeError(
@@ -467,7 +467,7 @@ class HSM_MailMonitor:
                     break
             if duplicate:
                 self.log.debug(
-                    "HSM_MailMonitor - ignoring duplicate message " "%s",
+                    "HSM_MailMonitor - ignoring duplicate message %s",
                     repr(message),
                 )
                 return
@@ -671,7 +671,7 @@ class SPM_MailMonitor:
         self._inbox = inbox
         if not os.path.exists(self._inbox):
             self.log.error(
-                "SPM_MailMonitor create failed - inbox %s does not " "exist",
+                "SPM_MailMonitor create failed - inbox %s does not exist",
                 repr(self._inbox),
             )
             raise RuntimeError(
@@ -681,7 +681,7 @@ class SPM_MailMonitor:
         self._outbox = outbox
         if not os.path.exists(self._outbox):
             self.log.error(
-                "SPM_MailMonitor create failed - outbox %s does " "not exist",
+                "SPM_MailMonitor create failed - outbox %s does not exist",
                 repr(self._outbox),
             )
             raise RuntimeError(
@@ -850,7 +850,7 @@ class SPM_MailMonitor:
                         # message specific logic
                         str_uuid = str(uuid.uuid4())
                         self.log.debug(
-                            "SPM_MailMonitor: processing request: " "%s",
+                            "SPM_MailMonitor: processing request: %s",
                             repr(newMail[msgStart : msgStart + MESSAGE_SIZE]),
                         )
                         res = self.tp.queueTask(

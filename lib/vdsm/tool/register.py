@@ -464,7 +464,7 @@ def main(*args):
         reg.execute_registration()
     except:
         reg.logger.exception(
-            "Cannot connect to engine. %s matches " "the FQDN of Engine?",
+            "Cannot connect to engine. %s matches the FQDN of Engine?",
             parsed_args.engine_fqdn,
         )
         return 1
