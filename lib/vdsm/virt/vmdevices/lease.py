@@ -278,7 +278,7 @@ def prepare(storage, devices):
 
 
 def _prepare_device(storage, device):
-    lease = dict(sd_id=device["sd_id"], lease_id=device["lease_id"])
+    lease = {"sd_id": device["sd_id"], "lease_id": device["lease_id"]}
     res = storage.lease_info(lease)
     if response.is_error(res):
         raise CannotPrepare(device, res["status"]["message"])

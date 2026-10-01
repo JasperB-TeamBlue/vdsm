@@ -198,7 +198,7 @@ class VolumeManifest:
         # TODO: Move this logic to clusterlock and fix callers to handle list
         # of owners instead of None.
         owners = [host_id] if host_id is not None else []
-        return dict(owners=owners, version=version)
+        return {"owners": owners, "version": version}
 
     def metadata2info(self, meta):
         return {

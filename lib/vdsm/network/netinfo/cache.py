@@ -79,11 +79,11 @@ def _create_default_extra_info(devices):
 
 def _get_qos_info_from_net(nets_info):
     return [
-        dict(
-            host_qos=attrs['hostQos'],
-            southbound=attrs['southbound'],
-            net_name=net,
-        )
+        {
+            "host_qos": attrs['hostQos'],
+            "southbound": attrs['southbound'],
+            "net_name": net,
+        }
         for net, attrs in nets_info.items()
         if 'hostQos' in attrs
     ]
@@ -119,7 +119,7 @@ def _add_qos_info_to_southbound(qos_list, devices_info):
         if not sb_qos_info:
             sb_qos_info = devices_sb_info['qos'] = []
 
-        qos_info = dict(hostQos=host_qos, vlan=int(vlan))
+        qos_info = {"hostQos": host_qos, "vlan": int(vlan)}
 
         sb_qos_info.append(qos_info)
 

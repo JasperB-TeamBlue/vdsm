@@ -73,9 +73,11 @@ class GlusterVolume(fileVolume.FileVolume):
 
         glusterPath = volname + '/' + imgFileRelPath
 
-        hosts = [dict(name=volfileServer, port=volPort, transport=transport)]
+        hosts = [
+            {"name": volfileServer, "port": volPort, "transport": transport}
+        ]
         hosts.extend(
-            dict(name=brickServer, port=volPort, transport=transport)
+            {"name": brickServer, "port": volPort, "transport": transport}
             for brickServer in brickServers
         )
 
