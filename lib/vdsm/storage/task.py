@@ -435,7 +435,7 @@ class TaskResult:
         return {
             "message": self.message,
             "code": str(self.code),
-            "result": self.result
+            "result": self.result,
         }
 
     def __str__(self):
